@@ -172,7 +172,7 @@
                                 <li><a href="./Shopdetails">Shop Details</a></li>
                                 <li><a href="./Shoppingcart">Shoping Cart</a></li>
                                 <li><a href="./Checkout">Check Out</a></li>
-                                <li><a href="./BlogDetail">Blog Details</a></li>
+                                <li><a href="./AdminIndex">Blog Details</a></li>
                             </ul>
                         </li>
                         <li><a href="./Blog">Blog</a></li>
