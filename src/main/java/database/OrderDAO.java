@@ -6,6 +6,11 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class OrderDAO implements DAOInterface<Order>{
+    private ArrayList<Order> data = new ArrayList<>();
+    public int creatId() {
+        data = selectAll();
+        return data.size();
+    }
     @Override
     public ArrayList<Order> selectAll() {
         ArrayList<Order> orders = new ArrayList<>();
