@@ -101,8 +101,6 @@
                     <tbody class="table-border-bottom-0">
                     <jsp:useBean id="productDao" class="database.ProductDAO"></jsp:useBean>
                     <c:forEach var="product" items="${productDao.selectAll()}">
-
-                      <li><a href="#">${ca.categoryName}</a></li>
                       <tr>
                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${product.productId}</strong></td>
                         <td>${product.product_name}</td>
@@ -201,10 +199,10 @@
 
     <div class="buy-now">
       <a
-        href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
+        href="Index"
         target="_blank"
         class="btn btn-danger btn-buy-now"
-        >Upgrade to Pro</a
+        >Quay lại trang shopping</a
       >
     </div>
 
