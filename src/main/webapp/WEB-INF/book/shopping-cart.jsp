@@ -76,7 +76,7 @@
                         <c:forEach var="item" items="${sessionScope.cart.cart_items}">
                             <tr>
                                 <td class="shoping__cart__item">
-                                    <img src="img/cart/cart-1.jpg" alt="">
+                                    <img src="/img/cart/cart-1.jpg" alt="">
                                     <h5>${item.product.product_name}</h5>
                                 </td>
                                 <td class="shoping__cart__price">
@@ -151,7 +151,15 @@
                         <li>Subtotal <span>${FormatCurrency.formatCurrency(subtotal)}</span></li>
                         <li>Total <span>${FormatCurrency.formatCurrency(total)}</span></li>
                     </ul>
-                    <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                    <c:set var="cart" value="${sessionScope.cart.cart_items}"/>
+                    <c:choose>
+                        <c:when test="${empty cart}">
+                            <a href="Shopgrid" class="primary-btn">Đặt Hàng</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="Checkout" class="primary-btn">Đặt Hàng</a>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>

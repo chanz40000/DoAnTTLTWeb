@@ -30,7 +30,7 @@ public class RemoveItemCart extends HttpServlet {
         // Cập nhật session
         request.getSession().setAttribute("cart", cart);
 
-        // Chuyển hướng lại đến trang giỏ hàng hoặc trang gốc
-        response.sendRedirect(request.getHeader("referer"));
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/book/shopping-cart.jsp");
+        dispatcher.forward(request, response);
     }
 }
