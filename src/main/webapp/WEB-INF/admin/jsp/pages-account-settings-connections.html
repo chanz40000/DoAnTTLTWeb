@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Badges - UI elements | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Account settings - Pages | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
 
@@ -185,7 +185,7 @@
             <li class="menu-header small text-uppercase">
               <span class="menu-header-text">Pages</span>
             </li>
-            <li class="menu-item">
+            <li class="menu-item active open">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-dock-top"></i>
                 <div data-i18n="Account Settings">Account Settings</div>
@@ -201,7 +201,7 @@
                     <div data-i18n="Notifications">Notifications</div>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item active">
                   <a href="pages-account-settings-connections.html" class="menu-link">
                     <div data-i18n="Connections">Connections</div>
                   </a>
@@ -259,7 +259,7 @@
               </a>
             </li>
             <!-- User interface -->
-            <li class="menu-item active open">
+            <li class="menu-item">
               <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-box"></i>
                 <div data-i18n="User interface">User interface</div>
@@ -275,7 +275,7 @@
                     <div data-i18n="Alerts">Alerts</div>
                   </a>
                 </li>
-                <li class="menu-item active">
+                <li class="menu-item">
                   <a href="ui-badges.html" class="menu-link">
                     <div data-i18n="Badges">Badges</div>
                   </a>
@@ -575,179 +575,237 @@
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">UI elements /</span> Badges</h4>
+              <h4 class="fw-bold py-3 mb-4">
+                <span class="text-muted fw-light">Account Settings / </span> Connections
+              </h4>
 
               <div class="row">
-                <!-- Basic Badges -->
-                <div class="col-lg">
-                  <div class="card mb-4">
-                    <h5 class="card-header">Basic Badges</h5>
-                    <div class="card-body">
-                      <div class="text-light small fw-semibold">Default</div>
-                      <div class="demo-inline-spacing">
-                        <span class="badge bg-primary">Primary</span>
-                        <span class="badge bg-secondary">Secondary</span>
-                        <span class="badge bg-success">Success</span>
-                        <span class="badge bg-danger">Danger</span>
-                        <span class="badge bg-warning">Warning</span>
-                        <span class="badge bg-info">Info</span>
-                        <span class="badge bg-dark">Dark</span>
-                      </div>
-                    </div>
-                    <hr class="m-0" />
-                    <div class="card-body">
-                      <div class="text-light small fw-semibold">Pills</div>
-
-                      <div class="demo-inline-spacing">
-                        <span class="badge rounded-pill bg-primary">Primary</span>
-                        <span class="badge rounded-pill bg-secondary">Secondary</span>
-                        <span class="badge rounded-pill bg-success">Success</span>
-                        <span class="badge rounded-pill bg-danger">Danger</span>
-                        <span class="badge rounded-pill bg-warning">Warning</span>
-                        <span class="badge rounded-pill bg-info">Info</span>
-                        <span class="badge rounded-pill bg-dark">Dark</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Label Badges -->
-                <div class="col-lg">
-                  <div class="card mb-4">
-                    <h5 class="card-header">Label Badges</h5>
-                    <div class="card-body">
-                      <div class="text-light small fw-semibold">Label Default</div>
-
-                      <div class="demo-inline-spacing">
-                        <span class="badge bg-label-primary">Primary</span>
-                        <span class="badge bg-label-secondary">Secondary</span>
-                        <span class="badge bg-label-success">Success</span>
-                        <span class="badge bg-label-danger">Danger</span>
-                        <span class="badge bg-label-warning">Warning</span>
-                        <span class="badge bg-label-info">Info</span>
-                        <span class="badge bg-label-dark">Dark</span>
-                      </div>
-                    </div>
-                    <hr class="m-0" />
-                    <div class="card-body">
-                      <div class="text-light small fw-semibold">Label Pills</div>
-
-                      <div class="demo-inline-spacing">
-                        <span class="badge rounded-pill bg-label-primary">Primary</span>
-                        <span class="badge rounded-pill bg-label-secondary">Secondary</span>
-                        <span class="badge rounded-pill bg-label-success">Success</span>
-                        <span class="badge rounded-pill bg-label-danger">Danger</span>
-                        <span class="badge rounded-pill bg-label-warning">Warning</span>
-                        <span class="badge rounded-pill bg-label-info">Info</span>
-                        <span class="badge rounded-pill bg-label-dark">Dark</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <!-- Button with Badges -->
-                <div class="col-lg">
-                  <div class="card mb-4">
-                    <h5 class="card-header">Button with Badges</h5>
-                    <div class="card-body">
-                      <div class="row gy-3">
-                        <div class="col-sm-4">
-                          <small class="text-light fw-semibold">Default</small>
-                          <div class="demo-inline-spacing">
-                            <button type="button" class="btn btn-primary">
-                              Text
-                              <span class="badge bg-white text-primary">4</span>
-                            </button>
-                            <button type="button" class="btn btn-primary">
-                              Text
-                              <span class="badge bg-secondary rounded-pill">4</span>
-                            </button>
+                <div class="col-md-12">
+                  <ul class="nav nav-pills flex-column flex-md-row mb-3">
+                    <li class="nav-item">
+                      <a class="nav-link" href="pages-account-settings-account.jsp"
+                        ><i class="bx bx-user me-1"></i> Account</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="pages-account-settings-notifications.html"
+                        ><i class="bx bx-bell me-1"></i> Notifications</a
+                      >
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active" href="javascript:void(0);"
+                        ><i class="bx bx-link-alt me-1"></i> Connections</a
+                      >
+                    </li>
+                  </ul>
+                  <div class="row">
+                    <div class="col-md-6 col-12 mb-md-0 mb-4">
+                      <div class="card">
+                        <h5 class="card-header">Connected Accounts</h5>
+                        <div class="card-body">
+                          <p>Display content from your connected accounts on your site</p>
+                          <!-- Connections -->
+                          <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                              <img src="../assets/img/icons/brands/google.png" alt="google" class="me-3" height="30" />
+                            </div>
+                            <div class="flex-grow-1 row">
+                              <div class="col-9 mb-sm-0 mb-2">
+                                <h6 class="mb-0">Google</h6>
+                                <small class="text-muted">Calendar and contacts</small>
+                              </div>
+                              <div class="col-3 text-end">
+                                <div class="form-check form-switch">
+                                  <input class="form-check-input float-end" type="checkbox" role="switch" />
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <small class="text-light fw-semibold">Label</small>
-                          <div class="demo-inline-spacing">
-                            <button type="button" class="btn btn-outline-primary">
-                              Text
-                              <span class="badge bg-white text-primary">4</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-primary">
-                              Text
-                              <span class="badge bg-secondary rounded-pill">4</span>
-                            </button>
+                          <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                              <img src="../assets/img/icons/brands/slack.png" alt="slack" class="me-3" height="30" />
+                            </div>
+                            <div class="flex-grow-1 row">
+                              <div class="col-9 mb-sm-0 mb-2">
+                                <h6 class="mb-0">Slack</h6>
+                                <small class="text-muted">Communication</small>
+                              </div>
+                              <div class="col-3 text-end">
+                                <div class="form-check form-switch">
+                                  <input class="form-check-input float-end" type="checkbox" role="switch" checked />
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <small class="text-light fw-semibold">Outline</small>
-                          <div class="demo-inline-spacing">
-                            <button type="button" class="btn btn-outline-primary">
-                              Text
-                              <span class="badge">4</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                              Text
-                              <span class="badge rounded-pill">4</span>
-                            </button>
+                          <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                              <img src="../assets/img/icons/brands/github.png" alt="github" class="me-3" height="30" />
+                            </div>
+                            <div class="flex-grow-1 row">
+                              <div class="col-9 mb-sm-0 mb-2">
+                                <h6 class="mb-0">Github</h6>
+                                <small class="text-muted">Manage your Git repositories</small>
+                              </div>
+                              <div class="col-3 text-end">
+                                <div class="form-check form-switch">
+                                  <input class="form-check-input float-end" type="checkbox" role="switch" />
+                                </div>
+                              </div>
+                            </div>
                           </div>
+                          <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                              <img
+                                src="../assets/img/icons/brands/mailchimp.png"
+                                alt="mailchimp"
+                                class="me-3"
+                                height="30"
+                              />
+                            </div>
+                            <div class="flex-grow-1 row">
+                              <div class="col-9 mb-sm-0 mb-2">
+                                <h6 class="mb-0">Mailchimp</h6>
+                                <small class="text-muted">Email marketing service</small>
+                              </div>
+                              <div class="col-3 text-end">
+                                <div class="form-check form-switch">
+                                  <input class="form-check-input float-end" type="checkbox" role="switch" checked />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="d-flex">
+                            <div class="flex-shrink-0">
+                              <img src="../assets/img/icons/brands/asana.png" alt="asana" class="me-3" height="30" />
+                            </div>
+                            <div class="flex-grow-1 row">
+                              <div class="col-9 mb-sm-0 mb-2">
+                                <h6 class="mb-0">Asana</h6>
+                                <small class="text-muted">Communication</small>
+                              </div>
+                              <div class="col-3 text-end">
+                                <div class="form-check form-switch">
+                                  <input class="form-check-input float-end" type="checkbox" role="switch" checked />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- /Connections -->
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <!-- Badge Circle -->
-                <div class="col-12">
-                  <div class="card mb-4">
-                    <h5 class="card-header">Badge Circle & Square Style</h5>
-                    <div class="card-body">
-                      <div class="row gy-3">
-                        <div class="col-xl-6">
-                          <h6>Basic</h6>
-                          <div class="text-light small fw-semibold mb-2">Default</div>
-                          <div class="demo-inline-spacing">
-                            <p>
-                              <span class="badge badge-center rounded-pill bg-primary">1</span>
-                              <span class="badge badge-center rounded-pill bg-secondary">2</span>
-                              <span class="badge badge-center rounded-pill bg-success">3</span>
-                              <span class="badge badge-center rounded-pill bg-danger">4</span>
-                              <span class="badge badge-center rounded-pill bg-warning">5</span>
-                              <span class="badge badge-center rounded-pill bg-info">6</span>
-                            </p>
-                            <p>
-                              <span class="badge badge-center bg-primary">1</span>
-                              <span class="badge badge-center bg-secondary">2</span>
-                              <span class="badge badge-center bg-success">3</span>
-                              <span class="badge badge-center bg-danger">4</span>
-                              <span class="badge badge-center bg-warning">5</span>
-                              <span class="badge badge-center bg-info">6</span>
-                            </p>
+                    <div class="col-md-6 col-12">
+                      <div class="card">
+                        <h5 class="card-header">Social Accounts</h5>
+                        <div class="card-body">
+                          <p>Display content from social accounts on your site</p>
+                          <!-- Social Accounts -->
+                          <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                              <img
+                                src="../assets/img/icons/brands/facebook.png"
+                                alt="facebook"
+                                class="me-3"
+                                height="30"
+                              />
+                            </div>
+                            <div class="flex-grow-1 row">
+                              <div class="col-8 col-sm-7 mb-sm-0 mb-2">
+                                <h6 class="mb-0">Facebook</h6>
+                                <small class="text-muted">Not Connected</small>
+                              </div>
+                              <div class="col-4 col-sm-5 text-end">
+                                <button type="button" class="btn btn-icon btn-outline-secondary">
+                                  <i class="bx bx-link-alt"></i>
+                                </button>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div class="col-xl-6">
-                          <h6>Label</h6>
-                          <div class="text-light small fw-semibold mb-2">Default</div>
-                          <div class="demo-inline-spacing">
-                            <p>
-                              <span class="badge badge-center rounded-pill bg-label-primary">1</span>
-                              <span class="badge badge-center rounded-pill bg-label-secondary">2</span>
-                              <span class="badge badge-center rounded-pill bg-label-success">3</span>
-                              <span class="badge badge-center rounded-pill bg-label-danger">4</span>
-                              <span class="badge badge-center rounded-pill bg-label-warning">5</span>
-                              <span class="badge badge-center rounded-pill bg-label-info">6</span>
-                            </p>
-                            <p>
-                              <span class="badge badge-center bg-label-primary">1</span>
-                              <span class="badge badge-center bg-label-secondary">2</span>
-                              <span class="badge badge-center bg-label-success">3</span>
-                              <span class="badge badge-center bg-label-danger">4</span>
-                              <span class="badge badge-center bg-label-warning">5</span>
-                              <span class="badge badge-center bg-label-info">6</span>
-                            </p>
+                          <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                              <img
+                                src="../assets/img/icons/brands/twitter.png"
+                                alt="twitter"
+                                class="me-3"
+                                height="30"
+                              />
+                            </div>
+                            <div class="flex-grow-1 row">
+                              <div class="col-8 col-sm-7 mb-sm-0 mb-2">
+                                <h6 class="mb-0">Twitter</h6>
+                                <a href="https://twitter.com/Theme_Selection" target="_blank">@ThemeSelection</a>
+                              </div>
+                              <div class="col-4 col-sm-5 text-end">
+                                <button type="button" class="btn btn-icon btn-outline-danger">
+                                  <i class="bx bx-trash-alt"></i>
+                                </button>
+                              </div>
+                            </div>
                           </div>
+                          <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                              <img
+                                src="../assets/img/icons/brands/instagram.png"
+                                alt="instagram"
+                                class="me-3"
+                                height="30"
+                              />
+                            </div>
+                            <div class="flex-grow-1 row">
+                              <div class="col-8 col-sm-7 mb-sm-0 mb-2">
+                                <h6 class="mb-0">instagram</h6>
+                                <a href="https://www.instagram.com/themeselection/" target="_blank">@ThemeSelection</a>
+                              </div>
+                              <div class="col-4 col-sm-5 text-end">
+                                <button type="button" class="btn btn-icon btn-outline-danger">
+                                  <i class="bx bx-trash-alt"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="d-flex mb-3">
+                            <div class="flex-shrink-0">
+                              <img
+                                src="../assets/img/icons/brands/dribbble.png"
+                                alt="dribbble"
+                                class="me-3"
+                                height="30"
+                              />
+                            </div>
+                            <div class="flex-grow-1 row">
+                              <div class="col-8 col-sm-7 mb-sm-0 mb-2">
+                                <h6 class="mb-0">Dribbble</h6>
+                                <small class="text-muted">Not Connected</small>
+                              </div>
+                              <div class="col-4 col-sm-5 text-end">
+                                <button type="button" class="btn btn-icon btn-outline-secondary">
+                                  <i class="bx bx-link-alt"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="d-flex">
+                            <div class="flex-shrink-0">
+                              <img
+                                src="../assets/img/icons/brands/behance.png"
+                                alt="behance"
+                                class="me-3"
+                                height="30"
+                              />
+                            </div>
+                            <div class="flex-grow-1 row">
+                              <div class="col-8 col-sm-7 mb-sm-0 mb-2">
+                                <h6 class="mb-0">Behance</h6>
+                                <small class="text-muted">Not Connected</small>
+                              </div>
+                              <div class="col-4 col-sm-5 text-end">
+                                <button type="button" class="btn btn-icon btn-outline-secondary">
+                                  <i class="bx bx-link-alt"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- /Social Accounts -->
                         </div>
                       </div>
                     </div>

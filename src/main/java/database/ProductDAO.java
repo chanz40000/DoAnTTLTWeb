@@ -1,3 +1,4 @@
+
 package database;
 
 import model.Category;
@@ -312,6 +313,7 @@ public class ProductDAO implements DAOInterface<Product> {
 
 
                 result = rs.executeUpdate();
+                System.out.println("Cap nhat thanh cong");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

@@ -99,11 +99,10 @@
                   </ul>
                   <div class="card mb-4">
                     <h5 class="card-header">Profile Details</h5>
-                    <c:set var="userId" value="${id}" />
-
-                    <jsp:useBean id="userDAO" class="database.UserDAO"></jsp:useBean>
-                    <c:set var="user" value="${userDAO.selectById(Integer.parseInt(userId))}"></c:set>
-
+                    <c:set var="productId" value="${id}" />
+                    <h1>${productId}</h1>
+                    <jsp:useBean id="productDAO" class="database.ProductDAO"></jsp:useBean>
+                    <c:set var="product" value="${productDAO.selectById(Integer.parseInt(productId))}"></c:set>
                     <!-- Account -->
                     <div class="card-body">
                       <div class="d-flex align-items-start align-items-sm-center gap-4">
@@ -138,135 +137,85 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                      <form id="formAccountSettings" method="POST" onsubmit="return false">
+                      <form  action="ChangeInformationProduct" method="post">
                         <div class="row">
+                          <input name="id" type="hidden" value="${productId}">
                           <div class="mb-3 col-md-6">
-                            <label class="form-label">Name</label>
-                            <li><img src="#">: ${user.name}</li>
-
+                            <label for="name" class="form-label">ID</label>
+                            <li><img src="#">: ${productId}</li>
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label class="form-label">Username</label>
-                            <li ><img src="#">: ${user.username}</li>
-
+                            <label for="name" class="form-label">Tên sách</label>
+                            <input class="form-control" type="text" id="name" name="name" value="${product.product_name}" autofocus="">
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label class="form-label">Email</label>
-                            <li><img src="#">: ${user.email}</li>
+                            <label for="category" class="form-label">Thể loại</label>
+                            <select id="category" name="category" class="select2 form-select">
+                              <option value="">${product.category}</option>
+                              <option value="Australia">Tiểu thuyết</option>
+                              <option value="Bangladesh">Kinh tế</option>
+                              <option value="Belarus">Khoa học</option>
+                              <option value="Brazil">Tâm lý</option>
+                              <option value="Canada">Lịch sử</option>
+                              <option value="China">Thiếu nhi</option>
+                              <option value="France">Phiêu lưu</option>
+                              <option value="Germany">Hành động</option>
+                              <option value="India">Kỹ năng sống</option>
+                              <option value="Indonesia">Thơ ca</option>
+                              <option value="Israel">Hài hước</option>
+                              <option value="Italy">Khoa học viễn tưởng</option>
+                              <option value="Japan">Cổ điển</option>
+                              <option value="Korea">Chính trị</option>
+                              <option value="Mexico">Kiếm hiệp</option>
+                              <option value="Philippines">Tự truyện</option>
+                              <option value="Russia">Kỹ thuật</option>
 
+                            </select>
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label class="form-label">Phone</label>
-                            <li><img src="#">: ${user.phone}</li>
-
+                            <label for="author" class="form-label">Tác giả</label>
+                            <input class="form-control" type="text" id="author" name="author" value="${product.author}">
                           </div>
                           <div class="mb-3 col-md-6">
-                            <label class="form-label">Birthday</label>
-                            <li><img src="#">: ${user.birthday.toString()}</li>
-
+                            <label for="publicationYear" class="form-label">Năm xuất bản</label>
+                            <input type="text" class="form-control" id="publicationYear" name="publicationYear" value="${product.publicationYear}">
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label class="form-label" for="publisher">Nhà xuất bản</label>
+                            <input type="text" class="form-control" id="publisher" name="publisher" value="${product.publisher}">
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="description" class="form-label">Mô tả</label>
+                            <input type="text" class="form-control" id="description" name="description" value="${product.description}" >
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="unitPrice" class="form-label">Giá nhập</label>
+                            <input class="form-control" type="text" id="unitPrice" name="unitPrice" value="${product.unitPrice}" >
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="price" class="form-label">Giá bán</label>
+                            <input type="number" class="form-control" id="price" name="price" value="${product.price}">
+                          </div>
+                          <div class="mb-3 col-md-6">
+                            <label for="price" class="form-label">Số lượng trong kho</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" value="${product.quantity}">
                           </div>
 
+                          <div class="mb-3 col-md-6">
+                            <label class="form-label">Hình ảnh</label>
+                            <input type="text" class="form-control" id="image" name="image" value="${product.image} ">
 
-<%--                          <div class="mb-3 col-md-6">--%>
-<%--                            <label for="address" class="form-label">Address</label>--%>
-<%--                            <input type="text" class="form-control" id="address" name="address" placeholder="Address" />--%>
-<%--                          </div>--%>
-<%--                          <div class="mb-3 col-md-6">--%>
-<%--                            <label for="state" class="form-label">State</label>--%>
-<%--                            <input class="form-control" type="text" id="state" name="state" placeholder="California" />--%>
-<%--                          </div>--%>
-<%--                          <div class="mb-3 col-md-6">--%>
-<%--                            <label for="zipCode" class="form-label">Zip Code</label>--%>
-<%--                            <input--%>
-<%--                              type="text"--%>
-<%--                              class="form-control"--%>
-<%--                              id="zipCode"--%>
-<%--                              name="zipCode"--%>
-<%--                              placeholder="231465"--%>
-<%--                              maxlength="6"--%>
-<%--                            />--%>
-<%--                          </div>--%>
-<%--                          <div class="mb-3 col-md-6">--%>
-<%--                            <label class="form-label" for="country">Country</label>--%>
-<%--                            <select id="country" class="select2 form-select">--%>
-<%--                              <option value="">Select</option>--%>
-<%--                              <option value="Australia">Australia</option>--%>
-<%--                              <option value="Bangladesh">Bangladesh</option>--%>
-<%--                              <option value="Belarus">Belarus</option>--%>
-<%--                              <option value="Brazil">Brazil</option>--%>
-<%--                              <option value="Canada">Canada</option>--%>
-<%--                              <option value="China">China</option>--%>
-<%--                              <option value="France">France</option>--%>
-<%--                              <option value="Germany">Germany</option>--%>
-<%--                              <option value="India">India</option>--%>
-<%--                              <option value="Indonesia">Indonesia</option>--%>
-<%--                              <option value="Israel">Israel</option>--%>
-<%--                              <option value="Italy">Italy</option>--%>
-<%--                              <option value="Japan">Japan</option>--%>
-<%--                              <option value="Korea">Korea, Republic of</option>--%>
-<%--                              <option value="Mexico">Mexico</option>--%>
-<%--                              <option value="Philippines">Philippines</option>--%>
-<%--                              <option value="Russia">Russian Federation</option>--%>
-<%--                              <option value="South Africa">South Africa</option>--%>
-<%--                              <option value="Thailand">Thailand</option>--%>
-<%--                              <option value="Turkey">Turkey</option>--%>
-<%--                              <option value="Ukraine">Ukraine</option>--%>
-<%--                              <option value="United Arab Emirates">United Arab Emirates</option>--%>
-<%--                              <option value="United Kingdom">United Kingdom</option>--%>
-<%--                              <option value="United States">United States</option>--%>
-<%--                            </select>--%>
-<%--                          </div>--%>
-<%--                          <div class="mb-3 col-md-6">--%>
-<%--                            <label for="language" class="form-label">Language</label>--%>
-<%--                            <select id="language" class="select2 form-select">--%>
-<%--                              <option value="">Select Language</option>--%>
-<%--                              <option value="en">English</option>--%>
-<%--                              <option value="fr">French</option>--%>
-<%--                              <option value="de">German</option>--%>
-<%--                              <option value="pt">Portuguese</option>--%>
-<%--                            </select>--%>
-<%--                          </div>--%>
-<%--                          <div class="mb-3 col-md-6">--%>
-<%--                            <label for="timeZones" class="form-label">Timezone</label>--%>
-<%--                            <select id="timeZones" class="select2 form-select">--%>
-<%--                              <option value="">Select Timezone</option>--%>
-<%--                              <option value="-12">(GMT-12:00) International Date Line West</option>--%>
-<%--                              <option value="-11">(GMT-11:00) Midway Island, Samoa</option>--%>
-<%--                              <option value="-10">(GMT-10:00) Hawaii</option>--%>
-<%--                              <option value="-9">(GMT-09:00) Alaska</option>--%>
-<%--                              <option value="-8">(GMT-08:00) Pacific Time (US & Canada)</option>--%>
-<%--                              <option value="-8">(GMT-08:00) Tijuana, Baja California</option>--%>
-<%--                              <option value="-7">(GMT-07:00) Arizona</option>--%>
-<%--                              <option value="-7">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>--%>
-<%--                              <option value="-7">(GMT-07:00) Mountain Time (US & Canada)</option>--%>
-<%--                              <option value="-6">(GMT-06:00) Central America</option>--%>
-<%--                              <option value="-6">(GMT-06:00) Central Time (US & Canada)</option>--%>
-<%--                              <option value="-6">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>--%>
-<%--                              <option value="-6">(GMT-06:00) Saskatchewan</option>--%>
-<%--                              <option value="-5">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</option>--%>
-<%--                              <option value="-5">(GMT-05:00) Eastern Time (US & Canada)</option>--%>
-<%--                              <option value="-5">(GMT-05:00) Indiana (East)</option>--%>
-<%--                              <option value="-4">(GMT-04:00) Atlantic Time (Canada)</option>--%>
-<%--                              <option value="-4">(GMT-04:00) Caracas, La Paz</option>--%>
-<%--                            </select>--%>
-<%--                          </div>--%>
-<%--                          <div class="mb-3 col-md-6">--%>
-<%--                            <label for="currency" class="form-label">Currency</label>--%>
-<%--                            <select id="currency" class="select2 form-select">--%>
-<%--                              <option value="">Select Currency</option>--%>
-<%--                              <option value="usd">USD</option>--%>
-<%--                              <option value="euro">Euro</option>--%>
-<%--                              <option value="pound">Pound</option>--%>
-<%--                              <option value="bitcoin">Bitcoin</option>--%>
-<%--                            </select>--%>
-<%--                          </div>--%>
+                          </div>
+                          <div class="mt-2">
+                            <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                            <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                          </div>
 
-                        <div class="mt-2">
-                          <button type="submit" class="btn btn-primary me-2">Save changes</button>
-                          <button type="reset" class="btn btn-outline-secondary">Cancel</button>
                         </div>
                       </form>
                     </div>
+
+
                     <!-- /Account -->
                   </div>
                   <div class="card">

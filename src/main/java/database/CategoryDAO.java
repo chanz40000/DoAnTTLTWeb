@@ -1,3 +1,4 @@
+
 package database;
 
 import model.Category;
@@ -53,6 +54,35 @@ public class CategoryDAO implements DAOInterface<Category>{
 
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int id1 = rs.getInt("category_id");
+                String username = rs.getString("category_name");
+
+                result = new Category(id1, username);
+
+
+            }
+            JDBCUtil.closeConnection(con);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public Category selectByName(String name) {
+        Category result = null;
+
+        try {
+
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "SELECT * FROM book.categories WHERE category_name =?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, name);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 int id1 = rs.getInt("category_id");

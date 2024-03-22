@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Badges - UI elements | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Toasts - UI elements | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
 
@@ -275,7 +275,7 @@
                     <div data-i18n="Alerts">Alerts</div>
                   </a>
                 </li>
-                <li class="menu-item active">
+                <li class="menu-item">
                   <a href="ui-badges.html" class="menu-link">
                     <div data-i18n="Badges">Badges</div>
                   </a>
@@ -345,7 +345,7 @@
                     <div data-i18n="Tabs &amp; Pills">Tabs &amp; Pills</div>
                   </a>
                 </li>
-                <li class="menu-item">
+                <li class="menu-item active">
                   <a href="ui-toasts.html" class="menu-link">
                     <div data-i18n="Toasts">Toasts</div>
                   </a>
@@ -575,185 +575,345 @@
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">UI elements /</span> Badges</h4>
+              <h4 class="fw-semibold py-3 mb-4"><span class="text-muted fw-light">UI elements /</span> Toasts</h4>
 
-              <div class="row">
-                <!-- Basic Badges -->
-                <div class="col-lg">
-                  <div class="card mb-4">
-                    <h5 class="card-header">Basic Badges</h5>
-                    <div class="card-body">
-                      <div class="text-light small fw-semibold">Default</div>
-                      <div class="demo-inline-spacing">
-                        <span class="badge bg-primary">Primary</span>
-                        <span class="badge bg-secondary">Secondary</span>
-                        <span class="badge bg-success">Success</span>
-                        <span class="badge bg-danger">Danger</span>
-                        <span class="badge bg-warning">Warning</span>
-                        <span class="badge bg-info">Info</span>
-                        <span class="badge bg-dark">Dark</span>
-                      </div>
+              <!-- Toast with Placements -->
+              <div
+                class="bs-toast toast toast-placement-ex m-2"
+                role="alert"
+                aria-live="assertive"
+                aria-atomic="true"
+                data-delay="2000"
+              >
+                <div class="toast-header">
+                  <i class="bx bx-bell me-2"></i>
+                  <div class="me-auto fw-semibold">Bootstrap</div>
+                  <small>11 mins ago</small>
+                  <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.</div>
+              </div>
+              <!-- Toast with Placements -->
+
+              <!-- Bootstrap Toasts with Placement -->
+              <div class="card mb-4">
+                <h5 class="card-header">Bootstrap Toasts Example With Placement</h5>
+                <div class="card-body">
+                  <div class="row gx-3 gy-2 align-items-center">
+                    <div class="col-md-3">
+                      <label class="form-label" for="selectTypeOpt">Type</label>
+                      <select id="selectTypeOpt" class="form-select color-dropdown">
+                        <option value="bg-primary" selected>Primary</option>
+                        <option value="bg-secondary">Secondary</option>
+                        <option value="bg-success">Success</option>
+                        <option value="bg-danger">Danger</option>
+                        <option value="bg-warning">Warning</option>
+                        <option value="bg-info">Info</option>
+                        <option value="bg-dark">Dark</option>
+                      </select>
                     </div>
-                    <hr class="m-0" />
-                    <div class="card-body">
-                      <div class="text-light small fw-semibold">Pills</div>
-
-                      <div class="demo-inline-spacing">
-                        <span class="badge rounded-pill bg-primary">Primary</span>
-                        <span class="badge rounded-pill bg-secondary">Secondary</span>
-                        <span class="badge rounded-pill bg-success">Success</span>
-                        <span class="badge rounded-pill bg-danger">Danger</span>
-                        <span class="badge rounded-pill bg-warning">Warning</span>
-                        <span class="badge rounded-pill bg-info">Info</span>
-                        <span class="badge rounded-pill bg-dark">Dark</span>
-                      </div>
+                    <div class="col-md-3">
+                      <label class="form-label" for="selectPlacement">Placement</label>
+                      <select class="form-select placement-dropdown" id="selectPlacement">
+                        <option value="top-0 start-0">Top left</option>
+                        <option value="top-0 start-50 translate-middle-x">Top center</option>
+                        <option value="top-0 end-0">Top right</option>
+                        <option value="top-50 start-0 translate-middle-y">Middle left</option>
+                        <option value="top-50 start-50 translate-middle">Middle center</option>
+                        <option value="top-50 end-0 translate-middle-y">Middle right</option>
+                        <option value="bottom-0 start-0">Bottom left</option>
+                        <option value="bottom-0 start-50 translate-middle-x">Bottom center</option>
+                        <option value="bottom-0 end-0">Bottom right</option>
+                      </select>
+                    </div>
+                    <div class="col-md-3">
+                      <label class="form-label" for="showToastPlacement">&nbsp;</label>
+                      <button id="showToastPlacement" class="btn btn-primary d-block">Show Toast</button>
                     </div>
                   </div>
                 </div>
+              </div>
+              <!--/ Bootstrap Toasts with Placement -->
 
-                <!-- Label Badges -->
-                <div class="col-lg">
-                  <div class="card mb-4">
-                    <h5 class="card-header">Label Badges</h5>
-                    <div class="card-body">
-                      <div class="text-light small fw-semibold">Label Default</div>
+              <!-- Bootstrap Toasts Styles -->
+              <div class="card mb-4">
+                <h5 class="card-header">Bootstrap Toasts Styles</h5>
+                <div class="row g-0">
+                  <div class="col-md-6 p-4">
+                    <div class="text-light small fw-semibold mb-3">Default</div>
+                    <div class="toast-container">
+                      <div class="bs-toast toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
+                      </div>
 
-                      <div class="demo-inline-spacing">
-                        <span class="badge bg-label-primary">Primary</span>
-                        <span class="badge bg-label-secondary">Secondary</span>
-                        <span class="badge bg-label-success">Success</span>
-                        <span class="badge bg-label-danger">Danger</span>
-                        <span class="badge bg-label-warning">Warning</span>
-                        <span class="badge bg-label-info">Info</span>
-                        <span class="badge bg-label-dark">Dark</span>
+                      <div
+                        class="bs-toast toast fade show bg-primary"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
+                      </div>
+
+                      <div
+                        class="bs-toast toast fade show bg-secondary"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
+                      </div>
+
+                      <div
+                        class="bs-toast toast fade show bg-success"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
+                      </div>
+
+                      <div
+                        class="bs-toast toast fade show bg-danger"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
+                      </div>
+
+                      <div
+                        class="bs-toast toast fade show bg-warning"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
+                      </div>
+
+                      <div
+                        class="bs-toast toast fade show bg-info"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
+                      </div>
+
+                      <div
+                        class="bs-toast toast fade show bg-dark"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
                       </div>
                     </div>
-                    <hr class="m-0" />
-                    <div class="card-body">
-                      <div class="text-light small fw-semibold">Label Pills</div>
+                  </div>
+                  <div class="col-md-6 ui-bg-overlay-container p-4">
+                    <div class="ui-bg-overlay bg-dark opacity-75 rounded-end-bottom"></div>
+                    <div class="text-white small fw-semibold mb-3">Translucent</div>
 
-                      <div class="demo-inline-spacing">
-                        <span class="badge rounded-pill bg-label-primary">Primary</span>
-                        <span class="badge rounded-pill bg-label-secondary">Secondary</span>
-                        <span class="badge rounded-pill bg-label-success">Success</span>
-                        <span class="badge rounded-pill bg-label-danger">Danger</span>
-                        <span class="badge rounded-pill bg-label-warning">Warning</span>
-                        <span class="badge rounded-pill bg-label-info">Info</span>
-                        <span class="badge rounded-pill bg-label-dark">Dark</span>
+                    <div class="toast-container">
+                      <div class="bs-toast toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
+                      </div>
+
+                      <div
+                        class="bs-toast toast fade show bg-primary"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
+                      </div>
+
+                      <div
+                        class="bs-toast toast fade show bg-secondary"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
+                      </div>
+
+                      <div
+                        class="bs-toast toast fade show bg-success"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
+                      </div>
+
+                      <div
+                        class="bs-toast toast fade show bg-danger"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
+                      </div>
+
+                      <div
+                        class="bs-toast toast fade show bg-warning"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
+                      </div>
+
+                      <div
+                        class="bs-toast toast fade show bg-info"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
+                      </div>
+
+                      <div
+                        class="bs-toast toast fade show bg-dark"
+                        role="alert"
+                        aria-live="assertive"
+                        aria-atomic="true"
+                      >
+                        <div class="toast-header">
+                          <i class="bx bx-bell me-2"></i>
+                          <div class="me-auto fw-semibold">Bootstrap</div>
+                          <small>11 mins ago</small>
+                          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                          Fruitcake chocolate bar tootsie roll gummies gummies jelly beans cake.
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
-              <div class="row">
-                <!-- Button with Badges -->
-                <div class="col-lg">
-                  <div class="card mb-4">
-                    <h5 class="card-header">Button with Badges</h5>
-                    <div class="card-body">
-                      <div class="row gy-3">
-                        <div class="col-sm-4">
-                          <small class="text-light fw-semibold">Default</small>
-                          <div class="demo-inline-spacing">
-                            <button type="button" class="btn btn-primary">
-                              Text
-                              <span class="badge bg-white text-primary">4</span>
-                            </button>
-                            <button type="button" class="btn btn-primary">
-                              Text
-                              <span class="badge bg-secondary rounded-pill">4</span>
-                            </button>
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <small class="text-light fw-semibold">Label</small>
-                          <div class="demo-inline-spacing">
-                            <button type="button" class="btn btn-outline-primary">
-                              Text
-                              <span class="badge bg-white text-primary">4</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-primary">
-                              Text
-                              <span class="badge bg-secondary rounded-pill">4</span>
-                            </button>
-                          </div>
-                        </div>
-                        <div class="col-sm-4">
-                          <small class="text-light fw-semibold">Outline</small>
-                          <div class="demo-inline-spacing">
-                            <button type="button" class="btn btn-outline-primary">
-                              Text
-                              <span class="badge">4</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                              Text
-                              <span class="badge rounded-pill">4</span>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <!-- Badge Circle -->
-                <div class="col-12">
-                  <div class="card mb-4">
-                    <h5 class="card-header">Badge Circle & Square Style</h5>
-                    <div class="card-body">
-                      <div class="row gy-3">
-                        <div class="col-xl-6">
-                          <h6>Basic</h6>
-                          <div class="text-light small fw-semibold mb-2">Default</div>
-                          <div class="demo-inline-spacing">
-                            <p>
-                              <span class="badge badge-center rounded-pill bg-primary">1</span>
-                              <span class="badge badge-center rounded-pill bg-secondary">2</span>
-                              <span class="badge badge-center rounded-pill bg-success">3</span>
-                              <span class="badge badge-center rounded-pill bg-danger">4</span>
-                              <span class="badge badge-center rounded-pill bg-warning">5</span>
-                              <span class="badge badge-center rounded-pill bg-info">6</span>
-                            </p>
-                            <p>
-                              <span class="badge badge-center bg-primary">1</span>
-                              <span class="badge badge-center bg-secondary">2</span>
-                              <span class="badge badge-center bg-success">3</span>
-                              <span class="badge badge-center bg-danger">4</span>
-                              <span class="badge badge-center bg-warning">5</span>
-                              <span class="badge badge-center bg-info">6</span>
-                            </p>
-                          </div>
-                        </div>
-                        <div class="col-xl-6">
-                          <h6>Label</h6>
-                          <div class="text-light small fw-semibold mb-2">Default</div>
-                          <div class="demo-inline-spacing">
-                            <p>
-                              <span class="badge badge-center rounded-pill bg-label-primary">1</span>
-                              <span class="badge badge-center rounded-pill bg-label-secondary">2</span>
-                              <span class="badge badge-center rounded-pill bg-label-success">3</span>
-                              <span class="badge badge-center rounded-pill bg-label-danger">4</span>
-                              <span class="badge badge-center rounded-pill bg-label-warning">5</span>
-                              <span class="badge badge-center rounded-pill bg-label-info">6</span>
-                            </p>
-                            <p>
-                              <span class="badge badge-center bg-label-primary">1</span>
-                              <span class="badge badge-center bg-label-secondary">2</span>
-                              <span class="badge badge-center bg-label-success">3</span>
-                              <span class="badge badge-center bg-label-danger">4</span>
-                              <span class="badge badge-center bg-label-warning">5</span>
-                              <span class="badge badge-center bg-label-info">6</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <!--/ Bootstrap Toasts Styles -->
             </div>
             <!-- / Content -->
 
@@ -827,6 +987,7 @@
     <script src="../assets/js/main.js"></script>
 
     <!-- Page JS -->
+    <script src="../assets/js/ui-toasts.js"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>

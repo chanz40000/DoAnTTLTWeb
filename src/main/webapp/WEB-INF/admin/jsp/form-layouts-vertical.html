@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Badges - UI elements | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Vertical Layouts - Forms | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
 
@@ -259,7 +259,7 @@
               </a>
             </li>
             <!-- User interface -->
-            <li class="menu-item active open">
+            <li class="menu-item">
               <a href="javascript:void(0)" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-box"></i>
                 <div data-i18n="User interface">User interface</div>
@@ -275,7 +275,7 @@
                     <div data-i18n="Alerts">Alerts</div>
                   </a>
                 </li>
-                <li class="menu-item active">
+                <li class="menu-item">
                   <a href="ui-badges.html" class="menu-link">
                     <div data-i18n="Badges">Badges</div>
                   </a>
@@ -411,13 +411,13 @@
                 </li>
               </ul>
             </li>
-            <li class="menu-item">
+            <li class="menu-item active open">
               <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
                 <div data-i18n="Form Layouts">Form Layouts</div>
               </a>
               <ul class="menu-sub">
-                <li class="menu-item">
+                <li class="menu-item active">
                   <a href="form-layouts-vertical.html" class="menu-link">
                     <div data-i18n="Vertical Form">Vertical Form</div>
                   </a>
@@ -575,181 +575,152 @@
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">UI elements /</span> Badges</h4>
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Forms/</span> Vertical Layouts</h4>
 
+              <!-- Basic Layout -->
               <div class="row">
-                <!-- Basic Badges -->
-                <div class="col-lg">
+                <div class="col-xl">
                   <div class="card mb-4">
-                    <h5 class="card-header">Basic Badges</h5>
-                    <div class="card-body">
-                      <div class="text-light small fw-semibold">Default</div>
-                      <div class="demo-inline-spacing">
-                        <span class="badge bg-primary">Primary</span>
-                        <span class="badge bg-secondary">Secondary</span>
-                        <span class="badge bg-success">Success</span>
-                        <span class="badge bg-danger">Danger</span>
-                        <span class="badge bg-warning">Warning</span>
-                        <span class="badge bg-info">Info</span>
-                        <span class="badge bg-dark">Dark</span>
-                      </div>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <h5 class="mb-0">Basic Layout</h5>
+                      <small class="text-muted float-end">Default label</small>
                     </div>
-                    <hr class="m-0" />
                     <div class="card-body">
-                      <div class="text-light small fw-semibold">Pills</div>
-
-                      <div class="demo-inline-spacing">
-                        <span class="badge rounded-pill bg-primary">Primary</span>
-                        <span class="badge rounded-pill bg-secondary">Secondary</span>
-                        <span class="badge rounded-pill bg-success">Success</span>
-                        <span class="badge rounded-pill bg-danger">Danger</span>
-                        <span class="badge rounded-pill bg-warning">Warning</span>
-                        <span class="badge rounded-pill bg-info">Info</span>
-                        <span class="badge rounded-pill bg-dark">Dark</span>
-                      </div>
+                      <form>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-fullname">Full Name</label>
+                          <input type="text" class="form-control" id="basic-default-fullname" placeholder="John Doe" />
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-company">Company</label>
+                          <input type="text" class="form-control" id="basic-default-company" placeholder="ACME Inc." />
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-email">Email</label>
+                          <div class="input-group input-group-merge">
+                            <input
+                              type="text"
+                              id="basic-default-email"
+                              class="form-control"
+                              placeholder="john.doe"
+                              aria-label="john.doe"
+                              aria-describedby="basic-default-email2"
+                            />
+                            <span class="input-group-text" id="basic-default-email2">@example.com</span>
+                          </div>
+                          <div class="form-text">You can use letters, numbers & periods</div>
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-phone">Phone No</label>
+                          <input
+                            type="text"
+                            id="basic-default-phone"
+                            class="form-control phone-mask"
+                            placeholder="658 799 8941"
+                          />
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-message">Message</label>
+                          <textarea
+                            id="basic-default-message"
+                            class="form-control"
+                            placeholder="Hi, Do you have a moment to talk Joe?"
+                          ></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send</button>
+                      </form>
                     </div>
                   </div>
                 </div>
-
-                <!-- Label Badges -->
-                <div class="col-lg">
+                <div class="col-xl">
                   <div class="card mb-4">
-                    <h5 class="card-header">Label Badges</h5>
-                    <div class="card-body">
-                      <div class="text-light small fw-semibold">Label Default</div>
-
-                      <div class="demo-inline-spacing">
-                        <span class="badge bg-label-primary">Primary</span>
-                        <span class="badge bg-label-secondary">Secondary</span>
-                        <span class="badge bg-label-success">Success</span>
-                        <span class="badge bg-label-danger">Danger</span>
-                        <span class="badge bg-label-warning">Warning</span>
-                        <span class="badge bg-label-info">Info</span>
-                        <span class="badge bg-label-dark">Dark</span>
-                      </div>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <h5 class="mb-0">Basic with Icons</h5>
+                      <small class="text-muted float-end">Merged input group</small>
                     </div>
-                    <hr class="m-0" />
                     <div class="card-body">
-                      <div class="text-light small fw-semibold">Label Pills</div>
-
-                      <div class="demo-inline-spacing">
-                        <span class="badge rounded-pill bg-label-primary">Primary</span>
-                        <span class="badge rounded-pill bg-label-secondary">Secondary</span>
-                        <span class="badge rounded-pill bg-label-success">Success</span>
-                        <span class="badge rounded-pill bg-label-danger">Danger</span>
-                        <span class="badge rounded-pill bg-label-warning">Warning</span>
-                        <span class="badge rounded-pill bg-label-info">Info</span>
-                        <span class="badge rounded-pill bg-label-dark">Dark</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <!-- Button with Badges -->
-                <div class="col-lg">
-                  <div class="card mb-4">
-                    <h5 class="card-header">Button with Badges</h5>
-                    <div class="card-body">
-                      <div class="row gy-3">
-                        <div class="col-sm-4">
-                          <small class="text-light fw-semibold">Default</small>
-                          <div class="demo-inline-spacing">
-                            <button type="button" class="btn btn-primary">
-                              Text
-                              <span class="badge bg-white text-primary">4</span>
-                            </button>
-                            <button type="button" class="btn btn-primary">
-                              Text
-                              <span class="badge bg-secondary rounded-pill">4</span>
-                            </button>
+                      <form>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
+                          <div class="input-group input-group-merge">
+                            <span id="basic-icon-default-fullname2" class="input-group-text"
+                              ><i class="bx bx-user"></i
+                            ></span>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="basic-icon-default-fullname"
+                              placeholder="John Doe"
+                              aria-label="John Doe"
+                              aria-describedby="basic-icon-default-fullname2"
+                            />
                           </div>
                         </div>
-                        <div class="col-sm-4">
-                          <small class="text-light fw-semibold">Label</small>
-                          <div class="demo-inline-spacing">
-                            <button type="button" class="btn btn-outline-primary">
-                              Text
-                              <span class="badge bg-white text-primary">4</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-primary">
-                              Text
-                              <span class="badge bg-secondary rounded-pill">4</span>
-                            </button>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-icon-default-company">Company</label>
+                          <div class="input-group input-group-merge">
+                            <span id="basic-icon-default-company2" class="input-group-text"
+                              ><i class="bx bx-buildings"></i
+                            ></span>
+                            <input
+                              type="text"
+                              id="basic-icon-default-company"
+                              class="form-control"
+                              placeholder="ACME Inc."
+                              aria-label="ACME Inc."
+                              aria-describedby="basic-icon-default-company2"
+                            />
                           </div>
                         </div>
-                        <div class="col-sm-4">
-                          <small class="text-light fw-semibold">Outline</small>
-                          <div class="demo-inline-spacing">
-                            <button type="button" class="btn btn-outline-primary">
-                              Text
-                              <span class="badge">4</span>
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                              Text
-                              <span class="badge rounded-pill">4</span>
-                            </button>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-icon-default-email">Email</label>
+                          <div class="input-group input-group-merge">
+                            <span class="input-group-text"><i class="bx bx-envelope"></i></span>
+                            <input
+                              type="text"
+                              id="basic-icon-default-email"
+                              class="form-control"
+                              placeholder="john.doe"
+                              aria-label="john.doe"
+                              aria-describedby="basic-icon-default-email2"
+                            />
+                            <span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
+                          </div>
+                          <div class="form-text">You can use letters, numbers & periods</div>
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-icon-default-phone">Phone No</label>
+                          <div class="input-group input-group-merge">
+                            <span id="basic-icon-default-phone2" class="input-group-text"
+                              ><i class="bx bx-phone"></i
+                            ></span>
+                            <input
+                              type="text"
+                              id="basic-icon-default-phone"
+                              class="form-control phone-mask"
+                              placeholder="658 799 8941"
+                              aria-label="658 799 8941"
+                              aria-describedby="basic-icon-default-phone2"
+                            />
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <!-- Badge Circle -->
-                <div class="col-12">
-                  <div class="card mb-4">
-                    <h5 class="card-header">Badge Circle & Square Style</h5>
-                    <div class="card-body">
-                      <div class="row gy-3">
-                        <div class="col-xl-6">
-                          <h6>Basic</h6>
-                          <div class="text-light small fw-semibold mb-2">Default</div>
-                          <div class="demo-inline-spacing">
-                            <p>
-                              <span class="badge badge-center rounded-pill bg-primary">1</span>
-                              <span class="badge badge-center rounded-pill bg-secondary">2</span>
-                              <span class="badge badge-center rounded-pill bg-success">3</span>
-                              <span class="badge badge-center rounded-pill bg-danger">4</span>
-                              <span class="badge badge-center rounded-pill bg-warning">5</span>
-                              <span class="badge badge-center rounded-pill bg-info">6</span>
-                            </p>
-                            <p>
-                              <span class="badge badge-center bg-primary">1</span>
-                              <span class="badge badge-center bg-secondary">2</span>
-                              <span class="badge badge-center bg-success">3</span>
-                              <span class="badge badge-center bg-danger">4</span>
-                              <span class="badge badge-center bg-warning">5</span>
-                              <span class="badge badge-center bg-info">6</span>
-                            </p>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-icon-default-message">Message</label>
+                          <div class="input-group input-group-merge">
+                            <span id="basic-icon-default-message2" class="input-group-text"
+                              ><i class="bx bx-comment"></i
+                            ></span>
+                            <textarea
+                              id="basic-icon-default-message"
+                              class="form-control"
+                              placeholder="Hi, Do you have a moment to talk Joe?"
+                              aria-label="Hi, Do you have a moment to talk Joe?"
+                              aria-describedby="basic-icon-default-message2"
+                            ></textarea>
                           </div>
                         </div>
-                        <div class="col-xl-6">
-                          <h6>Label</h6>
-                          <div class="text-light small fw-semibold mb-2">Default</div>
-                          <div class="demo-inline-spacing">
-                            <p>
-                              <span class="badge badge-center rounded-pill bg-label-primary">1</span>
-                              <span class="badge badge-center rounded-pill bg-label-secondary">2</span>
-                              <span class="badge badge-center rounded-pill bg-label-success">3</span>
-                              <span class="badge badge-center rounded-pill bg-label-danger">4</span>
-                              <span class="badge badge-center rounded-pill bg-label-warning">5</span>
-                              <span class="badge badge-center rounded-pill bg-label-info">6</span>
-                            </p>
-                            <p>
-                              <span class="badge badge-center bg-label-primary">1</span>
-                              <span class="badge badge-center bg-label-secondary">2</span>
-                              <span class="badge badge-center bg-label-success">3</span>
-                              <span class="badge badge-center bg-label-danger">4</span>
-                              <span class="badge badge-center bg-label-warning">5</span>
-                              <span class="badge badge-center bg-label-info">6</span>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
+                        <button type="submit" class="btn btn-primary">Send</button>
+                      </form>
                     </div>
                   </div>
                 </div>

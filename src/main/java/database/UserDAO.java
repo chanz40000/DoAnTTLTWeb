@@ -1,3 +1,4 @@
+
 package database;
 
 import model.User;
@@ -86,7 +87,7 @@ public class UserDAO implements DAOInterface<User> {
                 String email = rs.getString("email");
                 String avatar = rs.getString("avatar");
                 result = new User(id1, username, password, role_id, name, birthday, gt, phoneNumber, email, avatar);
-
+                System.out.println("username: "+username);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
@@ -340,7 +341,7 @@ public class UserDAO implements DAOInterface<User> {
         UserDAO userDAO = new UserDAO();
 
 
-        User u1 = new User(userDAO.creatId() + 1, "admin", "1234", 2, "Tuyết", null, null, null, "21130606@st.hcmuaf.edu.vn", null);
+        User u1 = new User(userDAO.creatId() + 1, "Oppa", "1234", 2, "Tín", null, null, null, "21130565@st.hcmuaf.edu.vn", null);
 
         userDAO.insert(u1);
 
@@ -350,4 +351,3 @@ public class UserDAO implements DAOInterface<User> {
         }
     }
 }
-

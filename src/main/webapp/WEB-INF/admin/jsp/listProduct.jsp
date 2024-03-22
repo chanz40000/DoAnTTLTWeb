@@ -80,35 +80,41 @@
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> List Product</h4>
 
               <!-- Basic Bootstrap Table -->
               <div class="card">
-                <h5 class="card-header">Table Basic</h5>
+                <h5 class="card-header">List Product</h5>
                 <div class="table-responsive text-nowrap">
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>Username</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone number</th>
-                        <th>Birthday</th>
-                        <th>Sexual</th>
-                        <th>Actions</th>
+                        <th>Mã sách</th>
+                        <th>Tên sách</th>
+                        <th>Thể loại</th>
+
+                        <th>Giá nhập</th>
+                        <th>Giá bán</th>
+                        <th>Số lượng trong kho</th>
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                    <jsp:useBean id="userDao" class="database.UserDAO"></jsp:useBean>
-                    <c:forEach var="user" items="${userDao.selectAll()}">
+                    <jsp:useBean id="productDao" class="database.ProductDAO"></jsp:useBean>
+                    <c:forEach var="product" items="${productDao.selectAll()}">
+
                       <li><a href="#">${ca.categoryName}</a></li>
                       <tr>
-                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${user.username}</strong></td>
-                        <td>${user.name}</td>
-                        <td>${user.email}</td>
-                        <td>${user.phone}</td>
-                        <td>${user.birthday.toString()}</td>
-                        <td>${user.sexual}</td>
+                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${product.productId}</strong></td>
+                        <td>${product.product_name}</td>
+                        <td>${product.category}</td>
+<%--                        <td>${product.author}</td>--%>
+<%--                        <td>${product.publicationYear}</td>--%>
+<%--                        <td>${product.publisher}</td>--%>
+<%--                        <td>${product.description}</td>--%>
+<%--                        <td>${product.image}</td>--%>
+                        <td>${product.unitPrice}</td>
+                        <td>${product.price}</td>
+                        <td>${product.quantity}</td>
 
                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                         <td>
@@ -117,7 +123,10 @@
                               <i class="bx bx-dots-vertical-rounded"></i>
                             </button>
                             <div class="dropdown-menu">
-                              <a class="dropdown-item" href="./UserDetail?id=${user.userId}"
+                              <a class="dropdown-item" href="./ProductDetail?id=${product.productId}"
+                              ><i class="bx bx-edit-alt me-1"></i> Detail</a
+                              >
+                              <a class="dropdown-item" href="./UserDetail?id=${product.productId}"
                               ><i class="bx bx-edit-alt me-1"></i> Edit</a
                               >
                               <a class="dropdown-item" href="javascript:void(0);"
