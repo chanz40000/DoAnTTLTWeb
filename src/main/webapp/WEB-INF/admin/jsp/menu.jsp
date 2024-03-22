@@ -379,6 +379,12 @@
                 <div data-i18n="Tables">List Product</div>
             </a>
         </li>
+        <li class="menu-item active">
+            <a href="./ListOrder" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-table"></i>
+                <div data-i18n="Tables">List Order</div>
+            </a>
+        </li>
         <!-- Misc -->
         <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
         <li class="menu-item">
