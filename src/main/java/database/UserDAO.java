@@ -86,7 +86,7 @@ public class UserDAO implements DAOInterface<User> {
                 String email = rs.getString("email");
                 String avatar = rs.getString("avatar");
                 result = new User(id1, username, password, role_id, name, birthday, gt, phoneNumber, email, avatar);
-
+                System.out.println("username: "+username);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
