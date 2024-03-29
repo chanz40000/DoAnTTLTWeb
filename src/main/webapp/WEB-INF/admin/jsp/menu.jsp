@@ -66,9 +66,14 @@
               </span>
             <span class="app-brand-text demo menu-text fw-bolder ms-2">Sneat</span>
         </a>
+        <a   id="menu-icon">
 
-        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+            <i class="bx bx-chevron-left bx-sm align-middle" id="menu-icon-toggle"  >
+
+            </i>
+        </a>
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none" >
+            <i class="bx bx-chevron-left bx-sm align-middle" ></i>
         </a>
     </div>
 
@@ -77,7 +82,8 @@
     <ul class="menu-inner py-1">
         <!-- Dashboard -->
         <li class="menu-item">
-            <a href="index.jsp" class="menu-link">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Dashboard</div>
             </a>
@@ -367,30 +373,18 @@
             </ul>
         </li>
         <!-- Tables -->
-        <li class="menu-item">
+        <li class="menu-item active">
             <a href="./ListUser" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
                 <div data-i18n="Tables">List User</div>
             </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item active">
             <a href="./ListProduct" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
                 <div data-i18n="Tables">List Product</div>
             </a>
         </li>
-        <li class="menu-item">
-            <a href="./warehouse" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Nhập Kho</div>
-            </a>
-        </li>
-
-        <li class="menu-item">
-            <a href="./CreateProduct" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Thêm Sản Phẩm</div>
-
         <li class="menu-item active">
             <a href="./ListOrder" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
@@ -419,14 +413,5 @@
                 <div data-i18n="Documentation">Documentation</div>
             </a>
         </li>
-            </a>
     </ul>
-</aside><button onclick="toggleMenu()">Thu gọn</button>
-<script>
-    function toggleMenu() {
-        let menu = document.getElementById('layout-menu');
-        menu.classList.toggle('collapsed');
-    }
-
-
-</script>
+</aside>
