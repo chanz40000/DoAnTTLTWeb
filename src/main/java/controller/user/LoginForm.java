@@ -102,7 +102,9 @@ public class LoginForm extends HttpServlet {
                 if (user.getRole() == 1) {
                     session.setAttribute("admin", user);
                     // Use sendRedirect for successful admin login
-                    response.sendRedirect(request.getContextPath() + "/WEB-INF/book/index.jsp");
+                    String url = "/WEB-INF/admin/jsp/index.jsp";
+                    RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+                    dispatcher.forward(request, response);
                 } else {
                     session.setMaxInactiveInterval(30 * 60);
                     session.setAttribute("userC", user);
