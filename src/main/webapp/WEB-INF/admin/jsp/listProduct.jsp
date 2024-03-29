@@ -101,22 +101,13 @@
                     <tbody class="table-border-bottom-0">
                     <jsp:useBean id="productDao" class="database.ProductDAO"></jsp:useBean>
                     <c:forEach var="product" items="${productDao.selectAll()}">
-
-                      <li><a href="#">${ca.categoryName}</a></li>
                       <tr>
                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${product.productId}</strong></td>
                         <td>${product.product_name}</td>
-                        <td>${product.category}</td>
-<%--                        <td>${product.author}</td>--%>
-<%--                        <td>${product.publicationYear}</td>--%>
-<%--                        <td>${product.publisher}</td>--%>
-<%--                        <td>${product.description}</td>--%>
-<%--                        <td>${product.image}</td>--%>
+                        <td>${product.category.categoryName}</td>
                         <td>${product.unitPrice}</td>
                         <td>${product.price}</td>
                         <td>${product.quantity}</td>
-
-                        <td><span class="badge bg-label-primary me-1">Active</span></td>
                         <td>
                           <div class="dropdown">
                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -129,7 +120,7 @@
                               <a class="dropdown-item" href="./UserDetail?id=${product.productId}"
                               ><i class="bx bx-edit-alt me-1"></i> Edit</a
                               >
-                              <a class="dropdown-item" href="javascript:void(0);"
+                              <a class="dropdown-item" href="./DeleteProduct?id=${product.productId}"
                               ><i class="bx bx-trash me-1"></i> Delete</a
                               >
                             </div>

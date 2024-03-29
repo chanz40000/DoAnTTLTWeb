@@ -1,20 +1,45 @@
 package model;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Import {
     private int importId;
+    private User importer; //nguoi nhap
     private String supplier; //nha cung cap
     private String note;
     private Date importDate; //ngay nhap
     private List<ImportDetail> importDetailList;
 
-    public Import(int importId, String supplier, String note, Date importDate) {
+    public Import() {
+    }
+
+    public Import(int importId, User importer, String supplier, String note, Date importDate) {
         this.importId = importId;
+        this.importer=importer;
         this.supplier = supplier;
         this.note = note;
         this.importDate = importDate;
+        importDetailList = new ArrayList<>();
+    }
+
+    public Import(int importId, User importer, String supplier, String note, Date importDate, List<ImportDetail>importDetailList) {
+        this.importId = importId;
+        this.importer=importer;
+        this.supplier = supplier;
+        this.note = note;
+        this.importDate = importDate;
+        this.importDetailList = importDetailList;
+    }
+
+
+    public User getImporter() {
+        return importer;
+    }
+
+    public void setImporter(User importer) {
+        this.importer = importer;
     }
 
     public int getImportId() {
@@ -56,4 +81,7 @@ public class Import {
     public void setImportDetailList(List<ImportDetail> importDetailList) {
         this.importDetailList = importDetailList;
     }
+
+
+    
 }

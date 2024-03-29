@@ -2,57 +2,57 @@ package controller.admin;
 
 import database.CategoryDAO;
 import database.ProductDAO;
-import database.UserDAO;
 import model.Category;
 import model.Product;
-import model.User;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 
-@WebServlet(name = "ChangeInformationProduct", value = "/ChangeInformationProduct")
-public class ChangeInformationProduct extends HttpServlet {
+@WebServlet(name = "CreateProduct2", value = "/CreateProduct2")
+public class CreateProduct2 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("start ");
 
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         System.out.println("start ");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        String id = request.getParameter("id");
-
-        String name = request.getParameter("name");
+        String name = request.getParameter("product_name");
+        System.out.println("product_name"+name);
         String categoryName = request.getParameter("category");
+        System.out.println("category"+categoryName);
         String author = request.getParameter("author");
+        System.out.println("author"+author);
         String publicationYear = request.getParameter("publicationYear");
+        System.out.println("publicationYear"+publicationYear);
         String description = request.getParameter("description");
-        String unitPrice = request.getParameter("unitPrice");
-        String price = request.getParameter("price");
-        String quantity = request.getParameter("quantity");
+        System.out.println("description"+description);
+        //String unitPrice = request.getParameter("unitPrice");
+        //String price = request.getParameter("price");
+        //String quantity = request.getParameter("quantity");
         String image = request.getParameter("image");
+        System.out.println("image"+image);
         String publisher = request.getParameter("publisher");
+        System.out.println("publisher"+publisher);
 
         Category category = new CategoryDAO().selectByName(categoryName);
 
 
         ProductDAO productDAO = new ProductDAO();
-        Product product = new Product(Integer.parseInt(id), name, description,
-                image, Double.parseDouble(unitPrice), Double.parseDouble(price),
-                Integer.parseInt(quantity), author, Integer.parseInt(publicationYear), publisher, category );
+        Product product = new Product(productDAO.creatId()+1, name, description,
+                "img1.jpg", 0, 0,
+                0, author, Integer.parseInt(publicationYear), publisher, category );
 
-        int update = productDAO.update(product);
-        String url = request.getContextPath() + "/WEB-INF/admin/jsp/listProduct.jsp";
-        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-        dispatcher.forward(request,response);
-//        request.getRequestDispatcher("/WEB-INF/admin/jsp/listProduct.jsp").forward(request,response);
+        productDAO.insert(product);
+        System.out.println("done");
+        request.getRequestDispatcher("/WEB-INF/admin/jsp/listProduct.jsp").forward(request,response);
 
     }
 }

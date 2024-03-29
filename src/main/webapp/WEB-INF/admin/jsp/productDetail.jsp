@@ -100,7 +100,6 @@
                   <div class="card mb-4">
                     <h5 class="card-header">Profile Details</h5>
                     <c:set var="productId" value="${id}" />
-                    <h1>${productId}</h1>
                     <jsp:useBean id="productDAO" class="database.ProductDAO"></jsp:useBean>
                     <c:set var="product" value="${productDAO.selectById(Integer.parseInt(productId))}"></c:set>
                     <!-- Account -->
@@ -137,38 +136,21 @@
                     </div>
                     <hr class="my-0" />
                     <div class="card-body">
-                      <form  action="ChangeInformationProduct" method="post">
+                      <form  action="ChangInf" method="post">
                         <div class="row">
                           <input name="id" type="hidden" value="${productId}">
                           <div class="mb-3 col-md-6">
-                            <label for="name" class="form-label">ID</label>
-                            <li><img src="#">: ${productId}</li>
-                          </div>
-                          <div class="mb-3 col-md-6">
                             <label for="name" class="form-label">Tên sách</label>
-                            <input class="form-control" type="text" id="name" name="name" value="${product.product_name}" autofocus="">
+                            <input class="form-control" type="text" id="name" name="name" value="${product.product_name}">
                           </div>
                           <div class="mb-3 col-md-6">
                             <label for="category" class="form-label">Thể loại</label>
                             <select id="category" name="category" class="select2 form-select">
-                              <option value="">${product.category}</option>
-                              <option value="Australia">Tiểu thuyết</option>
-                              <option value="Bangladesh">Kinh tế</option>
-                              <option value="Belarus">Khoa học</option>
-                              <option value="Brazil">Tâm lý</option>
-                              <option value="Canada">Lịch sử</option>
-                              <option value="China">Thiếu nhi</option>
-                              <option value="France">Phiêu lưu</option>
-                              <option value="Germany">Hành động</option>
-                              <option value="India">Kỹ năng sống</option>
-                              <option value="Indonesia">Thơ ca</option>
-                              <option value="Israel">Hài hước</option>
-                              <option value="Italy">Khoa học viễn tưởng</option>
-                              <option value="Japan">Cổ điển</option>
-                              <option value="Korea">Chính trị</option>
-                              <option value="Mexico">Kiếm hiệp</option>
-                              <option value="Philippines">Tự truyện</option>
-                              <option value="Russia">Kỹ thuật</option>
+                              <jsp:useBean id="categoryDAO" class="database.CategoryDAO"/>
+
+                              <c:forEach items="${categoryDAO.selectAll()}" var="c">
+                                <option value="${c.categoryId}">${c.categoryName}</option>
+                              </c:forEach>
 
                             </select>
                           </div>
@@ -217,31 +199,6 @@
 
 
                     <!-- /Account -->
-                  </div>
-                  <div class="card">
-                    <h5 class="card-header">Delete Account</h5>
-                    <div class="card-body">
-                      <div class="mb-3 col-12 mb-0">
-                        <div class="alert alert-warning">
-                          <h6 class="alert-heading fw-bold mb-1">Are you sure you want to delete your account?</h6>
-                          <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
-                        </div>
-                      </div>
-                      <form id="formAccountDeactivation" onsubmit="return false">
-                        <div class="form-check mb-3">
-                          <input
-                            class="form-check-input"
-                            type="checkbox"
-                            name="accountActivation"
-                            id="accountActivation"
-                          />
-                          <label class="form-check-label" for="accountActivation"
-                            >I confirm my account deactivation</label
-                          >
-                        </div>
-                        <button type="submit" class="btn btn-danger deactivate-account">Deactivate Account</button>
-                      </form>
-                    </div>
                   </div>
                 </div>
               </div>

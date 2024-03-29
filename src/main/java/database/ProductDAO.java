@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO implements DAOInterface<Product> {
+    private ArrayList<Product> data = new ArrayList<>();
+    public int creatId() {
+        data = selectAll();
+        return data.size();
+    }
     @Override
     public ArrayList<Product> selectAll() {
         ArrayList<Product> products = new ArrayList<>();
@@ -204,7 +209,7 @@ public class ProductDAO implements DAOInterface<Product> {
         try {
             Connection con = JDBCUtil.getConnection();
 
-            String sql = "INSERT INTO products(product_id, product_name, description, image, unit_price, price, author,publication_year,publisher,category_id)"
+            String sql = "INSERT INTO products(product_id, product_name, description, image, unit_price, price, quantity, author,publication_year,publisher,category_id)"
                     + "VALUE(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement rs = con.prepareStatement(sql);
@@ -284,7 +289,7 @@ public class ProductDAO implements DAOInterface<Product> {
             try {
                 Connection con = JDBCUtil.getConnection();
 
-                String sql = "UPDATE pizza.products SET  product_name=? " +
+                String sql = "UPDATE book.products SET  product_name=? " +
                         ", description=? " +
                         ", image=? " +
                         ", unit_price=? " +
@@ -294,21 +299,21 @@ public class ProductDAO implements DAOInterface<Product> {
                         ", publication_year=? " +
                         ", publisher=? " +
                         ", category_id=? " +
-                        "WHERE product_id = ?";
+                        "WHERE product_id =?";
 
                 PreparedStatement rs = con.prepareStatement(sql);
 
-                rs.setInt(1, product.getProductId());
-                rs.setString(2, product.getProduct_name());
-                rs.setString(3, product.getDescription());
-                rs.setString(4, product.getImage());
-                rs.setDouble(5, product.getUnitPrice());
-                rs.setDouble(6, product.getPrice());
-                rs.setInt(7, product.getQuantity());
-                rs.setString(8, product.getAuthor());
-                rs.setInt(9, product.getPublicationYear());
-                rs.setString(10, product.getPublisher());
-                rs.setInt(11, product.getCategory().getCategoryId());
+                rs.setString(1, product.getProduct_name());
+                rs.setString(2, product.getDescription());
+                rs.setString(3, product.getImage());
+                rs.setDouble(4, product.getUnitPrice());
+                rs.setDouble(5, product.getPrice());
+                rs.setInt(6, product.getQuantity());
+                rs.setString(7, product.getAuthor());
+                rs.setInt(8, product.getPublicationYear());
+                rs.setString(9, product.getPublisher());
+                rs.setInt(10, product.getCategory().getCategoryId());
+                rs.setInt(11, product.getProductId());
 
 
                 result = rs.executeUpdate();
@@ -321,10 +326,32 @@ public class ProductDAO implements DAOInterface<Product> {
         return result;
     }
 
+    public int updateQuantityIncrease(int idProduct, int quantity) {
+        int result = 0;
+        Product oldProduct = this.selectById(idProduct);
+        int quantityUpdate = oldProduct.getQuantity()+quantity;
+            try {
+                Connection con = JDBCUtil.getConnection();
+
+                String sql = "UPDATE book.products SET quantity = ? " +
+                        "WHERE product_id = ?";
+
+                PreparedStatement rs = con.prepareStatement(sql);
+                rs.setInt(1, quantityUpdate);
+                rs.setInt(2, idProduct);
+                result = rs.executeUpdate();
+                System.out.println("Cap nhat thanh cong");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+
+        return result;
+    }
+
     public static void main(String[] args) {
         ProductDAO productDAO = new ProductDAO();
-        Product product = productDAO.selectById(2);
-        System.out.println(product.getProduct_name());
+       productDAO.updateQuantityIncrease(1, 2);
     }
 
     public ArrayList<Product> selectByProductName(String productName) {
