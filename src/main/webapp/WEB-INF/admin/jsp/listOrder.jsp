@@ -103,7 +103,7 @@
                                 </thead>
                                 <tbody class="table-border-bottom-0">
                                 <jsp:useBean id="orderDAO" class="database.OrderDAO"/>
-                                <c:forEach var="order" items="${orderDAO.selectAll()}">
+                                <c:forEach var="order" items="${orderDAO.selectOrderByStatus('Pending')}">
                                    <%-- <li><a href="#">${order.categoryName}</a></li>--%>
                                     <tr>
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${order.orderId}</strong></td>

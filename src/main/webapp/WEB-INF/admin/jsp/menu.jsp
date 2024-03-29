@@ -421,4 +421,12 @@
         </li>
             </a>
     </ul>
-</aside>
+</aside><button onclick="toggleMenu()">Thu gọn</button>
+<script>
+    function toggleMenu() {
+        let menu = document.getElementById('layout-menu');
+        menu.classList.toggle('collapsed');
+    }
+
+
+</script>

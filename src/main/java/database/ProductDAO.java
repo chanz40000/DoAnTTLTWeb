@@ -289,6 +289,7 @@ public class ProductDAO implements DAOInterface<Product> {
             try {
                 Connection con = JDBCUtil.getConnection();
 
+
                 String sql = "UPDATE book.products SET  product_name=? " +
                         ", description=? " +
                         ", image=? " +
@@ -351,9 +352,9 @@ public class ProductDAO implements DAOInterface<Product> {
 
     public static void main(String[] args) {
         ProductDAO productDAO = new ProductDAO();
+
        productDAO.updateQuantityIncrease(1, 2);
     }
-
     public ArrayList<Product> selectByProductName(String productName) {
 
         ArrayList<Product> products = new ArrayList<>();

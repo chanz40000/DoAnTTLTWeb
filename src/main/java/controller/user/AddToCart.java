@@ -32,8 +32,6 @@ public class AddToCart extends HttpServlet {
         // Tính tổng số lượng sản phẩm trong giỏ hàng và lưu vào session
         int totalQuantity = cart.calculateTotalQuantity();
         session.setAttribute("totalQuantity", totalQuantity);
-        // Lấy ngôn ngữ từ session
-        String language = (String) request.getSession().getAttribute("language");
 
         // Kiểm tra sản phẩm đã tồn tại trong giỏ hàng chưa
         CartItem existingItem = cart.findCartItemId(productId);
@@ -51,8 +49,7 @@ public class AddToCart extends HttpServlet {
 
             cart.addToCart(cart_item);
         }
-        // Cập nhật ngôn ngữ trong session
-        request.getSession().setAttribute("language", language);
+
         // Gửi phản hồi về trình duyệt
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");

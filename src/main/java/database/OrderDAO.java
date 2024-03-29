@@ -229,7 +229,6 @@ public class OrderDAO implements DAOInterface<Order>{
                 Connection con = JDBCUtil.getConnection();
 
                 String sql = "UPDATE orders SET user_id=? " +
-
                         ", total_price=? " +
                         ", nameConsignee=? " +
 
