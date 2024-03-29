@@ -221,6 +221,10 @@
 <!-- Header Section End -->
 
 <!-- Hero Section Begin -->
+<<<<<<< HEAD
+<!-- Hero Section Begin -->
+=======
+>>>>>>> d4bd9b9c1b416c700a6b6beb0ff8c148d913894d
 <section class="hero hero-normal">
     <div class="container">
         <div class="row">
@@ -274,3 +278,4 @@
 </section>
 <!-- Hero Section End -->
 </nav>
+

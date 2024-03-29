@@ -367,18 +367,30 @@
             </ul>
         </li>
         <!-- Tables -->
-        <li class="menu-item active">
+        <li class="menu-item">
             <a href="./ListUser" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
                 <div data-i18n="Tables">List User</div>
             </a>
         </li>
-        <li class="menu-item active">
+        <li class="menu-item">
             <a href="./ListProduct" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
                 <div data-i18n="Tables">List Product</div>
             </a>
         </li>
+        <li class="menu-item">
+            <a href="./warehouse" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-table"></i>
+                <div data-i18n="Tables">Nhập Kho</div>
+            </a>
+        </li>
+
+        <li class="menu-item">
+            <a href="./CreateProduct" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-table"></i>
+                <div data-i18n="Tables">Thêm Sản Phẩm</div>
+
         <li class="menu-item active">
             <a href="./ListOrder" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
@@ -407,6 +419,7 @@
                 <div data-i18n="Documentation">Documentation</div>
             </a>
         </li>
+            </a>
     </ul>
 </aside><button onclick="toggleMenu()">Thu gọn</button>
 <script>

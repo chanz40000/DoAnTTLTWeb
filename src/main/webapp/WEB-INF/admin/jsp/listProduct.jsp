@@ -92,45 +92,55 @@
                   <th>Mã sách</th>
                   <th>Tên sách</th>
                   <th>Thể loại</th>
+                        <th>Giá nhập</th>
+                        <th>Giá bán</th>
+                        <th>Số lượng trong kho</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                    <jsp:useBean id="productDao" class="database.ProductDAO"></jsp:useBean>
+                    <c:forEach var="product" items="${productDao.selectAll()}">
+                      <tr>
+                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${product.productId}</strong></td>
+                        <td>${product.product_name}</td>
+                        <td>${product.category.categoryName}</td>
+                        <td>${product.unitPrice}</td>
+                        <td>${product.price}</td>
+                        <td>${product.quantity}</td>
+                        <td>
+                          <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                              <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" href="./ProductDetail?id=${product.productId}"
+                              ><i class="bx bx-edit-alt me-1"></i> Detail</a
+                              >
+                              <a class="dropdown-item" href="./UserDetail?id=${product.productId}"
+                              ><i class="bx bx-edit-alt me-1"></i> Edit</a
+                              >
+                              <a class="dropdown-item" href="./DeleteProduct?id=${product.productId}"
+                              ><i class="bx bx-trash me-1"></i> Delete</a
+                              >
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </c:forEach>
 
-                  <th>Giá nhập</th>
-                  <th>Giá bán</th>
-                  <th>Số lượng trong kho</th>
-                </tr>
-                </thead>
-                <tbody class="table-border-bottom-0">
-                <jsp:useBean id="productDao" class="database.ProductDAO"></jsp:useBean>
-                <c:forEach var="product" items="${productDao.selectAll()}">
-                  <tr>
-                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${product.productId}</strong></td>
-                    <td>${product.product_name}</td>
-                    <td>${product.category.categoryName}</td>
-                    <td>${product.unitPrice}</td>
-                    <td>${product.price}</td>
-                    <td>${product.quantity}</td>
-                    <td>
-                      <div class="dropdown">
-                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                          <i class="bx bx-dots-vertical-rounded"></i>
-                        </button>
-                        <div class="dropdown-menu">
-                          <a class="dropdown-item" href="./ProductDetail?id=${product.productId}"
-                          ><i class="bx bx-edit-alt me-1"></i> Detail</a
-                          >
-                          <a class="dropdown-item" href="./UserDetail?id=${product.productId}"
-                          ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                          >
-                          <a class="dropdown-item" href="./DeleteProduct?id=${product.productId}"
-                          ><i class="bx bx-trash me-1"></i> Delete</a
-                          >
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </c:forEach>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <!--/ Basic Bootstrap Table -->
 
-                </tbody>
-              </table>
+              <hr class="my-5" />
+
+              <!-- Bootstrap Dark Table -->
+
+              <!--/ Striped Rows -->
+
+              
             </div>
           </div>
           <!--/ Basic Bootstrap Table -->

@@ -1,3 +1,4 @@
+
 package controller.admin;
 
 import database.CategoryDAO;
@@ -71,20 +72,20 @@ public class ChangInf extends HttpServlet {
 //            Product product = productDao.selectById(idProduct);
 ////        }
 
-        ProductDAO productDAO = new ProductDAO();
-//        Product product = productDAO.selectById(idProduct);
-//        product.setProduct_name(name);
-//        product.setAuthor(author);
-//        product.setPublicationYear(Integer.parseInt(publicationYear));
-//        product.setDescription(description);
-//        product.setUnitPrice(Double.parseDouble(unitPrice));
-//        product.setPrice(Double.parseDouble(price));
-//        product.setQuantity(Integer.parseInt(quantity));
-//        product.setImage(image);
-//        product.setPublisher(publisher);
-        Product product = new Product(Integer.parseInt(id), name, description,
-                image, Double.parseDouble(unitPrice), Double.parseDouble(price),
-                Integer.parseInt(quantity), author, Integer.parseInt(publicationYear), publisher, category );
+            ProductDAO productDAO = new ProductDAO();
+            Product product = productDAO.selectById(idProduct);
+            product.setProduct_name(name);
+            product.setAuthor(author);
+            product.setPublicationYear(Integer.parseInt(publicationYear));
+            product.setDescription(description);
+            product.setUnitPrice(Double.parseDouble(unitPrice));
+            product.setPrice(Double.parseDouble(price));
+            product.setQuantity(Integer.parseInt(quantity));
+            product.setImage(image);
+            product.setPublisher(publisher);
+//        Product product = new Product(Integer.parseInt(id), name, description,
+//                image, Double.parseDouble(unitPrice), Double.parseDouble(price),
+//                Integer.parseInt(quantity), author, Integer.parseInt(publicationYear), publisher, category );
 
         int update = productDAO.update(product);
         System.out.println("start 2");

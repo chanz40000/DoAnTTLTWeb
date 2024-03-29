@@ -136,7 +136,7 @@
                 </div>
                 <hr class="my-0" />
                 <div class="card-body">
-                  <form  action="/ChangInf" method="post">
+                  <form  action="ChangInf" method="post">
                     <div class="row">
                       <input name="id" type="hidden" value="${productId}">
                       <div class="mb-3 col-md-6">
@@ -252,10 +252,10 @@
 
 <div class="buy-now">
   <a
-          href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
+          href="Index"
           target="_blank"
           class="btn btn-danger btn-buy-now"
-  >Upgrade to Pro</a
+  >Quay lại trang shopping</a
   >
 </div>
 

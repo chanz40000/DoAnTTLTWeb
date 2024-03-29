@@ -8,9 +8,14 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ImportDetailDAO implements DAOInterface<ImportDetail>{
+    ArrayList<ImportDetail> importdes = new ArrayList<>();
+    public int creatId() {
+        importdes = selectAll();
+        return importdes.size()+1;
+    }
     @Override
     public ArrayList<ImportDetail> selectAll() {
-        ArrayList<ImportDetail> importdes = new ArrayList<>();
+
         try {
             // tao mot connection
             Connection con = JDBCUtil.getConnection();
@@ -90,7 +95,7 @@ public class ImportDetailDAO implements DAOInterface<ImportDetail>{
         try {
             Connection con = JDBCUtil.getConnection();
 
-            String sql = "INSERT INTO importDetail(importDetail_id, import_id,product_id,number_of_warehouses,unit_price,total_price)"
+            String sql = "INSERT INTO importdetails(importDetail_id, import_id,product_id,number_of_warehouses,unit_price,total_price)"
                     + "VALUE(?, ?, ?, ?,?,?)";
 
             PreparedStatement rs = con.prepareStatement(sql);
@@ -104,10 +109,11 @@ public class ImportDetailDAO implements DAOInterface<ImportDetail>{
 
 
             result = rs.executeUpdate();
-
+            System.out.println("insert successfull");
             JDBCUtil.closeConnection(con);
 
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
 

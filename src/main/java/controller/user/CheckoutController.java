@@ -38,7 +38,7 @@ public class CheckoutController extends HttpServlet {
         if (user == null) {
             String url = request.getContextPath() + "/WEB-INF/book/logintwo.jsp";
             RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-            dispatcher.forward(request,response);
+            dispatcher.forward(request, response);
             return; // Dừng xử lý tiếp theo
         }
 
@@ -71,7 +71,7 @@ public class CheckoutController extends HttpServlet {
                 int quantity = cartItem.getQuantity();
                 double price = cartItem.getPrice();
                 double totalPrice = quantity * price;
-                OrderDetail orderDetail = new OrderDetail(orderDetailDAO.creatId()+1,order, product, quantity, totalPrice);
+                OrderDetail orderDetail = new OrderDetail(orderDetailDAO.creatId() + 1, order, product, quantity, totalPrice);
                 int resultOrderDetail = orderDetailDAO.insert(orderDetail);
 
                 List<OrderDetail> orderDetailList = (List<OrderDetail>) session.getAttribute("orderDetails");
@@ -86,17 +86,16 @@ public class CheckoutController extends HttpServlet {
                     break;
                 }
             }
-            if(overallResult > 0){
+            if (overallResult > 0) {
                 // Xóa giỏ hàng sau khi đặt hàng thành công
                 cart.clearCart();
                 // Chuyển hướng đến trang xác nhận đơn hàng
                 String url = request.getContextPath() + "/WEB-INF/book/thankyou.jsp";
                 RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-                dispatcher.forward(request,response);
+                dispatcher.forward(request, response);
                 return; // Dừng xử lý tiếp theo
             }
         }
 
     }
-
 }
