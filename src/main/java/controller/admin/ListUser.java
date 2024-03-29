@@ -9,7 +9,7 @@ import java.io.IOException;
 public class ListUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/admin/jsp/tables-basic.jsp").forward(request,response);
+        request.getRequestDispatcher("/WEB-INF/admin/jsp/listUser.jsp").forward(request,response);
     }
 
     @Override
