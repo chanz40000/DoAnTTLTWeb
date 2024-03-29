@@ -10,6 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Ogani | Template</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -24,8 +27,18 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
+<style>
+    .fa-regular.fa-sun{
+        font-size: 20px;
 
+    }
+    .fa-regular.fa-moon{
+        font-size: 20px;
+
+    }
+</style>
 <body>
+
 <!-- Page Preloder -->
 <div id="preloder">
     <div class="loader"></div>
@@ -500,6 +513,9 @@
 
 <!-- Footer Section Begin -->
 <footer class="footer spad">
+    <button id="toggle-dark-mode">
+        <i class="fa-regular fa-moon" id="icontype"></i>
+    </button>
     <jsp:include page="footer.jsp" />
 </footer>
 <!-- Footer Section End -->
@@ -513,7 +529,34 @@
 <script src="js/mixitup.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
+<script>
+    const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
+    const icondarklight = document.getElementById('icontype');
 
+    // Initially disable Dark Reader
+    DarkReader.disable();
+
+    toggleDarkModeButton.addEventListener("click", () => {
+        if (DarkReader.isEnabled()) {
+            DarkReader.disable();
+            icondarklight.classList.replace("fa-sun", "fa-moon");
+        } else {
+            DarkReader.enable({
+                brightness: 100,
+                contrast: 90,
+                sepia: 10
+            });
+            icondarklight.classList.replace("fa-moon", "fa-sun");
+        }
+    });
+
+    // Set the initial button text and Font Awesome icon
+
+
+    // Enable Dark Reader when the page loads
+
+</script>
 
 
 </body>
