@@ -51,7 +51,7 @@ public class CheckoutController extends HttpServlet {
         java.sql.Date currentTime = new java.sql.Date(System.currentTimeMillis());
         PaymentDAO paymentDAO = new PaymentDAO();
         Payment payment = paymentDAO.selectById(paymentId);
-        Order order = new Order(orderDAO.creatId() + 1, user, cart.calculateTotal(), name, phone, address, payment, "Chờ Xác Nhận", currentTime, note);
+        Order order = new Order(orderDAO.creatId() + 1, user, cart.calculateTotal(), name, phone, address, payment, "Pending", currentTime, note);
 
         // Insert vào CSDL
         order.setNameConsignee(name);

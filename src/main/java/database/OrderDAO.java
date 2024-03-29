@@ -4,6 +4,7 @@ import model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDAO implements DAOInterface<Order>{
     private ArrayList<Order> data = new ArrayList<>();
@@ -31,14 +32,13 @@ public class OrderDAO implements DAOInterface<Order>{
 
                 int idImport = rs.getInt("order_id");
                 int idUser = rs.getInt("user_id");
-                Double totalPrice = rs.getDouble("total_price");
+                double totalPrice = rs.getDouble("total_price");
                 String userConsignee = rs.getString("nameConsignee");
                 String phone = rs.getString("phone");
                 String address = rs.getString("address");
                 int idPayment = rs.getInt("payment_id");
                 String status = rs.getString("status");
                 Date dateO = rs.getDate("booking_date");
-
                 String note = rs.getString("note");
                 User u = new UserDAO().selectById(idUser);
                 Payment pay = new PaymentDAO().selectById(idPayment);
@@ -57,7 +57,48 @@ public class OrderDAO implements DAOInterface<Order>{
         return orders;
 
     }
-
+    public List<Order> selectOrderByStatus(String status){
+        List<Order> orders = new ArrayList<>();
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM orders WHERE status = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, status);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                int idOrder = rs.getInt("order_id");
+                int idUser = rs.getInt("user_id");
+                double totalPrice = rs.getDouble("total_price");
+                String userConsignee = rs.getString("nameConsignee");
+                String phone = rs.getString("phone");
+                String address = rs.getString("address");
+                int idPayment = rs.getInt("payment_id");
+                String statuss = rs.getString("status");
+                Date dateO = rs.getDate("booking_date");
+                String note = rs.getString("note");
+                User u = new UserDAO().selectById(idUser);
+                Payment pay = new PaymentDAO().selectById(idPayment);
+                Order order = new Order(idOrder,u,totalPrice,userConsignee,phone,address,pay,statuss,dateO,note);
+                orders.add(order);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return orders;
+    }
+    public void updateStatusOrder(int orderId, String status){
+        int result = 0;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "UPDATE orders SET status = ? WHERE order_id = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, status);
+            st.setInt(2, orderId);
+            result = st.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     @Override
     public Order selectById(int id) {
         Order result = null;
@@ -74,7 +115,7 @@ public class OrderDAO implements DAOInterface<Order>{
             while (rs.next()) {
                 int idImport = rs.getInt("order_id");
                 int idUser = rs.getInt("user_id");
-                Double totalPrice = rs.getDouble("total_price");
+                double totalPrice = rs.getDouble("total_price");
                 String userConsignee = rs.getString("nameConsignee");
                 String phone = rs.getString("phone");
                 String email = rs.getString("email");
@@ -188,7 +229,6 @@ public class OrderDAO implements DAOInterface<Order>{
                 Connection con = JDBCUtil.getConnection();
 
                 String sql = "UPDATE orders SET user_id=? " +
-
                         ", total_price=? " +
                         ", nameConsignee=? " +
 

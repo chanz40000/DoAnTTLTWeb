@@ -30,6 +30,9 @@ public class Order {
         this.note = note;
     }
 
+    public Order() {
+    }
+
     public int getOrderId() {
         return orderId;
     }

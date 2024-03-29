@@ -101,6 +101,9 @@ public class RegisterForm extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html; charset=UTF-8");
             String username = request.getParameter("usernamere");
             String name = request.getParameter("namere");
             String email = request.getParameter("emailre");

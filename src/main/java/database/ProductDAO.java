@@ -284,7 +284,7 @@ public class ProductDAO implements DAOInterface<Product> {
             try {
                 Connection con = JDBCUtil.getConnection();
 
-                String sql = "UPDATE pizza.products SET  product_name=? " +
+                String sql = "UPDATE products SET  product_name=? " +
                         ", description=? " +
                         ", image=? " +
                         ", unit_price=? " +
@@ -298,17 +298,17 @@ public class ProductDAO implements DAOInterface<Product> {
 
                 PreparedStatement rs = con.prepareStatement(sql);
 
-                rs.setInt(1, product.getProductId());
-                rs.setString(2, product.getProduct_name());
-                rs.setString(3, product.getDescription());
-                rs.setString(4, product.getImage());
-                rs.setDouble(5, product.getUnitPrice());
-                rs.setDouble(6, product.getPrice());
-                rs.setInt(7, product.getQuantity());
-                rs.setString(8, product.getAuthor());
-                rs.setInt(9, product.getPublicationYear());
-                rs.setString(10, product.getPublisher());
-                rs.setInt(11, product.getCategory().getCategoryId());
+                rs.setString(1, product.getProduct_name());
+                rs.setString(2, product.getDescription());
+                rs.setString(3, product.getImage());
+                rs.setDouble(4, product.getUnitPrice());
+                rs.setDouble(5, product.getPrice());
+                rs.setInt(6, product.getQuantity());
+                rs.setString(7, product.getAuthor());
+                rs.setInt(8, product.getPublicationYear());
+                rs.setString(9, product.getPublisher());
+                rs.setInt(10, product.getCategory().getCategoryId());
+                rs.setInt(11, product.getProductId());
 
 
                 result = rs.executeUpdate();
@@ -323,10 +323,10 @@ public class ProductDAO implements DAOInterface<Product> {
 
     public static void main(String[] args) {
         ProductDAO productDAO = new ProductDAO();
-        Product product = productDAO.selectById(2);
-        System.out.println(product.getProduct_name());
+        Product product = new Product(13, "tuoi tre dang gia bao nhieu 22", "The #1 bestseller", "img1.jpg", 700.99, 80.99, 50, "Nguyen Dong Vy", 2018, "NXB Kim Dong", new CategoryDAO().selectById(2));
+        productDAO.update(product);
+        System.out.println("done");
     }
-
     public ArrayList<Product> selectByProductName(String productName) {
 
         ArrayList<Product> products = new ArrayList<>();

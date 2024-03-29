@@ -248,7 +248,7 @@
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
-                        <form action="${pageContext.request.contextPath}/search">
+                        <form action="/search">
                             <div class="hero__search__categories">
                                 All Categories
                                 <span class="arrow_carrot-down"></span>
@@ -274,21 +274,3 @@
 </section>
 <!-- Hero Section End -->
 </nav>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var menuLinks = document.querySelectorAll(".menu-link");
-
-        menuLinks.forEach(function (link) {
-            link.addEventListener("click", function (event) {
-                // Xóa lớp 'active' từ tất cả các liên kết menu
-                menuLinks.forEach(function (menuLink) {
-                    menuLink.classList.remove("active");
-                });
-
-                // Thêm lớp 'active' cho liên kết menu được nhấp vào
-                this.classList.add("active");
-            });
-        });
-    });
-</script>
