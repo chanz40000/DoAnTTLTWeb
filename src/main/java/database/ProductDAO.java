@@ -3,6 +3,7 @@ package database;
 import model.Category;
 import model.Product;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDAO implements DAOInterface<Product> {
+public class ProductDAO extends AbsDAO<Product> {
+
+    public ProductDAO(HttpServletRequest request) {
+        super(request);
+    }
+
+    public ProductDAO(){
+    }
     private ArrayList<Product> data = new ArrayList<>();
     public int creatId() {
         data = selectAll();
@@ -283,7 +291,8 @@ public class ProductDAO implements DAOInterface<Product> {
     public int update(Product product) {
         int result = 0;
         Product oldProduct = this.selectById(product.getProductId());
-
+        this.setValue(this.gson.toJson(product));
+        this.setPreValue(this.gson.toJson(oldProduct));
         if (oldProduct != null) {
 
             try {
@@ -323,13 +332,18 @@ public class ProductDAO implements DAOInterface<Product> {
                 throw new RuntimeException(e);
             }
         }
-
+        super.update(product);
         return result;
     }
 
     public int updateQuantityIncrease(int idProduct, int quantity) {
         int result = 0;
         Product oldProduct = this.selectById(idProduct);
+        this.setPreValue(this.gson.toJson(oldProduct));
+        oldProduct.setQuantity(oldProduct.getQuantity()+quantity);
+        this.setValue(this.gson.toJson(oldProduct));
+
+
         int quantityUpdate = oldProduct.getQuantity()+quantity;
             try {
                 Connection con = JDBCUtil.getConnection();
@@ -350,11 +364,6 @@ public class ProductDAO implements DAOInterface<Product> {
         return result;
     }
 
-    public static void main(String[] args) {
-        ProductDAO productDAO = new ProductDAO();
-
-       productDAO.updateQuantityIncrease(1, 2);
-    }
     public ArrayList<Product> selectByProductName(String productName) {
 
         ArrayList<Product> products = new ArrayList<>();
@@ -400,4 +409,41 @@ public class ProductDAO implements DAOInterface<Product> {
         }
         return products;
     }
+    public int inventoryProduct(int idProduct){
+        //sl ton kho
+        int result =0;
+        //tong sl nhap
+        int totalWarehouse=0;
+
+        int totalExported=0;
+        //tinh tong san pham nhap
+        try{
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT SUM(number_of_warehouses) AS tong_nhap FROM importdetails WHERE product_id=?";
+            PreparedStatement pre = con.prepareStatement(sql);
+            pre.setInt(1, idProduct);
+            ResultSet res = pre.executeQuery();
+            while (res.next()){
+                totalWarehouse = res.getInt("tong_nhap");
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        //tinh tong sl ban
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT SUM(quantity) AS tong_xuat FROM orderdetails WHERE product_id=?";
+            PreparedStatement pre = con.prepareStatement(sql);
+            pre.setInt(1, idProduct);
+            ResultSet res = pre.executeQuery();
+            while (res.next()){
+                totalExported = res.getInt("tong_xuat");
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        result = totalWarehouse-totalExported;
+        return result;
+    }
+
 }

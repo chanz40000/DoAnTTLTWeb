@@ -2,12 +2,22 @@ package database;
 
 import model.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDAO implements DAOInterface<Order>{
+public class OrderDAO extends AbsDAO<Order>{
     private ArrayList<Order> data = new ArrayList<>();
+
+    public OrderDAO(HttpServletRequest request) {
+        super(request);
+    }
+
+    public OrderDAO() {
+
+    }
+
     public int creatId() {
         data = selectAll();
         return data.size();

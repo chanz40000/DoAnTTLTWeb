@@ -43,7 +43,7 @@ public class ChangeInformationProduct extends HttpServlet {
         Category category = new CategoryDAO().selectByName(categoryName);
 
 
-        ProductDAO productDAO = new ProductDAO();
+        ProductDAO productDAO = new ProductDAO(request);
         Product product = new Product(Integer.parseInt(id), name, description,
                 image, Double.parseDouble(unitPrice), Double.parseDouble(price),
                 Integer.parseInt(quantity), author, Integer.parseInt(publicationYear), publisher, category );
