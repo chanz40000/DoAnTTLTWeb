@@ -3,6 +3,7 @@ package database;
 import model.User;
 import util.PasswordEncryption;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -10,8 +11,15 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 
-public class UserDAO implements DAOInterface<User> {
+public class UserDAO extends AbsDAO<User> {
     private ArrayList<User> data = new ArrayList<>();
+
+    public UserDAO(HttpServletRequest request) {
+        super(request);
+    }
+
+    public UserDAO() {
+    }
 
     public int creatId() {
         data = selectAll();
@@ -242,6 +250,7 @@ public class UserDAO implements DAOInterface<User> {
             System.out.println(user);
 
             result = rs.executeUpdate();
+            int x=super.insert(user);
             System.out.println("da them vao");
             JDBCUtil.closeConnection(con);
 
@@ -272,7 +281,7 @@ public class UserDAO implements DAOInterface<User> {
     @Override
     public int delete(User user) {
         int result = 0;
-
+        this.setValue(this.gson.toJson(user));
         try {
             Connection con = JDBCUtil.getConnection();
 
@@ -282,6 +291,8 @@ public class UserDAO implements DAOInterface<User> {
             rs.setInt(1, user.getUserId());
 
             result = rs.executeUpdate();
+
+            int x = super.delete(user);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -304,7 +315,11 @@ public class UserDAO implements DAOInterface<User> {
     @Override
     public int update(User user) {
         int result = 0;
+
         User oldUser = this.selectById(user.getUserId());
+        //Set gia tri cho json
+        this.setValue(this.gson.toJson(user));
+        this.setPreValue(this.gson.toJson(oldUser));
         if (oldUser != null) {
             try {
                 Connection con = JDBCUtil.getConnection();
@@ -327,27 +342,29 @@ public class UserDAO implements DAOInterface<User> {
                 rs.setInt(10, user.getUserId());
 
                 result = rs.executeUpdate();
+                super.update(user);
                 System.out.println("done");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
         return result;
 
     }
 
-    public static void main(String[] args) {
-        UserDAO userDAO = new UserDAO();
-
-
-        User u1 = new User(userDAO.creatId() + 1, "Oppa", "1234", 2, "Tín", null, null, null, "21130565@st.hcmuaf.edu.vn", null);
-
-        userDAO.insert(u1);
-
-        ArrayList<User> userl = userDAO.selectAll();
-        for (User u : userl) {
-            System.out.println(u);
-        }
-    }
+//    public static void main(String[] args) {
+//        UserDAO userDAO = new UserDAO();
+//
+//
+//        User u1 = new User(userDAO.creatId() + 1, "Oppa", "1234", 2, "Tín", null, null, null, "21130565@st.hcmuaf.edu.vn", null);
+//
+//        userDAO.insert(u1);
+//
+//        ArrayList<User> userl = userDAO.selectAll();
+//        for (User u : userl) {
+//            System.out.println(u);
+//        }
+//    }
 }
 

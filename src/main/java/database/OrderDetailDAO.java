@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class OrderDetailDAO implements DAOInterface<OrderDetail>{
+public class OrderDetailDAO extends AbsDAO<OrderDetail>{
     private ArrayList<OrderDetail> data = new ArrayList<>();
     public int creatId() {
         data = selectAll();
@@ -96,6 +96,7 @@ public class OrderDetailDAO implements DAOInterface<OrderDetail>{
     @Override
     public int insert(OrderDetail orderDetail) {
         int result = 0;
+        this.setValue(this.gson.toJson(orderDetail));
         try {
             Connection con = JDBCUtil.getConnection();
 
@@ -114,12 +115,14 @@ public class OrderDetailDAO implements DAOInterface<OrderDetail>{
 
 
             result = rs.executeUpdate();
-
+            int x = super.insert(orderDetail);
             JDBCUtil.closeConnection(con);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+
 
         return result;
 
@@ -150,6 +153,9 @@ public class OrderDetailDAO implements DAOInterface<OrderDetail>{
             rs.setInt(1,orderDetail.getDetailId());
 
             result = rs.executeUpdate();
+
+            this.setValue(this.gson.toJson(orderDetail));
+            int x = super.delete(orderDetail);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -198,6 +204,9 @@ public class OrderDetailDAO implements DAOInterface<OrderDetail>{
 
 
                 result = rs.executeUpdate();
+                this.setValue(this.gson.toJson(orderDetail));
+                this.setPreValue(this.gson.toJson(oldRating));
+                int x = super.update(orderDetail);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
