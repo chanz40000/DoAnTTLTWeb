@@ -9,7 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProductDAO extends AbsDAO<Product> {
 
@@ -214,6 +216,7 @@ public class ProductDAO extends AbsDAO<Product> {
     @Override
     public int insert(Product product) {
         int result = 0;
+        this.setValue(this.gson.toJson(product));
         try {
             Connection con = JDBCUtil.getConnection();
 
@@ -235,7 +238,7 @@ public class ProductDAO extends AbsDAO<Product> {
             rs.setInt(11, product.getCategory().getCategoryId());
 
             result = rs.executeUpdate();
-
+            super.insert(product);
             JDBCUtil.closeConnection(con);
 
         } catch (SQLException e) {
@@ -260,7 +263,7 @@ public class ProductDAO extends AbsDAO<Product> {
     @Override
     public int delete(Product product) {
         int result = 0;
-
+        this.setValue(this.gson.toJson(product));
         try {
             Connection con = JDBCUtil.getConnection();
 
@@ -270,6 +273,7 @@ public class ProductDAO extends AbsDAO<Product> {
             rs.setInt(1, product.getProductId());
 
             result = rs.executeUpdate();
+            super.delete(product);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -327,12 +331,12 @@ public class ProductDAO extends AbsDAO<Product> {
 
 
                 result = rs.executeUpdate();
-                System.out.println("Cap nhat thanh cong");
+                super.update(product);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
-        super.update(product);
+
         return result;
     }
 
@@ -355,6 +359,7 @@ public class ProductDAO extends AbsDAO<Product> {
                 rs.setInt(1, quantityUpdate);
                 rs.setInt(2, idProduct);
                 result = rs.executeUpdate();
+                super.update(oldProduct);
                 System.out.println("Cap nhat thanh cong");
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -445,5 +450,139 @@ public class ProductDAO extends AbsDAO<Product> {
         result = totalWarehouse-totalExported;
         return result;
     }
+//tinh tong so san pham ton kho
+    public Map<Integer, Integer> inventoryProduct2(){
+        Map<Integer, Integer> result = new HashMap<Integer, Integer>();
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT SUM(a.tong_nhap-b.tong_xuat)as tonKho, a.product_id\n" +
+                    "FROM (SELECT SUM(number_of_warehouses) AS tong_nhap, product_id  FROM importdetails GROUP BY product_id) a \n" +
+                    "     JOIN (SELECT SUM(quantity) AS tong_xuat,product_id  FROM orderdetails GROUP BY product_id) b\n" +
+                    "     ON a.product_id = b.product_id\n" +
+                    "     GROUP BY a.product_id ";
+            PreparedStatement pre = con.prepareStatement(sql);
+            ResultSet res = pre.executeQuery();
+            while (res.next()){
+                int quantity = res.getInt("tonKho");
+                int product_id = res.getInt("product_id");
+                result.put(quantity, product_id);
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+//lay danh sach san pham khong ban duoc trong 3 thang gan day ma truoc do da tung ban
+public ArrayList<Product> productCannotBeSold(){
+    ArrayList<Product> result = new ArrayList<>();
+    try {
+        Connection con = JDBCUtil.getConnection();
+        String sql = "SELECT *\n" +
+                "FROM products\n" +
+                "WHERE product_id NOT IN (\n" +
+                "    SELECT a.product_id\n" +
+                "    FROM orderdetails a\n" +
+                "    JOIN orders b ON a.order_id = b.order_id\n" +
+                "    WHERE b.booking_date >= DATE_SUB(NOW(), INTERVAL 3 MONTH)\n" +
+                ")\n" +
+                "AND product_id  IN (\n" +
+                "    SELECT a.product_id\n" +
+                "    FROM orderdetails a\n" +
+                "    JOIN orders b ON a.order_id = b.order_id\n" +
+                "    WHERE b.booking_date < DATE_SUB(NOW(), INTERVAL 3 MONTH)\n" +
+                ");";
+        PreparedStatement pre = con.prepareStatement(sql);
+        ResultSet rs = pre.executeQuery();
+        while (rs.next()){
+            int idProduct = rs.getInt("product_id");
+            String nameProduct = rs.getString("product_name");
+            String description = rs.getString("description");
+            String image = rs.getString("image");
+            double unitPrice = rs.getDouble("unit_price");
+            double price = rs.getDouble("price");
+            int quantity = rs.getInt("quantity");
+            String author = rs.getString("author");
+            int publicationYear = rs.getInt("publication_year");
+            String publisher = rs.getString("publisher");
+            int categoryId = rs.getInt("category_id");
 
+            Category category = new CategoryDAO().selectById(categoryId);
+            Product product = new Product(idProduct,nameProduct,description,image,unitPrice,price,quantity,author,publicationYear,publisher,category);
+
+
+            result.add(product);
+
+        }
+    }catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+    return result;
+}
+
+//san pham can nhap hang
+//SELECT product_id, SUM(quantity_sold) AS quantity_sold, SUM(quantity_imported) AS quantity_imported
+//    FROM (
+//            SELECT p.product_id,
+//            IFNULL(SUM(od.quantity), 0) AS quantity_sold,
+//           0 AS quantity_imported
+//    FROM products p
+//    LEFT JOIN orderdetails od ON p.product_id = od.product_id
+//    LEFT JOIN orders o ON od.order_id = o.order_id
+//    WHERE o.booking_date >= DATE_SUB(NOW(), INTERVAL 3 MONTH)
+//    GROUP BY p.product_id
+//
+//    UNION ALL
+//
+//    SELECT product_id,
+//           0 AS quantity_sold,
+//    IFNULL(SUM(number_of_warehouses), 0) AS quantity_imported
+//    FROM importdetails a
+//    LEFT JOIN imports b ON a.import_id = b.import_id
+//    WHERE b.import_date >= DATE_SUB(NOW(), INTERVAL 3 MONTH)
+//    GROUP BY product_id
+//) AS combined
+//    GROUP BY product_id
+//    HAVING (SUM(quantity_sold) - SUM(quantity_imported)) > 0;
+
+    public ArrayList<Integer> needImport(){
+        ArrayList<Integer> result = new ArrayList<>();
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT product_id, SUM(quantity_sold) AS quantity_sold, SUM(quantity_imported) AS quantity_imported\n" +
+                    "FROM (\n" +
+                    "    SELECT p.product_id, \n" +
+                    "           IFNULL(SUM(od.quantity), 0) AS quantity_sold,\n" +
+                    "           0 AS quantity_imported\n" +
+                    "    FROM products p\n" +
+                    "    LEFT JOIN orderdetails od ON p.product_id = od.product_id\n" +
+                    "    LEFT JOIN orders o ON od.order_id = o.order_id\n" +
+                    "    WHERE o.booking_date >= DATE_SUB(NOW(), INTERVAL 3 MONTH)\n" +
+                    "    GROUP BY p.product_id\n" +
+                    "    \n" +
+                    "    UNION ALL\n" +
+                    "    \n" +
+                    "    SELECT product_id, \n" +
+                    "           0 AS quantity_sold,\n" +
+                    "           IFNULL(SUM(number_of_warehouses), 0) AS quantity_imported\n" +
+                    "    FROM importdetails a\n" +
+                    "    LEFT JOIN imports b ON a.import_id = b.import_id\n" +
+                    "    WHERE b.import_date >= DATE_SUB(NOW(), INTERVAL 3 MONTH)\n" +
+                    "    GROUP BY product_id\n" +
+                    ") AS combined\n" +
+                    "GROUP BY product_id\n" +
+                    "HAVING (SUM(quantity_sold) - SUM(quantity_imported)) > 0;";
+            PreparedStatement pre = con.prepareStatement(sql);
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()){
+                int idProduct = rs.getInt("product_id");
+
+
+                result.add(idProduct);
+
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
 }

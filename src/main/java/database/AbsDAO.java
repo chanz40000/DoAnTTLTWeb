@@ -136,6 +136,9 @@ public class AbsDAO <T> implements DAOInterface<T> {
 
     @Override
     public int delete(T t) {
+        LogDAO logDAO = new LogDAO();
+        Log log = new Log(logDAO.creatId(), "WARNING",LocalDateTime.now(), this.getIpAddress(), null, value, 84);
+        new LogDAO().update(log);
         return 0;
     }
 

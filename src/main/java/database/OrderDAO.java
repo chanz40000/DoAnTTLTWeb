@@ -105,9 +105,16 @@ public class OrderDAO extends AbsDAO<Order>{
             st.setString(1, status);
             st.setInt(2, orderId);
             result = st.executeUpdate();
+            OrderDAO orderDAO = new OrderDAO();
+            Order order = orderDAO.selectById(orderId);
+            this.setPreValue(this.gson.toJson(order));
+            order.setStatus(status);
+            this.setValue("change status: "+ status);
+            int x = super.update(order);
         }catch (Exception e){
             e.printStackTrace();
         }
+
     }
     @Override
     public Order selectById(int id) {
@@ -177,6 +184,8 @@ public class OrderDAO extends AbsDAO<Order>{
             result = rs.executeUpdate();
 
             JDBCUtil.closeConnection(con);
+            this.setPreValue(this.gson.toJson(order));
+            int x = super.insert(order);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -211,6 +220,8 @@ public class OrderDAO extends AbsDAO<Order>{
             rs.setInt(1, order.getOrderId());
 
             result = rs.executeUpdate();
+            this.setPreValue(this.gson.toJson(order));
+            int x = super.delete(order);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -268,10 +279,15 @@ public class OrderDAO extends AbsDAO<Order>{
 
 
                 result = rs.executeUpdate();
+                this.setPreValue(this.gson.toJson(oldRating));
+                this.setValue(this.gson.toJson(order));
+                int x = super.insert(order);
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
+
 
         return result;
     }

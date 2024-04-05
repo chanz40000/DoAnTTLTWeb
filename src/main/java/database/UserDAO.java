@@ -250,6 +250,7 @@ public class UserDAO extends AbsDAO<User> {
             System.out.println(user);
 
             result = rs.executeUpdate();
+            int x=super.insert(user);
             System.out.println("da them vao");
             JDBCUtil.closeConnection(con);
 
@@ -280,7 +281,7 @@ public class UserDAO extends AbsDAO<User> {
     @Override
     public int delete(User user) {
         int result = 0;
-
+        this.setValue(this.gson.toJson(user));
         try {
             Connection con = JDBCUtil.getConnection();
 
@@ -290,6 +291,8 @@ public class UserDAO extends AbsDAO<User> {
             rs.setInt(1, user.getUserId());
 
             result = rs.executeUpdate();
+
+            int x = super.delete(user);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -339,12 +342,13 @@ public class UserDAO extends AbsDAO<User> {
                 rs.setInt(10, user.getUserId());
 
                 result = rs.executeUpdate();
+                super.update(user);
                 System.out.println("done");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        super.update(user);
+
         return result;
 
     }
