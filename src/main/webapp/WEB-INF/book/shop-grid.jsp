@@ -16,7 +16,11 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Css Styles -->
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
@@ -39,6 +43,119 @@
             font-size: 24px; /* Kích thước biểu tượng */
             color: #000; /* Màu của biểu tượng */
         }
+        .product__item__pic.set-bg img{
+            width: 200px;
+            height: 250px;
+            object-fit: cover;
+
+        }
+        .product__item__pic.set-bg{
+            margin-top: -25px;
+        }
+        .col-lg-9.col-md-7 .row{
+            margin-left: 30px;
+        }
+        .col-lg-4.col-md-6.col-sm-6{
+
+        }
+        .product__item{
+            background-color: rgba(245,245,245);
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .product__item__text h6{
+            margin-top: -30px;
+            font-weight: 400;
+            font-size: 13px;
+            color: rgba(39,39,42);
+            word-break: break-word;
+            margin-right: auto;
+        }
+        .product__item__text a{
+            margin-left: 10px;
+        }
+        .product__item__pic__hover {
+            position: absolute;
+            left: 0;
+            bottom: -50px;
+            width: 100%;
+            text-align: center;
+            -webkit-transition: all, 0.5s;
+            -moz-transition: all, 0.5s;
+            -ms-transition: all, 0.5s;
+            -o-transition: all, 0.5s;
+            transition: all, 0.5s;
+        }
+        .product__item__pic__hover:hover{
+         position: absolute;
+            bottom: -100px;
+        }
+        .fa-star{
+            font-size: 10px;
+            color: #e39509;
+        }
+        .Ratestar{
+            list-style-type: none;
+            margin-left: 20px;
+            display: flex;
+            justify-content: flex-start;
+            gap:3px;
+            width: 67px;
+            position: absolute;
+            left:20px;
+            margin-top: -5px;
+
+        }
+        .Ratestar::after{
+
+        }
+        .Productnotsell{
+            /*border-left: 1px solid gray;*/
+           width: 100px;
+            font-size: 12px;
+            color: rgba(39,39,42);
+            white-space: nowrap;
+            margin-top: 5px;
+            margin-left: 1px;
+
+        }
+        .product__item__text h5{
+            padding-top: 25px;
+        }
+        .Stick{
+            border-right: 1px solid gray;
+            height: 15px;
+            margin-top: 5px;
+
+        }
+        button#toggle-dark-mode{
+            background: none;
+            color: inherit;
+            border: none;
+            position: absolute;
+            font: inherit;
+            cursor: pointer;
+            outline: inherit;
+            top: 12px;
+
+
+
+
+
+        }
+        .fa-regular.fa-sun{
+            font-size: 20px;
+            color: #f5f56d;
+
+        }
+        .fa-regular.fa-moon{
+            font-size: 20px;
+
+        }
+
     </style>
 </head>
 
@@ -88,16 +205,15 @@
                     <div class="sidebar__item">
                         <h4>Price</h4>
                         <div class="price-range-wrap">
-                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-                                 data-min="10" data-max="540">
+                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-min="10000" data-max="500000">
                                 <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
                                 <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
                                 <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
                             </div>
                             <div class="range-slider">
                                 <div class="price-input">
-                                    <input type="text" id="minamount">
-                                    <input type="text" id="maxamount">
+                                    <input type="text" id="minamount" name="minamount">
+                                    <input type="text" id="maxamount" name="maxamount">
                                 </div>
                             </div>
                         </div>
@@ -249,7 +365,7 @@
                                         <div class="product__discount__percent">-20%</div>
                                         <ul class="product__item__pic__hover">
                                             <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                            <li><a href="#"><i class="fa-info-circle"></i></a></li>
                                             <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
@@ -379,14 +495,15 @@
                 </div>
 
 
-                <div class="row">
+                <div class="row" id="row">
                     <c:forEach var="p" items="${listProduct}">
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/image/sach_1.jpg">
+                                <div class="product__item__pic set-bg" > <!--data-setbg=""-->
+                                    <img src="img/image/${p.image}">
                                     <ul class="product__item__pic__hover">
                                         <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                        <li><a href="Shopdetails?id=${p.productId}"><i class="fa fa-info-circle"></i></a></li>
                                         <li>
                                             <form class="add-to-cart-form" action="AddToCart" method="post" id="addToCartForm">
                                                 <input type="hidden" name="productId" value="${p.productId}">
@@ -399,6 +516,16 @@
                                 </div>
                                 <div class="product__item__text">
                                     <h6><a href="#">${p.product_name}</a></h6>
+                                    <ul class="Ratestar">
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li class="Stick"></li>
+                                    <li class="Productnotsell">Còn lại 5</li>
+
+                                    </ul>
                                     <h5>${FormatCurrency.formatCurrency(p.price)}</h5>
                                 </div>
                             </div>
@@ -408,13 +535,24 @@
                 </div>
                 <c:set var="page" value="${sessionScope.page}" />
                 <c:set var="num" value="${sessionScope.num}" />
+
                 <div class="product__pagination" style="padding-left: 300px">
-                    <c:forEach begin="1" end="${num}" var="i">
-                        <c:url value="/Shopgrid" var="pageUrl">
-                            <c:param name="page" value="${i}" />
-                        </c:url>
-                        <a href="${pageUrl}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>
-                    </c:forEach>
+
+                    <c:choose>
+                        <c:when test="${not empty param.productName}">
+                            <c:if test="${page eq 1}">
+                                <a href="" class="active">1</a>
+                            </c:if>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach begin="1" end="${num}" var="i">
+                                <c:url value="/Shopgrid" var="pageUrl">
+                                    <c:param name="page" value="${i}" />
+                                </c:url>
+                                <a href="${pageUrl}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>
@@ -502,6 +640,132 @@
 <script src="js/main.js"></script>
 
 
+<script>
+    $(document).ready(function() {
+        // Khi người dùng gõ từ vào ô input
+        $('#productName').on('input', function() {
+            searchByName(this);
+        });
+    });
+
+    function searchByName(param) {
+        var txtSearch = $(param).val(); // Sử dụng jQuery để lấy giá trị của ô input
+        console.log("Đang tìm kiếm theo tên: " + txtSearch); // In ra thông điệp trước khi gửi request
+
+        $.ajax({
+            url: "http://localhost:8080/SearchByAjax", // Sửa đường dẫn thành SearchByAjax
+            type: "GET", // Sửa thành GET để gửi thông tin qua phương thức GET
+            data: {
+                productName: txtSearch
+            },
+            success: function(data) {
+                $('#row').html(data); // Sử dụng jQuery để thay đổi nội dung của phần tử có id là 'row'
+            },
+            error: function(xhr) {
+                // Xử lý lỗi nếu cần
+            }
+        });
+    }
+</script>
+<script>
+    $(document).ready(function() {
+        // Khởi tạo slider giá
+        $(".price-range").slider({
+            range: true,
+            minamount: 10000,
+            maxamount: 500000,
+            values: [10000, 500000],
+            slide: function(event, ui) {
+                var minamount = ui.values[0]; // Lấy giá trị min từ slider
+                var maxamount = ui.values[1]; // Lấy giá trị max từ slider
+                $("#minamount").val(minamount); // Cập nhật giá trị min cho input hidden
+                $("#maxamount").val(maxamount); // Cập nhật giá trị max cho input hidden
+                // Lọc sản phẩm theo giá
+                filterByPrice(minamount, maxamount);
+            }
+        });
+
+        // Hàm lọc sản phẩm theo giá
+        function filterByPrice(minamount, maxamount) {
+            console.log("Lọc sản phẩm theo giá:", minamount, maxamount);
+            // Gọi API để lọc sản phẩm
+            $.ajax({
+                url: "http://localhost:8080/FilterPrice",
+                type: "GET",
+                data: {
+                    minamount: minamount.toString(), // Chuyển đổi min thành chuỗi
+                    maxamount: maxamount.toString() // Chuyển đổi max thành chuỗi
+                },
+                success: function(data) {
+                    // Cập nhật nội dung cho phần tử #row
+                    $('#row').html(data);
+                },
+                error: function(xhr) {
+                    // Xử lý lỗi nếu cần
+                }
+            });
+        }
+
+        // Lấy giá trị ban đầu của slider
+        var minamount = $("#minamount").val();
+        var maxamount = $("#maxamount").val();
+
+        // Lọc sản phẩm theo giá ban đầu
+        filterByPrice(minamount, maxamount);
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $(".add-to-cart-form").on("submit", function (event) {
+            event.preventDefault();
+            var form = $(this);
+            $.ajax({
+                type: "POST",
+                url: form.attr("action"),
+                data: form.serialize(),
+                success: function (data) {
+                    alert("Đã đặt hàng thành công!");
+                    var currentQuantity = parseInt($(".cart-item-count").text(), 10);
+                    var newQuantity = currentQuantity + 1;
+                    $(".cart-item-count").text(newQuantity);
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                    alert("Đã đặt lỗi");
+                }
+            });
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
+
+<script>
+    const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
+    const icondarklight = document.getElementById('icontype');
+
+    // Initially disable Dark Reader
+    DarkReader.disable();
+
+    toggleDarkModeButton.addEventListener("click", () => {
+        if (DarkReader.isEnabled()) {
+            DarkReader.disable();
+            icondarklight.classList.replace("fa-sun", "fa-moon");
+        } else {
+            DarkReader.enable({
+                brightness: 100,
+                contrast: 90,
+                sepia: 10
+            });
+            icondarklight.classList.replace("fa-moon", "fa-sun");
+        }
+    });
+
+    // Set the initial button text and Font Awesome icon
+
+
+    // Enable Dark Reader when the page loads
+
+</script>
 </body>
 
 </html>

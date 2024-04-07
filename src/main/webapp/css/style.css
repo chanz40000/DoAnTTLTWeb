@@ -1539,7 +1539,8 @@ img.rounded-circle {
 }
 
 .product__item:hover .product__item__pic .product__item__pic__hover {
-	bottom: 20px;
+	position: absolute;
+	bottom: -90px;
 }
 
 .product__item__pic {
@@ -1591,6 +1592,7 @@ img.rounded-circle {
 	border: 1px solid #ebebeb;
 	background: #ffffff;
 	display: block;
+	margin-top: -20px;
 	border-radius: 50%;
 	-webkit-transition: all, 0.5s;
 	-moz-transition: all, 0.5s;
@@ -1599,7 +1601,8 @@ img.rounded-circle {
 	transition: all, 0.5s;
 }
 
-.product__item__pic__hover li a i {
+.
+li a i {
 	position: relative;
 	transform: rotate(0);
 	-webkit-transition: all, 0.3s;
@@ -1607,6 +1610,9 @@ img.rounded-circle {
 	-ms-transition: all, 0.3s;
 	-o-transition: all, 0.3s;
 	transition: all, 0.3s;
+}
+.product__item__pic__hover:hover {
+	margin-bottom: 100px; /* Điểm cuối của ul khi hover */
 }
 
 .product__item__text {

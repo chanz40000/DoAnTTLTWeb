@@ -90,10 +90,16 @@ public class CheckoutController extends HttpServlet {
                 // Xóa giỏ hàng sau khi đặt hàng thành công
                 cart.clearCart();
                 // Chuyển hướng đến trang xác nhận đơn hàng
-                String url = request.getContextPath() + "/WEB-INF/book/thankyou.jsp";
-                RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-                dispatcher.forward(request, response);
-                return; // Dừng xử lý tiếp theo
+                if (paymentId == 1) {
+                    request.getRequestDispatcher("/WEB-INF/book/Vnpay.jsp").forward(request, response);
+
+
+                } else {
+                    String url = request.getContextPath() + "/WEB-INF/book/thankyou.jsp";
+                    RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+                    dispatcher.forward(request, response);
+                    return; // Dừng xử lý tiếp theo
+                }
             }
         }
 

@@ -28,7 +28,7 @@ public class PasswordEncryption {
 		return result;
 	}
 	public static void main(String[] args) {
-		System.out.println(toSHA1("trang1312"));
+		System.out.println(toSHA1("1"));
 	}
 
 }

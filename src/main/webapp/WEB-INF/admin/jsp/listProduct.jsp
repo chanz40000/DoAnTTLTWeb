@@ -57,7 +57,96 @@
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="../assetsForAdmin/assets/js/config.js"></script>
 </head>
+<style>
+  #menu-icon{
+    margin-left: 110px;
 
+  }
+  .bg-menu-theme #menu-icon-toggle{
+    background-color: #696cff;
+    border: 7px solid #f5f5f9;
+    position: absolute;
+    top: 28px;
+    left: 230px;
+    border-radius: 50%;
+    z-index: 1;
+    display: block !important;
+  }
+  #menu-icon-toggle i{
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  #menu-icon-toggle::before{
+    color:white;
+    content: "\ecb0";
+
+  }
+  aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close{
+    width: 100px;
+  }
+  aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close .menu-item div, aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close .menu-sub div{
+    opacity: 0;
+
+  }
+  .bg-menu-theme.close .menu-inner > .menu-item.active > .menu-link {
+
+    /*background-color: rgba(105, 108, 255, 0.16) !important;*/
+    /*color: black;*/
+  }
+  .menu-header-text{
+    opacity: 0;
+  }
+  .bg-menu-theme.close .menu-header:before {
+    display: none;
+  }
+  .bg-menu-theme.close .app-brand-text.demo.menu-text.fw-bolder.ms-2{
+    display: none;
+  }
+  .bg-menu-theme.close{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .bg-menu-theme.close #menu-icon-toggle{
+    background-color: #696cff;
+    border: 7px solid #f5f5f9;
+    position: absolute;
+    top: 28px;
+    left: 70px;
+    border-radius: 50%;
+    z-index: 1;
+    display: block !important;
+  }
+  .bg-menu-theme.close #menu-icon-toggle{
+    transform: rotate(180deg);
+
+  }
+  /*.bg-menu-theme.close .align-items-center.bg-navbar-theme{*/
+  /*  padding-left: 100px;*/
+  /*}*/
+  .layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached.align-items-center.bg-navbar-theme.close{
+    width:1212px;
+    margin-left: -125px;
+  }
+
+  .content-wrapper.close{
+    margin-left: -151px;
+    width: 1263px;
+  }
+  /*.container-xxl.flex-grow-1.container-p-y .row.close .card-body{*/
+  /*  !*margin-left: -10px;*!*/
+  /*  !*width: 500px;*!*/
+  /*}*/
+  .fa-regular.fa-sun{
+    font-size: 20px;
+
+  }
+  .fa-regular.fa-moon{
+    font-size: 20px;
+
+  }
+</style>
 <body>
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">

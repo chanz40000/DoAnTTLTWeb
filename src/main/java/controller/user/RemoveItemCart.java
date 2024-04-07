@@ -30,6 +30,7 @@ public class RemoveItemCart extends HttpServlet {
         // Cập nhật session
         request.getSession().setAttribute("cart", cart);
 
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/book/shopping-cart.jsp");
         dispatcher.forward(request, response);
     }

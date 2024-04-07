@@ -41,6 +41,30 @@
         .product-name {
 
         }
+        button#toggle-dark-mode{
+            background: none;
+            color: inherit;
+            border: none;
+            position: absolute;
+            font: inherit;
+            cursor: pointer;
+            outline: inherit;
+            top: 12px;
+
+
+
+
+
+        }
+        .fa-regular.fa-sun{
+            font-size: 20px;
+            color: #f5f56d;
+
+        }
+        .fa-regular.fa-moon{
+            font-size: 20px;
+
+        }
 
 
     </style>
@@ -124,7 +148,7 @@
                             <div class="checkout__order__subtotal">Subtotal <span>${FormatCurrency.formatCurrency(subtotal)}</span></div>
                             <div class="checkout__order__total">Total <span>${FormatCurrency.formatCurrency(total)}</span></div>
                             <div class="checkout__input__checkbox" style="display: flex;">
-                                <label for="payment" style="margin-left: -15px">Phương thức thanh toán</label>
+                                <label style="margin-left: -15px">Phương thức thanh toán</label>
                                 <div style="margin-left: 20px; margin-top: -10px">
                                     <select name="payment" id="payment" title="Select Category">
                                         <c:forEach items="${paymentDAO.selectAll()}" var="c">
@@ -220,7 +244,34 @@
 <script src="js/mixitup.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
+<script>
+    const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
+    const icondarklight = document.getElementById('icontype');
 
+    // Initially disable Dark Reader
+    DarkReader.disable();
+
+    toggleDarkModeButton.addEventListener("click", () => {
+        if (DarkReader.isEnabled()) {
+            DarkReader.disable();
+            icondarklight.classList.replace("fa-sun", "fa-moon");
+        } else {
+            DarkReader.enable({
+                brightness: 100,
+                contrast: 90,
+                sepia: 10
+            });
+            icondarklight.classList.replace("fa-moon", "fa-sun");
+        }
+    });
+
+    // Set the initial button text and Font Awesome icon
+
+
+    // Enable Dark Reader when the page loads
+
+</script>
 
 
 </body>
