@@ -136,8 +136,8 @@ public class ChangeInformation extends HttpServlet {
                 request.setCharacterEncoding("UTF-8");
                 response.setCharacterEncoding("UTF-8");
 
-                String id = request.getParameter("userId");
-                System.out.println("id: "+id);
+                User user =(User) request.getSession().getAttribute("userC");
+                System.out.println("id: "+user.getUserId());
                 String sexual = request.getParameter("gender");
                 System.out.println("gender: "+sexual);
                 String birthday = request.getParameter("birthday");
@@ -146,8 +146,7 @@ public class ChangeInformation extends HttpServlet {
                 java.util.Date date=null;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 
-                UserDAO userDAO = new UserDAO();
-                User user = userDAO.selectById(Integer.parseInt(id));
+                UserDAO userDAO = new UserDAO(request);
 
                 System.out.println(user);
                 ErrorBean eb = new ErrorBean();

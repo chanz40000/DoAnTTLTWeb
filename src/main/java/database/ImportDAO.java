@@ -8,8 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.util.List;
 
-public class ImportDAO implements DAOInterface<Import> {
+public class ImportDAO extends AbsDAO<Import> {
 
     ArrayList<Import> imports = new ArrayList<>();
     public int creatId() {
@@ -109,6 +110,8 @@ public class ImportDAO implements DAOInterface<Import> {
             result = rs.executeUpdate();
             System.out.println("insert successfull");
             JDBCUtil.closeConnection(con);
+            this.setValue(this.gson.toJson(imported));
+            int x = super.insert(imported);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -143,6 +146,10 @@ public class ImportDAO implements DAOInterface<Import> {
             rs.setInt(1, imported.getImportId());
 
             result = rs.executeUpdate();
+
+            this.setValue(this.gson.toJson(imported));
+            int x = super.delete(imported);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -187,11 +194,26 @@ public class ImportDAO implements DAOInterface<Import> {
 
 
                 result = rs.executeUpdate();
+
+                this.setPreValue(this.gson.toJson(oldRating));
+                this.setValue(this.gson.toJson(imported));
+                int x = super.update(imported);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
 
         return result;
+    }
+
+    public static void main(String[] args) {
+        ImportDAO importDAO = new ImportDAO();
+       Import importedItem = importDAO.selectById(Integer.parseInt("1"));
+       System.out.println(importedItem.toString());
+
+       List<ImportDetail> importDetails =  importedItem.getImportDetailList();
+       for(ImportDetail i: importDetails){
+           System.out.println(i.getProduct().getProduct_name());
+       }
     }
 }

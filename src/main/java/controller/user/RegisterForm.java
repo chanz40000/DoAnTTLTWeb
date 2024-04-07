@@ -166,7 +166,10 @@ public class RegisterForm extends HttpServlet {
                 cd.insert(customer);
                 Email.sendEmail(email, "Chuc mung ban da tro thanh khach hang than thiet cua cua hang chung toi!", "Thong bao dang ky tai khoan thanh cong");
                 url = "/WEB-INF/book/logintwo.jsp";
+
+
             }
+
             if (url != null) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher(url);
                 dispatcher.forward(request, response);
