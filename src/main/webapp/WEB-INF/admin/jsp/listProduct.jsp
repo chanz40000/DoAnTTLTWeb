@@ -142,17 +142,8 @@
 
               
             </div>
-          </div>
           <!--/ Basic Bootstrap Table -->
 
-          <hr class="my-5" />
-
-          <!-- Bootstrap Dark Table -->
-
-          <!--/ Striped Rows -->
-
-
-        </div>
         <!-- / Content -->
 
         <!-- Footer -->

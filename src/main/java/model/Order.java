@@ -12,12 +12,13 @@ public class Order {
     private String phone;
     private String address;
     private Payment payment;
-    private String status;
     private Date bookingDate;
     private String note;
+    private double shippingFee;
+    private int status;
     private List<OrderDetail> orderDetailList;
 
-    public Order(int orderId, User user, double totalPrice, String nameConsignee, String phone, String address, Payment payment, String status, Date bookingDate, String note) {
+    public Order(int orderId, User user, double totalPrice, String nameConsignee, String phone, String address, Payment payment, Date bookingDate, String note, double shippingFee, int status) {
         this.orderId = orderId;
         this.user = user;
         this.totalPrice = totalPrice;
@@ -25,12 +26,29 @@ public class Order {
         this.phone = phone;
         this.address = address;
         this.payment = payment;
-        this.status = status;
         this.bookingDate = bookingDate;
         this.note = note;
+        this.shippingFee = shippingFee;
+        this.status = status;
     }
 
     public Order() {
+    }
+
+    public double getShippingFee() {
+        return shippingFee;
+    }
+
+    public void setShippingFee(double shippingFee) {
+        this.shippingFee = shippingFee;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getOrderId() {
@@ -59,10 +77,6 @@ public class Order {
 
     public Payment getPayment() {
         return payment;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public Date getBookingDate() {
@@ -103,10 +117,6 @@ public class Order {
 
     public void setPayment(Payment payment) {
         this.payment = payment;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public void setBookingDate(Date bookingDate) {

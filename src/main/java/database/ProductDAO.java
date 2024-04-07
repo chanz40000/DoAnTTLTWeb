@@ -278,6 +278,24 @@ public class ProductDAO implements DAOInterface<Product> {
         }
         return result;
     }
+    public int updateQuantityOrder(int productId, int newQuantity) {
+        int result = 0;
+        Product oldProduct = this.selectById(productId);
+
+        if (oldProduct != null) {
+            try (Connection connection = JDBCUtil.getConnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement("UPDATE products SET quantity = ? WHERE product_id = ?")) {
+                preparedStatement.setInt(1, newQuantity);
+                preparedStatement.setInt(2, productId);
+                result = preparedStatement.executeUpdate();
+                System.out.println("Cập nhật số lượng thành công");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return result;
+    }
 
     @Override
     public int update(Product product) {
