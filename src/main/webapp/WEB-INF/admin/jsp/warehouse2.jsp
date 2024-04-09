@@ -257,12 +257,17 @@
                   <tbody class="table-border-bottom-0">
 
                   </tbody>
-                  <div class="price-total"><p style="padding-left: 700px; padding-top: 15px; font-weight: bold">Tổng tiền: </p>
-                    <span></span><sup>đ</sup></div>
+
 
 
 
               </table>
+  <div class="price-total"><p style="padding-left: 700px; padding-top: 15px; font-weight: bold">Tổng tiền: <span></span><sup>đ</sup></p>
+    </div>
+  <div class="checkout__input">
+    <label for="note">Ghi chú</label>
+    <input type="text" id="note" name="note" ></input>
+  </div>
   <input type="submit" value="Complete Order" >
 <%--              </form>--%>
             </div>
@@ -332,6 +337,7 @@
   function collectDataFromTable() {
     var data = [];
     var rows = document.querySelectorAll('tbody.table-border-bottom-0 tr');
+    var note = document.getElementById('note').value;
 
     rows.forEach(function(row) {
       var productId = row.querySelector('p[name="productId"]').innerText;
@@ -341,7 +347,7 @@
       var totalPrice = row.querySelector('input[name="totalPrice"]').value;
 
 
-      var item = productId+"-"+ productName + "-" + numberOfWarehouses + "-" + unitPrice + "-" + totalPrice ;
+      var item = productId+"-"+ productName + "-" + numberOfWarehouses + "-" + unitPrice + "-" + totalPrice  + "-" + note;
       data.push(item);
     });
 
@@ -414,22 +420,20 @@ function addTable(productId, productName, unitPrice) {
    // calculateTotal();
 }
 
-function cartTotal() {
+  function cartTotal() {
     var cartItem = document.querySelectorAll("tbody.table-border-bottom-0 tr");
     var totalAll = 0;
 
     cartItem.forEach(function(row) {
-        var numberOfWarehouses = parseFloat(row.querySelector('input[name="numberOfWarehouses"]').value);
-        var unitPrice = parseFloat(row.querySelector('input[name="unitPrice"]').value);
-        var totalPrice = numberOfWarehouses * unitPrice;
-        totalAll += totalPrice;
+      var numberOfWarehouses = parseFloat(row.querySelector('input[name="numberOfWarehouses"]').value);
+      var unitPrice = parseFloat(row.querySelector('input[name="unitPrice"]').value);
+      var totalPrice = numberOfWarehouses * unitPrice;
+      totalAll += totalPrice;
     });
 
     var cartTotalA = document.querySelector(".price-total span");
     cartTotalA.innerHTML = totalAll.toLocaleString('de-DE') + '<sup>đ</sup>';
-    //inputchange();
-
-}
+  }
 
 //-------------------------delete cart-------------------------
 function deleteCart() {

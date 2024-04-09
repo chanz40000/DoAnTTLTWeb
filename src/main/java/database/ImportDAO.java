@@ -41,7 +41,8 @@ public class ImportDAO extends AbsDAO<Import> {
                 String supplier = rs.getString("supplier");
                 String note = rs.getString("note");
                 Date dateI = rs.getDate("import_date");
-                Import im = new Import(idImport,importer,supplier,note,dateI);
+                double totalPrice = rs.getDouble("total_price");
+                Import im = new Import(idImport,importer,supplier,note,dateI, totalPrice);
 
 
                 imports.add(im);
@@ -77,8 +78,27 @@ public class ImportDAO extends AbsDAO<Import> {
                 String supplier = rs.getString("supplier");
                 String note = rs.getString("note");
                 Date dateI = rs.getDate("import_date");
+                double total = rs.getDouble("total_price");
 
-                result = new Import(idImport,importer, supplier,note,dateI);
+
+                result = new Import(idImport,importer, supplier,note,dateI, total);
+            }
+
+            String sql2 ="SELECT * FROM importdetails WHERE import_id=?";
+            PreparedStatement st2 = con.prepareStatement(sql2); // Corrected from sql to sql2
+            st2.setInt(1, id);
+            ResultSet rs2 = st2.executeQuery(); // Corrected from st to st2
+            while (rs2.next()) {
+                int idImportDetail = rs2.getInt("importDetail_id");
+                int idImport = rs2.getInt("import_id");
+                int idProduct = rs2.getInt("product_id");
+                int numbersupplier = rs2.getInt("number_of_warehouses");
+                double price = rs2.getDouble("unit_price");
+                double totalprice = rs2.getDouble("total_price");
+                Product pr = new ProductDAO().selectById(idProduct);
+                ImportDetail importDetail = new ImportDetail(idImportDetail,result,pr,numbersupplier,price,totalprice);
+                result.getImportDetailList().add(importDetail);
+
             }
 
             JDBCUtil.closeConnection(con);
@@ -95,8 +115,8 @@ public class ImportDAO extends AbsDAO<Import> {
         try {
             Connection con = JDBCUtil.getConnection();
 
-            String sql = "INSERT INTO imports(import_id, user_id, supplier,note,import_date)"
-                    + "VALUE(?,?, ?, ?, ?)";
+            String sql = "INSERT INTO imports(import_id, user_id, supplier,note,import_date, total_price)"
+                    + "VALUE(?, ?, ?, ?, ?, ?)";
 
             PreparedStatement rs = con.prepareStatement(sql);
 
@@ -105,13 +125,13 @@ public class ImportDAO extends AbsDAO<Import> {
             rs.setString(3, imported.getSupplier());
             rs.setString(4, imported.getNote());
             rs.setDate(5,  imported.getImportDate());
+            rs.setDouble(6, imported.getTotalPrice());
 
 
             result = rs.executeUpdate();
-            System.out.println("insert successfull");
             JDBCUtil.closeConnection(con);
-            this.setValue(this.gson.toJson(imported));
-            int x = super.insert(imported);
+            this.setValue("import_id: "+imported.getImportId()+"-"+ "user_id: "+ imported.getImporter().getUserId()+"-"+ "supplier: "+ imported.getSupplier()+"-"+"note: "+imported.getNote()+"-import_date: "+imported.getImportDate().toString()+"-total_price: "+imported);
+            super.insert(imported);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -181,15 +201,17 @@ public class ImportDAO extends AbsDAO<Import> {
                         ", note=? " +
 
                         ", import_date=? " +
+                        ", total_price=? " +
                         "WHERE import_id = ?";
 
                 PreparedStatement rs = con.prepareStatement(sql);
 
                 rs.setInt(1, imported.getImporter().getUserId());
-                rs.setInt(2, imported.getImportId());
-                rs.setString(3, imported.getSupplier());
-                rs.setString(4, imported.getNote());
-                rs.setDate(5, (Date) imported.getImportDate());
+                rs.setString(2, imported.getSupplier());
+                rs.setString(3, imported.getNote());
+                rs.setDate(4, (Date) imported.getImportDate());
+                rs.setDouble(5, imported.getTotalPrice());
+                rs.setInt(6, imported.getImportId());
 
 
 
@@ -197,7 +219,7 @@ public class ImportDAO extends AbsDAO<Import> {
 
                 this.setPreValue(this.gson.toJson(oldRating));
                 this.setValue(this.gson.toJson(imported));
-                int x = super.update(imported);
+                super.update(imported);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -205,15 +227,41 @@ public class ImportDAO extends AbsDAO<Import> {
 
         return result;
     }
+    public int updatePrice(int impportId, double price) {
+        int result = 0;
+
+
+            try {
+                Connection con = JDBCUtil.getConnection();
+
+                String sql = "UPDATE imports SET total_price=?"+
+
+                        " WHERE import_id = ?";
+
+                PreparedStatement rs = con.prepareStatement(sql);
+
+                rs.setDouble(1, price);
+                rs.setInt(2, impportId);
+                result = rs.executeUpdate();
+           System.out.println("đoi gia thanh cong!");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        return result;
+    }
 
     public static void main(String[] args) {
         ImportDAO importDAO = new ImportDAO();
-       Import importedItem = importDAO.selectById(Integer.parseInt("1"));
-       System.out.println(importedItem.toString());
+//       Import importedItem = importDAO.selectById(Integer.parseInt("1"));
+//       System.out.println(importedItem.toString());
+//
+//       List<ImportDetail> importDetails =  importedItem.getImportDetailList();
+//       int x = importDetails.size();
+//       System.out.println(x);
+//       for(ImportDetail i: importDetails){
+//           System.out.println(i.getProduct().getProduct_name());
+        System.out.println(importDAO.creatId());
 
-       List<ImportDetail> importDetails =  importedItem.getImportDetailList();
-       for(ImportDetail i: importDetails){
-           System.out.println(i.getProduct().getProduct_name());
-       }
     }
 }

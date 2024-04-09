@@ -158,7 +158,7 @@ public class AbsDAO <T> implements DAOInterface<T> {
     @Override
     public int update(T t) {
         LogDAO logDAO = new LogDAO();
-        Log log = new Log(logDAO.creatId(), "INFO", LocalDateTime.now() , this.getIpAddress(), preValue, value, this.getCountryCode(request));
+        Log log = new Log(logDAO.creatId(), "INFO", LocalDateTime.now() , this.getIpAddress(), preValue, value, 84);
         new LogDAO().update(log);
         return 0;
     }
