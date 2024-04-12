@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ImportDetailDAO extends AbsDAO<ImportDetail>{
     ArrayList<ImportDetail> importdes = new ArrayList<>();
     public int creatId() {
-        importdes = selectAll();
+        selectAll();
         return importdes.size()+1;
     }
     @Override
@@ -206,5 +206,8 @@ public class ImportDetailDAO extends AbsDAO<ImportDetail>{
         }
 
         return result;
+    }
+
+    public static void main(String[] args) {System.out.println(new ImportDetailDAO().creatId());
     }
 }

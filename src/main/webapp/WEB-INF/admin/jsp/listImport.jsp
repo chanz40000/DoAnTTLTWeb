@@ -7,14 +7,6 @@
 <!DOCTYPE html>
 
 
-<html
-        lang="en"
-        class="light-style layout-menu-fixed"
-        dir="ltr"
-        data-theme="theme-default"
-        data-assets-path="../assets/"
-        data-template="vertical-menu-template-free"
->
 <head>
   <meta charset="utf-8" />
   <meta
@@ -60,6 +52,8 @@
 
 <body>
 <!-- Layout wrapper -->
+<body>
+<!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
   <div class="layout-container">
     <!-- Menu -->
@@ -93,50 +87,41 @@
                   <th>Người nhập</th>
                   <th>Nhà cung cấp</th>
                   <th>Ngày nhập</th>
-                      </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0">
-                    <jsp:useBean id="importDAO" class="database.ImportDAO"></jsp:useBean>
-                    <c:forEach var="importItem" items="${importDAO.selectAll()}">
-                      <tr>
-                        <td>${importItem.importId}</td>
-                        <td>${importItem.importer.username}</td>
-                        <td>${importItem.supplier}</td>
-                        <td>${importItem.importDate.toString()}</td>
-                        <td>
-                          <div class="dropdown">
-                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                              <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu">
-                              <a class="dropdown-item" href="./ImportDetail?id=${importItem.importId}"
-                              ><i class="bx bx-edit-alt me-1"></i> Detail</a
-                              >
-                              <a class="dropdown-item" href="./UserDetail?id=${importItem.importId}"
-                              ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                              >
-                              <a class="dropdown-item" href="./DeleteProduct?id=${importItem.importId}"
-                              ><i class="bx bx-trash me-1"></i> Delete</a
-                              >
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </c:forEach>
+                  <th>Tổng tiền</th>
+                </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                <jsp:useBean id="importDAO" class="database.ImportDAO"></jsp:useBean>
+                <c:forEach var="importItem" items="${importDAO.selectAll()}">
+                  <tr>
+                    <td>${importItem.importId}</td>
+                    <td>${importItem.importer.username}</td>
+                    <td>${importItem.supplier}</td>
+                    <td>${importItem.importDate.toString()}</td>
+                    <td>${importItem.totalPrice}</td>
+                    <td>
+                      <div class="dropdown">
+                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                          <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item" href="./ImportDetail?id=${importItem.importId}"
+                          ><i class="bx bx-edit-alt me-1"></i> Detail</a
+                          >
+                          <a class="dropdown-item" href="./ChangeImport?id=${importItem.importId}"
+                          ><i class="bx bx-edit-alt me-1"></i> Edit</a
+                          >
+                          <a class="dropdown-item" href="./DeleteProduct?id=${importItem.importId}"
+                          ><i class="bx bx-trash me-1"></i> Delete</a
+                          >
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </c:forEach>
 
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              <!--/ Basic Bootstrap Table -->
-
-              <hr class="my-5" />
-
-              <!-- Bootstrap Dark Table -->
-
-              <!--/ Striped Rows -->
-
-              
+                </tbody>
+              </table>
             </div>
           </div>
           <!--/ Basic Bootstrap Table -->
@@ -198,10 +183,10 @@
 
 <div class="buy-now">
   <a
-          href="https://themeselection.com/products/sneat-bootstrap-html-admin-template/"
+          href="Index"
           target="_blank"
           class="btn btn-danger btn-buy-now"
-  >Upgrade to Pro</a
+  >Quay lại trang shopping</a
   >
 </div>
 
@@ -225,4 +210,3 @@
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
-</html>

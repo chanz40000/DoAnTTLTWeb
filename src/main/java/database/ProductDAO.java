@@ -465,7 +465,7 @@ public class ProductDAO extends AbsDAO<Product> {
             while (res.next()){
                 int quantity = res.getInt("tonKho");
                 int product_id = res.getInt("product_id");
-                result.put(quantity, product_id);
+                result.put(product_id, quantity);
             }
         }catch (SQLException e) {
             throw new RuntimeException(e);
@@ -477,20 +477,15 @@ public ArrayList<Product> productCannotBeSold(){
     ArrayList<Product> result = new ArrayList<>();
     try {
         Connection con = JDBCUtil.getConnection();
-        String sql = "SELECT *\n" +
-                "FROM products\n" +
-                "WHERE product_id NOT IN (\n" +
-                "    SELECT a.product_id\n" +
-                "    FROM orderdetails a\n" +
-                "    JOIN orders b ON a.order_id = b.order_id\n" +
-                "    WHERE b.booking_date >= DATE_SUB(NOW(), INTERVAL 3 MONTH)\n" +
-                ")\n" +
-                "AND product_id  IN (\n" +
-                "    SELECT a.product_id\n" +
-                "    FROM orderdetails a\n" +
-                "    JOIN orders b ON a.order_id = b.order_id\n" +
-                "    WHERE b.booking_date < DATE_SUB(NOW(), INTERVAL 3 MONTH)\n" +
-                ");";
+        String sql ="SELECT * FROM products \n" +
+                " WHERE product_id NOT IN ( \n" +
+                "  SELECT a.product_id \n" +
+                " FROM orderdetails a \n" +
+                " JOIN orders b ON a.order_id = b.order_id \n" +
+                " WHERE b.booking_date >= DATE_SUB(NOW(), INTERVAL 3 MONTH) \n" +
+                " AND product_id  IN (  SELECT a.product_id \n" +
+                " FROM orderdetails a   JOIN orders b ON a.order_id = b.order_id \n" +
+                "WHERE b.booking_date < DATE_SUB(NOW(), INTERVAL 3 MONTH)));";
         PreparedStatement pre = con.prepareStatement(sql);
         ResultSet rs = pre.executeQuery();
         while (rs.next()){
@@ -584,5 +579,13 @@ public ArrayList<Product> productCannotBeSold(){
             throw new RuntimeException(e);
         }
         return result;
+    }
+
+    public static void main(String[] args) {
+        ArrayList<Integer> list;
+        list = new ProductDAO().needImport();
+        for (Integer p:list){
+            System.out.println(p);
+        }
     }
 }

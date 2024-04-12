@@ -53,7 +53,8 @@ public class LogDAO implements DAOInterface<Log>{
 
                 int id = rs.getInt("idlog");
                 String level = rs.getString("level");
-                LocalDateTime createAt = rs.getTimestamp("time").toLocalDateTime();
+                Timestamp timestamp = rs.getTimestamp("time");
+                LocalDateTime createAt = (timestamp != null) ? timestamp.toLocalDateTime() : null;
                 String address = rs.getString("address");
                 String preValue = rs.getString("preValue");
                 String value = rs.getString("value");
@@ -97,7 +98,7 @@ public class LogDAO implements DAOInterface<Log>{
             Connection con = JDBCUtil.getConnection();
 
             String sql = "INSERT INTO log(idlog, time, level, address, preValue, value, national)"
-                    + "VALUE(?, ?, ?, ?, ?, ?)";
+                    + "VALUE(?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement rs = con.prepareStatement(sql);
 

@@ -112,7 +112,7 @@
                           <p>Người nhập: ${importedItem.importer.username}</p>
                         <p>Ngày nhập: ${importedItem.importDate.toString()}</p>
                         <p>Nhà cung cấp: ${importedItem.supplier}</p>
-                        <p>Ghi chú đơn hàng: ${importedItem.note}</p>
+                          <input type="text" id="note" name="note" value="${importedItem.note}">
                         </div>
                       </div>
                     </div>
@@ -137,8 +137,8 @@
                             <tr>
                               <td>${importDetail.product.productId}</td>
                               <td>${importDetail.product.product_name}</td>
-                              <td>${importDetail.numberOfWarehouses}</td>
-                              <td >${importDetail.unitPrice}</td>
+                              <td> <input type="number" id="numberOfWarehouses" name="numberOfWarehouses" value="${importDetail.numberOfWarehouses}"></td>
+                              <td ><input type="number" id="unitPrice" name="unitPrice" value="${importDetail.unitPrice}"></td>
                             </tr>
                           </c:forEach>
 

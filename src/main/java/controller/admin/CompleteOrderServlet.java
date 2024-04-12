@@ -40,7 +40,6 @@ public class CompleteOrderServlet extends HttpServlet {
         String line;
         while ((line = reader.readLine()) != null) {
             sb.append(line);
-            System.out.println(line+"  : line");
         }
         reader.close();
 
@@ -57,11 +56,21 @@ public class CompleteOrderServlet extends HttpServlet {
 
         long millis=System.currentTimeMillis();
         java.sql.Date date=new java.sql.Date(millis);
-        Import importClass= new Import(importDAO.creatId(), user, "ncc1", "khong co gi", date );
+        int import_id = importDAO.creatId();
 
+        String notes = importDetails[0];
+        String decodedPart = URLDecoder.decode(notes, "UTF-8");
+        String[]dataDetail2 = decodedPart.split("-");
+        String note = dataDetail2[5];
+
+        Import importClass= new Import(import_id, user, "ncc1", note, date );
         importDAO.insert(importClass);
+
+
+        System.out.println("action");
+        double total = 0;
         for (String part : importDetails) {
-            String decodedPart = URLDecoder.decode(part, "UTF-8");
+             decodedPart = URLDecoder.decode(part, "UTF-8");
 
             System.out.println(decodedPart);
             String[]dataDetail = decodedPart.split("-");
@@ -69,19 +78,28 @@ public class CompleteOrderServlet extends HttpServlet {
                 int idProduct = Integer.parseInt(dataDetail[0]);
                 String nameProduct = dataDetail[1];
                 int quantity = Integer.parseInt(dataDetail[2]);
-//                if(dataDetail[3].endsWith("."))dataDetail[3]+="0";
 
                 double unitPrice = Double.parseDouble(dataDetail[3]);
 
+
+            double totalPrice = quantity*unitPrice;
+            System.out.println("unitPrice"+unitPrice);
+            System.out.println("quantity"+quantity);
+            total+=totalPrice;
+            System.out.println("total: "+total);
             ImportDetail item = new ImportDetail(importDetailDAO.creatId(), importClass,
                     productDAO.selectById(idProduct),quantity , unitPrice, quantity*unitPrice);
 
             importDetailDAO.insert(item);
+
             productDAO.updateQuantityIncrease(idProduct, quantity);
-            importClass.getImportDetailList().add(item);
+
         }
+        System.out.println(1);
+        importDAO.updatePrice(import_id, total);
+        System.out.println(2);
         // Lưu trữ và xử lý dữ liệu ở đây
-        response.getWriter().write("Data received successfully");
+
     }
 
 }

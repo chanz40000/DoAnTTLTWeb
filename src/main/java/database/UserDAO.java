@@ -78,7 +78,6 @@ public class UserDAO extends AbsDAO<User> {
             Connection con = JDBCUtil.getConnection();
 
             String sql = "SELECT * FROM book.users WHERE user_id = ?";
-            System.out.println(sql);
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
@@ -94,7 +93,6 @@ public class UserDAO extends AbsDAO<User> {
                 String email = rs.getString("email");
                 String avatar = rs.getString("avatar");
                 result = new User(id1, username, password, role_id, name, birthday, gt, phoneNumber, email, avatar);
-                System.out.println("username: "+username);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
@@ -136,7 +134,6 @@ public class UserDAO extends AbsDAO<User> {
             Connection con = JDBCUtil.getConnection();
 
             String sql = "SELECT * FROM users WHERE username = ? and password=? ";
-            System.out.println(sql);
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, username);
             st.setString(2, password);
@@ -153,7 +150,6 @@ public class UserDAO extends AbsDAO<User> {
                 String email = rs.getString("email");
                 String avatar = rs.getString("avatar");
                 result = new User(id1, usernames, passwords, role_id, name, birthday, gt, phoneNumber, email, avatar);
-                System.out.println("nguoi dung: " + result);
 
             }
             JDBCUtil.closeConnection(con);
@@ -195,7 +191,6 @@ public class UserDAO extends AbsDAO<User> {
             Connection con = JDBCUtil.getConnection();
 
             String sql = "SELECT * FROM users WHERE email = ?";
-            System.out.println(sql);
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, email);
             ResultSet rs = st.executeQuery();
@@ -231,7 +226,6 @@ public class UserDAO extends AbsDAO<User> {
 
             String sql = "INSERT INTO book.users(user_id, username, password,role_id,name, birthday, sexual, phoneNumber, email, avatar)"
                     + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            System.out.println(sql);
             PreparedStatement rs = con.prepareStatement(sql);
 
             rs.setInt(1, user.getUserId());
@@ -247,11 +241,9 @@ public class UserDAO extends AbsDAO<User> {
             rs.setString(8, user.getPhone());
             rs.setString(9, user.getEmail());
             rs.setString(10, user.getAvatar());
-            System.out.println(user);
 
             result = rs.executeUpdate();
             int x=super.insert(user);
-            System.out.println("da them vao");
             JDBCUtil.closeConnection(con);
 
         } catch (Exception e) {
@@ -343,7 +335,6 @@ public class UserDAO extends AbsDAO<User> {
 
                 result = rs.executeUpdate();
                 super.update(user);
-                System.out.println("done");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -352,19 +343,5 @@ public class UserDAO extends AbsDAO<User> {
         return result;
 
     }
-
-//    public static void main(String[] args) {
-//        UserDAO userDAO = new UserDAO();
-//
-//
-//        User u1 = new User(userDAO.creatId() + 1, "Oppa", "1234", 2, "Tín", null, null, null, "21130565@st.hcmuaf.edu.vn", null);
-//
-//        userDAO.insert(u1);
-//
-//        ArrayList<User> userl = userDAO.selectAll();
-//        for (User u : userl) {
-//            System.out.println(u);
-//        }
-//    }
 }
 
