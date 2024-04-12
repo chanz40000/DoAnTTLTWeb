@@ -27,7 +27,8 @@ public class ChangePassword extends HttpServlet {
 //        newPassword = PasswordEncryption.toSHA1(newPassword);
 //        UserDAO customerDAO = new UserDAO();
 //        User customer = customerDAO.selectByUsernamePassword(username, password);
-//        System.out.println(customer);
+//        System.out.println(cus:wq
+//        tomer);
 //        String url = "";
 //        if (customer != null) {
 //            customer.setPassword(newPassword);

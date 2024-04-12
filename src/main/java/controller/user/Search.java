@@ -56,12 +56,14 @@ public class Search extends HttpServlet {
 		ArrayList<Product> listProductSearchByName = productDAO.selectByProductName(productName);
 		System.out.println(listProductSearchByName.size()+"kich thuoc");
 
-		session.setAttribute("listProductSearchByName", listProductSearchByName);
+		session.setAttribute("listProduct", listProductSearchByName);
 
 		session.setAttribute("searchKeyword", productName);
 		// lay toan bo danh sach khi khong tim thay ket qua
-		ArrayList<Product> products = productDAO.selectAll();
+//
 
+
+		ArrayList<Product> products = productDAO.selectAll();
 		int page, numpage = 6;
 		int size = products.size();
 		int num = (size % numpage == 0) ? (size / numpage) : ((size / numpage) + 1);
@@ -76,14 +78,34 @@ public class Search extends HttpServlet {
 		int start = (page - 1) * numpage;
 		int end = Math.min(page * numpage, size);
 		List<Product> list = productDAO.getListByPage(products, start, end);
+		int pageS, numpageS = 1;
+		int sizeS = listProductSearchByName.size();
+		int numS = (sizeS % numpageS == 0) ? (sizeS / numpageS) : ((sizeS / numpageS) + 1);
+		String xpageS = request.getParameter("pageS");
+
+		if (xpageS == null || xpageS.isEmpty()) {
+			pageS = 1;
+		} else {
+			pageS = Integer.parseInt(xpageS);
+		}
+
+		int startS = (pageS - 1) * numpageS;
+		int endS = Math.min(pageS * numpageS, sizeS);
+		List<Product> listS = productDAO.getListByPage(listProductSearchByName, startS, endS);
 
 		session.setAttribute("listProduct", list);
+
 		session.setAttribute("page", page);
 		session.setAttribute("num", num);
+		session.setAttribute("listProduct", listProductSearchByName);
+		session.setAttribute("pageS", pageS);
+		session.setAttribute("numS", numS);
 
 		// chuyen huong trang
 
-		request.getRequestDispatcher("/WEB-INF/book/searchResultPage.jsp").forward(request,response);
+		String url = request.getContextPath() + "/WEB-INF/book/shop-grid.jsp";
+		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+		dispatcher.forward(request, response);
 	}
 
 	@Override

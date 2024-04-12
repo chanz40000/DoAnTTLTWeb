@@ -45,7 +45,32 @@
         }
     </style>
 </head>
+<style>
+    button#toggle-dark-mode{
+        background: none;
+        color: inherit;
+        border: none;
+        position: absolute;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+        top: 12px;
 
+
+
+
+
+    }
+    .fa-regular.fa-sun{
+        font-size: 20px;
+        color: #f5f56d;
+
+    }
+    .fa-regular.fa-moon{
+        font-size: 20px;
+
+    }
+</style>
 <body>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -265,7 +290,37 @@
 <script src="js/mixitup.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<<<<<<< HEAD
+<script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
+
+<script>
+    const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
+    const icondarklight = document.getElementById('icontype');
+
+    // Initially disable Dark Reader
+    DarkReader.disable();
+
+    toggleDarkModeButton.addEventListener("click", () => {
+        if (DarkReader.isEnabled()) {
+            DarkReader.disable();
+            icondarklight.classList.replace("fa-sun", "fa-moon");
+        } else {
+            DarkReader.enable({
+                brightness: 100,
+                contrast: 90,
+                sepia: 10
+            });
+            icondarklight.classList.replace("fa-moon", "fa-sun");
+        }
+    });
+
+    // Set the initial button text and Font Awesome icon
+
+
+    // Enable Dark Reader when the page loads
+
+// =======
+<script srgitc="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
         $('#checkout-btn').click(function(e){
@@ -279,6 +334,7 @@
             }
         });
     });
+// >>>>>>> main
 </script>
 
 

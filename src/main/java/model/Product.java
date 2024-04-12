@@ -151,4 +151,24 @@ public class Product {
     public void setImportsList(List<Import> importList) {
         this.importList = importList;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", product_name='" + product_name + '\'' +
+                ", description='" + description + '\'' +
+                ", image='" + image + '\'' +
+                ", unitPrice=" + unitPrice +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                ", author='" + author + '\'' +
+                ", publicationYear=" + publicationYear +
+                ", publisher='" + publisher + '\'' +
+                ", category=" + category +
+                ", importList=" + importList +
+                ", commentList=" + commentList +
+                ", ratingList=" + ratingList +
+                '}';
+    }
 }

@@ -36,6 +36,9 @@
           href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
           rel="stylesheet"
   />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Icons. Uncomment required icon fonts -->
   <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/fonts/boxicons.css" />
@@ -57,7 +60,107 @@
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="../assetsForAdmin/assets/js/config.js"></script>
 </head>
+<style>
+  #menu-icon{
+    margin-left: 110px;
 
+  }
+  .bg-menu-theme #menu-icon-toggle{
+    background-color: #696cff;
+    border: 7px solid #f5f5f9;
+    position: absolute;
+    top: 28px;
+    left: 230px;
+    border-radius: 50%;
+    z-index: 1;
+    display: block !important;
+  }
+  #menu-icon-toggle i{
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  #menu-icon-toggle::before{
+    color:white;
+    content: "\ecb0";
+
+  }
+  aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close{
+    width: 100px;
+  }
+  aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close .menu-item div, aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close .menu-sub div{
+    opacity: 0;
+
+  }
+  .bg-menu-theme.close .menu-inner > .menu-item.active > .menu-link {
+
+    /*background-color: rgba(105, 108, 255, 0.16) !important;*/
+    /*color: black;*/
+  }
+  .menu-header-text{
+    opacity: 0;
+  }
+  .bg-menu-theme.close .menu-header:before {
+    display: none;
+  }
+  .bg-menu-theme.close .app-brand-text.demo.menu-text.fw-bolder.ms-2{
+    display: none;
+  }
+  .bg-menu-theme.close{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .bg-menu-theme.close #menu-icon-toggle{
+    background-color: #696cff;
+    border: 7px solid #f5f5f9;
+    position: absolute;
+    top: 28px;
+    left: 70px;
+    border-radius: 50%;
+    z-index: 1;
+    display: block !important;
+  }
+  .bg-menu-theme.close #menu-icon-toggle{
+    transform: rotate(180deg);
+
+  }
+  /*.bg-menu-theme.close .align-items-center.bg-navbar-theme{*/
+  /*  padding-left: 100px;*/
+  /*}*/
+  .layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached.align-items-center.bg-navbar-theme.close{
+    width:1212px;
+    margin-left: -125px;
+  }
+
+  .content-wrapper.close{
+    margin-left: -151px;
+    width: 1263px;
+  }
+
+  /*.container-xxl.flex-grow-1.container-p-y .row.close .card-body{*/
+  /*  !*margin-left: -10px;*!*/
+  /*  !*width: 500px;*!*/
+  /*}*/
+  .fa-regular.fa-sun{
+    font-size: 20px;
+
+  }
+  .fa-regular.fa-moon{
+    font-size: 20px;
+
+  }
+  .table-responsive.text-nowrap{
+      width: 1100px;
+  }
+  #cardresp{
+      width: 1100px;
+  }
+  #layout-navbar{
+      width: 1050px;
+
+  }
+</style>
 <body>
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
@@ -76,17 +179,17 @@
       <!-- / Navbar -->
 
       <!-- Content wrapper -->
-      <div class="content-wrapper">
+      <div class="content-wrapper" id="content-wrapper">
         <!-- Content -->
 
-        <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="container-xxl flex-grow-1 container-p-y" id="content-big-section">
           <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> List Product</h4>
 
           <!-- Basic Bootstrap Table -->
-          <div class="card">
+          <div class="card" id="cardresp">
             <h5 class="card-header">List Product</h5>
             <div class="table-responsive text-nowrap">
-              <table class="table">
+              <table class="table" id="tabledata">
                 <thead>
                 <tr>
                   <th>Mã sách</th>
@@ -131,53 +234,69 @@
 
                     </tbody>
                   </table>
+<<<<<<< HEAD
+
+            </div>
+              </div>
+                <button onclick="exportTableToExcel('tabledata', 'category_data')">Export Table Data To Excel File</button>
+              <!--/ Basic Bootstrap Table -->
+
+              <hr class="my-5" />
+
+              <!-- Bootstrap Dark Table -->
+
+              <!--/ Striped Rows -->
+
+              
+=======
+>>>>>>> main
             </div>
           <!--/ Basic Bootstrap Table -->
 
         <!-- / Content -->
 
         <!-- Footer -->
-        <footer class="content-footer footer bg-footer-theme">
+      <footer class="content-footer footer bg-footer-theme">
           <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-            <div class="mb-2 mb-md-0">
-              ©
-              <script>
-                document.write(new Date().getFullYear());
-              </script>
-              , made with ❤️ by
-              <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
-            </div>
-            <div>
-              <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
-              <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+              <div class="mb-2 mb-md-0">
+                  ©
+                  <script>
+                      document.write(new Date().getFullYear());
+                  </script>
+                  , made with ❤️ by
+                  <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
+              </div>
+              <div>
+                  <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+                  <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
 
-              <a
-                      href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                      target="_blank"
-                      class="footer-link me-4"
-              >Documentation</a
-              >
+                  <a
+                          href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
+                          target="_blank"
+                          class="footer-link me-4"
+                  >Documentation</a
+                  >
 
-              <a
-                      href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                      target="_blank"
-                      class="footer-link me-4"
-              >Support</a
-              >
-            </div>
+                  <a
+                          href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
+                          target="_blank"
+                          class="footer-link me-4"
+                  >Support</a
+                  >
+              </div>
           </div>
-        </footer>
-        <!-- / Footer -->
+      </footer>
+      <!-- / Footer -->
 
-        <div class="content-backdrop fade"></div>
-      </div>
-      <!-- Content wrapper -->
-    </div>
-    <!-- / Layout page -->
+      <div class="content-backdrop fade"></div>
   </div>
+    <!-- Content wrapper -->
+</div>
+<!-- / Layout page -->
+</div>
 
-  <!-- Overlay -->
-  <div class="layout-overlay layout-menu-toggle"></div>
+<!-- Overlay -->
+<div class="layout-overlay layout-menu-toggle"></div>
 </div>
 <!-- / Layout wrapper -->
 
@@ -209,4 +328,77 @@
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var toggle = document.getElementById("menu-icon-toggle");
+        var sidebar = document.getElementById("layout-menu");
+        var searchbar = document.getElementById("layout-navbar");
+        var contentnew = document.getElementById("content-wrapper");
+        // bigcontent = document.getElementById('content-big-section');
+
+        toggle.addEventListener("click", function () {
+            sidebar.classList.toggle("close");
+            searchbar.classList.toggle("close");
+            contentnew.classList.toggle("close");
+            // bigcontent.classList.toggle("close");
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
+<script>
+    const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
+    const icondarklight = document.getElementById('icontype');
+
+    // Initially disable Dark Reader
+    DarkReader.disable();
+
+    toggleDarkModeButton.addEventListener("click", () => {
+        if (DarkReader.isEnabled()) {
+            DarkReader.disable();
+            icondarklight.classList.replace("fa-sun", "fa-moon");
+        } else {
+            DarkReader.enable({
+                brightness: 100,
+                contrast: 90,
+                sepia: 10
+            });
+            icondarklight.classList.replace("fa-moon", "fa-sun");
+        }
+    });
+
+    // Set the initial button text and Font Awesome icon
+
+
+    // Enable Dark Reader when the page loads
+    function exportTableToExcel(tableID, filename = ''){
+        var downloadLink;
+        var dataType = 'application/vnd.ms-excel';
+        var tableSelect = document.getElementById(tableID);
+        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+        // Specify file name
+        filename = filename?filename+'.xls':'excel_data.xls';
+
+        // Create download link element
+        downloadLink = document.createElement("a");
+
+        document.body.appendChild(downloadLink);
+
+        if(navigator.msSaveOrOpenBlob){
+            var blob = new Blob(['\ufeff', tableHTML], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob( blob, filename);
+        }else{
+            // Create a link to the file
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+            // Setting the file name
+            downloadLink.download = filename;
+
+            //triggering the function
+            downloadLink.click();
+        }
+    }
+</script>
 </body>
