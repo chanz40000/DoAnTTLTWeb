@@ -26,11 +26,10 @@
                 <div class="heading mb-3">
                     <h4>Tạo tài khoản cho bạn</h4>
                 </div>
-                <div style="text-align: center;color: red" class="red" id="baoLoi1">${errorBean1.getError()}</div>
-                <div style="text-align: center;color: red" class="red" id="baoLoi2">${errorBean2.getError()} </div>
-                <div style="text-align: center;color: red" class="red" id="baoLoi3">${errorBean3.getError()} </div>
+
 
                 <form action="RegisterForm" method="post">
+                    <div style="text-align: center;color: red;font-size: 12px" class="red"  id="baoLoi">${errorBean1.getError()}</div>
                     <div class="form-input">
                         <span><i class="fa fa-user"></i></span>
                         <input name="usernamere" type="text" placeholder="Tên tài khoản" required>
@@ -39,7 +38,9 @@
                         <span><i class="fa fa-user"></i></span>
                         <input name="namere" type="text" placeholder="Tên" required>
                     </div>
+                    <div style="text-align: center;color: red;font-size: 12px" class="red" id="baoLoi">${errorBean2.getError()} </div>
                     <div class="form-input">
+
                         <span><i class="fa fa-envelope"></i></span>
                         <input name="emailre" type="email" placeholder="Địa chỉ email" required>
                     </div>
@@ -47,7 +48,9 @@
                         <span><i class="fa fa-lock"></i></span>
                         <input name="passwordre" type="password" placeholder="Mật khẩu" required>
                     </div>
+                    <div style="text-align: center;color: red;font-size: 12px" class="red" id="baoLoi">${errorBean3.getError()} </div>
                     <div class="form-input">
+
                         <span><i class="fa fa-lock"></i></span>
                         <input name="enterThePasswordre" type="password" placeholder="Nhập lại mật khẩu" required>
                     </div>
@@ -63,24 +66,24 @@
                     <div class="text-left mb-3">
                         <button type="submit" class="btn">Register</button>
                     </div>
-                    <div class="text-white mb-3">or register with</div>
-                    <div class="row mb-3">
-                        <div class="col-4">
-                            <a href="" class="btn btn-block btn-social btn-facebook">
-                                <i class="fa fa-facebook"></i>
-                            </a>
-                        </div>
-                        <div class="col-4">
-                            <a href="" class="btn btn-block btn-social btn-google">
-                                <i class="fa fa-google"></i>
-                            </a>
-                        </div>
-                        <div class="col-4">
-                            <a href="" class="btn btn-block btn-social btn-twitter">
-                                <i class="fa fa-twitter"></i>
-                            </a>
-                        </div>
-                    </div>
+                    <%--                    <div class="text-white mb-3">or register with</div>--%>
+                    <%--                    <div class="row mb-3">--%>
+                    <%--                        <div class="col-4">--%>
+                    <%--                            <a href="" class="btn btn-block btn-social btn-facebook">--%>
+                    <%--                                <i class="fa fa-facebook"></i>--%>
+                    <%--                            </a>--%>
+                    <%--                        </div>--%>
+                    <%--                        <div class="col-4">--%>
+                    <%--                            <a href="" class="btn btn-block btn-social btn-google">--%>
+                    <%--                                <i class="fa fa-google"></i>--%>
+                    <%--                            </a>--%>
+                    <%--                        </div>--%>
+                    <%--                        <div class="col-4">--%>
+                    <%--                            <a href="" class="btn btn-block btn-social btn-twitter">--%>
+                    <%--                                <i class="fa fa-twitter"></i>--%>
+                    <%--                            </a>--%>
+                    <%--                        </div>--%>
+                    <%--                    </div>--%>
                     <div class="text-white">Already have an account?
                         <a href="./Login" class="login-link">Login here</a>
                     </div>

@@ -90,8 +90,8 @@
             transition: all, 0.5s;
         }
         .product__item__pic__hover:hover{
-         position: absolute;
-            bottom: -100px;
+            position: absolute;
+            bottom: 100px;
         }
         .fa-star{
             font-size: 10px;
@@ -114,7 +114,7 @@
         }
         .Productnotsell{
             /*border-left: 1px solid gray;*/
-           width: 100px;
+            width: 100px;
             font-size: 12px;
             color: rgba(39,39,42);
             white-space: nowrap;
@@ -197,7 +197,7 @@
                         <h4>Department</h4>
                         <ul>
                             <c:forEach var="ca" items="${list}">
-                                <li><a href="#">${ca.categoryName}</a></li>
+                                <li><a href="FilterCategory?caname=${ca.categoryName}" data-category-name="${ca.categoryName}" class="category-link">${ca.categoryName}</a></li>
                             </c:forEach>
                         </ul>
                     </div>
@@ -523,7 +523,7 @@
                                         <li><i class="fa fa-star"></i></li>
                                         <li><i class="fa fa-star"></i></li>
                                         <li class="Stick"></li>
-                                    <li class="Productnotsell">Còn lại 5</li>
+                                        <li class="Productnotsell">Còn lại 5</li>
 
                                     </ul>
                                     <h5>${FormatCurrency.formatCurrency(p.price)}</h5>

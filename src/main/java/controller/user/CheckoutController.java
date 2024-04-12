@@ -24,7 +24,13 @@ public class CheckoutController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
+        String fullNameTinh = request.getParameter("tinh");
+        String fullNameQuan = request.getParameter("quan");
+        String fullNamePhuong = request.getParameter("phuong");
+        OrderDAO orderdao = new OrderDAO();
+
         String address = request.getParameter("address");
+        String fullAddress = fullNameTinh + ", " + fullNameQuan + ", " + fullNamePhuong + ", " + address;
         String note = request.getParameter("note");
         String phone = request.getParameter("phone");
         String name = request.getParameter("nameConsignee");
@@ -51,7 +57,7 @@ public class CheckoutController extends HttpServlet {
         java.sql.Date currentTime = new java.sql.Date(System.currentTimeMillis());
         PaymentDAO paymentDAO = new PaymentDAO();
         Payment payment = paymentDAO.selectById(paymentId);
-        Order order = new Order(orderDAO.creatId() + 1, user, cart.calculateTotal(), name, phone, address, payment, "Pending", currentTime, note);
+        Order order = new Order(orderDAO.creatId() + 1, user, cart.calculateTotal(), name, phone, fullAddress, payment, "Pending", currentTime, note);
 
         // Insert vào CSDL
         order.setNameConsignee(name);

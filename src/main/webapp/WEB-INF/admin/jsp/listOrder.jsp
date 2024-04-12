@@ -165,10 +165,10 @@
             <!-- / Navbar -->
 
             <!-- Content wrapper -->
-            <div class="content-wrapper">
+            <div class="content-wrapper" id="content-wrapper">
                 <!-- Content -->
 
-                <div class="container-xxl flex-grow-1 container-p-y">
+                <div class="container-xxl flex-grow-1 container-p-y" id="content-big-section">
                     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
 
                     <!-- Basic Bootstrap Table -->
@@ -314,5 +314,49 @@
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var toggle = document.getElementById("menu-icon-toggle");
+        var sidebar = document.getElementById("layout-menu");
+        var searchbar = document.getElementById("layout-navbar");
+        var contentnew = document.getElementById("content-wrapper");
+        // bigcontent = document.getElementById('content-big-section');
+
+        toggle.addEventListener("click", function () {
+            sidebar.classList.toggle("close");
+            searchbar.classList.toggle("close");
+            contentnew.classList.toggle("close");
+            // bigcontent.classList.toggle("close");
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
+<script>
+    const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
+    const icondarklight = document.getElementById('icontype');
+
+    // Initially disable Dark Reader
+    DarkReader.disable();
+
+    toggleDarkModeButton.addEventListener("click", () => {
+        if (DarkReader.isEnabled()) {
+            DarkReader.disable();
+            icondarklight.classList.replace("fa-sun", "fa-moon");
+        } else {
+            DarkReader.enable({
+                brightness: 100,
+                contrast: 90,
+                sepia: 10
+            });
+            icondarklight.classList.replace("fa-moon", "fa-sun");
+        }
+    });
+
+    // Set the initial button text and Font Awesome icon
+
+
+    // Enable Dark Reader when the page loads
+
+</script>
 </body>
 </html>

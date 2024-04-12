@@ -310,6 +310,22 @@
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var toggle = document.getElementById("menu-icon-toggle");
+        var sidebar = document.getElementById("layout-menu");
+        var searchbar = document.getElementById("layout-navbar");
+        var contentnew = document.getElementById("content-wrapper");
+        // bigcontent = document.getElementById('content-big-section');
+
+        toggle.addEventListener("click", function () {
+            sidebar.classList.toggle("close");
+            searchbar.classList.toggle("close");
+            contentnew.classList.toggle("close");
+            // bigcontent.classList.toggle("close");
+        });
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
 <script>
     const toggleDarkModeButton = document.getElementById("toggle-dark-mode");

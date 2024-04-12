@@ -40,6 +40,9 @@
           href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
           rel="stylesheet"
   />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <!-- Icons. Uncomment required icon fonts -->
   <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/fonts/boxicons.css" />
@@ -319,10 +322,10 @@
         </div>
       </div>
       <!-- Content wrapper -->
-      <div class="content-wrapper">
+      <div class="content-wrapper" id="content-wrapper">
         <!-- Content -->
 
-        <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="container-xxl flex-grow-1 container-p-y" id="content-big-section">
           <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
 
           <!-- Basic Bootstrap Table -->
@@ -607,6 +610,50 @@ function calculateTotal() {
 
 
 </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var toggle = document.getElementById("menu-icon-toggle");
+    var sidebar = document.getElementById("layout-menu");
+    var searchbar = document.getElementById("layout-navbar");
+    var contentnew = document.getElementById("content-wrapper");
+    // bigcontent = document.getElementById('content-big-section');
+
+    toggle.addEventListener("click", function () {
+      sidebar.classList.toggle("close");
+      searchbar.classList.toggle("close");
+      contentnew.classList.toggle("close");
+      // bigcontent.classList.toggle("close");
+    });
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
+<script>
+  const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
+  const icondarklight = document.getElementById('icontype');
+
+  // Initially disable Dark Reader
+  DarkReader.disable();
+
+  toggleDarkModeButton.addEventListener("click", () => {
+    if (DarkReader.isEnabled()) {
+      DarkReader.disable();
+      icondarklight.classList.replace("fa-sun", "fa-moon");
+    } else {
+      DarkReader.enable({
+        brightness: 100,
+        contrast: 90,
+        sepia: 10
+      });
+      icondarklight.classList.replace("fa-moon", "fa-sun");
+    }
+  });
+
+  // Set the initial button text and Font Awesome icon
+
+
+  // Enable Dark Reader when the page loads
+
+</script>
 <script src="../assetsForAdmin/assets/vendor/libs/jquery/jquery.js"></script>
 <script src="../assetsForAdmin/assets/vendor/libs/popper/popper.js"></script>
 <script src="../assetsForAdmin/assets/vendor/js/bootstrap.js"></script>
@@ -625,5 +672,49 @@ function calculateTotal() {
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var toggle = document.getElementById("menu-icon-toggle");
+        var sidebar = document.getElementById("layout-menu");
+        var searchbar = document.getElementById("layout-navbar");
+        var contentnew = document.getElementById("content-wrapper");
+        // bigcontent = document.getElementById('content-big-section');
+
+        toggle.addEventListener("click", function () {
+            sidebar.classList.toggle("close");
+            searchbar.classList.toggle("close");
+            contentnew.classList.toggle("close");
+            // bigcontent.classList.toggle("close");
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
+<script>
+    const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
+    const icondarklight = document.getElementById('icontype');
+
+    // Initially disable Dark Reader
+    DarkReader.disable();
+
+    toggleDarkModeButton.addEventListener("click", () => {
+        if (DarkReader.isEnabled()) {
+            DarkReader.disable();
+            icondarklight.classList.replace("fa-sun", "fa-moon");
+        } else {
+            DarkReader.enable({
+                brightness: 100,
+                contrast: 90,
+                sepia: 10
+            });
+            icondarklight.classList.replace("fa-moon", "fa-sun");
+        }
+    });
+
+    // Set the initial button text and Font Awesome icon
+
+
+    // Enable Dark Reader when the page loads
+
+</script>
 </body>
 </html>

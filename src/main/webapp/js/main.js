@@ -222,3 +222,82 @@
     });
 
 })(jQuery);
+// const username = document.querySelector('#nameConsignee');
+// const address = document.querySelector('#address');
+// const phone = document.querySelector('#phone');
+// const note = document.querySelector('#note');
+//
+// const form = document.querySelector('#checkoutform');
+// const checkUsername = () => {
+//
+//     let valid = false;
+//
+//     const min = 3,
+//         max = 25;
+//
+//     const usernameF = username.value.trim();
+//
+//     if (!isRequired(username)) {
+//         showError(username, 'Username cannot be blank.');
+//     } else {
+//         showSuccess(username);
+//         valid = true;
+//     }
+//     return valid;
+// };
+// const isRequired = value => value !== '';
+// const isBetween = (length, min, max) => !(length < min || length > max)
+// const showError = (input, message) => {
+//     // get the form-field element
+//     const formField = input.parentElement;
+//     // add the error class
+//     formField.classList.remove('success');
+//     formField.classList.add('error');
+//
+//     // show the error message
+//     const error = formField.querySelector('small');
+//     error.textContent = message;
+// };
+// const showSuccess = (input) => {
+//     // get the form-field element
+//     const formField = input.parentElement;
+//
+//     // remove the error class
+//     formField.classList.remove('error');
+//     formField.classList.add('success');
+//
+//     // hide the error message
+//     const error = formField.querySelector('small');
+//     error.textContent = '';
+// }
+//
+// const debounce = (fn, delay = 500) => {
+//     let timeoutId;
+//     return (...args) => {
+//         // cancel the previous timer
+//         if (timeoutId) {
+//             clearTimeout(timeoutId);
+//         }
+//         // setup a new timer
+//         timeoutId = setTimeout(() => {
+//             fn.apply(null, args)
+//         }, delay);
+//     };
+// };
+// //
+// form.addEventListener('input', debounce(function (e) {
+//     switch (e.target.id) {
+//         case 'username':
+//             checkUsername();
+//             break;
+//         // case 'address':
+//         //     checkEmail();
+//         //     break;
+//         // case 'password':
+//         //     checkPassword();
+//         //     break;
+//         // case 'confirm-password':
+//         //     checkConfirmPassword();
+//         //     break;
+//     }
+// }));
