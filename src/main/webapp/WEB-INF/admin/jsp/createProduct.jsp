@@ -160,8 +160,7 @@
 
             </div>
           </div>
-        </div>
-        <!-- / Content -->
+
 
     <!-- Footer -->
       <footer class="content-footer footer bg-footer-theme">

@@ -339,17 +339,17 @@
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div data-i18n="Form Elements">Form Elements</div>
+                <div data-i18n="Form Elements">Sản phẩm</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="forms-basic-inputs.html" class="menu-link">
-                        <div data-i18n="Basic Inputs">Basic Inputs</div>
+                    <a href="./ListProduct" class="menu-link">
+                        <div data-i18n="Basic Inputs">Danh sách sản phẩm</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="forms-input-groups.html" class="menu-link">
-                        <div data-i18n="Input groups">Input groups</div>
+                    <a href="./CreateProduct" class="menu-link">
+                        <div data-i18n="Input groups">Thêm sản phẩm</div>
                     </a>
                 </li>
             </ul>
@@ -357,17 +357,53 @@
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div data-i18n="Form Layouts">Form Layouts</div>
+                <div data-i18n="Form Elements">Nhập kho</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="form-layouts-vertical.html" class="menu-link">
-                        <div data-i18n="Vertical Form">Vertical Form</div>
+                    <a href="./warehouse" class="menu-link">
+                        <div data-i18n="Basic Inputs">Nhập sản phẩm</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="./CreateProduct" class="menu-link">
+                        <div data-i18n="Input groups">Danh sách sản phẩm đã nhập</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-detail"></i>
+                <div data-i18n="Form Layouts">Tài khoản</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="./ListUser" class="menu-link">
+                        <div data-i18n="Vertical Form">Danh sách người dùng</div>
                     </a>
                 </li>
                 <li class="menu-item">
                     <a href="form-layouts-horizontal.html" class="menu-link">
-                        <div data-i18n="Horizontal Form">Horizontal Form</div>
+                        <div data-i18n="Horizontal Form">Khóa tài khoản</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-detail"></i>
+                <div data-i18n="Form Layouts">Đơn hàng</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="./ListOrder" class="menu-link">
+                        <div data-i18n="Vertical Form">Danh sách đơn hàng</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="form-layouts-horizontal.html" class="menu-link">
+                        <div data-i18n="Horizontal Form">Huy don</div>
                     </a>
                 </li>
             </ul>

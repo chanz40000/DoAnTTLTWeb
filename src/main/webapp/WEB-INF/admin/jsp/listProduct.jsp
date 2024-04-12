@@ -132,17 +132,8 @@
                     </tbody>
                   </table>
             </div>
-          </div>
           <!--/ Basic Bootstrap Table -->
 
-          <hr class="my-5" />
-
-          <!-- Bootstrap Dark Table -->
-
-          <!--/ Striped Rows -->
-
-
-        </div>
         <!-- / Content -->
 
         <!-- Footer -->
@@ -191,12 +182,12 @@
 <!-- / Layout wrapper -->
 
 <div class="buy-now">
-  <a
-          href="Index"
-          target="_blank"
-          class="btn btn-danger btn-buy-now"
-  >Quay lại trang shopping</a
-  >
+    <a
+            href="Index"
+            target="_blank"
+            class="btn btn-danger btn-buy-now"
+    >Quay lại trang shopping</a
+    >
 </div>
 
 <!-- Core JS -->
