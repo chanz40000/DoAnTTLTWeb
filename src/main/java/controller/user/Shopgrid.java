@@ -25,7 +25,7 @@ public class Shopgrid extends HttpServlet {
         ProductDAO productDAO = new ProductDAO();
         ArrayList<Product> products = productDAO.selectAll();
 
-        int page, numpage = 6;
+        int page, numpage = 10;
         int size = products.size();
         int num = (size % numpage == 0) ? (size / numpage) : ((size / numpage) + 1);
         String xpage = request.getParameter("page");

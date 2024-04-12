@@ -31,7 +31,15 @@ public class AbsDAO <T> implements DAOInterface<T> {
             ip2Location.Open(dbPath);
 
             // Lấy địa chỉ IP từ header X-Forwarded-For
-             ipAddress = request.getHeader("X-Forwarded-For");
+//             ipAddress = request.getHeader("X-Forwarded-For");
+
+            String xForwardedForHeader = request.getHeader("X-Forwarded-For");
+            if (xForwardedForHeader != null) {
+                String[] ips = xForwardedForHeader.split(",");
+                ipAddress = ips[0].trim();  // Lấy địa chỉ IP đầu tiên trong danh sách
+            } else {
+                ipAddress = request.getRemoteAddr();  // Nếu không có header, dùng getRemoteAddr
+            }
 
             // Nếu không có header X-Forwarded-For, lấy địa chỉ IP từ RemoteAddr
             if (ipAddress == null || ipAddress.isEmpty()) {
@@ -158,7 +166,7 @@ public class AbsDAO <T> implements DAOInterface<T> {
     @Override
     public int update(T t) {
         LogDAO logDAO = new LogDAO();
-        Log log = new Log(logDAO.creatId(), "INFO", LocalDateTime.now() , this.getIpAddress(), preValue, value, this.getCountryCode(request));
+        Log log = new Log(logDAO.creatId(), "INFO", LocalDateTime.now() , this.getIpAddress(), preValue, value, 84);
         new LogDAO().update(log);
         return 0;
     }

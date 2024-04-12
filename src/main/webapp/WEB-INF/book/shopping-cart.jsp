@@ -26,6 +26,24 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <style>
+        .cart-btn, .primary-btn{
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+            background-color: #ffa97d;
+        }
+
+        .cart-btn:hover {
+            background-color: #f86e21;
+            color: white;
+            transform: scale(1.1);
+        }
+        .primary-btn:hover{
+            background-color: #f86e21;
+            color: white;
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 <style>
     button#toggle-dark-mode{
@@ -69,10 +87,10 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="breadcrumb__text">
-                    <h2>Shopping Cart</h2>
+                    <h2>Giỏ hàng</h2>
                     <div class="breadcrumb__option">
-                        <a href="./index.html">Home</a>
-                        <span>Shopping Cart</span>
+                        <a href="./index.html">Nhà</a>
+                        <span>Giỏ hàng</span>
                     </div>
                 </div>
             </div>
@@ -87,75 +105,86 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="shoping__cart__table">
+                    <c:choose>
+                    <c:when test="${not empty sessionScope.cart.cart_items}">
                     <table>
                         <thead>
                         <tr>
-                            <th class="shoping__product">Products</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
+                            <th class="shoping__product">Tên sản phẩm</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Tổng tiền</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="item" items="${sessionScope.cart.cart_items}">
-                            <tr>
-                                <td class="shoping__cart__item">
-                                    <img src="img/cart/cart-1.jpg" alt="">
-                                    <h5>${item.product.product_name}</h5>
-                                </td>
-                                <td class="shoping__cart__price">
-                                        ${FormatCurrency.formatCurrency(item.product.price)}
-                                </td>
-                                <td>
-                                    <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px; margin-left: 70px;width: 340px;
+                                <c:forEach var="item" items="${sessionScope.cart.cart_items}">
+                                    <tr>
+                                        <td class="shoping__cart__item">
+                                            <img src="img/cart/cart-1.jpg" alt="">
+                                            <h5>${item.product.product_name}</h5>
+                                        </td>
+                                        <td class="shoping__cart__price">
+                                                ${FormatCurrency.formatCurrency(item.product.price)}
+                                        </td>
+                                        <td>
+                                            <div class="input-group mb-3 d-flex align-items-center quantity-container" style="max-width: 120px; margin-left: 70px;width: 340px;
 	height: 50px;display: inline-block;
 	position: relative;
 	text-align: center;
 	background: #f5f5f5;">
-                                        <div class="input-group-prepend">
-                                            <form action="UpdateQuantity" method="post">
-                                                <input type="hidden" name=idproduct value="${item.product.productId}">
-                                                <input type="hidden" name="quantity" value="${item.quantity - 1}">
-                                                <button type="submit" class="btn btn-outline-black">-</button>
+                                                <div class="input-group-prepend">
+                                                    <form action="UpdateQuantity" method="post">
+                                                        <input type="hidden" name=idproduct value="${item.product.productId}">
+                                                        <input type="hidden" name="quantity" value="${item.quantity - 1}">
+                                                        <button type="submit" class="btn btn-outline-black">-</button>
+                                                    </form>
+                                                </div>
+                                                <input type="text" class="form-control text-center quantity-amount" value="${item.quantity}" readonly>
+                                                <div class="input-group-appendd">
+                                                    <form action="UpdateQuantity" method="post">
+                                                        <input type="hidden" name="idproduct" value="${item.product.productId}">
+                                                        <input type="hidden" name="quantity" value="${item.quantity + 1}">
+                                                        <button type="submit" class="btn btn-outline-black">+</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="shoping__cart__total">
+                                                ${FormatCurrency.formatCurrency(item.product.price * item.quantity)}
+                                        </td>
+                                        <td class="shoping__cart__item__close">
+                                            <form action="RemoveItemCart" method="post">
+                                                <input type="hidden" name="productId" value="${item.product.productId}">
+                                                <button type="submit" class="icon_close" style="border: none; background-color: transparent;"></button>
                                             </form>
-                                        </div>
-                                        <input type="text" class="form-control text-center quantity-amount" value="${item.quantity}" readonly>
-                                        <div class="input-group-appendd">
-                                            <form action="UpdateQuantity" method="post">
-                                                <input type="hidden" name="idproduct" value="${item.product.productId}">
-                                                <input type="hidden" name="quantity" value="${item.quantity + 1}">
-                                                <button type="submit" class="btn btn-outline-black">+</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="shoping__cart__total">
-                                        ${FormatCurrency.formatCurrency(item.product.price * item.quantity)}
-                                </td>
-                                <td class="shoping__cart__item__close">
-                                    <form action="RemoveItemCart" method="post">
-                                        <input type="hidden" name="productId" value="${item.product.productId}">
-                                        <button type="submit" class="icon_close" style="border: none; background-color: transparent;"></button>
-                                    </form>
-                                </td>
+                                        </td>
 
-                            </tr>
-                            <c:set var="subtotal" value="${subtotal + (item.product.price * item.quantity)}" />
-                            <c:set var="total" value="${total + (item.product.price * item.quantity)}" />
-                        </c:forEach>
+                                    </tr>
+                                    <c:set var="subtotal" value="${subtotal + (item.product.price * item.quantity)}" />
+                                    <c:set var="total" value="${total + (item.product.price * item.quantity)}" />
+                                </c:forEach>
+
+
 
                         </tbody>
                     </table>
+                    </c:when>
+                        <c:otherwise>
+                            <div style="display: flex; justify-content: center; align-items: center">
+                                    <img src="img/emptyCart.png" alt="Empty Cart">
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="shoping__cart__btns">
-                    <a href="/Shopgrid" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                    <a href="/Shopgrid" class="primary-btn cart-btn">Tiếp tục mua sắm</a>
                     <a href="/Cart" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                        Upadate Cart</a>
+                        Cập nhật giỏ hàng</a>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -171,12 +200,12 @@
             </div>
             <div class="col-lg-6">
                 <div class="shoping__checkout">
-                    <h5>Cart Total</h5>
+                    <h5>Tổng tiền</h5>
                     <ul>
                         <li>Subtotal <span>${FormatCurrency.formatCurrency(subtotal)}</span></li>
                         <li>Total <span>${FormatCurrency.formatCurrency(total)}</span></li>
                     </ul>
-                    <a href="/Checkout" class="primary-btn">PROCEED TO CHECKOUT</a>
+                    <a href="/Checkout" class="primary-btn" id="checkout-btn">Thanh toán</a>
                 </div>
             </div>
         </div>
@@ -261,6 +290,7 @@
 <script src="js/mixitup.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
+<<<<<<< HEAD
 <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
 
 <script>
@@ -289,6 +319,22 @@
 
     // Enable Dark Reader when the page loads
 
+// =======
+<script srgitc="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#checkout-btn').click(function(e){
+            e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ a
+            var cartItems = ${sessionScope.cart.cart_items}; // Lấy danh sách mục trong giỏ hàng
+
+            if (cartItems.length === 0) {
+                alert('Giỏ hàng của bạn đang trống!'); // Thông báo nếu giỏ hàng trống
+            } else {
+                window.location.href = "/Checkout"; // Chuyển hướng tới trang thanh toán nếu giỏ hàng không trống
+            }
+        });
+    });
+// >>>>>>> main
 </script>
 
 

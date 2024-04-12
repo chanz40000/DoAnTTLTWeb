@@ -202,14 +202,15 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                     <jsp:useBean id="productDao" class="database.ProductDAO"></jsp:useBean>
-                    <c:forEach var="product" items="${productDao.selectAll()}">
+                    <c:forEach var="entry" items="${productDao.inventoryProduct2()}">
+                      <c:set value="${productDao.selectById(entry.key)}" var="product"/>
                       <tr>
-                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${product.productId}</strong></td>
+                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${entry.key}</strong></td>
                         <td>${product.product_name}</td>
                         <td>${product.category.categoryName}</td>
                         <td>${product.unitPrice}</td>
                         <td>${product.price}</td>
-                        <td>${product.quantity}</td>
+                        <td>${entry.value}</td>
                         <td>
                           <div class="dropdown">
                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -233,6 +234,7 @@
 
                     </tbody>
                   </table>
+<<<<<<< HEAD
 
             </div>
               </div>
@@ -246,18 +248,11 @@
               <!--/ Striped Rows -->
 
               
+=======
+>>>>>>> main
             </div>
-          </div>
           <!--/ Basic Bootstrap Table -->
 
-          <hr class="my-5" />
-
-          <!-- Bootstrap Dark Table -->
-
-          <!--/ Striped Rows -->
-
-
-        </div>
         <!-- / Content -->
 
         <!-- Footer -->
@@ -407,4 +402,3 @@
     }
 </script>
 </body>
-</html>

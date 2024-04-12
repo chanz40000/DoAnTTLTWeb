@@ -240,12 +240,12 @@
                             <ul>
                                 <c:forEach var="p" items="${sessionScope.cart.cart_items}">
                                     <li class="product-name">${p.product.product_name}<span class="product-price">${FormatCurrency.formatCurrency(p.product.price)}</span></li>
-                                    <c:set var="subtotal" value="${subtotal + (p.product.price * p.quantity)}" />
+                                    <c:set var="ship" value="${ship + (p.product.price * p.quantity)}" />
                                     <c:set var="total" value="${total + (p.product.price * p.quantity)}" />
                                 </c:forEach>
                             </ul>
-                            <div class="checkout__order__subtotal">Subtotal <span>${FormatCurrency.formatCurrency(subtotal)}</span></div>
-                            <div class="checkout__order__total">Total <span>${FormatCurrency.formatCurrency(total)}</span></div>
+                            <div class="checkout__order__subtotal">Tiền ship <span>${FormatCurrency.formatCurrency(ship)}</span></div>
+                            <div class="checkout__order__total">Tổng tiền <span>${FormatCurrency.formatCurrency(total)}</span></div>
                             <div class="checkout__input__checkbox" style="display: flex;">
                                 <label style="margin-left: -15px">Phương thức thanh toán</label>
                                 <div style="margin-left: 20px; margin-top: -10px">
