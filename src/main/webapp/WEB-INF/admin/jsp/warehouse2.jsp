@@ -338,6 +338,7 @@
     var data = [];
     var rows = document.querySelectorAll('tbody.table-border-bottom-0 tr');
     var note = document.getElementById('note').value;
+    if(note.equals(null)) note=" ";
 
     rows.forEach(function(row) {
       var productId = row.querySelector('p[name="productId"]').innerText;

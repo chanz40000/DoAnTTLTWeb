@@ -31,7 +31,15 @@ public class AbsDAO <T> implements DAOInterface<T> {
             ip2Location.Open(dbPath);
 
             // Lấy địa chỉ IP từ header X-Forwarded-For
-             ipAddress = request.getHeader("X-Forwarded-For");
+//             ipAddress = request.getHeader("X-Forwarded-For");
+
+            String xForwardedForHeader = request.getHeader("X-Forwarded-For");
+            if (xForwardedForHeader != null) {
+                String[] ips = xForwardedForHeader.split(",");
+                ipAddress = ips[0].trim();  // Lấy địa chỉ IP đầu tiên trong danh sách
+            } else {
+                ipAddress = request.getRemoteAddr();  // Nếu không có header, dùng getRemoteAddr
+            }
 
             // Nếu không có header X-Forwarded-For, lấy địa chỉ IP từ RemoteAddr
             if (ipAddress == null || ipAddress.isEmpty()) {
