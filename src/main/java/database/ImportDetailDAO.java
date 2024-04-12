@@ -7,10 +7,10 @@ import model.Product;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ImportDetailDAO implements DAOInterface<ImportDetail>{
+public class ImportDetailDAO extends AbsDAO<ImportDetail>{
     ArrayList<ImportDetail> importdes = new ArrayList<>();
     public int creatId() {
-        importdes = selectAll();
+        selectAll();
         return importdes.size()+1;
     }
     @Override
@@ -110,6 +110,9 @@ public class ImportDetailDAO implements DAOInterface<ImportDetail>{
 
             result = rs.executeUpdate();
             System.out.println("insert successfull");
+
+            this.setValue(this.gson.toJson(importDetail));
+            int x = super.insert(importDetail);
             JDBCUtil.closeConnection(con);
 
         } catch (SQLException e) {
@@ -145,6 +148,9 @@ public class ImportDetailDAO implements DAOInterface<ImportDetail>{
             rs.setInt(1, importDetail.getImportDetail());
 
             result = rs.executeUpdate();
+
+            this.setValue(this.gson.toJson(importDetail));
+            int x = super.delete(importDetail);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -191,11 +197,17 @@ public class ImportDetailDAO implements DAOInterface<ImportDetail>{
 
 
                 result = rs.executeUpdate();
+
+                this.setValue(this.gson.toJson(importDetail));
+                int x = super.update(importDetail);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
 
         return result;
+    }
+
+    public static void main(String[] args) {System.out.println(new ImportDetailDAO().creatId());
     }
 }

@@ -3,7 +3,7 @@ package model;
 import java.sql.Date;
 import java.util.List;
 
-public class User {
+public class User{
     private int userId;
     private String username;
     private String password;
@@ -116,4 +116,5 @@ public class User {
     public void setOrderList(List<Order> orderList) {
         this.orderList = orderList;
     }
+
 }

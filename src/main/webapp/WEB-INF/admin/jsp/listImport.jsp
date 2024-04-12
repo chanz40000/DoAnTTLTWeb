@@ -7,14 +7,6 @@
 <!DOCTYPE html>
 
 
-<html
-        lang="en"
-        class="light-style layout-menu-fixed"
-        dir="ltr"
-        data-theme="theme-default"
-        data-assets-path="../assets/"
-        data-template="vertical-menu-template-free"
->
 <head>
   <meta charset="utf-8" />
   <meta
@@ -60,6 +52,8 @@
 
 <body>
 <!-- Layout wrapper -->
+<body>
+<!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
   <div class="layout-container">
     <!-- Menu -->
@@ -84,56 +78,62 @@
 
           <!-- Basic Bootstrap Table -->
           <div class="card">
-            <h5 class="card-header">List Product</h5>
+            <h5 class="card-header">Danh sách hóa đơn nhập hàng </h5>
             <div class="table-responsive text-nowrap">
               <table class="table">
                 <thead>
                 <tr>
-                  <th>Mã sách</th>
-                  <th>Tên sách</th>
-                  <th>Thể loại</th>
-                        <th>Giá nhập</th>
-                        <th>Giá bán</th>
-                        <th>Số lượng trong kho</th>
-                      </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0">
-                    <jsp:useBean id="productDao" class="database.ProductDAO"></jsp:useBean>
-                    <c:forEach var="entry" items="${productDao.inventoryProduct2()}">
-                      <c:set value="${productDao.selectById(entry.key)}" var="product"/>
-                      <tr>
-                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${entry.key}</strong></td>
-                        <td>${product.product_name}</td>
-                        <td>${product.category.categoryName}</td>
-                        <td>${product.unitPrice}</td>
-                        <td>${product.price}</td>
-                        <td>${entry.value}</td>
-                        <td>
-                          <div class="dropdown">
-                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                              <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu">
-                              <a class="dropdown-item" href="./ProductDetail?id=${product.productId}"
-                              ><i class="bx bx-edit-alt me-1"></i> Detail</a
-                              >
-                              <a class="dropdown-item" href="./UserDetail?id=${product.productId}"
-                              ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                              >
-                              <a class="dropdown-item" href="./DeleteProduct?id=${product.productId}"
-                              ><i class="bx bx-trash me-1"></i> Delete</a
-                              >
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </c:forEach>
+                  <th>Mã đơn</th>
+                  <th>Người nhập</th>
+                  <th>Nhà cung cấp</th>
+                  <th>Ngày nhập</th>
+                  <th>Tổng tiền</th>
+                </tr>
+                </thead>
+                <tbody class="table-border-bottom-0">
+                <jsp:useBean id="importDAO" class="database.ImportDAO"></jsp:useBean>
+                <c:forEach var="importItem" items="${importDAO.selectAll()}">
+                  <tr>
+                    <td>${importItem.importId}</td>
+                    <td>${importItem.importer.username}</td>
+                    <td>${importItem.supplier}</td>
+                    <td>${importItem.importDate.toString()}</td>
+                    <td>${importItem.totalPrice}</td>
+                    <td>
+                      <div class="dropdown">
+                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                          <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item" href="./ImportDetail?id=${importItem.importId}"
+                          ><i class="bx bx-edit-alt me-1"></i> Detail</a
+                          >
+                          <a class="dropdown-item" href="./ChangeImport?id=${importItem.importId}"
+                          ><i class="bx bx-edit-alt me-1"></i> Edit</a
+                          >
+                          <a class="dropdown-item" href="./DeleteProduct?id=${importItem.importId}"
+                          ><i class="bx bx-trash me-1"></i> Delete</a
+                          >
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </c:forEach>
 
-                    </tbody>
-                  </table>
+                </tbody>
+              </table>
             </div>
+          </div>
           <!--/ Basic Bootstrap Table -->
 
+          <hr class="my-5" />
+
+          <!-- Bootstrap Dark Table -->
+
+          <!--/ Striped Rows -->
+
+
+        </div>
         <!-- / Content -->
 
         <!-- Footer -->
@@ -182,12 +182,12 @@
 <!-- / Layout wrapper -->
 
 <div class="buy-now">
-    <a
-            href="Index"
-            target="_blank"
-            class="btn btn-danger btn-buy-now"
-    >Quay lại trang shopping</a
-    >
+  <a
+          href="Index"
+          target="_blank"
+          class="btn btn-danger btn-buy-now"
+  >Quay lại trang shopping</a
+  >
 </div>
 
 <!-- Core JS -->

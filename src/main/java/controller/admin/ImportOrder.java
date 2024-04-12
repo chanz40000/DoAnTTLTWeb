@@ -26,7 +26,6 @@ public class ImportOrder extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("start");
         String[] productIds = request.getParameterValues("productId");
         String[] productNames = request.getParameterValues("product_name");
         String[] quantities = request.getParameterValues("numberOfWarehouses");
@@ -36,25 +35,34 @@ public class ImportOrder extends HttpServlet {
         List<ImportDetail>importDetails = new ArrayList<>();
         ProductDAO productDAO = new ProductDAO();
 
+        ImportDAO importDAO = new ImportDAO();
+        ImportDetailDAO importDetailDAO = new ImportDetailDAO();
+
         User user = (User) request.getSession().getAttribute("userC");
-        Import importClass= new Import(0, user, "ncc1", "khong co gi",
+        Import importClass= new Import(importDAO.creatId(), user, "ncc1", "khong co gi",
                 new Date(2024, 01, 12) );
+
+        System.out.println("action");
+        double total = 0;
         for (int i=0; i<length; i++){
             int id = Integer.parseInt(productIds[i]);
             int quantity = Integer.parseInt(quantities[i]);
             double unitPrice = Double.parseDouble(unitPrices[i]);
             double totalPrice = quantity*unitPrice;
-            ImportDetail item = new ImportDetail(0, importClass,
+            System.out.println("unitPrice"+unitPrice);
+            System.out.println("quantity"+quantity);
+            total+=totalPrice;
+            System.out.println("total: "+total);
+            ImportDetail item = new ImportDetail(importDetailDAO.creatId(), importClass,
                     productDAO.selectById(id),quantity , unitPrice, totalPrice);
-            System.out.println(item.toString());
             importDetails.add(item);
 
-            ImportDetailDAO importDetailDAO = new ImportDetailDAO();
+
             importDetailDAO.insert(item);
 
         }
+        importClass.setTotalPrice(total);
         importClass.setImportDetailList(importDetails);
-        ImportDAO importDAO = new ImportDAO();
         importDAO.insert(importClass);
         request.getRequestDispatcher("/WEB-INF/admin/jsp/warehouse.jsp").forward(request,response);
     }

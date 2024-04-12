@@ -2,12 +2,22 @@ package database;
 
 import model.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDAO implements DAOInterface<Order>{
+public class OrderDAO extends AbsDAO<Order>{
     private ArrayList<Order> data = new ArrayList<>();
+
+    public OrderDAO(HttpServletRequest request) {
+        super(request);
+    }
+
+    public OrderDAO() {
+
+    }
+
     public int creatId() {
         data = selectAll();
         return data.size();
@@ -97,9 +107,16 @@ public class OrderDAO implements DAOInterface<Order>{
             st.setInt(1, status);
             st.setInt(2, orderId);
             result = st.executeUpdate();
+            OrderDAO orderDAO = new OrderDAO();
+            Order order = orderDAO.selectById(orderId);
+            this.setPreValue(this.gson.toJson(order));
+            order.setStatus(status);
+            this.setValue("change status: "+ status);
+            int x = super.update(order);
         }catch (Exception e){
             e.printStackTrace();
         }
+
     }
     @Override
     public Order selectById(int id) {
@@ -169,6 +186,8 @@ public class OrderDAO implements DAOInterface<Order>{
             result = rs.executeUpdate();
 
             JDBCUtil.closeConnection(con);
+            this.setPreValue(this.gson.toJson(order));
+            int x = super.insert(order);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -203,6 +222,8 @@ public class OrderDAO implements DAOInterface<Order>{
             rs.setInt(1, order.getOrderId());
 
             result = rs.executeUpdate();
+            this.setPreValue(this.gson.toJson(order));
+            int x = super.delete(order);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -260,10 +281,15 @@ public class OrderDAO implements DAOInterface<Order>{
 
 
                 result = rs.executeUpdate();
+                this.setPreValue(this.gson.toJson(oldRating));
+                this.setValue(this.gson.toJson(order));
+                int x = super.insert(order);
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
+
 
         return result;
     }

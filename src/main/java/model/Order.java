@@ -4,7 +4,7 @@ package model;
 import java.sql.Date;
 import java.util.List;
 
-public class Order {
+public class Order{
     private int orderId;
     private User user;
     private double totalPrice;
@@ -147,4 +147,5 @@ public class Order {
                 ", orderDetailList=" + orderDetailList +
                 '}';
     }
+
 }

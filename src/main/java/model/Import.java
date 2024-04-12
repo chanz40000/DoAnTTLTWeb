@@ -11,6 +11,8 @@ public class Import {
     private String note;
     private Date importDate; //ngay nhap
     private List<ImportDetail> importDetailList;
+    private double totalPrice;
+
 
     public Import() {
     }
@@ -22,17 +24,28 @@ public class Import {
         this.note = note;
         this.importDate = importDate;
         importDetailList = new ArrayList<>();
+        this.totalPrice=0;
     }
 
-    public Import(int importId, User importer, String supplier, String note, Date importDate, List<ImportDetail>importDetailList) {
+    public Import(int importId, User importer, String supplier, String note, Date importDate, List<ImportDetail> importDetailList, double totalPrice) {
         this.importId = importId;
-        this.importer=importer;
+        this.importer = importer;
         this.supplier = supplier;
         this.note = note;
         this.importDate = importDate;
         this.importDetailList = importDetailList;
+        this.totalPrice = totalPrice;
     }
 
+    public Import(int importId, User importer, String supplier, String note, Date importDate, double totalPrice) {
+        this.importId = importId;
+        this.importer = importer;
+        this.supplier = supplier;
+        this.note = note;
+        this.importDate = importDate;
+        this.totalPrice = totalPrice;
+        importDetailList = new ArrayList<>();
+    }
 
     public User getImporter() {
         return importer;
@@ -82,6 +95,11 @@ public class Import {
         this.importDetailList = importDetailList;
     }
 
+    public double getTotalPrice() {
+        return totalPrice;
+    }
 
-    
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 }

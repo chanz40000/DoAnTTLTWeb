@@ -409,16 +409,28 @@
             </ul>
         </li>
         <!-- Tables -->
-        <li class="menu-item active">
+        <li class="menu-item">
             <a href="./ListUser" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">List User</div>
+                <div data-i18n="Tables">Danh sách người dùng</div>
             </a>
         </li>
-        <li class="menu-item active">
+        <li class="menu-item">
             <a href="./ListProduct" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">List Product</div>
+                <div data-i18n="Tables">Danh sách sản phẩm</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="./ProductCannotBeSold" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-table"></i>
+                <div data-i18n="Tables">Danh sách sản phẩm không bán được</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="./NeedProduct" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-table"></i>
+                <div data-i18n="Tables">Sản phẩm cần nhập</div>
             </a>
         </li>
         <li class="menu-item">
@@ -429,11 +441,18 @@
         </li>
 
         <li class="menu-item">
+            <a href="./ListImport" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-table"></i>
+                <div data-i18n="Tables">Danh sách đơn nhập</div>
+            </a>
+        </li>
+
+        <li class="menu-item">
             <a href="./CreateProduct" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
                 <div data-i18n="Tables">Thêm Sản Phẩm</div>
             </a></li>
-        <li class="menu-item active">
+        <li class="menu-item">
             <a href="./ListOrder" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
                 <div data-i18n="Tables">List Order</div>
