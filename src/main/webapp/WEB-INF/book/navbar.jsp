@@ -3,7 +3,35 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page isELIgnored="false" %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    button#toggle-dark-mode{
+        background: none;
+        color: inherit;
+        border: none;
+        position: absolute;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+        top: 12px;
 
+
+
+
+
+    }
+    .fa-regular.fa-sun{
+        font-size: 20px;
+        color: #f5f56d;
+
+    }
+    .fa-regular.fa-moon{
+        font-size: 20px;
+
+    }
+</style>
 
 <!DOCTYPE html>
 <nav>
@@ -55,7 +83,7 @@
                         <li><a href="./Blog details">Blog Details</a></li>
                     </ul>
                 </li>
-                <li><a href="./Blog">Blog</a></li>
+                <li><a href="Vnpay.jsp">Blog</a></li>
                 <li><a href="./contact.jsp">Contact</a></li>
             </ul>
         </nav>
@@ -92,10 +120,7 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="header__top__right">
                         <div class="header__top__right__social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-linkedin"></i></a>
-                            <a href="#"><i class="fa fa-pinterest-p"></i></a>
+
                         </div>
                         <%--                            <div class="header__top__right__language">--%>
                         <%--                                <img src="img/language.png" alt="">--%>
@@ -134,6 +159,9 @@
                                         <li><a href="./Logout">Đăng xuất</a></li>
                                     </ul>
                                 </div>
+                                <button id="toggle-dark-mode">
+                                    <i class="fa-regular fa-moon" id="icontype"></i>
+                                </button>
                             </div>
                         </c:when>
                         <c:otherwise>
@@ -147,6 +175,7 @@
                                 <li><a href="./ForgotPass">Quên mật khẩu</a></li>
                             </ul>
                         </div>
+
                     </div>
                     </c:otherwise>
                     </c:choose>
@@ -175,7 +204,7 @@
                                 <li><a href="./AdminIndex">Blog Details</a></li>
                             </ul>
                         </li>
-                        <li><a href="./Blog">Blog</a></li>
+                        <li><a href="./BankAccount">Blog</a></li>
                         <li><a href="./Contact">Contact</a></li>
                     </ul>
                 </nav>
@@ -187,7 +216,7 @@
                         <li>
                             <a href="Shoppingcart">
                                 <i class="fa fa-shopping-bag"></i>
-                                <span>${empty sessionScope.cart ? '0' : sessionScope.cart.calculateTotalQuantity()}</span>
+                                <span class="cart-item-count">${empty sessionScope.cart ? '0' : sessionScope.cart.calculateTotalQuantity()}</span>
                             </a>
                         </li>
                     </ul>
@@ -221,10 +250,9 @@
 <!-- Header Section End -->
 
 <!-- Hero Section Begin -->
-<<<<<<< HEAD
+
 <!-- Hero Section Begin -->
-=======
->>>>>>> d4bd9b9c1b416c700a6b6beb0ff8c148d913894d
+
 <section class="hero hero-normal">
     <div class="container">
         <div class="row">
@@ -257,7 +285,14 @@
                                 All Categories
                                 <span class="arrow_carrot-down"></span>
                             </div>
-                            <input type="text" id="productName" name="productName" placeholder="What do yo u need?">
+                            <input type="text" oninput="searchByName(this)" id="productName" name="productName" placeholder="What do you need?" list="datalist1">
+
+
+                            <datalist id="datalist1">
+                                <c:forEach items="${listProducts}" var="p">
+                                    <option value="${p.product_name}"></option>
+                                </c:forEach>
+                            </datalist>
                             <button type="submit" class="site-btn">SEARCH</button>
                         </form>
                     </div>

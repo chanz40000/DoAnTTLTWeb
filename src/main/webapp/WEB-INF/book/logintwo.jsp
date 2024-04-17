@@ -57,8 +57,8 @@
                             </a>
                         </div>
                         <div class="col-4">
-                            <a href="" class="btn btn-block btn-social btn-google">
-                                <i class="fa fa-google"></i>
+                            <a class="btn btn-block btn-social btn-google" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/LoginToIndexByGg&response_type=code
+		   &client_id=696956091388-hcpd2qt40e9bklgu9qqsm5q8v4ca7lbm.apps.googleusercontent.com&approval_prompt=force" id="LoginToIndexByGg"><i class="fa fa-google"></i></a>
                             </a>
                         </div>
                         <div class="col-4">

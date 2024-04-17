@@ -28,14 +28,30 @@
     <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <style>
-    .fa-regular.fa-sun{
-        font-size: 20px;
+    /*button#toggle-dark-mode{*/
+    /*    background: none;*/
+    /*    color: inherit;*/
+    /*    border: none;*/
+    /*    position: absolute;*/
+    /*    font: inherit;*/
+    /*    cursor: pointer;*/
+    /*    outline: inherit;*/
+    /*    top: 12px;*/
 
-    }
-    .fa-regular.fa-moon{
-        font-size: 20px;
 
-    }
+
+
+
+    /*}*/
+    /*.fa-regular.fa-sun{*/
+    /*    font-size: 20px;*/
+    /*    color: #f5f56d;*/
+
+    /*}*/
+    /*.fa-regular.fa-moon{*/
+    /*    font-size: 20px;*/
+
+    /*}*/
 </style>
 <body>
 
@@ -513,9 +529,7 @@
 
 <!-- Footer Section Begin -->
 <footer class="footer spad">
-    <button id="toggle-dark-mode">
-        <i class="fa-regular fa-moon" id="icontype"></i>
-    </button>
+
     <jsp:include page="footer.jsp" />
 </footer>
 <!-- Footer Section End -->

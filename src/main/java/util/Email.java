@@ -31,8 +31,8 @@ public class Email {
 	//email: 21130574@st.hcmuaf.edu.vn
 	//password: objd edul gnes zspk
 
-	static String from="21130574@st.hcmuaf.edu.vn";
-	static String password="objdedulgneszspk";
+	static String from="21130565@st.hcmuaf.edu.vn";
+	static String password="Trungtin270903";
 
 	public static void sendEmail(String to, String noiDung, String subject) {
 
@@ -107,6 +107,7 @@ public class Email {
 		}
 	}
 	public static void main(String[] args) {
+
 
 	}
 

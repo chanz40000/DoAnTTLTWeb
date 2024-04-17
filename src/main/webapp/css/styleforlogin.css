@@ -3,6 +3,11 @@
     background-size: cover;
     height: 115vh;
 }
+.imagebank-container{
+    background: url('../image/bgbank.jpg') center no-repeat;
+    background-size: cover;
+    height: 115vh;
+}
 
 .form-container {
     background: linear-gradient(to right, black, white);

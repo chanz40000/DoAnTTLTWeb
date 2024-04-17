@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+
     <style>
         .product-list {
             list-style: none;
@@ -41,6 +43,100 @@
         .product-name {
 
         }
+        button#toggle-dark-mode{
+            background: none;
+            color: inherit;
+            border: none;
+            position: absolute;
+            font: inherit;
+            cursor: pointer;
+            outline: inherit;
+            top: 12px;
+
+
+
+
+
+        }
+        .fa-regular.fa-sun{
+            font-size: 20px;
+            color: #f5f56d;
+
+        }
+        .fa-regular.fa-moon{
+            font-size: 20px;
+
+        }
+        .product-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .product-list li {
+            margin-bottom: 10px; /* Adjust spacing between list items */
+        }
+
+        .product-name {
+
+        }
+        #selectaddress1{
+            display: flex;
+            flex: 0 0 50%;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        #selectaddress1 label{
+            flex: 1 1 50%;
+
+        }
+
+        #selectaddress1 .nice-select{
+            flex: 1 1 50%;
+
+            margin-right:10px ;
+        }
+        #selectaddress2{
+            display: flex;
+            flex: 0 0 50%;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        #selectaddress2 label{
+            flex: 1 1 50%;
+
+        }
+
+        #selectaddress2 .nice-select{
+            flex: 1 1 50%;
+
+            margin-right:10px ;
+        }
+        #selectaddress3{
+            display: flex;
+            flex: 0 0 50%;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        #selectaddress3 label{
+            flex: 1 1 50%;
+
+        }
+
+        #selectaddress3 .nice-select{
+            flex: 1 1 50%;
+
+            margin-right:10px ;
+        }
+        .checkout__input.success{
+            border-color: #28a745;
+        }
+        .checkout__input.error{
+            border-color: #dc3545;
+        }
+        .checkout__input small{
+            color: #dc3545;
+        }
+
 
 
     </style>
@@ -88,25 +184,52 @@
         </c:choose>
         <div class="checkout__form">
             <h4>Chi tiết hóa đơn ${sessionScope.userC.userId}</h4>
-            <form action="/CheckoutController" method="post">
+            <form action="/CheckoutController" method="post" id="checkoutform">
                 <div class="row">
                     <div class="col-lg-7 col-md-6">
 
                         <div class="checkout__input">
                             <label for="nameConsignee">Tên người nhận<span style="color: red">*</span></label>
-                            <input type="text" id="nameConsignee" name="nameConsignee" required="required">
+                            <input type="text" id="nameConsignee" name="nameConsignee" oninput="checkUsername()" required="required">
+                            <small></small>
+
+                        </div>
+
+                        <div class="checkout__input" id="selectaddress1">
+                            <label for="address">Tỉnh/Thành phố<span style="color: red">*</span></label>
+                            <select class="css_select" id="tinh" name="tinh" >
+                                <option value="-1">Tỉnh Thành</option>
+                            </select>
+                        </div>
+                        <div class="checkout__input" id="selectaddress2">
+                            <label for="address">Quận/Huyện<span style="color: red">*</span></label>
+                            <select class="css_select" id="quan" name="quan" >
+                                <option value="-1">Quận Huyện</option>
+                            </select>
+                        </div>
+                        <div class="checkout__input" id="selectaddress3" >
+                            <label for="address">Phưỡng/Xã<span style="color: red">*</span></label>
+                            <select class="css_select" id="phuong" name="phuong" >
+                                <option value="-1">Phường Xã</option>
+                            </select>
                         </div>
                         <div class="checkout__input">
                             <label for="address">Địa chỉ<span style="color: red">*</span></label>
                             <input type="text" id="address" name="address" required="required">
+                            <small></small>
+
                         </div>
                         <div class="checkout__input">
                             <label for="phone">Số điện thoại<span style="color: red">*</span></label>
-                            <input type="text" id="phone" name="phone" required="required">
+                            <input type="text" id="phone" name="phone" required="required" oninput="checkPhone()">
+                            <small id="phonerror"></small>
+
                         </div>
                         <div class="checkout__input">
                             <label for="note">Ghi chú</label>
-                            <input type="text" id="note" name="note" placeholder="Viết ghi chú bạn muốn nhắn với shop"></input>
+                            <input type="text" id="note" name="note" placeholder="Viết ghi chú bạn muốn nhắn với shop" oninput="checkNote()"></input>
+                            <small id="noterror"></small>
+
                         </div>
                     </div>
                     <div class="col-lg-5 col-md-6">
@@ -117,14 +240,14 @@
                             <ul>
                                 <c:forEach var="p" items="${sessionScope.cart.cart_items}">
                                     <li class="product-name">${p.product.product_name}<span class="product-price">${FormatCurrency.formatCurrency(p.product.price)}</span></li>
-                                    <c:set var="subtotal" value="${subtotal + (p.product.price * p.quantity)}" />
+                                    <c:set var="ship" value="${ship + (p.product.price * p.quantity)}" />
                                     <c:set var="total" value="${total + (p.product.price * p.quantity)}" />
                                 </c:forEach>
                             </ul>
-                            <div class="checkout__order__subtotal">Subtotal <span>${FormatCurrency.formatCurrency(subtotal)}</span></div>
-                            <div class="checkout__order__total">Total <span>${FormatCurrency.formatCurrency(total)}</span></div>
+                            <div class="checkout__order__subtotal">Tiền ship <span>${FormatCurrency.formatCurrency(ship)}</span></div>
+                            <div class="checkout__order__total">Tổng tiền <span>${FormatCurrency.formatCurrency(total)}</span></div>
                             <div class="checkout__input__checkbox" style="display: flex;">
-                                <label for="payment" style="margin-left: -15px">Phương thức thanh toán</label>
+                                <label style="margin-left: -15px">Phương thức thanh toán</label>
                                 <div style="margin-left: 20px; margin-top: -10px">
                                     <select name="payment" id="payment" title="Select Category">
                                         <c:forEach items="${paymentDAO.selectAll()}" var="c">
@@ -133,7 +256,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <button type="submit" class="site-btn">Đặt hàng</button>
+                            <button type="submit" class="site-btn" id="submitBtn">Đặt hàng</button>
                         </div>
                     </div>
                 </div>
@@ -218,9 +341,258 @@
 <script src="js/jquery-ui.min.js"></script>
 <script src="js/jquery.slicknav.js"></script>
 <script src="js/mixitup.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
+<%--<script src="js/owl.carousel.min.js"></script>--%>
 <script src="js/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
+<script>
+    const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
+    const icondarklight = document.getElementById('icontype');
 
+    // Initially disable Dark Reader
+    DarkReader.disable();
+
+    toggleDarkModeButton.addEventListener("click", () => {
+        if (DarkReader.isEnabled()) {
+            DarkReader.disable();
+            icondarklight.classList.replace("fa-sun", "fa-moon");
+        } else {
+            DarkReader.enable({
+                brightness: 100,
+                contrast: 90,
+                sepia: 10
+            });
+            icondarklight.classList.replace("fa-moon", "fa-sun");
+        }
+    });
+
+    // Set the initial button text and Font Awesome icon
+
+
+    // Enable Dark Reader when the page loads
+
+</script>
+<script src="https://esgoo.net/scripts/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+        // Lấy tỉnh thành
+        $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
+            if (data_tinh.error == 0) {
+                $("#tinh").append('<option value="0">Chọn Tỉnh/Thành</option>');
+                $.each(data_tinh.data, function (key_tinh, val_tinh) {
+                    $("#tinh").append('<option value="' + val_tinh.name + '" data-id="'+val_tinh.id+'">' + val_tinh.name + '</option>');
+                });
+                $("#tinh").change(); // Trigger the change event manually
+            }
+        });
+
+        // Khi chọn tỉnh
+        $("#tinh").change(function (e) {
+
+            const idtinh = $('#tinh').find("option:selected").attr("data-id");
+            // Lấy quận huyện
+            $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
+                if (data_quan.error == 0) {
+                    $("#quan").html('<option value="0">Quận Huyện</option>');
+                    $("#phuong").html('<option value="0">Phường Xã</option>');
+                    $.each(data_quan.data, function (key_quan, val_quan) {
+                        $("#quan").append('<option value="' + val_quan.name + '" data-id="'+val_quan.id+'">'  + val_quan.name + '</option>');
+                    });
+                    console.log("Province ID: " + idtinh);
+                }
+            });
+        });
+
+        // Khi chọn quận/huyện
+        $("#quan").change(function (e) {
+            const idquan = $('#quan').find("option:selected").attr("data-id");
+            // Lấy phường xã
+            $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
+                if (data_phuong.error == 0) {
+                    $("#phuong").html('<option value="0">Phường Xã</option>');
+                    $.each(data_phuong.data, function (key_phuong, val_phuong) {
+                        $("#phuong").append('<option value="' + val_phuong.name + '" data-id="'+val_phuong.id+'">' + val_phuong.name + '</option>');
+                    });
+                    console.log("District ID: " + idquan);
+                }
+            });
+        });
+
+        $("#phuong").change(function (e) {
+            var idphuong = $('#phuong').find("option:selected").attr("data-id");
+            console.log("Ward ID: " + idphuong);
+        });
+    });
+</script>
+<script>
+    // const usernamereceive = document.getElementById('nameConsignee');
+    // const address = document.getElementById('address');
+    // const phone = document.getElementById('phone');
+    // const note = document.getElementById('note');
+    //
+    // const form = document.querySelector('#checkoutform');
+    // const checkUsername = () => {
+    //
+    //     let valid = false;
+    //
+    //     const min = 3,
+    //         max = 25;
+    //
+    //     const usernameF = usernamereceive.value.trim();
+    //
+    //     if (!isRequired(usernameF)) {
+    //         showError(usernamereceive, 'Username cannot be blank.');
+    //     } else {
+    //         showSuccess(usernamereceive);
+    //         valid = true;
+    //     }
+    //     return valid;
+    // };
+    // const isRequired = value => value !== '';
+    // const isBetween = (length, min, max) => !(length < min || length > max)
+    // const showError = (input, message) => {
+    //     // get the form-field element
+    //     const formField = input.parentElement;
+    //     // add the error class
+    //     formField.classList.remove('success');
+    //     formField.classList.add('error');
+    //
+    //     // show the error message
+    //     const error = formField.querySelector('small');
+    //     error.textContent = message;
+    // };
+    // const showSuccess = (input) => {
+    //     // get the form-field element
+    //     const formField = input.parentElement;
+    //
+    //     // remove the error class
+    //     formField.classList.remove('error');
+    //     formField.classList.add('success');
+    //
+    //     // hide the error message
+    //     const error = formField.querySelector('small');
+    //     error.textContent = '';
+    // }
+    // form.addEventListener('submit', function (e) {
+    //     // prevent the form from submitting
+    //     e.preventDefault();
+    //
+    //
+    //     // validate forms
+    //     let isUsernameValid = checkUsername();
+    //
+    //
+    //     let isFormValid = isUsernameValid
+    //        ;
+    //
+    //     // submit to the server if the form is valid
+    //     if (isFormValid) {
+    //
+    //     }
+    // });
+    //
+    // const debounce = (fn, delay = 500) => {
+    //     let timeoutId;
+    //     return (...args) => {
+    //         // cancel the previous timer
+    //         if (timeoutId) {
+    //             clearTimeout(timeoutId);
+    //         }
+    //         // setup a new timer
+    //         timeoutId = setTimeout(() => {
+    //             fn.apply(null, args)
+    //         }, delay);
+    //     };
+    // };
+    // //
+    // form.addEventListener('input', debounce(function (e) {
+    //     switch (e.target.id) {
+    //         case 'username':
+    //             checkUsername();
+    //             break;
+    //         // case 'address':
+    //         //     checkEmail();
+    //         //     break;
+    //         // case 'password':
+    //         //     checkPassword();
+    //         //     break;
+    //         // case 'confirm-password':
+    //         //     checkConfirmPassword();
+    //         //     break;
+    //     }
+    // }));
+    function checkUsername() {
+        const usernameInput = document.getElementById('nameConsignee');
+        const username = usernameInput.value.trim();
+        const errorMessage1 = usernameInput.nextElementSibling;
+
+        if (username === '') {
+            usernameInput.style.borderColor = "#dc3545";
+            errorMessage1.textContent = "Username cannot be blank";
+        } else {
+            usernameInput.style.borderColor = "#28a745";
+            errorMessage1.textContent = "";
+        }
+
+    }
+    function checkPhone() {
+        const phoneInput = document.getElementById('phone');
+        const phone = phoneInput.value.trim();
+        const errorMessage2 = document.getElementById('phonerror');
+        const phoneRegex = /^(?:\d{10}|\d{11})(?![a-zA-Z])+$/;
+
+        // Check for null or empty value first
+        if (phone === '') {
+            phoneInput.style.borderColor = "#dc3545";
+            errorMessage2.textContent = "Số điện thoại không được để trống";
+        }
+
+        // Validate phone number format
+        const isValid = phoneRegex.test(phone);
+
+        if (!isValid) {
+            phoneInput.style.borderColor = "#dc3545";
+            errorMessage2.textContent = `Số điện thoại không đúng định dạng (10-11 số)`;
+        } else {
+            // Phone number is valid
+            phoneInput.style.borderColor = "#28a745";
+            errorMessage2.textContent = "";
+        }
+    }
+    function checkNote() {
+        const noteInput = document.getElementById('note');
+        const note = noteInput.value.trim();
+        const errorMessage3 = document.getElementById('noterror');
+        const inappropriateWordsRegex = /(cặc|đéo|lồn|ngu|gay|địt)/gi;
+
+
+        const match = note.match(inappropriateWordsRegex);
+        if (match) {
+            noteInput.style.borderColor = "#dc3545";
+            errorMessage3.style.color = "#dc3545";
+            errorMessage3.textContent = `Note contains inappropriate words:` + match;
+        } else {
+            noteInput.style.borderColor = "#28a745";
+            noteInput.style.color = "#000000FF"
+            errorMessage3.textContent = "";
+        }
+    }
+    const submitButton = document.getElementById('submitBtn');
+    submitButton.addEventListener('click', function(event) {
+        // Combine validation checks using logical AND (&&)
+        if (!checkUsername() && !checkNote() && !checkPhone()) {
+            event.preventDefault(); // Prevent form submission if errors exist
+
+        }
+
+        // If no errors are found, submit the form as intended
+        // (no changes to action or method are required)
+    });
+</script>
+
+
+
+
+</script>
 
 
 </body>

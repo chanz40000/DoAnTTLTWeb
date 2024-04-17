@@ -25,7 +25,7 @@ public class Shopgrid extends HttpServlet {
         ProductDAO productDAO = new ProductDAO();
         ArrayList<Product> products = productDAO.selectAll();
 
-        int page, numpage = 6;
+        int page, numpage = 10;
         int size = products.size();
         int num = (size % numpage == 0) ? (size / numpage) : ((size / numpage) + 1);
         String xpage = request.getParameter("page");
@@ -41,6 +41,7 @@ public class Shopgrid extends HttpServlet {
         List<Product> list = productDAO.getListByPage(products, start, end);
 
         session.setAttribute("listProduct", list);
+        session.setAttribute("listProducts", products);
         session.setAttribute("page", page);
         session.setAttribute("num", num);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/book/shop-grid.jsp");
