@@ -86,7 +86,7 @@
           <div class="card">
             <h5 class="card-header">List Product</h5>
             <div class="table-responsive text-nowrap">
-              <table class="table">
+              <table class="table" id="tabledata">
                 <thead>
                 <tr>
                   <th>Mã sách</th>
@@ -131,6 +131,9 @@
 
                     </tbody>
                   </table>
+
+              <button onclick="exportTableToExcel('tabledata', 'category_data')">Export Table Data To Excel File</button>
+
             </div>
           </div>
           <!--/ Basic Bootstrap Table -->
@@ -218,4 +221,36 @@
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
+<%--<script>--%>
+<%--  function exportTableToExcel(tableID, filename = ''){--%>
+<%--    var downloadLink;--%>
+<%--    var dataType = 'application/vnd.ms-excel';--%>
+<%--    var tableSelect = document.getElementById(tableID);--%>
+<%--    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');--%>
+
+<%--    // Specify file name--%>
+<%--    filename = filename?filename+'.xls':'excel_data.xls';--%>
+
+<%--    // Create download link element--%>
+<%--    downloadLink = document.createElement("a");--%>
+
+<%--    document.body.appendChild(downloadLink);--%>
+
+<%--    if(navigator.msSaveOrOpenBlob){--%>
+<%--      var blob = new Blob(['\ufeff', tableHTML], {--%>
+<%--        type: dataType--%>
+<%--      });--%>
+<%--      navigator.msSaveOrOpenBlob( blob, filename);--%>
+<%--    }else{--%>
+<%--      // Create a link to the file--%>
+<%--      downloadLink.href = 'data:' + dataType + ', ' + tableHTML;--%>
+
+<%--      // Setting the file name--%>
+<%--      downloadLink.download = filename;--%>
+
+<%--      //triggering the function--%>
+<%--      downloadLink.click();--%>
+<%--    }--%>
+<%--  }--%>
+<%--</script>--%>
 </body>
