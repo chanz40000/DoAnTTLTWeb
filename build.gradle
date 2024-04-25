@@ -45,10 +45,17 @@ dependencies {
     testImplementation libs.junit.junit
     providedCompile libs.javax.servlet.jsp.jstl.javax.servlet.jsp.jstl.api
     providedCompile libs.javax.servlet.javax.servlet.api
-    // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas
-    implementation 'org.apache.poi:poi-ooxml-schemas:4.1.2'
-// https://mvnrepository.com/artifact/org.apache.poi/poi
+    // https://mvnrepository.com/artifact/org.apache.poi/poi
     implementation 'org.apache.poi:poi:5.2.5'
+    // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
+    implementation 'org.apache.poi:poi-ooxml:5.2.5'
+// https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.3.1'
+// https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    implementation 'org.apache.httpcomponents:httpclient:4.5.14'
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/fluent-hc
+    implementation 'org.apache.httpcomponents:fluent-hc:4.5.14'
+
 
 
 }

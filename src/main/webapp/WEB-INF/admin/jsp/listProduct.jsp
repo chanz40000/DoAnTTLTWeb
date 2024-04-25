@@ -202,62 +202,75 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                     <jsp:useBean id="productDao" class="database.ProductDAO"></jsp:useBean>
-                    <c:forEach var="entry" items="${productDao.inventoryProduct2()}">
-                      <c:set value="${productDao.selectById(entry.key)}" var="product"/>
-                      <tr>
-                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${entry.key}</strong></td>
-                        <td>${product.product_name}</td>
-                        <td>${product.category.categoryName}</td>
-                        <td>${product.unitPrice}</td>
-                        <td>${product.price}</td>
-                        <td>${entry.value}</td>
-                        <td>
-                          <div class="dropdown">
-                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                              <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu">
-                              <a class="dropdown-item" href="./ProductDetail?id=${product.productId}"
-                              ><i class="bx bx-edit-alt me-1"></i> Detail</a
-                              >
-                              <a class="dropdown-item" href="./UserDetail?id=${product.productId}"
-                              ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                              >
-                              <a class="dropdown-item" href="./DeleteProduct?id=${product.productId}"
-                              ><i class="bx bx-trash me-1"></i> Delete</a
-                              >
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </c:forEach>
+<%--                    <c:forEach var="entry" items="${productDao.inventoryProduct2()}">--%>
+<%--                      <c:set value="${productDao.selectById(entry.key)}" var="product"/>--%>
+<%--                      <tr>--%>
+<%--                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${entry.key}</strong></td>--%>
+<%--                        <td>${product.product_name}</td>--%>
+<%--                        <td>${product.category.categoryName}</td>--%>
+<%--                        <td>${product.unitPrice}</td>--%>
+<%--                        <td>${product.price}</td>--%>
+<%--                        <td>${entry.value}</td>--%>
+<%--                        <td>--%>
+<%--                          <div class="dropdown">--%>
+<%--                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">--%>
+<%--                              <i class="bx bx-dots-vertical-rounded"></i>--%>
+<%--                            </button>--%>
+<%--                            <div class="dropdown-menu">--%>
+<%--                              <a class="dropdown-item" href="./ProductDetail?id=${product.productId}"--%>
+<%--                              ><i class="bx bx-edit-alt me-1"></i> Detail</a--%>
+<%--                              >--%>
+<%--                              <a class="dropdown-item" href="./UserDetail?id=${product.productId}"--%>
+<%--                              ><i class="bx bx-edit-alt me-1"></i> Edit</a--%>
+<%--                              >--%>
+<%--                              <a class="dropdown-item" href="./DeleteProduct?id=${product.productId}"--%>
+<%--                              ><i class="bx bx-trash me-1"></i> Delete</a--%>
+<%--                              >--%>
+<%--                            </div>--%>
+<%--                          </div>--%>
+<%--                        </td>--%>
+<%--                      </tr>--%>
+<%--                    </c:forEach>--%>
 
+                    <c:forEach var="product" items="${productDao.selectAll()}">
+<%--                        <c:set value="${productDao.selectById(entry.key)}" var="product"/>--%>
+                        <tr>
+                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${product.id}</strong></td>
+                            <td>${product.product_name}</td>
+                            <td>${product.category.categoryName}</td>
+                            <td>${product.unitPrice}</td>
+                            <td>${product.price}</td>
+                            <td>${entry.value}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="./ProductDetail?id=${product.productId}"
+                                        ><i class="bx bx-edit-alt me-1"></i> Detail</a
+                                        >
+                                        <a class="dropdown-item" href="./UserDetail?id=${product.productId}"
+                                        ><i class="bx bx-edit-alt me-1"></i> Edit</a
+                                        >
+                                        <a class="dropdown-item" href="./DeleteProduct?id=${product.productId}"
+                                        ><i class="bx bx-trash me-1"></i> Delete</a
+                                        >
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                   </table>
-<<<<<<< HEAD
 
               <button onclick="exportTableToExcel('tabledata', 'category_data')">Export Table Data To Excel File</button>
 
-=======
-<<<<<<< HEAD
-
             </div>
               </div>
-                <button onclick="exportTableToExcel('tabledata', 'category_data')">Export Table Data To Excel File</button>
               <!--/ Basic Bootstrap Table -->
 
               <hr class="my-5" />
-
-              <!-- Bootstrap Dark Table -->
-
-              <!--/ Striped Rows -->
-
-              
-=======
->>>>>>> main
->>>>>>> main
-            </div>
-          <!--/ Basic Bootstrap Table -->
 
         <!-- / Content -->
 
@@ -334,7 +347,7 @@
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
-<<<<<<< HEAD
+
 <%--<script>--%>
 <%--  function exportTableToExcel(tableID, filename = ''){--%>
 <%--    var downloadLink;--%>
@@ -367,7 +380,6 @@
 <%--    }--%>
 <%--  }--%>
 <%--</script>--%>
-=======
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var toggle = document.getElementById("menu-icon-toggle");
@@ -441,5 +453,4 @@
         }
     }
 </script>
->>>>>>> main
 </body>
