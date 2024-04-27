@@ -84,7 +84,7 @@
 
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
-                        <h5 class="card-header">Danh sách tài khoản của khách hàng</h5>
+                        <h5 class="card-header">Danh sách tài khoản quản trị viên</h5>
                         <div class="table-responsive text-nowrap">
                             <table class="table">
                                 <thead>
@@ -100,7 +100,7 @@
                                 </thead>
                                 <tbody class="table-border-bottom-0">
                                 <jsp:useBean id="userDao" class="database.UserDAO"></jsp:useBean>
-                                <c:forEach var="user" items="${userDao.selectUserLockAndUnLock()}">
+                                <c:forEach var="user" items="${userDao.selectAdmin()}">
                                     <tr>
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${user.username}</strong></td>
                                         <td>${user.name}</td>
@@ -111,13 +111,12 @@
 
                                         <td>          <c:choose>
                                             <c:when test="${user.role == 1}">
-                                                <span class="badge bg-success me-1">Hoạt Động</span>
+                                                <span class="badge bg-success me-1">Hoạt động</span>
                                             </c:when>
                                             <c:when test="${user.role == 3}">
                                                 <span class="badge bg-label-danger me-1">Khóa</span>
                                             </c:when>
-                                        </c:choose>
-                                        </td>
+                                        </c:choose></td>
                                         <td>
                                             <div class="dropdown">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

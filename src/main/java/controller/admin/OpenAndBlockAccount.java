@@ -1,5 +1,8 @@
 package controller.admin;
 
+import database.UserDAO;
+import model.User;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -9,6 +12,25 @@ import java.io.IOException;
 public class OpenAndBlockAccount extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String userIdString = request.getParameter("userId");
+        String action = request.getParameter("action");
+        if (userIdString != null) {
+            int userId = Integer.parseInt(userIdString);
+            UserDAO userDAO = new UserDAO();
+            User user = userDAO.selectById(userId);
+            if (user != null) {
+                if ("lock".equals(action)){
+                    user.setRole(3);
+                    userDAO.updateRole(user);
+                }
+                else if ("unLock".equals(action)){
+                    user.setRole(1);
+                    userDAO.updateRole(user);
+                }
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/admin/jsp/lockAccount.jsp");
+                dispatcher.forward(request, response);
+            }
+        }
 
     }
 

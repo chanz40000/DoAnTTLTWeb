@@ -70,7 +70,7 @@
         <!-- Layout container -->
         <div class="layout-page">
             <!-- Navbar -->
-
+            <jsp:useBean id="userDao" class="database.UserDAO"></jsp:useBean>
             <jsp:include page="navbar.jsp"/>
 
             <!-- / Navbar -->
@@ -80,11 +80,12 @@
                 <!-- Content -->
 
                 <div class="container-xxl flex-grow-1 container-p-y">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Khóa tài khoản</h4>
 
                     <!-- Basic Bootstrap Table -->
+                    <div>
                     <div class="card">
-                        <h5 class="card-header">Danh sách tài khoản của khách hàng</h5>
+                        <h5 class="card-header">Danh sách người dùng</h5>
                         <div class="table-responsive text-nowrap">
                             <table class="table">
                                 <thead>
@@ -92,15 +93,14 @@
                                     <th>Username</th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>Phone number</th>
+                                    <th>Phone</th>
                                     <th>Birthday</th>
                                     <th>Sexual</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                <jsp:useBean id="userDao" class="database.UserDAO"></jsp:useBean>
-                                <c:forEach var="user" items="${userDao.selectUserLockAndUnLock()}">
+                                <c:forEach var="user" items="${userDao.selectUser()}">
                                     <tr>
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${user.username}</strong></td>
                                         <td>${user.name}</td>
@@ -109,27 +109,22 @@
                                         <td>${user.birthday.toString()}</td>
                                         <td>${user.sexual}</td>
 
-                                        <td>          <c:choose>
-                                            <c:when test="${user.role == 1}">
-                                                <span class="badge bg-success me-1">Hoạt Động</span>
-                                            </c:when>
-                                            <c:when test="${user.role == 3}">
-                                                <span class="badge bg-label-danger me-1">Khóa</span>
-                                            </c:when>
-                                        </c:choose>
-                                        </td>
+                                        <td><span class="badge bg-success me-1">Hoạt Động</span></td>
                                         <td>
                                             <div class="dropdown">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                                     <i class="bx bx-dots-vertical-rounded"></i>
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="./UserDetail?id=${user.userId}"
-                                                    ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                                                    >
-                                                    <a class="dropdown-item" href="javascript:void(0);"
-                                                    ><i class="bx bx-trash me-1"></i> Delete</a
-                                                    >
+                                                    <form action="./OpenAndBlockAccount" method="GET">
+                                                        <input type="hidden" name="userId" value="${user.userId}" />
+                                                        <input type="hidden" name="action" value="lock" />
+                                                        <button type="submit" class="dropdown-item">
+                                                            <i class="bx bx-edit-alt me-1"></i> Khóa
+                                                        </button>
+                                                    </form>
+
+
                                                 </div>
                                             </div>
                                         </td>
@@ -138,17 +133,64 @@
 
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
-                    <!--/ Basic Bootstrap Table -->
+                    </div>
+                    <br><br>
+                    <div>
+                    <div class="card">
+                        <h5 class="card-header">Danh sách tài khoản bị khóa</h5>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Birthday</th>
+                                    <th>Sexual</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                <c:forEach var="user" items="${userDao.selectAccountLockout()}">
+                                    <tr>
+                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${user.username}</strong></td>
+                                        <td>${user.name}</td>
+                                        <td>${user.email}</td>
+                                        <td>${user.phone}</td>
+                                        <td>${user.birthday.toString()}</td>
+                                        <td>${user.sexual}</td>
 
+                                        <td><span class="badge bg-label-danger me-1">Khóa</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <form action="./OpenAndBlockAccount" method="GET">
+                                                        <input type="hidden" name="userId" value="${user.userId}" />
+                                                        <input type="hidden" name="action" value="unLock" />
+                                                        <button type="submit" class="dropdown-item">
+                                                            <i class="bx bx-edit-alt me-1"></i> Mở Khóa
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    </div>
                     <hr class="my-5" />
-
-                    <!-- Bootstrap Dark Table -->
-
-                    <!--/ Striped Rows -->
-
-
                 </div>
                 <!-- / Content -->
 
