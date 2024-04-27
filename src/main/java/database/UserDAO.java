@@ -102,7 +102,171 @@ public class UserDAO extends AbsDAO<User> {
         return result;
 
     }
+    public ArrayList<User> selectAdmin() {
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            // tao mot connection
+            Connection con = JDBCUtil.getConnection();
 
+            // tao cau lenh sql
+            String sql = "SELECT * FROM users WHERE role_id = 2";
+
+            PreparedStatement st = con.prepareStatement(sql);
+
+            // thuc thi
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+
+                int id = rs.getInt("user_id");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                int role_id = rs.getInt("role_id");
+                String names = rs.getString("name");
+                Date birthday = rs.getDate("birthday");
+                String gt = rs.getString("sexual");
+                String phoneNumber = rs.getString("phoneNumber");
+                String email = rs.getString("email");
+                String avatar = rs.getString("avatar");
+                User customer = new User(id, username, password, role_id, names, birthday, gt, phoneNumber, email, avatar);
+
+
+                users.add(customer);
+
+            }
+
+            JDBCUtil.closeConnection(con);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+    // danh sách toàn bộ user bao gồm khóa và chưa khóa
+    public ArrayList<User> selectUserLockAndUnLock() {
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            // tao mot connection
+            Connection con = JDBCUtil.getConnection();
+
+            // tao cau lenh sql
+            String sql = "SELECT * FROM users where role_id = 1 OR role_id = 3";
+
+            PreparedStatement st = con.prepareStatement(sql);
+
+            // thuc thi
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+
+                int id = rs.getInt("user_id");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                int role_id = rs.getInt("role_id");
+                String names = rs.getString("name");
+                Date birthday = rs.getDate("birthday");
+                String gt = rs.getString("sexual");
+                String phoneNumber = rs.getString("phoneNumber");
+                String email = rs.getString("email");
+                String avatar = rs.getString("avatar");
+                User customer = new User(id, username, password, role_id, names, birthday, gt, phoneNumber, email, avatar);
+
+
+                users.add(customer);
+
+            }
+
+            JDBCUtil.closeConnection(con);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+    public ArrayList<User> selectUser() {
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            // tao mot connection
+            Connection con = JDBCUtil.getConnection();
+
+            // tao cau lenh sql
+            String sql = "SELECT * FROM users where role_id = 1";
+
+            PreparedStatement st = con.prepareStatement(sql);
+
+            // thuc thi
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+
+                int id = rs.getInt("user_id");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                int role_id = rs.getInt("role_id");
+                String names = rs.getString("name");
+                Date birthday = rs.getDate("birthday");
+                String gt = rs.getString("sexual");
+                String phoneNumber = rs.getString("phoneNumber");
+                String email = rs.getString("email");
+                String avatar = rs.getString("avatar");
+                User customer = new User(id, username, password, role_id, names, birthday, gt, phoneNumber, email, avatar);
+
+
+                users.add(customer);
+
+            }
+
+            JDBCUtil.closeConnection(con);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+    public ArrayList<User> selectAccountLockout() {
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            // tao mot connection
+            Connection con = JDBCUtil.getConnection();
+
+            // tao cau lenh sql
+            String sql = "SELECT * FROM users where role_id = 3";
+
+            PreparedStatement st = con.prepareStatement(sql);
+
+            // thuc thi
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+
+                int id = rs.getInt("user_id");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                int role_id = rs.getInt("role_id");
+                String names = rs.getString("name");
+                Date birthday = rs.getDate("birthday");
+                String gt = rs.getString("sexual");
+                String phoneNumber = rs.getString("phoneNumber");
+                String email = rs.getString("email");
+                String avatar = rs.getString("avatar");
+                User customer = new User(id, username, password, role_id, names, birthday, gt, phoneNumber, email, avatar);
+
+
+                users.add(customer);
+
+            }
+
+            JDBCUtil.closeConnection(con);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
     public boolean selectByUsername(String username) {
 
         try {
@@ -332,6 +496,35 @@ public class UserDAO extends AbsDAO<User> {
                 rs.setString(8, user.getEmail());
                 rs.setString(9, user.getAvatar());
                 rs.setInt(10, user.getUserId());
+
+                result = rs.executeUpdate();
+                super.update(user);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+
+    }
+    //cap nhat lai role cua tai khoan
+    // dung lam thang cap nhan vien hay khoa tai khoan user
+    public int updateRole(User user) {
+        int result = 0;
+
+        User oldUser = this.selectById(user.getUserId());
+        //Set gia tri cho json
+        this.setValue(this.gson.toJson(user));
+        this.setPreValue(this.gson.toJson(oldUser));
+        if (oldUser != null) {
+            try {
+                Connection con = JDBCUtil.getConnection();
+
+                String sql = "UPDATE book.users SET  role_id=? WHERE user_id =?";
+
+                PreparedStatement rs = con.prepareStatement(sql);
+                rs.setInt(1, user.getRole());
+                rs.setInt(2, user.getUserId());
 
                 result = rs.executeUpdate();
                 super.update(user);
