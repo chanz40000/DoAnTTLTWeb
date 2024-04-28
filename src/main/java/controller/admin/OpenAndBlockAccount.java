@@ -23,8 +23,16 @@ public class OpenAndBlockAccount extends HttpServlet {
                     user.setRole(3);
                     userDAO.updateRole(user);
                 }
+                else if ("lockAdmin".equals(action)){
+                    user.setRole(5);
+                    userDAO.updateRole(user);
+                }
                 else if ("unLock".equals(action)){
                     user.setRole(1);
+                    userDAO.updateRole(user);
+                }
+                else if ("unLockAdmin".equals(action)){
+                    user.setRole(2);
                     userDAO.updateRole(user);
                 }
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/admin/jsp/lockAccount.jsp");
