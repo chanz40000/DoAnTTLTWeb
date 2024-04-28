@@ -105,7 +105,7 @@ public class LoginForm extends HttpServlet {
                     String url = "/WEB-INF/admin/jsp/index.jsp";
                     RequestDispatcher dispatcher = request.getRequestDispatcher(url);
                     dispatcher.forward(request, response);
-                }else if(user.getRole() == 3){
+                }else if(user.getRole() == 3 || user.getRole() == 5){
                     request.setAttribute("Error", "Tài khoản bạn đã bị khóa!");
                     eb.setError((String) request.getAttribute("Error"));
                     request.setAttribute("errorBean", eb);

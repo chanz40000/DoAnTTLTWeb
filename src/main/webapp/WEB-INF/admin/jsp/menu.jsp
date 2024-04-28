@@ -402,7 +402,7 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="./lockAccount" class="menu-link">
+                    <a href="./lockAccountAdmin" class="menu-link">
                         <div data-i18n="Horizontal Form">Khóa tài khoản</div>
                     </a>
                 </li>

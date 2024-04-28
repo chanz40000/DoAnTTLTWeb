@@ -143,6 +143,47 @@ public class UserDAO extends AbsDAO<User> {
         }
         return users;
     }
+    public ArrayList<User> selectAdminBlock() {
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            // tao mot connection
+            Connection con = JDBCUtil.getConnection();
+
+            // tao cau lenh sql
+            String sql = "SELECT * FROM users WHERE role_id = 5";
+
+            PreparedStatement st = con.prepareStatement(sql);
+
+            // thuc thi
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+
+                int id = rs.getInt("user_id");
+                String username = rs.getString("username");
+                String password = rs.getString("password");
+                int role_id = rs.getInt("role_id");
+                String names = rs.getString("name");
+                Date birthday = rs.getDate("birthday");
+                String gt = rs.getString("sexual");
+                String phoneNumber = rs.getString("phoneNumber");
+                String email = rs.getString("email");
+                String avatar = rs.getString("avatar");
+                User customer = new User(id, username, password, role_id, names, birthday, gt, phoneNumber, email, avatar);
+
+
+                users.add(customer);
+
+            }
+
+            JDBCUtil.closeConnection(con);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
     // danh sách toàn bộ user bao gồm khóa và chưa khóa
     public ArrayList<User> selectUserLockAndUnLock() {
         ArrayList<User> users = new ArrayList<>();
