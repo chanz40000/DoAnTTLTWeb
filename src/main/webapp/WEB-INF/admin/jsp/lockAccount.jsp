@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ page import="util.FormatCurrency"%>
 <%@page isELIgnored="false" %>
-
 <!DOCTYPE html>
 
 
@@ -36,9 +36,6 @@
             href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
             rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/fonts/boxicons.css" />
@@ -51,15 +48,8 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css" >
-
     <!-- Page CSS -->
-    <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script defer src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>\
-    <script defer src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
-    <script defer src="script.js"></script>
+
     <!-- Helpers -->
     <script src="../assetsForAdmin/assets/vendor/js/helpers.js"></script>
 
@@ -67,96 +57,7 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assetsForAdmin/assets/js/config.js"></script>
 </head>
-<style>
-    #menu-icon{
-        margin-left: 110px;
 
-    }
-    .bg-menu-theme #menu-icon-toggle{
-        background-color: #696cff;
-        border: 7px solid #f5f5f9;
-        position: absolute;
-        top: 28px;
-        left: 230px;
-        border-radius: 50%;
-        z-index: 1;
-        display: block !important;
-    }
-    #menu-icon-toggle i{
-        width: 1.5rem;
-        height: 1.5rem;
-    }
-    #menu-icon-toggle::before{
-        color:white;
-        content: "\ecb0";
-
-    }
-    aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close{
-        width: 100px;
-    }
-    aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close .menu-item div, aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close .menu-sub div{
-        opacity: 0;
-
-    }
-    .bg-menu-theme.close .menu-inner > .menu-item.active > .menu-link {
-
-        /*background-color: rgba(105, 108, 255, 0.16) !important;*/
-        /*color: black;*/
-    }
-    .menu-header-text{
-        opacity: 0;
-    }
-    .bg-menu-theme.close .menu-header:before {
-        display: none;
-    }
-    .bg-menu-theme.close .app-brand-text.demo.menu-text.fw-bolder.ms-2{
-        display: none;
-    }
-    .bg-menu-theme.close{
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-    }
-    .bg-menu-theme.close #menu-icon-toggle{
-        background-color: #696cff;
-        border: 7px solid #f5f5f9;
-        position: absolute;
-        top: 28px;
-        left: 70px;
-        border-radius: 50%;
-        z-index: 1;
-        display: block !important;
-    }
-    .bg-menu-theme.close #menu-icon-toggle{
-        transform: rotate(180deg);
-
-    }
-    /*.bg-menu-theme.close .align-items-center.bg-navbar-theme{*/
-    /*  padding-left: 100px;*/
-    /*}*/
-    .layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached.align-items-center.bg-navbar-theme.close{
-        width:1212px;
-        margin-left: -125px;
-    }
-
-    .content-wrapper.close{
-        margin-left: -151px;
-        width: 1263px;
-    }
-    /*.container-xxl.flex-grow-1.container-p-y .row.close .card-body{*/
-    /*  !*margin-left: -10px;*!*/
-    /*  !*width: 500px;*!*/
-    /*}*/
-    .fa-regular.fa-sun{
-        font-size: 20px;
-
-    }
-    .fa-regular.fa-moon{
-        font-size: 20px;
-
-    }
-</style>
 <body>
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
@@ -169,35 +70,37 @@
         <!-- Layout container -->
         <div class="layout-page">
             <!-- Navbar -->
-
+            <jsp:useBean id="userDao" class="database.UserDAO"></jsp:useBean>
             <jsp:include page="navbar.jsp"/>
 
             <!-- / Navbar -->
 
             <!-- Content wrapper -->
-            <div class="content-wrapper" id="content-wrapper">
+            <div class="content-wrapper">
                 <!-- Content -->
 
-                <div class="container-xxl flex-grow-1 container-p-y"  id="content-big-section">
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Khóa tài khoản</h4>
 
                     <!-- Basic Bootstrap Table -->
+                    <div>
                     <div class="card">
+                        <h5 class="card-header">Danh sách người dùng</h5>
                         <div class="table-responsive text-nowrap">
-                            <table id="example" class="table table-striped order-column" style="width:100%">
+                            <table class="table">
                                 <thead>
                                 <tr>
                                     <th>Username</th>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>Phone number</th>
+                                    <th>Phone</th>
                                     <th>Birthday</th>
                                     <th>Sexual</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                <jsp:useBean id="userDao" class="database.UserDAO"></jsp:useBean>
-                                <c:forEach var="user" items="${userDao.selectUserLockAndUnLock()}">
+                                <c:forEach var="user" items="${userDao.selectUser()}">
                                     <tr>
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${user.username}</strong></td>
                                         <td>${user.name}</td>
@@ -206,27 +109,22 @@
                                         <td>${user.birthday.toString()}</td>
                                         <td>${user.sexual}</td>
 
-                                        <td>          <c:choose>
-                                            <c:when test="${user.role == 1}">
-                                                <span class="badge bg-success me-1">Hoạt Động</span>
-                                            </c:when>
-                                            <c:when test="${user.role == 3}">
-                                                <span class="badge bg-label-danger me-1">Khóa</span>
-                                            </c:when>
-                                        </c:choose>
-                                        </td>
+                                        <td><span class="badge bg-success me-1">Hoạt Động</span></td>
                                         <td>
                                             <div class="dropdown">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                                     <i class="bx bx-dots-vertical-rounded"></i>
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="./UserDetail?id=${user.userId}"
-                                                    ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                                                    >
-                                                    <a class="dropdown-item" href="javascript:void(0);"
-                                                    ><i class="bx bx-trash me-1"></i> Delete</a
-                                                    >
+                                                    <form action="./OpenAndBlockAccount" method="GET">
+                                                        <input type="hidden" name="userId" value="${user.userId}" />
+                                                        <input type="hidden" name="action" value="lock" />
+                                                        <button type="submit" class="dropdown-item">
+                                                            <i class="bx bx-edit-alt me-1"></i> Khóa
+                                                        </button>
+                                                    </form>
+
+
                                                 </div>
                                             </div>
                                         </td>
@@ -235,17 +133,64 @@
 
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
-                    <!--/ Basic Bootstrap Table -->
+                    </div>
+                    <br><br>
+                    <div>
+                    <div class="card">
+                        <h5 class="card-header">Danh sách tài khoản bị khóa</h5>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Birthday</th>
+                                    <th>Sexual</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                <c:forEach var="user" items="${userDao.selectAccountLockout()}">
+                                    <tr>
+                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${user.username}</strong></td>
+                                        <td>${user.name}</td>
+                                        <td>${user.email}</td>
+                                        <td>${user.phone}</td>
+                                        <td>${user.birthday.toString()}</td>
+                                        <td>${user.sexual}</td>
 
+                                        <td><span class="badge bg-label-danger me-1">Khóa</span></td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <form action="./OpenAndBlockAccount" method="GET">
+                                                        <input type="hidden" name="userId" value="${user.userId}" />
+                                                        <input type="hidden" name="action" value="unLock" />
+                                                        <button type="submit" class="dropdown-item">
+                                                            <i class="bx bx-edit-alt me-1"></i> Mở Khóa
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    </div>
                     <hr class="my-5" />
-
-                    <!-- Bootstrap Dark Table -->
-
-                    <!--/ Striped Rows -->
-
-
                 </div>
                 <!-- / Content -->
 
@@ -322,49 +267,5 @@
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var toggle = document.getElementById("menu-icon-toggle");
-        var sidebar = document.getElementById("layout-menu");
-        var searchbar = document.getElementById("layout-navbar");
-        var contentnew = document.getElementById("content-wrapper");
-        // bigcontent = document.getElementById('content-big-section');
-
-        toggle.addEventListener("click", function () {
-            sidebar.classList.toggle("close");
-            searchbar.classList.toggle("close");
-            contentnew.classList.toggle("close");
-            // bigcontent.classList.toggle("close");
-        });
-    });
-</script>
-<script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
-<script>
-    const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
-    const icondarklight = document.getElementById('icontype');
-
-    // Initially disable Dark Reader
-    DarkReader.disable();
-
-    toggleDarkModeButton.addEventListener("click", () => {
-        if (DarkReader.isEnabled()) {
-            DarkReader.disable();
-            icondarklight.classList.replace("fa-sun", "fa-moon");
-        } else {
-            DarkReader.enable({
-                brightness: 100,
-                contrast: 90,
-                sepia: 10
-            });
-            icondarklight.classList.replace("fa-moon", "fa-sun");
-        }
-    });
-
-    // Set the initial button text and Font Awesome icon
-
-
-    // Enable Dark Reader when the page loads
-
-</script>
 </body>
 </html>
