@@ -231,16 +231,14 @@
 <%--                        </td>--%>
 <%--                      </tr>--%>
 <%--                    </c:forEach>--%>
-
                     <c:forEach var="product" items="${productDao.selectAll()}">
-<%--                        <c:set value="${productDao.selectById(entry.key)}" var="product"/>--%>
                         <tr>
-                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${product.id}</strong></td>
+                            <td id="id_product">${product.productId}</td>
                             <td>${product.product_name}</td>
                             <td>${product.category.categoryName}</td>
                             <td>${product.unitPrice}</td>
                             <td>${product.price}</td>
-                            <td>${entry.value}</td>
+                            <td>${product.quantity}</td>
                             <td>
                                 <div class="dropdown">
                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -250,10 +248,10 @@
                                         <a class="dropdown-item" href="./ProductDetail?id=${product.productId}"
                                         ><i class="bx bx-edit-alt me-1"></i> Detail</a
                                         >
-                                        <a class="dropdown-item" href="./UserDetail?id=${product.productId}"
+                                        <a class="dropdown-item" href="./ChangeInformationProduct?id=${product.productId}"
                                         ><i class="bx bx-edit-alt me-1"></i> Edit</a
                                         >
-                                        <a class="dropdown-item" href="./DeleteProduct?id=${product.productId}"
+                                        <a class="dropdown-item" onclick="deleteItem(event)"
                                         ><i class="bx bx-trash me-1"></i> Delete</a
                                         >
                                     </div>
@@ -261,6 +259,7 @@
                             </td>
                         </tr>
                     </c:forEach>
+
                     </tbody>
                   </table>
 
@@ -327,6 +326,7 @@
     >Quay lại trang shopping</a
     >
 </div>
+</div>
 
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
@@ -348,38 +348,6 @@
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-<%--<script>--%>
-<%--  function exportTableToExcel(tableID, filename = ''){--%>
-<%--    var downloadLink;--%>
-<%--    var dataType = 'application/vnd.ms-excel';--%>
-<%--    var tableSelect = document.getElementById(tableID);--%>
-<%--    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');--%>
-
-<%--    // Specify file name--%>
-<%--    filename = filename?filename+'.xls':'excel_data.xls';--%>
-
-<%--    // Create download link element--%>
-<%--    downloadLink = document.createElement("a");--%>
-
-<%--    document.body.appendChild(downloadLink);--%>
-
-<%--    if(navigator.msSaveOrOpenBlob){--%>
-<%--      var blob = new Blob(['\ufeff', tableHTML], {--%>
-<%--        type: dataType--%>
-<%--      });--%>
-<%--      navigator.msSaveOrOpenBlob( blob, filename);--%>
-<%--    }else{--%>
-<%--      // Create a link to the file--%>
-<%--      downloadLink.href = 'data:' + dataType + ', ' + tableHTML;--%>
-
-<%--      // Setting the file name--%>
-<%--      downloadLink.download = filename;--%>
-
-<%--      //triggering the function--%>
-<%--      downloadLink.click();--%>
-<%--    }--%>
-<%--  }--%>
-<%--</script>--%>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var toggle = document.getElementById("menu-icon-toggle");
@@ -453,4 +421,38 @@
         }
     }
 </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+
+        function deleteItem(event){
+            var trElement = event.target.closest('tr');
+
+            // Check if <tr> element is found
+            if (!trElement) return;
+
+            // Get the id_import attribute value from the <td> element inside the <tr>
+            var idImport = trElement.querySelector('td[id="id_product"]').textContent;
+            // var idImport=this.parentElement.getElementById('id_import');
+            var confirmation = confirm("Bạn có chắc chắn muốn xóa không?");
+            if(confirmation){
+                $.ajax({
+                    url: "/DeleteProduct",
+                    type: "get",
+                    data:{id: idImport},
+                    success: function(response) {
+                        // Handle success response
+                        console.log("Item deleted successfully");
+                        // Optionally, you can update the UI here
+                        trElement.remove();
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error response
+                        console.error("Failed to delete item", error);
+                    }
+                });
+            }
+
+        }
+    </script>
 </body>

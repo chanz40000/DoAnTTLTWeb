@@ -5,6 +5,10 @@ function addOutput(text) {
 
     document.querySelector('#demo-output').prepend(newEl);
 }
+$(document).ready( function () {
+    $('#table_id').DataTable();
+} );
+
 
 // Register a `sum` API method with DataTables
 DataTable.Api.register('column().data().sum()', function () {
