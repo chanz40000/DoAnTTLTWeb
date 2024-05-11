@@ -99,9 +99,10 @@ public class LoginForm extends HttpServlet {
                 session.setAttribute("username", username);
                 System.out.println(username);
 
-                if (user.getRole() == 1) {
+                if (user.getRole() == 1 || user.getRole() == 4) {
                     session.setAttribute("admin", user);
                     // Use sendRedirect for successful admin login
+//                    String url = "/WEB-INF/admin/jsp/index.jsp";
                     String url = "/WEB-INF/admin/jsp/index.jsp";
                     RequestDispatcher dispatcher = request.getRequestDispatcher(url);
                     dispatcher.forward(request, response);

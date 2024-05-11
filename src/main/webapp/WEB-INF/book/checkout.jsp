@@ -579,6 +579,7 @@
     const submitButton = document.getElementById('submitBtn');
     submitButton.addEventListener('click', function(event) {
         // Combine validation checks using logical AND (&&)
+        document.getElementById("checkoutform").submit();
         if (!checkUsername() && !checkNote() && !checkPhone()) {
             event.preventDefault(); // Prevent form submission if errors exist
 

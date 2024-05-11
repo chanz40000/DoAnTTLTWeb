@@ -109,7 +109,7 @@ public class UserDAO extends AbsDAO<User> {
             Connection con = JDBCUtil.getConnection();
 
             // tao cau lenh sql
-            String sql = "SELECT * FROM users WHERE role_id = 2";
+            String sql = "SELECT * FROM users WHERE role_id = 1";
 
             PreparedStatement st = con.prepareStatement(sql);
 
@@ -192,7 +192,7 @@ public class UserDAO extends AbsDAO<User> {
             Connection con = JDBCUtil.getConnection();
 
             // tao cau lenh sql
-            String sql = "SELECT * FROM users where role_id = 1 OR role_id = 3";
+            String sql = "SELECT * FROM users where role_id = 2 OR role_id = 3";
 
             PreparedStatement st = con.prepareStatement(sql);
 
@@ -233,7 +233,7 @@ public class UserDAO extends AbsDAO<User> {
             Connection con = JDBCUtil.getConnection();
 
             // tao cau lenh sql
-            String sql = "SELECT * FROM users where role_id = 1";
+            String sql = "SELECT * FROM users where role_id = 2";
 
             PreparedStatement st = con.prepareStatement(sql);
 
