@@ -375,7 +375,7 @@
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div data-i18n="Form Layouts">Tài khoản</div>
+                <div data-i18n="Form Layouts">Tài khoản User</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
@@ -384,7 +384,25 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="form-layouts-horizontal.html" class="menu-link">
+                    <a href="./lockAccount" class="menu-link">
+                        <div data-i18n="Horizontal Form">Khóa tài khoản</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-detail"></i>
+                <div data-i18n="Form Layouts">Tài khoản Admin</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="./listAdmin" class="menu-link">
+                        <div data-i18n="Vertical Form">Danh sách quản trị viên</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="./lockAccountAdmin" class="menu-link">
                         <div data-i18n="Horizontal Form">Khóa tài khoản</div>
                     </a>
                 </li>

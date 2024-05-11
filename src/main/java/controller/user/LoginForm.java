@@ -105,7 +105,14 @@ public class LoginForm extends HttpServlet {
                     String url = "/WEB-INF/admin/jsp/index.jsp";
                     RequestDispatcher dispatcher = request.getRequestDispatcher(url);
                     dispatcher.forward(request, response);
-                } else {
+                }else if(user.getRole() == 3 || user.getRole() == 5){
+                    request.setAttribute("Error", "Tài khoản bạn đã bị khóa!");
+                    eb.setError((String) request.getAttribute("Error"));
+                    request.setAttribute("errorBean", eb);
+                    String url = request.getContextPath() + "/WEB-INF/book/logintwo.jsp";
+                    RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+                    dispatcher.forward(request, response);
+                }else {
                     session.setMaxInactiveInterval(30 * 60);
                     session.setAttribute("userC", user);
                     // Use forward for successful customer login
