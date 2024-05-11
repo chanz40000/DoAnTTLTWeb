@@ -877,6 +877,94 @@ public class ProductDAO extends AbsDAO<Product> {
         }
         return products;
     }
+    public ArrayList<Product> selectByCategoryName(String categoryName) {
+
+        ArrayList<model.Product> products = new ArrayList<>();
+        try {
+            // Create a connection
+            Connection con = JDBCUtil.getConnection();
+
+            // Prepare the SQL query with a placeholder for category name
+            String sql = "SELECT * FROM products " +
+                    "JOIN categories ON products.category_id = categories.category_id " +
+                    "WHERE category_name LIKE ?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, "%"+ categoryName +"%");
+
+
+            // Execute the query and process results
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int idProduct = rs.getInt("product_id");
+                String nameProduct = rs.getString("product_name");
+                String description = rs.getString("description");
+                String image = rs.getString("image");
+                double unitPrice = rs.getDouble("unit_price");
+                double price = rs.getDouble("price");
+                int quantity = rs.getInt("quantity");
+                String author = rs.getString("author");
+                int publicationYear = rs.getInt("publication_year");
+                String publisher = rs.getString("publisher");
+                int categoryId = rs.getInt("category_id");
+
+                Category category = new CategoryDAO().selectById(categoryId); // Assuming CategoryDAO has selectById method
+                model.Product product = new model.Product(idProduct, nameProduct, description, image, unitPrice, price, quantity, author, publicationYear, publisher, category);
+
+                products.add(product);
+            }
+
+            JDBCUtil.closeConnection(con);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return products;
+    }
+    public ArrayList<Product> selectPrice(int low, int high) {
+        ArrayList<Product> products = new ArrayList<>();
+        try {
+            // tao mot connection
+            Connection con = JDBCUtil.getConnection();
+
+            // tao cau lenh sql
+            String sql = "SELECT * FROM products where price >= " + low + " and price <= " + high;
+
+            PreparedStatement st = con.prepareStatement(sql);
+
+            // thuc thi
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+
+                int idProduct = rs.getInt("product_id");
+                String nameProduct = rs.getString("product_name");
+                String description = rs.getString("description");
+                String image = rs.getString("image");
+                double unitPrice = rs.getDouble("unit_price");
+                double price = rs.getDouble("price");
+                int quantity = rs.getInt("quantity");
+                String author = rs.getString("author");
+                int publicationYear = rs.getInt("publication_year");
+                String publisher = rs.getString("publisher");
+                int categoryId = rs.getInt("category_id");
+
+                Category category = new CategoryDAO().selectById(categoryId);
+                Product product = new Product(idProduct,nameProduct,description,image,unitPrice,price,quantity,author,publicationYear,publisher,category);
+
+
+                products.add(product);
+
+            }
+
+            JDBCUtil.closeConnection(con);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return products;
+    }
     public ArrayList<Product> selectAllOrderBytt(String orderBy) {
         ArrayList<Product> products = new ArrayList<>();
         try {
@@ -894,6 +982,78 @@ public class ProductDAO extends AbsDAO<Product> {
                 sql += " ORDER BY CAST(product_id AS SIGNED)";
             }
             PreparedStatement st = con.prepareStatement(sql);
+
+            // thuc thi
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+
+                int idProduct = rs.getInt("product_id");
+                String nameProduct = rs.getString("product_name");
+                String description = rs.getString("description");
+                String image = rs.getString("image");
+                double unitPrice = rs.getDouble("unit_price");
+                double price = rs.getDouble("price");
+                int quantity = rs.getInt("quantity");
+                String author = rs.getString("author");
+                int publicationYear = rs.getInt("publication_year");
+                String publisher = rs.getString("publisher");
+                int categoryId = rs.getInt("category_id");
+
+                Category category = new CategoryDAO().selectById(categoryId);
+                Product product = new Product(idProduct,nameProduct,description,image,unitPrice,price,quantity,author,publicationYear,publisher,category);
+
+
+                products.add(product);
+
+            }
+
+            JDBCUtil.closeConnection(con);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return products;
+    }
+    public int selectCategoryId(int productid) {
+        int categoryId = -1; // Khởi tạo categoryId mặc định là -1 (nếu không tìm thấy)
+
+        try {
+            // Tạo một kết nối
+            Connection con = JDBCUtil.getConnection();
+
+            // Tạo câu lệnh SQL
+            String sql = "SELECT category_id FROM products WHERE product_id=?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, productid);
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()) {
+                categoryId = rs.getInt("category_id");
+            }
+
+            JDBCUtil.closeConnection(con);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return categoryId;
+    }
+    public ArrayList<Product> selectSameCategory(int categoryid,int productid) {
+        ArrayList<Product> products = new ArrayList<>();
+        try {
+            // tao mot connection
+            Connection con = JDBCUtil.getConnection();
+
+            // tao cau lenh sql
+            String sql = "SELECT * FROM products WHERE category_id=? AND product_id != ?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, categoryid);
+            st.setInt(2, productid);
 
             // thuc thi
 

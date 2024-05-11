@@ -500,7 +500,7 @@
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" > <!--data-setbg=""-->
-                                    <img src="img/image/${p.image}">
+                                    <img data-src="img/image/${p.image}" lazy>
                                     <ul class="product__item__pic__hover">
                                         <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                         <li><a href="Shopdetails?id=${p.productId}"><i class="fa fa-info-circle"></i></a></li>
