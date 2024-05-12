@@ -18,14 +18,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
     <style>
         .cart-btn, .primary-btn{
             border-radius: 15px;
@@ -182,8 +182,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="shoping__cart__btns">
-                    <a href="/Shopgrid" class="primary-btn cart-btn">Tiếp tục mua sắm</a>
-                    <a href="/Cart" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
+                    <a href="Shopgrid" class="primary-btn cart-btn">Tiếp tục mua sắm</a>
+                    <a href="Shoppingcart" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
                         Cập nhật giỏ hàng</a>
                 </div>
             </div>
@@ -282,15 +282,14 @@
 <!-- Footer Section End -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
-<<<<<<< HEAD
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
 
 <script>
@@ -313,28 +312,28 @@
             icondarklight.classList.replace("fa-moon", "fa-sun");
         }
     });
-
+</script>
     // Set the initial button text and Font Awesome icon
 
 
     // Enable Dark Reader when the page loads
 
-// =======
-<script srgitc="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
         $('#checkout-btn').click(function(e){
             e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ a
-            var cartItems = ${sessionScope.cart.cart_items}; // Lấy danh sách mục trong giỏ hàng
-
-            if (cartItems.length === 0) {
+            let cartItems = "${sessionScope.cart.cart_items}"; // Lấy danh sách mục trong giỏ hàng
+            let cartItemsLength = parseInt(cartItems.length);
+            console.log(cartItemsLength);
+            if (cartItemsLength === 0) {
                 alert('Giỏ hàng của bạn đang trống!'); // Thông báo nếu giỏ hàng trống
             } else {
                 window.location.href = "/Checkout"; // Chuyển hướng tới trang thanh toán nếu giỏ hàng không trống
             }
         });
     });
-// >>>>>>> main
+
 </script>
 
 

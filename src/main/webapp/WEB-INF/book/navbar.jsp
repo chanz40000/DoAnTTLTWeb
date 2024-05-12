@@ -163,7 +163,7 @@
                                             <li><a href="./ChangePass">Thay đổi mật khẩu</a></li>
                                             <li><a href="./ChangeInf">Thay đổi thông tin</a></li>
                                             <li><a href="./Register">Trợ giúp</a></li>
-                                            <li><a href="./ForgotPass">Đơn đặt hàng</a></li>
+                                            <li><a href="./Order">Đơn đặt hàng</a></li>
                                             <li><a href="./Logout">Đăng xuất</a></li>
                                         </ul>
                                     </div>

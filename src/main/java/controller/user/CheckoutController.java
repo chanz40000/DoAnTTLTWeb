@@ -58,11 +58,8 @@ public class CheckoutController extends HttpServlet {
         java.sql.Date currentTime = new java.sql.Date(System.currentTimeMillis());
         PaymentDAO paymentDAO = new PaymentDAO();
         Payment payment = paymentDAO.selectById(paymentId);
-//<<<<<<< HEAD
-//        Order order = new Order(orderDAO.creatId() + 1, user, cart.calculateTotal(), name, phone, fullAddress, payment, "Pending", currentTime, note);
-//=======
-        Order order = new Order(orderDAO.creatId() + 1, user, cart.calculateTotal(), name, phone, fullAddress, payment, currentTime, note, 0, 1);
-//>>>>>>> main
+        StatusOrder statusOrder = new StatusOrder(1);
+        Order order = new Order(orderDAO.creatId() + 1, user, cart.calculateTotal(), name, phone, fullAddress, payment, currentTime, note, 0, statusOrder);
 
         // Insert vào CSDL
         order.setNameConsignee(name);
@@ -82,8 +79,7 @@ public class CheckoutController extends HttpServlet {
                 Product product = cartItem.getProduct();
                 int quantityOrdered = cartItem.getQuantity();
                 //giam so luong san pham trong kho
-                int remainingQuantity = product.getQuantity() - quantityOrdered;
-                int resultUpQuantity = productDAO.updateQuantityOrder(product.getProductId(), remainingQuantity);
+                int remainingQuantity = product.getQuantity() - quantityOrdered;int resultUpQuantity = productDAO.updateQuantityOrder(product.getProductId(), remainingQuantity);
                 if (resultUpQuantity > 0) {
                     double price = cartItem.getPrice();
                     double totalPrice = quantityOrdered * price;

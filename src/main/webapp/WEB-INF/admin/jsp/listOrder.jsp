@@ -153,6 +153,12 @@
         font-size: 20px;
 
     }
+    /*#content-wrapper{*/
+    /*    width: 100%;*/
+    /*}*/
+.card{
+    width: 100%;
+}
 </style>
 <body>
 <!-- Layout wrapper -->
@@ -176,11 +182,11 @@
                 <!-- Content -->
 
                 <div class="container-xxl flex-grow-1 container-p-y" id="content-big-section">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Đơn hàng /</span> Danh sách đơn hàng</h4>
 
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
-                        <h5 class="card-header">Table Basic</h5>
+                        <h5 class="card-header">Danh sách đơn hàng</h5>
                         <div class="table-responsive text-nowrap">
 <%--                            <table class="table">--%>
 <%--                                <thead>--%>
@@ -237,7 +243,7 @@
                             <table id="example" class="table table-striped" style="width:100%">
                                 <thead>
                                 <tr>
-                                    <th>Mã đơn hàng</th>
+                                    <th>ID</th>
                                     <th>Mã User</th>
                                     <th>Tên người nhận</th>
                                     <th>Số điện thoại</th>
@@ -286,7 +292,7 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <th>Mã đơn hàng</th>
+                                    <th>ID</th>
                                     <th>Mã User</th>
                                     <th>Tên người nhận</th>
                                     <th>Số điện thoại</th>
