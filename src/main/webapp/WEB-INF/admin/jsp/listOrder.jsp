@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ page import="util.FormatCurrency"%>
 <%@page isELIgnored="false" %>
 <!DOCTYPE html>
 
@@ -53,8 +52,6 @@
     <!-- Helpers -->
     <script src="../assetsForAdmin/assets/vendor/js/helpers.js"></script>
 
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assetsForAdmin/assets/js/config.js"></script>
 </head>
 <style>
@@ -90,8 +87,6 @@
     }
     .bg-menu-theme.close .menu-inner > .menu-item.active > .menu-link {
 
-        /*background-color: rgba(105, 108, 255, 0.16) !important;*/
-        /*color: black;*/
     }
     .menu-header-text{
         opacity: 0;
@@ -304,10 +299,7 @@
 
 <script src="../assetsForAdmin/assets/vendor/js/menu.js"></script>
 <!-- endbuild -->
-
-<!-- Vendors JS -->
-
-<!-- Main JS -->
+`
 <script src="../assetsForAdmin/assets/js/main.js"></script>
 
 <!-- Page JS -->
@@ -352,10 +344,6 @@
         }
     });
 
-    // Set the initial button text and Font Awesome icon
-
-
-    // Enable Dark Reader when the page loads
 
 </script>
 </body>
