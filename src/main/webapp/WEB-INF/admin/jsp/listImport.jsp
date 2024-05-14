@@ -48,6 +48,8 @@
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="../assetsForAdmin/assets/js/config.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -94,7 +96,7 @@
                 <jsp:useBean id="importDAO" class="database.ImportDAO"></jsp:useBean>
                 <c:forEach var="importItem" items="${importDAO.selectAll()}">
                   <tr>
-                    <td>${importItem.importId}</td>
+                    <td id="id_import">${importItem.importId}</td>
                     <td>${importItem.importer.username}</td>
                     <td>${importItem.supplier}</td>
                     <td>${importItem.importDate.toString()}</td>
@@ -111,7 +113,9 @@
                           <a class="dropdown-item" href="./ChangeImport?id=${importItem.importId}"
                           ><i class="bx bx-edit-alt me-1"></i> Edit</a
                           >
-                          <a class="dropdown-item" href="./DeleteProduct?id=${importItem.importId}"
+<%--                          <a class="dropdown-item" href="./DeleteImport?id=${importItem.importId}"--%>
+<%--                          ><i class="bx bx-trash me-1"></i> Delete</a--%>
+                          <a class="dropdown-item" onclick="deleteItem(event)"
                           ><i class="bx bx-trash me-1"></i> Delete</a
                           >
                         </div>
@@ -197,6 +201,38 @@
 <script src="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
 <script src="../assetsForAdmin/assets/vendor/js/menu.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+
+  function deleteItem(event){
+    var trElement = event.target.closest('tr');
+
+    // Check if <tr> element is found
+    if (!trElement) return;
+
+    // Get the id_import attribute value from the <td> element inside the <tr>
+    var idImport = trElement.querySelector('td[id="id_import"]').textContent;
+    // var idImport=this.parentElement.getElementById('id_import');
+    var confirmation = confirm("Bạn có chắc chắn muốn xóa không?");
+    if(confirmation){
+      $.ajax({
+        url: "/DeleteImport",
+        type: "get",
+        data:{id: idImport},
+        success: function(response) {
+          // Handle success response
+          console.log("Item deleted successfully");
+          // Optionally, you can update the UI here
+        },
+        error: function(xhr, status, error) {
+          // Handle error response
+          console.error("Failed to delete item", error);
+        }
+      });
+    }
+
+  }
+</script>
 <!-- endbuild -->
 
 <!-- Vendors JS -->

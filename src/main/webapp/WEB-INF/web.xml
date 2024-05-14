@@ -23,6 +23,10 @@
     <error-code>404</error-code>
     <location>/error/error-404.html</location>
   </error-page>
+  <!--  <session timeout  thời gian không hoạt động của người dùng trên trang web trước khi session bị xóa>-->
+  <session-config>
+    <session-timeout>15</session-timeout>
+  </session-config>
 
 
 <!--  <error-page>-->

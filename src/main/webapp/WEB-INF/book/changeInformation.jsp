@@ -144,6 +144,7 @@
 <%--				</form>--%>
 
 				<form action="changeInformation" method="post">
+
 					<div class="row mb-3">
 						<label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Name</label>
 						<div class="col-sm-10">

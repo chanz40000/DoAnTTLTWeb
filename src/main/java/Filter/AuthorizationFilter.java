@@ -62,7 +62,8 @@ public class AuthorizationFilter implements Filter{
 			}
 		}else
 		
-		if(url.contains("/ChangeInf")||url.contains("/ChangePass")||url.contains("/Profile")) {
+		if(url.contains("/ChangeInf")||url.contains("/ChangePass")||url.contains("/Profile")||url.contains("/AddToCart")
+				||url.contains("/CheckoutController")) {
 			User customer = (User) request.getSession().getAttribute("userC");
 			if(customer!=null) {
 				filterChain.doFilter(servletRequest, servletResponse);
