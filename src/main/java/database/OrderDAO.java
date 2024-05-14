@@ -53,7 +53,8 @@ public class OrderDAO extends AbsDAO<Order>{
                 int status = rs.getInt("status_id");
                 User u = new UserDAO().selectById(idUser);
                 Payment pay = new PaymentDAO().selectById(idPayment);
-                Order order = new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,dateO,note,shippingFee,status);
+                StatusOrder statusOrder = new StatusOrderDAO().selectById(status);
+                Order order = new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,dateO,note,shippingFee,statusOrder);
 
 
                 orders.add(order);
@@ -90,7 +91,8 @@ public class OrderDAO extends AbsDAO<Order>{
                 int statusId = rs.getInt("status_id");
                 User u = new UserDAO().selectById(idUser);
                 Payment pay = new PaymentDAO().selectById(idPayment);
-                Order order = new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,dateO,note,shippingFee,statusId);
+                StatusOrder statusOrder = new StatusOrderDAO().selectById(status);
+                Order order = new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,dateO,note,shippingFee,statusOrder);
                 orders.add(order);
             }
         }catch (Exception e){
@@ -98,13 +100,13 @@ public class OrderDAO extends AbsDAO<Order>{
         }
         return orders;
     }
-    public void updateStatusOrder(int orderId, int status){
+    public void updateStatusOrder(int orderId, StatusOrder status){
         int result = 0;
         try {
             Connection con = JDBCUtil.getConnection();
             String sql = "UPDATE orders SET status_id = ? WHERE order_id = ?";
             PreparedStatement st = con.prepareStatement(sql);
-            st.setInt(1, status);
+            st.setInt(1, status.getStatusId());
             st.setInt(2, orderId);
             result = st.executeUpdate();
             OrderDAO orderDAO = new OrderDAO();
@@ -145,7 +147,9 @@ public class OrderDAO extends AbsDAO<Order>{
                 int status = rs.getInt("status_id");
                 User u = new UserDAO().selectById(idUser);
                 Payment pay = new PaymentDAO().selectById(idPayment);
-                result = new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,dateO,note,shippingFee,status);
+                StatusOrder statusOrder = new StatusOrderDAO().selectById(status);
+                result= new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,dateO,note,shippingFee,statusOrder);
+
 
             }
 
@@ -157,7 +161,85 @@ public class OrderDAO extends AbsDAO<Order>{
         return result;
 
     }
+    public Order selectByUserId(int id) {
+        Order result = null;
 
+        try {
+
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "SELECT * FROM orders WHERE user_id =?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int idImport = rs.getInt("order_id");
+                int idUser = rs.getInt("user_id");
+                double totalPrice = rs.getDouble("total_price");
+                String userConsignee = rs.getString("nameConsignee");
+                String phone = rs.getString("phone");
+                String address = rs.getString("address");
+                int idPayment = rs.getInt("payment_id");
+                Date dateO = rs.getDate("booking_date");
+                String note = rs.getString("note");
+                double shippingFee = rs.getDouble("shipping_fee");
+                int status = rs.getInt("status_id");
+                User u = new UserDAO().selectById(idUser);
+                Payment pay = new PaymentDAO().selectById(idPayment);
+                StatusOrder statusOrder = new StatusOrderDAO().selectById(status);
+                result= new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,dateO,note,shippingFee,statusOrder);
+
+
+            }
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+
+    }
+    public Order selectByUserIdAndStatusId(int userId, int statusId) {
+        Order result = null;
+
+        try {
+
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "SELECT * FROM orders WHERE user_id = ? AND status_id = ?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, userId);
+            st.setInt(2, statusId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int idImport = rs.getInt("order_id");
+                int idUser = rs.getInt("user_id");
+                double totalPrice = rs.getDouble("total_price");
+                String userConsignee = rs.getString("nameConsignee");
+                String phone = rs.getString("phone");
+                String address = rs.getString("address");
+                int idPayment = rs.getInt("payment_id");
+                Date dateO = rs.getDate("booking_date");
+                String note = rs.getString("note");
+                double shippingFee = rs.getDouble("shipping_fee");
+                int status = rs.getInt("status_id");
+                User u = new UserDAO().selectById(idUser);
+                Payment pay = new PaymentDAO().selectById(idPayment);
+                StatusOrder statusOrder = new StatusOrderDAO().selectById(status);
+                result= new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,dateO,note,shippingFee,statusOrder);
+            }
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+
+    }
     @Override
     public int insert(Order order) {
         int result = 0;
@@ -179,7 +261,7 @@ public class OrderDAO extends AbsDAO<Order>{
             rs.setDate(8, order.getBookingDate());
             rs.setString(9, order.getNote());
             rs.setDouble(10, order.getShippingFee());
-            rs.setInt(11,order.getStatus());
+            rs.setInt(11,order.getStatus().getStatusId());
 
 
 
@@ -275,7 +357,7 @@ public class OrderDAO extends AbsDAO<Order>{
                 rs.setDate(8, order.getBookingDate());
                 rs.setString(9, order.getNote());
                 rs.setDouble(10, order.getShippingFee());
-                rs.setInt(11,order.getStatus());
+                rs.setInt(11,order.getStatus().getStatusId());
 
 
 
