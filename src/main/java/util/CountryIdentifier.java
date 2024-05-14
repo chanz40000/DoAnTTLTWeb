@@ -78,7 +78,6 @@ public class CountryIdentifier {
 
     public static void main(String[] args) {
 
-        // Đường dẫn đến file GeoLite2-Country.mmdb
         String mmdbFilepath = "C:/Users/ADMIN/eclipse-workspace/BookWeb-master/src/main/java/util/GeoLite2-Country (1).mmdb";
 
         String ipv6Address = "0:0:0:0:0:0:0:1";
@@ -90,24 +89,7 @@ public class CountryIdentifier {
             throw new RuntimeException(e);
         }
 
-//        String ipv4 = IPv4Converter.convertIPv4(ipv6Address);
-//
-//
-//
-//                try (DatabaseReader reader = new DatabaseReader.Builder(new File(mmdbFilepath)).build()) {
-//                    // Chuyển đổi địa chỉ IP từ dạng string sang đối tượng InetAddress
-//                    InetAddress ip = InetAddress.getByName(ipv4);
-//
-//                    // Truy vấn thông tin địa lý của địa chỉ IP
-//                    CountryResponse response = reader.country(ip);
-//
-//                    // In thông tin về quốc gia
-//                    System.out.println("Country Name: " + response.getCountry().getName());
-//                    System.out.println("Country ISO Code: " + response.getCountry().getIsoCode());
-//
-//                } catch (IOException | GeoIp2Exception e) {
-//                    e.printStackTrace();
-//                }
+
            }
 
     }
