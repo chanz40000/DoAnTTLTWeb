@@ -134,20 +134,21 @@
 	text-align: center;
 	background: #f5f5f5;">
                                                 <div class="input-group-prepend">
-                                                    <form action="UpdateQuantity" method="post">
-                                                        <input type="hidden" name=idproduct value="${item.product.productId}">
+                                                    <form class="updateQuantityDecrease" action="UpdateQuantity" method="post" data-price="${item.product.price}">
+                                                        <input type="hidden" name="idproduct" value="${item.product.productId}">
                                                         <input type="hidden" name="quantity" value="${item.quantity - 1}">
                                                         <button type="submit" class="btn btn-outline-black">-</button>
                                                     </form>
                                                 </div>
-                                                <input type="text" class="form-control text-center quantity-amount" value="${item.quantity}" readonly>
+                                                <input type="text" class="form-control valueQuantity" style="text-align: center" value="${item.quantity}" readonly>
                                                 <div class="input-group-appendd">
-                                                    <form action="UpdateQuantity" method="post">
+                                                    <form class="updateQuantityIncrease" action="UpdateQuantity" method="post" data-price="${item.product.price}">
                                                         <input type="hidden" name="idproduct" value="${item.product.productId}">
                                                         <input type="hidden" name="quantity" value="${item.quantity + 1}">
                                                         <button type="submit" class="btn btn-outline-black">+</button>
                                                     </form>
                                                 </div>
+
                                             </div>
                                         </td>
                                         <td class="shoping__cart__total">
@@ -202,8 +203,8 @@
                 <div class="shoping__checkout">
                     <h5>Tổng tiền</h5>
                     <ul>
-                        <li>Subtotal <span>${FormatCurrency.formatCurrency(subtotal)}</span></li>
-                        <li>Total <span>${FormatCurrency.formatCurrency(total)}</span></li>
+                        <li>Subtotal <span class="subtotal">${FormatCurrency.formatCurrency(subtotal)}</span></li>
+                        <li>Total <span class="total">${FormatCurrency.formatCurrency(total)}</span></li>
                     </ul>
                     <a href="/Checkout" class="primary-btn" id="checkout-btn">Thanh toán</a>
                 </div>
@@ -331,6 +332,122 @@
             } else {
                 window.location.href = "/Checkout"; // Chuyển hướng tới trang thanh toán nếu giỏ hàng không trống
             }
+        });
+
+    });
+    function formatCurrency(number) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+    }
+
+    $(document).ready(function (){
+        $(".updateQuantityIncrease").on("submit", function (event){
+            event.preventDefault();
+            let form = $(this);
+            let currentQuantityInput = form.closest("tr").find(".valueQuantity");
+            let pricePerItem = parseFloat(form.data("price")); // Lấy giá của một sản phẩm
+            let newQuantity = parseInt(currentQuantityInput.val(), 10) + 1;
+
+            // Cập nhật giá trị 'quantity' trong form trước khi gửi
+            form.find("input[name='quantity']").val(newQuantity);
+
+            $.ajax({
+                type: "POST",
+                url: form.attr("action"),
+                data: form.serialize(),
+                success: function (data){
+                    alert("Thêm thành công");
+                    currentQuantityInput.val(newQuantity);
+
+                    // Tính toán và cập nhật giá tiền mới
+                    let newTotalPrice = pricePerItem * newQuantity;
+                    let formattedTotalPrice = formatCurrency(newTotalPrice); // Sử dụng hàm JavaScript để định dạng giá tiền
+                    form.closest("tr").find(".shoping__cart__total").text(formattedTotalPrice);
+
+                    // Cập nhật lại subtotal và total trên giao diện
+                    updateSubtotalAndTotal();
+                },
+                error: function (error){
+                    console.log("Error: ", error);
+                    alert("Có lỗi xảy ra");
+                }
+            });
+        });
+    });
+
+    // Hàm cập nhật subtotal và total
+    function updateSubtotalAndTotal() {
+        let subtotal = 0;
+        $(".shoping__cart__total").each(function() {
+            subtotal += parseFloat($(this).text().replace(/\D/g, ""));
+        });
+
+        let formattedSubtotal = formatCurrency(subtotal);
+        $(".subtotal").text(formattedSubtotal);
+
+        let total = subtotal; // Đây có thể là nơi bạn tính total nếu có chi phí vận chuyển hoặc thuế khác
+        let formattedTotal = formatCurrency(total);
+        $(".total").text(formattedTotal);
+    }
+
+    $(document).ready(function (){
+        $(".updateQuantityDecrease").on("submit", function (event){
+            event.preventDefault();
+            let form = $(this);
+            let currentQuantityInput = form.closest("tr").find(".valueQuantity");
+            let pricePerItem = parseFloat(form.data("price")); // Lấy giá của một sản phẩm
+            let newQuantity = parseInt(currentQuantityInput.val(), 10) - 1;
+
+            // Cập nhật giá trị 'quantity' trong form trước khi gửi
+            form.find("input[name='quantity']").val(newQuantity);
+
+            $.ajax({
+                type: "POST",
+                url: form.attr("action"),
+                data: form.serialize(),
+                success: function (data){
+                    alert("giảm thành công");
+                    currentQuantityInput.val(newQuantity);
+
+                    // Tính toán và cập nhật giá tiền mới
+                    let newTotalPrice = pricePerItem * newQuantity;
+                    let formattedTotalPrice = formatCurrency(newTotalPrice); // Sử dụng hàm JavaScript để định dạng giá tiền
+                    form.closest("tr").find(".shoping__cart__total").text(formattedTotalPrice);
+
+                    // Cập nhật lại subtotal và total trên giao diện
+                    updateSubtotalAndTotal();
+
+                    },
+                error: function (error){
+                    console.log("Error: ", error);
+                    alert("Có lỗi xảy ra");
+                }
+            });
+        });
+    });
+    $(document).ready(function (){
+        $(".shoping__cart__item__close form").on("submit", function (event){
+            event.preventDefault();
+            let form = $(this);
+            let productId = form.find("input[name='productId']").val();
+
+            $.ajax({
+                type: "POST",
+                url: form.attr("action"),
+                data: { productId: productId },
+                success: function (data){
+                    alert("Sản phẩm đã được xóa khỏi giỏ hàng");
+                    // Xóa hàng từ bảng giỏ hàng
+                    form.closest("tr").remove();
+                    // Cập nhật subtotal và total sau khi xóa sản phẩm
+                    // Cập nhật lại subtotal và total trên giao diện
+                    updateSubtotalAndTotal();
+                    // ... (cập nhật mã tương tự như khi thêm hoặc giảm số lượng sản phẩm)
+                },
+                error: function (error){
+                    console.log("Error: ", error);
+                    alert("Có lỗi xảy ra khi xóa sản phẩm");
+                }
+            });
         });
     });
 
