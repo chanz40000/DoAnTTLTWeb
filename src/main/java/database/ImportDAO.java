@@ -156,9 +156,11 @@ public class ImportDAO extends AbsDAO<Import> {
     @Override
     public int delete(Import imported) {
         int result = 0;
-
+        //new ImportDetailDAO().deleteByImportId(imported.getImportId());
         try {
+
             Connection con = JDBCUtil.getConnection();
+
 
             String sql = "DELETE from imports " + "WHERE import_id=?";
 
@@ -169,6 +171,7 @@ public class ImportDAO extends AbsDAO<Import> {
 
             this.setValue(this.gson.toJson(imported));
             int x = super.delete(imported);
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

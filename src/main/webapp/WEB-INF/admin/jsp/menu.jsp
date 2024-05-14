@@ -428,6 +428,12 @@
         </li>
         <!-- Tables -->
         <li class="menu-item">
+            <a href="./ListLog" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-table"></i>
+                <div data-i18n="Tables">Danh sách người dùng</div>
+            </a>
+        </li>
+        <li class="menu-item">
             <a href="./ListUser" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
                 <div data-i18n="Tables">Danh sách người dùng</div>

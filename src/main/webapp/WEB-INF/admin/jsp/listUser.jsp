@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ page import="util.FormatCurrency"%>
 <%@page isELIgnored="false" %>
 
 <!DOCTYPE html>
@@ -52,8 +51,15 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    <!-- Page CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css" >
 
+    <!-- Page CSS -->
+    <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script defer src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>\
+    <script defer src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
+    <script defer src="script.js"></script>
     <!-- Helpers -->
     <script src="../assetsForAdmin/assets/vendor/js/helpers.js"></script>
 
@@ -173,13 +179,11 @@
                 <!-- Content -->
 
                 <div class="container-xxl flex-grow-1 container-p-y"  id="content-big-section">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
 
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
-                        <h5 class="card-header">Danh sách tài khoản của khách hàng</h5>
                         <div class="table-responsive text-nowrap">
-                            <table class="table">
+                            <table id="example" class="table table-striped order-column" style="width:100%">
                                 <thead>
                                 <tr>
                                     <th>Username</th>
