@@ -424,102 +424,7 @@
     });
 </script>
 <script>
-    // const usernamereceive = document.getElementById('nameConsignee');
-    // const address = document.getElementById('address');
-    // const phone = document.getElementById('phone');
-    // const note = document.getElementById('note');
-    //
-    // const form = document.querySelector('#checkoutform');
-    // const checkUsername = () => {
-    //
-    //     let valid = false;
-    //
-    //     const min = 3,
-    //         max = 25;
-    //
-    //     const usernameF = usernamereceive.value.trim();
-    //
-    //     if (!isRequired(usernameF)) {
-    //         showError(usernamereceive, 'Username cannot be blank.');
-    //     } else {
-    //         showSuccess(usernamereceive);
-    //         valid = true;
-    //     }
-    //     return valid;
-    // };
-    // const isRequired = value => value !== '';
-    // const isBetween = (length, min, max) => !(length < min || length > max)
-    // const showError = (input, message) => {
-    //     // get the form-field element
-    //     const formField = input.parentElement;
-    //     // add the error class
-    //     formField.classList.remove('success');
-    //     formField.classList.add('error');
-    //
-    //     // show the error message
-    //     const error = formField.querySelector('small');
-    //     error.textContent = message;
-    // };
-    // const showSuccess = (input) => {
-    //     // get the form-field element
-    //     const formField = input.parentElement;
-    //
-    //     // remove the error class
-    //     formField.classList.remove('error');
-    //     formField.classList.add('success');
-    //
-    //     // hide the error message
-    //     const error = formField.querySelector('small');
-    //     error.textContent = '';
-    // }
-    // form.addEventListener('submit', function (e) {
-    //     // prevent the form from submitting
-    //     e.preventDefault();
-    //
-    //
-    //     // validate forms
-    //     let isUsernameValid = checkUsername();
-    //
-    //
-    //     let isFormValid = isUsernameValid
-    //        ;
-    //
-    //     // submit to the server if the form is valid
-    //     if (isFormValid) {
-    //
-    //     }
-    // });
-    //
-    // const debounce = (fn, delay = 500) => {
-    //     let timeoutId;
-    //     return (...args) => {
-    //         // cancel the previous timer
-    //         if (timeoutId) {
-    //             clearTimeout(timeoutId);
-    //         }
-    //         // setup a new timer
-    //         timeoutId = setTimeout(() => {
-    //             fn.apply(null, args)
-    //         }, delay);
-    //     };
-    // };
-    // //
-    // form.addEventListener('input', debounce(function (e) {
-    //     switch (e.target.id) {
-    //         case 'username':
-    //             checkUsername();
-    //             break;
-    //         // case 'address':
-    //         //     checkEmail();
-    //         //     break;
-    //         // case 'password':
-    //         //     checkPassword();
-    //         //     break;
-    //         // case 'confirm-password':
-    //         //     checkConfirmPassword();
-    //         //     break;
-    //     }
-    // }));
+
     function checkUsername() {
         const usernameInput = document.getElementById('nameConsignee');
         const username = usernameInput.value.trim();
@@ -578,6 +483,7 @@
     }
     const submitButton = document.getElementById('submitBtn');
     submitButton.addEventListener('click', function(event) {
+        document.getElementById("checkoutform").submit();
         // Combine validation checks using logical AND (&&)
         if (!checkUsername() && !checkNote() && !checkPhone()) {
             event.preventDefault(); // Prevent form submission if errors exist

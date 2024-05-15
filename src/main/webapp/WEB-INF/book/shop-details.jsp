@@ -539,74 +539,74 @@
             <hr style="width: 1000px;border: 0.5px solid #dcdcdc">
 
         </div>
-<%--        <div class="phanbinhluan">--%>
-<%--            <c:set var="counter" value="0" />--%>
+        <div class="phanbinhluan">
+            <c:set var="counter" value="0" />
 
-<%--            <c:forEach var="usera" items="${userating}" varStatus="loopStatus">--%>
-<%--                <div class="khungbinhluan">--%>
-<%--                    <span>${usera.user.name}</span>--%>
-<%--                    <span>Đánh giá vào--%>
-<%--                <c:choose>--%>
-<%--                    <c:when test="${usera.dateRating < 60}">--%>
-<%--                        <fmt:formatNumber value="${Math.floor(usera.dateRating)}" type="number" maxFractionDigits="0" /> giây trước--%>
-<%--                    </c:when>--%>
-<%--                    <c:when test="${usera.dateRating >= 60 and usera.dateRating < 3600}">--%>
-<%--                        <fmt:formatNumber value="${Math.floor(usera.dateRating / 60)}" type="number" maxFractionDigits="0" /> phút trước--%>
-<%--                    </c:when>--%>
-<%--                    <c:when test="${usera.dateRating >= 3600 and usera.dateRating < 3600 * 24}">--%>
-<%--                        <fmt:formatNumber value="${Math.floor(usera.dateRating / 3600)}" type="number" maxFractionDigits="0" /> giờ trước--%>
-<%--                    </c:when>--%>
-<%--                    <c:when test="${usera.dateRating >= 3600 * 24 and usera.dateRating < 3600 * 24 * 31}">--%>
-<%--                        <fmt:formatNumber value="${Math.floor(usera.dateRating / (3600 * 24))}" type="number" maxFractionDigits="0" /> ngày trước--%>
-<%--                    </c:when>--%>
-<%--                    <c:when test="${usera.dateRating >= 3600 * 24 * 31 and usera.dateRating < 3600 * 24 * 31 * 12}">--%>
-<%--                        <fmt:formatNumber value="${Math.floor(usera.dateRating / (3600 * 24 * 31))}" type="number" maxFractionDigits="0" /> tháng trước--%>
-<%--                    </c:when>--%>
-<%--                    <c:when test="${ usera.dateRating >= 3600 * 24 * 31 * 12}">--%>
-<%--                        <fmt:formatNumber value="${Math.floor(usera.dateRating / (3600 * 24 * 31 * 12))}" type="number" maxFractionDigits="0" /> năm trước--%>
-<%--                    </c:when>--%>
-<%--                </c:choose>--%>
-<%--            </span>--%>
-<%--                    <c:forEach var="digit" begin="1" end="${Math.round(usera.ratingstar)}">--%>
-<%--                        <img id="personrate" src="img/image/number.0 rating.png"  width="14px" height="14px" alt="">--%>
-<%--                    </c:forEach>--%>
-<%--                    <br>--%>
-<%--                    <c:if test="${not empty usera.ratingtext}">--%>
-<%--                        <span>${usera.ratingtext}</span><br>--%>
-<%--                        <button id="buttoncomment${loopStatus.index}"><i class="fa-regular fa-comment"></i> Bình luận</button>--%>
-<%--                        <div class="reply-comment__wrapper${loopStatus.index}">--%>
-<%--                            <form action="CommentControl" method="post">--%>
-<%--                                <div style="min-height: 40px;">--%>
-<%--                                    <input type="hidden" name="productid" value="${usera.product.productId}">--%>
-<%--                                    <input type="hidden" name="ratingid" value="${usera.ratingId}">--%>
-<%--                                    <textarea placeholder="Viết bình luận" class="reply-comment__input" name="detailcomment" rows="1" style="height: 40px;"></textarea>--%>
-<%--                                    <button type="submit" class="custom-button"></button>--%>
+            <c:forEach var="usera" items="${userating}" varStatus="loopStatus">
+                <div class="khungbinhluan">
+                    <span>${usera.user.name}</span>
+                    <span>Đánh giá vào
+                <c:choose>
+                    <c:when test="${usera.dateRating < 60}">
+                        <fmt:formatNumber value="${Math.floor(usera.dateRating)}" type="number" maxFractionDigits="0" /> giây trước
+                    </c:when>
+                    <c:when test="${usera.dateRating >= 60 and usera.dateRating < 3600}">
+                        <fmt:formatNumber value="${Math.floor(usera.dateRating / 60)}" type="number" maxFractionDigits="0" /> phút trước
+                    </c:when>
+                    <c:when test="${usera.dateRating >= 3600 and usera.dateRating < 3600 * 24}">
+                        <fmt:formatNumber value="${Math.floor(usera.dateRating / 3600)}" type="number" maxFractionDigits="0" /> giờ trước
+                    </c:when>
+                    <c:when test="${usera.dateRating >= 3600 * 24 and usera.dateRating < 3600 * 24 * 31}">
+                        <fmt:formatNumber value="${Math.floor(usera.dateRating / (3600 * 24))}" type="number" maxFractionDigits="0" /> ngày trước
+                    </c:when>
+                    <c:when test="${usera.dateRating >= 3600 * 24 * 31 and usera.dateRating < 3600 * 24 * 31 * 12}">
+                        <fmt:formatNumber value="${Math.floor(usera.dateRating / (3600 * 24 * 31))}" type="number" maxFractionDigits="0" /> tháng trước
+                    </c:when>
+                    <c:when test="${ usera.dateRating >= 3600 * 24 * 31 * 12}">
+                        <fmt:formatNumber value="${Math.floor(usera.dateRating / (3600 * 24 * 31 * 12))}" type="number" maxFractionDigits="0" /> năm trước
+                    </c:when>
+                </c:choose>
+            </span>
+                    <c:forEach var="digit" begin="1" end="${Math.round(usera.ratingstar)}">
+                        <img id="personrate" src="img/image/number.0 rating.png"  width="14px" height="14px" alt="">
+                    </c:forEach>
+                    <br>
+                    <c:if test="${not empty usera.ratingtext}">
+                        <span>${usera.ratingtext}</span><br>
+                        <button id="buttoncomment${loopStatus.index}"><i class="fa-regular fa-comment"></i> Bình luận</button>
+                        <div class="reply-comment__wrapper${loopStatus.index}">
+                            <form action="" method="">
+                                <div style="min-height: 40px;">
+                                    <input type="hidden" name="productid" value="${usera.product.productId}">
+                                    <input type="hidden" name="ratingid" value="${usera.ratingId}">
+                                    <textarea placeholder="Viết bình luận" class="reply-comment__input" name="detailcomment" rows="1" style="height: 40px;"></textarea>
+                                    <button type="submit" class="custom-button"></button>
 
-<%--                                </div>--%>
-<%--                            </form>--%>
-<%--                        </div>--%>
-<%--                        <hr>--%>
-<%--                    </c:if>--%>
-<%--                    <c:if test="${empty usera.ratingtext}">--%>
-<%--                        <button id="buttoncomment${loopStatus.index}"><i class="fa-regular fa-comment"></i> Bình luận</button>--%>
-<%--                        <div class="reply-comment__wrapper${loopStatus.index}">--%>
+                                </div>
+                            </form>
+                        </div>
+                        <hr>
+                    </c:if>
+                    <c:if test="${empty usera.ratingtext}">
+                        <button id="buttoncomment${loopStatus.index}"><i class="fa-regular fa-comment"></i> Bình luận</button>
+                        <div class="reply-comment__wrapper${loopStatus.index}">
 
-<%--                            <form action="CommentControl" method="post">--%>
-<%--                                <div style="min-height: 40px;">--%>
-<%--                                    <input type="hidden" name="productid" value="${usera.product.productId}">--%>
-<%--                                    <input type="hidden" name="ratingid" value="${usera.ratingId}">--%>
-<%--                                    <textarea placeholder="Viết bình luận" class="reply-comment__input" name="detailcomment" rows="1" style="height: 40px;"></textarea>--%>
-<%--                                    <button type="submit" class="custom-button"></button>--%>
+                            <form action="" method="">
+                                <div style="min-height: 40px;">
+                                    <input type="hidden" name="productid" value="${usera.product.productId}">
+                                    <input type="hidden" name="ratingid" value="${usera.ratingId}">
+                                    <textarea placeholder="Viết bình luận" class="reply-comment__input" name="detailcomment" rows="1" style="height: 40px;"></textarea>
+                                    <button type="submit" class="custom-button"></button>
 
-<%--                                </div>--%>
-<%--                            </form>--%>
-<%--                        </div>--%>
+                                </div>
+                            </form>
+                        </div>
 
-<%--                        <hr>--%>
-<%--                    </c:if>--%>
-<%--                </div>--%>
-<%--            </c:forEach>--%>
-<%--        </div>--%>
+                        <hr>
+                    </c:if>
+                </div>
+            </c:forEach>
+        </div>
     </div>
     <c:set var="pageR" value="${sessionScope.pageR}" />
     <c:set var="numR" value="${sessionScope.numR}" />
@@ -614,6 +614,23 @@
 
 </section>
 <!-- Product Details Section End -->
+<div class="product__pagination" style="padding-left: 680px;gap:100px;margin-top:-100px">
+    <c:choose>
+        <c:when test="${not empty param.productName}">
+            <%-- Handle pagination for filtered ratings if needed --%>
+        </c:when>
+        <c:otherwise>
+            <c:forEach begin="1" end="${numR}" var="i">
+                <c:url value="/Shopdetails" var="pageUrl">
+                    <c:param name="id" value="${productid}" />
+                    <c:param name="pageR" value="${i}" />
+                </c:url>
+                <a href="${pageUrl}" <c:if test="${i == pageR}">class="active"</c:if>>${i}</a>
+            </c:forEach>
+        </c:otherwise>
+    </c:choose>
+</div>
+
 <!-- Related Product Section Begin -->
 <section class="related-product" style="margin-top: 50px">
     <div class="container">

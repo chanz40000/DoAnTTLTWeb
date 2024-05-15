@@ -68,7 +68,7 @@ public class CheckoutController extends HttpServlet {
         order.setNameConsignee(name);
         order.setUser(user);
         order.setPhone(phone);
-        order.setAddress(address);
+        order.setAddress(fullAddress);
         order.setNote(note);
         session.setAttribute("order", order);
         int resultOrder = orderDAO.insert(order);
