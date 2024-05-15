@@ -85,6 +85,7 @@
                 </li>
                 <li><a href="Vnpay.jsp">Blog</a></li>
                 <li><a href="./contact.jsp">Contact</a></li>
+                <li><a href="/AdminIndex">Admin</a></li>
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -140,46 +141,51 @@
                         <%--                                    style="margin-left: 40px; margin-top: 20px" src="images/cool.png"--%>
                         <%--                                    alt="" width="35" height="35" class="rounded-circle">--%>
                         <c:choose>
-                        <c:when test="${not empty sessionScope.userC.name}">
-                            <div class="header__top__right__auth">
-
-                                Chào, ${sessionScope.userC.name}
-
+                            <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
+                                <div class="header__top__right__auth">
+                                    <c:choose>
+                                        <c:when test="${not empty sessionScope.userC.name}">
+                                            <!-- Phần của người dùng đã đăng nhập -->
+                                            Chào, ${sessionScope.userC.name}
+                                            <!-- Các thao tác khác -->
+                                        </c:when>
+                                        <c:when test="${not empty sessionScope.admin.name}">
+                                            <!-- Phần của admin đã đăng nhập -->
+                                            Chào admin, ${sessionScope.admin.name}
+                                            <!-- Các thao tác khác -->
+                                        </c:when>
+                                    </c:choose>
+                                    <div class="header__top__right__language">
+                                        <img style="margin-left: 40px" src="img/blog/blog-1.jpg" alt="" width="35" height="35" class="rounded-circle">
+                                        <span class="arrow_carrot-down"></span>
+                                        <ul>
+                                            <li><a href="./Profile">Hồ sơ của tôi</a></li>
+                                            <li><a href="./ChangePass">Thay đổi mật khẩu</a></li>
+                                            <li><a href="./ChangeInf">Thay đổi thông tin</a></li>
+                                            <li><a href="./Register">Trợ giúp</a></li>
+                                            <li><a href="./Order">Đơn đặt hàng</a></li>
+                                            <li><a href="./Logout">Đăng xuất</a></li>
+                                        </ul>
+                                    </div>
+                                    <button id="toggle-dark-mode">
+                                        <i class="fa-regular fa-moon" id="icontype"></i>
+                                    </button>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
                                 <div class="header__top__right__language">
-                                    <img
-                                            style="margin-left: 40px" src="img/blog/blog-1.jpg"
-                                            alt="" width="35" height="35" class="rounded-circle">
+                                    <div>Đăng nhập</div>
                                     <span class="arrow_carrot-down"></span>
                                     <ul>
-                                        <li><a href="./Profile">Hồ sơ của tôi</a></li>
-                                        <li><a href="./ChangePass">Thay đổi mật khẩu</a></li>
-                                        <li><a href="./ChangeInf">Thay đổi thông tin</a></li>
-                                        <li><a href="./Register">Trợ giúp</a></li>
-                                        <li><a href="./ForgotPass">Đơn đặt hàng</a></li>
-                                        <li><a href="./Logout">Đăng xuất</a></li>
+                                        <li><a href="./Login">Đăng nhập</a></li>
+                                        <li><a href="./Register">Đăng kí</a></li>
+                                        <li><a href="./ForgotPass">Quên mật khẩu</a></li>
                                     </ul>
                                 </div>
-                                <button id="toggle-dark-mode">
-                                    <i class="fa-regular fa-moon" id="icontype"></i>
-                                </button>
-                            </div>
-                        </c:when>
-                        <c:otherwise>
-                        <div class="header__top__right__language">
-
-                            <div>Đăng nhập</div>
-                            <span class="arrow_carrot-down"></span>
-                            <ul>
-                                <li><a href="./Login">Đăng nhập</a></li>
-                                <li><a href="./Register">Đăng kí</a></li>
-                                <li><a href="./ForgotPass">Quên mật khẩu</a></li>
-                            </ul>
-                        </div>
+                            </c:otherwise>
+                        </c:choose>
 
                     </div>
-                    </c:otherwise>
-                    </c:choose>
-                </div>
             </div>
         </div>
     </div>
@@ -194,21 +200,25 @@
             <div class="col-lg-6">
                 <nav class="header__menu">
                     <ul>
-                        <li class="active"><a href="./Index">Home</a></li>
-                        <li><a href="./Shopgrid">Shop</a></li>
-                        <li><a href="#">Pages</a>
-                            <ul class="header__menu__dropdown">
-                                <li><a href="./Shopdetails">Shop Details</a></li>
-                                <li><a href="./Shoppingcart">Shoping Cart</a></li>
-                                <li><a href="./Checkout">Check Out</a></li>
-                                <li><a href="./AdminIndex">Blog Details</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="./BankAccount">Blog</a></li>
-                        <li><a href="./Contact">Contact</a></li>
+                        <c:choose>
+                            <c:when test="${not empty sessionScope.admin}">
+                                <li class="active"><a href="./Index">Trang chủ</a></li>
+                                <li><a href="./Shopgrid">Shop</a></li>
+                                <li><a href="./BankAccount">Blog</a></li>
+                                <li><a href="./Contact">Contact</a></li>
+                                <li><a href="/AdminIndex">Admin</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="active"><a href="./Index">Trang chủ</a></li>
+                                <li><a href="./Shopgrid">Shop</a></li>
+                                <li><a href="./BankAccount">Blog</a></li>
+                                <li><a href="./Contact">Contact</a></li>
+                            </c:otherwise>
+                        </c:choose>
                     </ul>
                 </nav>
             </div>
+
             <div class="col-lg-3">
                 <div class="header__cart">
                     <ul>

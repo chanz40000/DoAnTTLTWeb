@@ -18,14 +18,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
     <style>
         .cart-btn, .primary-btn{
             border-radius: 15px;
@@ -134,20 +134,21 @@
 	text-align: center;
 	background: #f5f5f5;">
                                                 <div class="input-group-prepend">
-                                                    <form action="UpdateQuantity" method="post">
-                                                        <input type="hidden" name=idproduct value="${item.product.productId}">
+                                                    <form class="updateQuantityDecrease" action="UpdateQuantity" method="post" data-price="${item.product.price}">
+                                                        <input type="hidden" name="idproduct" value="${item.product.productId}">
                                                         <input type="hidden" name="quantity" value="${item.quantity - 1}">
                                                         <button type="submit" class="btn btn-outline-black">-</button>
                                                     </form>
                                                 </div>
-                                                <input type="text" class="form-control text-center quantity-amount" value="${item.quantity}" readonly>
+                                                <input type="text" class="form-control valueQuantity" style="text-align: center" value="${item.quantity}" readonly>
                                                 <div class="input-group-appendd">
-                                                    <form action="UpdateQuantity" method="post">
+                                                    <form class="updateQuantityIncrease" action="UpdateQuantity" method="post" data-price="${item.product.price}">
                                                         <input type="hidden" name="idproduct" value="${item.product.productId}">
                                                         <input type="hidden" name="quantity" value="${item.quantity + 1}">
                                                         <button type="submit" class="btn btn-outline-black">+</button>
                                                     </form>
                                                 </div>
+
                                             </div>
                                         </td>
                                         <td class="shoping__cart__total">
@@ -182,8 +183,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="shoping__cart__btns">
-                    <a href="/Shopgrid" class="primary-btn cart-btn">Tiếp tục mua sắm</a>
-                    <a href="/Cart" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
+                    <a href="Shopgrid" class="primary-btn cart-btn">Tiếp tục mua sắm</a>
+                    <a href="Shoppingcart" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
                         Cập nhật giỏ hàng</a>
                 </div>
             </div>
@@ -202,8 +203,8 @@
                 <div class="shoping__checkout">
                     <h5>Tổng tiền</h5>
                     <ul>
-                        <li>Subtotal <span>${FormatCurrency.formatCurrency(subtotal)}</span></li>
-                        <li>Total <span>${FormatCurrency.formatCurrency(total)}</span></li>
+                        <li>Subtotal <span class="subtotal">${FormatCurrency.formatCurrency(subtotal)}</span></li>
+                        <li>Total <span class="total">${FormatCurrency.formatCurrency(total)}</span></li>
                     </ul>
                     <a href="/Checkout" class="primary-btn" id="checkout-btn">Thanh toán</a>
                 </div>
@@ -282,15 +283,14 @@
 <!-- Footer Section End -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
-<<<<<<< HEAD
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
 
 <script>
@@ -313,28 +313,144 @@
             icondarklight.classList.replace("fa-moon", "fa-sun");
         }
     });
-
+</script>
     // Set the initial button text and Font Awesome icon
 
 
     // Enable Dark Reader when the page loads
 
-// =======
-<script srgitc="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     $(document).ready(function(){
         $('#checkout-btn').click(function(e){
             e.preventDefault(); // Ngăn chặn hành động mặc định của thẻ a
-            var cartItems = ${sessionScope.cart.cart_items}; // Lấy danh sách mục trong giỏ hàng
-
-            if (cartItems.length === 0) {
+            let cartItems = "${sessionScope.cart.cart_items}"; // Lấy danh sách mục trong giỏ hàng
+            let cartItemsLength = parseInt(cartItems.length);
+            console.log(cartItemsLength);
+            if (cartItemsLength === 0) {
                 alert('Giỏ hàng của bạn đang trống!'); // Thông báo nếu giỏ hàng trống
             } else {
                 window.location.href = "/Checkout"; // Chuyển hướng tới trang thanh toán nếu giỏ hàng không trống
             }
         });
+
     });
-// >>>>>>> main
+    function formatCurrency(number) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+    }
+
+    $(document).ready(function (){
+        $(".updateQuantityIncrease").on("submit", function (event){
+            event.preventDefault();
+            let form = $(this);
+            let currentQuantityInput = form.closest("tr").find(".valueQuantity");
+            let pricePerItem = parseFloat(form.data("price")); // Lấy giá của một sản phẩm
+            let newQuantity = parseInt(currentQuantityInput.val(), 10) + 1;
+
+            // Cập nhật giá trị 'quantity' trong form trước khi gửi
+            form.find("input[name='quantity']").val(newQuantity);
+
+            $.ajax({
+                type: "POST",
+                url: form.attr("action"),
+                data: form.serialize(),
+                success: function (data){
+                    alert("Thêm thành công");
+                    currentQuantityInput.val(newQuantity);
+
+                    // Tính toán và cập nhật giá tiền mới
+                    let newTotalPrice = pricePerItem * newQuantity;
+                    let formattedTotalPrice = formatCurrency(newTotalPrice); // Sử dụng hàm JavaScript để định dạng giá tiền
+                    form.closest("tr").find(".shoping__cart__total").text(formattedTotalPrice);
+
+                    // Cập nhật lại subtotal và total trên giao diện
+                    updateSubtotalAndTotal();
+                },
+                error: function (error){
+                    console.log("Error: ", error);
+                    alert("Có lỗi xảy ra");
+                }
+            });
+        });
+    });
+
+    // Hàm cập nhật subtotal và total
+    function updateSubtotalAndTotal() {
+        let subtotal = 0;
+        $(".shoping__cart__total").each(function() {
+            subtotal += parseFloat($(this).text().replace(/\D/g, ""));
+        });
+
+        let formattedSubtotal = formatCurrency(subtotal);
+        $(".subtotal").text(formattedSubtotal);
+
+        let total = subtotal; // Đây có thể là nơi bạn tính total nếu có chi phí vận chuyển hoặc thuế khác
+        let formattedTotal = formatCurrency(total);
+        $(".total").text(formattedTotal);
+    }
+
+    $(document).ready(function (){
+        $(".updateQuantityDecrease").on("submit", function (event){
+            event.preventDefault();
+            let form = $(this);
+            let currentQuantityInput = form.closest("tr").find(".valueQuantity");
+            let pricePerItem = parseFloat(form.data("price")); // Lấy giá của một sản phẩm
+            let newQuantity = parseInt(currentQuantityInput.val(), 10) - 1;
+
+            // Cập nhật giá trị 'quantity' trong form trước khi gửi
+            form.find("input[name='quantity']").val(newQuantity);
+
+            $.ajax({
+                type: "POST",
+                url: form.attr("action"),
+                data: form.serialize(),
+                success: function (data){
+                    alert("giảm thành công");
+                    currentQuantityInput.val(newQuantity);
+
+                    // Tính toán và cập nhật giá tiền mới
+                    let newTotalPrice = pricePerItem * newQuantity;
+                    let formattedTotalPrice = formatCurrency(newTotalPrice); // Sử dụng hàm JavaScript để định dạng giá tiền
+                    form.closest("tr").find(".shoping__cart__total").text(formattedTotalPrice);
+
+                    // Cập nhật lại subtotal và total trên giao diện
+                    updateSubtotalAndTotal();
+
+                    },
+                error: function (error){
+                    console.log("Error: ", error);
+                    alert("Có lỗi xảy ra");
+                }
+            });
+        });
+    });
+    $(document).ready(function (){
+        $(".shoping__cart__item__close form").on("submit", function (event){
+            event.preventDefault();
+            let form = $(this);
+            let productId = form.find("input[name='productId']").val();
+
+            $.ajax({
+                type: "POST",
+                url: form.attr("action"),
+                data: { productId: productId },
+                success: function (data){
+                    alert("Sản phẩm đã được xóa khỏi giỏ hàng");
+                    // Xóa hàng từ bảng giỏ hàng
+                    form.closest("tr").remove();
+                    // Cập nhật subtotal và total sau khi xóa sản phẩm
+                    // Cập nhật lại subtotal và total trên giao diện
+                    updateSubtotalAndTotal();
+                    // ... (cập nhật mã tương tự như khi thêm hoặc giảm số lượng sản phẩm)
+                },
+                error: function (error){
+                    console.log("Error: ", error);
+                    alert("Có lỗi xảy ra khi xóa sản phẩm");
+                }
+            });
+        });
+    });
+
 </script>
 
 

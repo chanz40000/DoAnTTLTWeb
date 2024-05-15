@@ -6,7 +6,11 @@
       <option name="myValues">
         <value>
           <list size="1">
+<<<<<<< HEAD
             <item index="0" class="java.lang.String" itemvalue="lazy" />
+=======
+            <item index="0" class="java.lang.String" itemvalue="srgitc" />
+>>>>>>> 8aca79fab262d5406a2ed61b4cf224f0b2017c6f
           </list>
         </value>
       </option>

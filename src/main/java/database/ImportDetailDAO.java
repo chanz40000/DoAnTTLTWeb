@@ -157,6 +157,27 @@ public class ImportDetailDAO extends AbsDAO<ImportDetail>{
 
         return result;
     }
+    public int deleteByImportId(int import_id) {
+        int result = 0;
+
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "DELETE from importDetails " + "WHERE import_id=?";
+
+            PreparedStatement rs = con.prepareStatement(sql);
+            rs.setInt(1, import_id);
+
+            result = rs.executeUpdate();
+
+            this.setValue(this.gson.toJson(import_id));
+          //  int x = super.delete(import_id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
 
     @Override
     public int deleteAll(ArrayList<ImportDetail> list) {

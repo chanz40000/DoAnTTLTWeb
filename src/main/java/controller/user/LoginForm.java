@@ -1,18 +1,26 @@
 package controller.user;
 
+import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.CountryResponse;
 import model.ErrorBean;
 import database.UserDAO;
 import model.User;
+import util.CountryIdentifier;
+import util.IPv4Converter;
 import util.PasswordEncryption;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 
 @WebServlet(name = "LoginForm", value = "/LoginForm")
 public class LoginForm extends HttpServlet {
@@ -81,6 +89,7 @@ public class LoginForm extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+
         String username = request.getParameter("usernamelo");
         String password = request.getParameter("passwordlo");
         ErrorBean eb = new ErrorBean();
@@ -89,6 +98,7 @@ public class LoginForm extends HttpServlet {
         password = PasswordEncryption.toSHA1(password);
 
         HttpSession session = request.getSession();
+
 
         // Check for login attempt
         if (username != null && password != null) {
@@ -99,9 +109,10 @@ public class LoginForm extends HttpServlet {
                 session.setAttribute("username", username);
                 System.out.println(username);
 
-                if (user.getRole() == 1) {
+                if (user.getRole() == 1 || user.getRole() == 4) {
                     session.setAttribute("admin", user);
                     // Use sendRedirect for successful admin login
+//                    String url = "/WEB-INF/admin/jsp/index.jsp";
                     String url = "/WEB-INF/admin/jsp/index.jsp";
                     RequestDispatcher dispatcher = request.getRequestDispatcher(url);
                     dispatcher.forward(request, response);
@@ -113,6 +124,7 @@ public class LoginForm extends HttpServlet {
                     RequestDispatcher dispatcher = request.getRequestDispatcher(url);
                     dispatcher.forward(request, response);
                 }else {
+                    //xác định thời gian, bằng giây, giữa các yêu cầu từ Client trước khi Servlet container sẽ vô hiệu hóa session này
                     session.setMaxInactiveInterval(30 * 60);
                     session.setAttribute("userC", user);
                     // Use forward for successful customer login
@@ -138,5 +150,22 @@ public class LoginForm extends HttpServlet {
 //            RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 //            dispatcher.forward(request, response);
 //        }
+//C:/Users/ADMIN/eclipse-workspace/BookWeb-master/src/main/java/util/GeoLite2-Country
+        try {
+            CountryIdentifier countryIdentifier = new CountryIdentifier();
+
+            // Đây là request được đại diện bằng HttpServletRequest, bạn cần đảm bảo có request thực tế
+            // Thay null bằng request thực tế
+            String countryId = countryIdentifier.getCountryId(request);
+            System.out.println("Quốc gia của bạn là: " + countryId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+
     }
-}
+
+    }
+

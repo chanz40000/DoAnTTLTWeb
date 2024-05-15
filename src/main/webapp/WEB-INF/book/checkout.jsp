@@ -91,9 +91,7 @@
         }
 
         #selectaddress1 .nice-select{
-            flex: 1 1 50%;
-
-            margin-right:10px ;
+            flex: 1 1 50%;margin-right:10px ;
         }
         #selectaddress2{
             display: flex;
@@ -173,14 +171,14 @@
 <section class="checkout spad">
     <div class="container">
         <c:choose>
-            <c:when test="${empty sessionScope.userC and empty sessionScope.admin}">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h6><span><i class="fa-solid fa-right-to-bracket"></i></span> Bạn đã đăng nhập chưa ? <a href="Login">Bấm vào đây </a> để đăng nhập hoặc đăng ký.
-                        </h6>
-                    </div>
-                </div>
-            </c:when>
+        <c:when test="${empty sessionScope.userC and empty sessionScope.admin}">
+        <div class="row">
+            <div class="col-lg-12">
+                <h6><span><i class="fa-solid fa-right-to-bracket"></i></span> Bạn đã đăng nhập chưa ? <a href="Login">Bấm vào đây </a> để đăng nhập hoặc đăng ký.
+                </h6>
+            </div>
+        </div>
+        </c:when>
         </c:choose>
         <div class="checkout__form">
             <h4>Chi tiết hóa đơn ${sessionScope.userC.userId}</h4>
@@ -193,14 +191,12 @@
                             <input type="text" id="nameConsignee" name="nameConsignee" oninput="checkUsername()" required="required">
                             <small></small>
 
-                        </div>
-
-                        <div class="checkout__input" id="selectaddress1">
-                            <label for="address">Tỉnh/Thành phố<span style="color: red">*</span></label>
-                            <select class="css_select" id="tinh" name="tinh" >
-                                <option value="-1">Tỉnh Thành</option>
-                            </select>
-                        </div>
+                        </div><div class="checkout__input" id="selectaddress1">
+                        <label for="address">Tỉnh/Thành phố<span style="color: red">*</span></label>
+                        <select class="css_select" id="tinh" name="tinh" >
+                            <option value="-1">Tỉnh Thành</option>
+                        </select>
+                    </div>
                         <div class="checkout__input" id="selectaddress2">
                             <label for="address">Quận/Huyện<span style="color: red">*</span></label>
                             <select class="css_select" id="quan" name="quan" >
@@ -232,33 +228,32 @@
 
                         </div>
                     </div>
-                    <div class="col-lg-5 col-md-6">
-                        <div class="checkout__order">
-                            <h4>Your Order</h4>
-                            <div class="checkout__order__products">Sản phẩm <span>Giá</span></div>
+<div class="col-lg-5 col-md-6">
+<div class="checkout__order">
+<h4>Your Order</h4>
+<div class="checkout__order__products">Sản phẩm <span>Giá</span></div>
 
-                            <ul>
-                                <c:forEach var="p" items="${sessionScope.cart.cart_items}">
-                                    <li class="product-name">${p.product.product_name}<span class="product-price">${FormatCurrency.formatCurrency(p.product.price)}</span></li>
-                                    <c:set var="ship" value="${ship + (p.product.price * p.quantity)}" />
-                                    <c:set var="total" value="${total + (p.product.price * p.quantity)}" />
-                                </c:forEach>
-                            </ul>
-                            <div class="checkout__order__subtotal">Tiền ship <span>${FormatCurrency.formatCurrency(ship)}</span></div>
-                            <div class="checkout__order__total">Tổng tiền <span>${FormatCurrency.formatCurrency(total)}</span></div>
-                            <div class="checkout__input__checkbox" style="display: flex;">
-                                <label style="margin-left: -15px">Phương thức thanh toán</label>
-                                <div style="margin-left: 20px; margin-top: -10px">
-                                    <select name="payment" id="payment" title="Select Category">
-                                        <c:forEach items="${paymentDAO.selectAll()}" var="c">
-                                            <option value="${c.paymentId}">${c.paymentName}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
-                            <button type="submit" class="site-btn" id="submitBtn">Đặt hàng</button>
-                        </div>
-                    </div>
+<ul>
+<c:forEach var="p" items="${sessionScope.cart.cart_items}">
+    <li class="product-name">${p.product.product_name}<span class="product-price">${FormatCurrency.formatCurrency(p.product.price)}</span></li>
+    <c:set var="ship" value="${ship + (p.product.price * p.quantity)}" /><c:set var="total" value="${total + (p.product.price * p.quantity)}" />
+</c:forEach>
+</ul>
+    <div class="checkout__order__subtotal">Tiền ship <span>${FormatCurrency.formatCurrency(ship)}</span></div>
+    <div class="checkout__order__total">Tổng tiền <span>${FormatCurrency.formatCurrency(total)}</span></div>
+    <div class="checkout__input__checkbox" style="display: flex;">
+        <label style="margin-left: -15px">Phương thức thanh toán</label>
+        <div style="margin-left: 20px; margin-top: -10px">
+            <select name="payment" id="payment" title="Select Category">
+                <c:forEach items="${paymentDAO.selectAll()}" var="c">
+                    <option value="${c.paymentId}">${c.paymentName}</option>
+                </c:forEach>
+            </select>
+        </div>
+    </div>
+    <button type="submit" class="site-btn" id="submitBtn">Đặt hàng</button>
+</div>
+</div>
                 </div>
             </form>
         </div>
@@ -297,8 +292,7 @@
                         <li><a href="#">Who We Are</a></li>
                         <li><a href="#">Our Services</a></li>
                         <li><a href="#">Projects</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Innovation</a></li>
+                        <li><a href="#">Contact</a></li><li><a href="#">Innovation</a></li>
                         <li><a href="#">Testimonials</a></li>
                     </ul>
                 </div>
@@ -360,8 +354,7 @@
                 brightness: 100,
                 contrast: 90,
                 sepia: 10
-            });
-            icondarklight.classList.replace("fa-moon", "fa-sun");
+            });icondarklight.classList.replace("fa-moon", "fa-sun");
         }
     });
 
@@ -430,8 +423,7 @@
         const username = usernameInput.value.trim();
         const errorMessage1 = usernameInput.nextElementSibling;
 
-        if (username === '') {
-            usernameInput.style.borderColor = "#dc3545";
+        if (username === '') {usernameInput.style.borderColor = "#dc3545";
             errorMessage1.textContent = "Username cannot be blank";
         } else {
             usernameInput.style.borderColor = "#28a745";
