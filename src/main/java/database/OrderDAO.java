@@ -4,6 +4,7 @@ import model.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -293,4 +294,102 @@ public class OrderDAO extends AbsDAO<Order>{
 
         return result;
     }
+    //tinh doanh thu theo ngay
+    public double revenue(Date date){
+        double result =0;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT SUM(quantity*price) AS tongtien\n" +
+                    "FROM orders a JOIN orderdetails b ON a.order_id=b.order_id\n" +
+                    "WHERE a.booking_date=?";
+            PreparedStatement pre = con.prepareStatement(sql);
+            pre.setDate(1, date);
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()){
+                result = rs.getDouble("tongtien");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+    //doanh thu tu ngay n1 den ngay n2
+    public double revenue(Date date1, Date date2){
+        double result =0;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT SUM(quantity*price) AS tongtien\n" +
+                    "FROM orders a JOIN orderdetails b ON a.order_id=b.order_id\n" +
+                    "WHERE a.booking_date>=? AND a.booking_date<=?";
+            PreparedStatement pre = con.prepareStatement(sql);
+            pre.setDate(1, date1);
+            pre.setDate(2, date2);
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()){
+                result = rs.getDouble("tongtien");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+    //doanh thu theo thang
+    public double revenue(int month, int year){
+        double result =0;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT \n" +
+                    "    SUM(b.quantity * b.price) AS tongtien\n" +
+                    "FROM \n" +
+                    "    orders a\n" +
+                    "JOIN \n" +
+                    "    orderdetails b ON a.order_id = b.order_id\n" +
+                    "WHERE \n" +
+                    "    YEAR(a.booking_date) = ? AND MONTH(a.booking_date) = ?;\n";
+            PreparedStatement pre = con.prepareStatement(sql);
+            pre.setInt(1, year);
+            pre.setInt(2, month);
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()){
+                result = rs.getDouble("tongtien");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+    //doanh thu theo nam
+    public double revenue( int year){
+        double result =0;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT \n" +
+                    "    SUM(b.quantity * b.price) AS tongtien\n" +
+                    "FROM \n" +
+                    "    orders a\n" +
+                    "JOIN \n" +
+                    "    orderdetails b ON a.order_id = b.order_id\n" +
+                    "WHERE \n" +
+                    "    YEAR(a.booking_date) = ? ";
+            PreparedStatement pre = con.prepareStatement(sql);
+            pre.setInt(1, year);
+            ResultSet rs = pre.executeQuery();
+            while (rs.next()){
+                result = rs.getDouble("tongtien");
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        OrderDAO orderDAO = new OrderDAO();
+        System.out.println(orderDAO.revenue(Date.valueOf(LocalDateTime.now().toLocalDate())));
+    }
+
 }

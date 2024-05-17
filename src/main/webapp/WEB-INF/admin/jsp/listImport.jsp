@@ -48,7 +48,10 @@
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="../assetsForAdmin/assets/js/config.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
 
 </head>
 
@@ -82,7 +85,7 @@
           <div class="card">
             <h5 class="card-header">Danh sách hóa đơn nhập hàng </h5>
             <div class="table-responsive text-nowrap">
-              <table class="table">
+              <table class="table table-striped">
                 <thead>
                 <tr>
                   <th>Mã đơn</th>
@@ -196,6 +199,8 @@
 
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
 <script src="../assetsForAdmin/assets/vendor/libs/jquery/jquery.js"></script>
 <script src="../assetsForAdmin/assets/vendor/libs/popper/popper.js"></script>
 <script src="../assetsForAdmin/assets/vendor/js/bootstrap.js"></script>

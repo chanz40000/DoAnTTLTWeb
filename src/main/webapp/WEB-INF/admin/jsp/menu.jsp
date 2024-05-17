@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-        <a href="index.jsp" class="app-brand-link">
+        <a href="./AdminIndex" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <svg
                         width="25"
@@ -361,13 +361,23 @@
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
+                    <a href="./ListImport" class="menu-link">
+                        <div data-i18n="Basic Inputs">Đơn đã nhập</div>
+                    </a>
+                </li>
+                <li class="menu-item">
                     <a href="./warehouse" class="menu-link">
                         <div data-i18n="Basic Inputs">Nhập sản phẩm</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="./CreateProduct" class="menu-link">
-                        <div data-i18n="Input groups">Danh sách sản phẩm đã nhập</div>
+                    <a href="./ProductCannotBeSold" class="menu-link">
+                        <div data-i18n="Input groups">Sản phẩm không bán được</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="./NeedProduct" class="menu-link">
+                        <div data-i18n="Input groups">Sản phẩm cần nhập</div>
                     </a>
                 </li>
             </ul>
@@ -430,56 +440,13 @@
         <li class="menu-item">
             <a href="./ListLog" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Danh sách người dùng</div>
+                <div data-i18n="Tables">Log</div>
             </a>
         </li>
         <li class="menu-item">
-            <a href="./ListUser" class="menu-link">
+            <a href="./Revenue" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Danh sách người dùng</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="./ListProduct" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Danh sách sản phẩm</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="./ProductCannotBeSold" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Danh sách sản phẩm không bán được</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="./NeedProduct" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Sản phẩm cần nhập</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="./warehouse" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Nhập Kho</div>
-            </a>
-        </li>
-
-        <li class="menu-item">
-            <a href="./ListImport" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Danh sách đơn nhập</div>
-            </a>
-        </li>
-
-        <li class="menu-item">
-            <a href="./CreateProduct" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">Thêm Sản Phẩm</div>
-            </a></li>
-        <li class="menu-item">
-            <a href="./ListOrder" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-table"></i>
-                <div data-i18n="Tables">List Order</div>
+                <div data-i18n="Tables">Thống Kê</div>
             </a>
         </li>
         <!-- Misc -->
