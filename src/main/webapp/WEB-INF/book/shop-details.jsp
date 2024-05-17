@@ -259,8 +259,10 @@
             <div class="col-lg-6 col-md-6" id="picturearea">
                 <div class="product__details__pic">
                     <div class="product__details__pic__item">
-                        <img class="product__details__pic__item--large"
-                             src="img/image/${detail.image}" alt="" >
+
+                        <img height="650px" width="100px" class="product__details__pic__item--large"
+                             src="/image/${detail.image}" alt="">
+
                     </div>
                     <div class="product__details__pic__slider owl-carousel">
                         <c:forEach items="${proCa}" var="pc">
@@ -272,6 +274,30 @@
             </div>
             <div class="col-lg-6 col-md-6">
                 <div class="product__details__text">
+<%--<<<<<<< HEAD--%>
+<%--                    <h3>${detail.getProduct_name()}</h3>--%>
+<%--                    <div class="product__details__rating">--%>
+<%--                        <i class="fa fa-star"></i>--%>
+<%--                        <i class="fa fa-star"></i>--%>
+<%--                        <i class="fa fa-star"></i>--%>
+<%--                        <i class="fa fa-star"></i>--%>
+<%--                        <i class="fa fa-star-half-o"></i>--%>
+<%--                        <span>(18 reviews)</span>--%>
+<%--                    </div>--%>
+<%--                    <div class="product__details__price">${detail.getPrice()}</div>--%>
+<%--                    <p>${detail.getDescription()}</p>--%>
+<%--                    <div class="product__details__quantity">--%>
+<%--                        <div class="quantity">--%>
+<%--                            <div class="pro-qty">--%>
+<%--                                <input type="text" value="1">--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                    <a href="#" class="primary-btn">ADD TO CARD</a>--%>
+<%--                    <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>--%>
+<%--                    <br>--%>
+<%--                    <b>Ý kiến sản phẩm</b>--%>
+<%--=======--%>
                     <form action="RatingProduct" method="post">
                         <input type="hidden" name="pid" value=${detail.productId}>
                         <h3>${detail.getProduct_name()}</h3>

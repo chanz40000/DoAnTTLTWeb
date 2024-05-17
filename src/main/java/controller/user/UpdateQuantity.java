@@ -20,11 +20,7 @@ public class UpdateQuantity extends HttpServlet {
         int newQuantity = Integer.parseInt(request.getParameter("quantity"));
         Cart cart = (Cart) request.getSession().getAttribute("cart");
         if(cart!=null) {
-            if(newQuantity<=0) {
-                cart.removeItem(productId);
-            }else {
                 cart.updateQuantity(productId, newQuantity);
-            }
             request.getSession().setAttribute("cart", cart);
         }
         // Lấy số lượng giỏ hàng từ phương thức trong lớp Cart của bạn
