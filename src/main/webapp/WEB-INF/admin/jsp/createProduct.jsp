@@ -176,7 +176,7 @@
           <div class="row">
                <div class="card-body">
 
-                  <form action="/CreateProduct2" METHOD="post">
+                  <form action="CreateProduct2" METHOD="post" enctype="multipart/form-data">
 
                       <div class="button-wrapper">
                         <label for="image" class="btn btn-primary me-2 mb-4" tabindex="0">
@@ -185,6 +185,7 @@
                           <input
                                   type="file"
                                   id="image"
+                                  name="image"
                                   class="account-file-input"
                                   hidden
                                   accept="image/png, image/jpeg"
@@ -208,26 +209,35 @@
                     <div class="mb-3">
                       <label class="form-label" for="category">Thể loại</label>
                       <select id="category" name="category" class="select2 form-select">
-                        <option value="Tiểu thuyết">Tiểu thuyết</option>
-                        <option value="Kinh tế">Kinh tế</option>
-                        <option value="Khoa học">Khoa học</option>
-                        <option value="Tâm lý">Tâm lý</option>
-                        <option value="Lịch sử">Lịch sử</option>
-                        <option value="Thiếu nhi">Thiếu nhi</option>
-                        <option value="Phiêu lưu">Phiêu lưu</option>
-                        <option value="Hành động">Hành động</option>
-                        <option value="Kỹ năng sống">Kỹ năng sống</option>
-                        <option value="Thơ ca">Thơ ca</option>
-                        <option value="Hài hước">Hài hước</option>
-                        <option value="Khoa học viễn tưởng">Khoa học viễn tưởng</option>
-                        <option value="Cổ điển">Cổ điển</option>
-                        <option value="Chính trị">Chính trị</option>
-                        <option value="Kiếm hiệp">Kiếm hiệp</option>
-                        <option value="Tự truyện">Tự truyện</option>
-                        <option value="Kỹ thuật">Kỹ thuật</option>
-
+                        <jsp:useBean id="categoyDAO" class="database.CategoryDAO"/>
+                        <c:forEach var="category" items="${categoyDAO.selectAll()}">
+                        <option value="${category.categoryName}">${category.categoryName}</option>
+                        </c:forEach>
+<%--                        <option value="Tiểu thuyết">Tiểu thuyết</option>--%>
+<%--                        <option value="Kinh tế">Kinh tế</option>--%>
+<%--                        <option value="Khoa học">Khoa học</option>--%>
+<%--                        <option value="Tâm lý">Tâm lý</option>--%>
+<%--                        <option value="Lịch sử">Lịch sử</option>--%>
+<%--                        <option value="Thiếu nhi">Thiếu nhi</option>--%>
+<%--                        <option value="Phiêu lưu">Phiêu lưu</option>--%>
+<%--                        <option value="Hành động">Hành động</option>--%>
+<%--                        <option value="Kỹ năng sống">Kỹ năng sống</option>--%>
+<%--                        <option value="Thơ ca">Thơ ca</option>--%>
+<%--                        <option value="Hài hước">Hài hước</option>--%>
+<%--                        <option value="Khoa học viễn tưởng">Khoa học viễn tưởng</option>--%>
+<%--                        <option value="Cổ điển">Cổ điển</option>--%>
+<%--                        <option value="Chính trị">Chính trị</option>--%>
+<%--                        <option value="Kiếm hiệp">Kiếm hiệp</option>--%>
+<%--                        <option value="Tự truyện">Tự truyện</option>--%>
+<%--                        <option value="Kỹ thuật">Kỹ thuật</option>--%>
+<%--                        <option value="Kỹ thuật">Tự giúp bản thân</option>--%>
+<%--                        <option value="Kỹ thuật">Hiện thực</option>--%>
                       </select>
                     </div>
+                      <div class="mb-3">
+                          <label class="form-label" for="price">Giá tiền</label>
+                          <input type="number" class="form-control" name="price" id="price" />
+                      </div>
                     <div class="mb-3">
                       <label class="form-label" for="publicationYear">Năm xuất bản</label>
                       <input type="number" class="form-control" name="publicationYear" id="publicationYear" />

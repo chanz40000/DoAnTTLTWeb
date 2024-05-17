@@ -185,16 +185,16 @@
     font-size: 20px;
 
   }
-  .table-responsive.text-nowrap{
-      width: 1100px;
-  }
-  #cardresp{
-      width: 1100px;
-  }
-  #layout-navbar{
-      width: 1050px;
+  /*.table-responsive.text-nowrap{*/
+  /*    width: 1100px;*/
+  /*}*/
+  /*#cardresp{*/
+  /*    width: 1100px;*/
+  /*}*/
+  /*#layout-navbar{*/
+  /*    width: 1050px;*/
 
-  }
+  /*}*/
 </style>
 <body>
 <!-- Layout wrapper -->
@@ -216,7 +216,6 @@
       <!-- Content wrapper -->
       <div class="content-wrapper" id="content-wrapper">
         <!-- Content -->
-
         <div class="container-xxl flex-grow-1 container-p-y" id="content-big-section">
           <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> List Product</h4>
 
@@ -228,6 +227,7 @@
                 <thead>
                 <tr>
                   <th>Mã sách</th>
+                    <th>Ảnh</th>
                   <th>Tên sách</th>
                   <th>Thể loại</th>
                         <th>Giá nhập</th>
@@ -382,6 +382,7 @@
                         const row = document.createElement('tr');
                         row.innerHTML =
                             '<td id="id_product">' + product.productId + '</td>'
+                            + '<td><img style="width: 50px; height: 50px" alt="" src="/image/' + product.image + '"></td>'
                             + '<td>' + product.product_name + '</td>'
                             + '<td>' + product.category.categoryName + '</td>'
                             + '<td>' + product.unitPrice + '</td>'
