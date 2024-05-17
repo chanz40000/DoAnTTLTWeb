@@ -46,7 +46,12 @@ public class AuthorizationFilter implements Filter{
 		ErrorBean eb = new ErrorBean();
 	
 		
-		if(url.contains("/admin")) {
+		if(url.contains("/AdminIndex")||url.contains("/ChangeImport")||url.contains("/ChangleInformationProduct")||url.contains("/CreateProduct")
+				||url.contains("/DeleteImport")||url.contains("/DeleteProduct")||url.contains("/GetListProduct")||url.contains("/ImportDetail")||url.contains("/ImportOrder")
+				||url.contains("/listAdmin")||url.contains("/ListImport")||url.contains("/ListLog")||url.contains("/ListOrder")||url.contains("/ListProduct")
+				||url.contains("/ListUser")||url.contains("/lockAccount")||url.contains("/lockAccountAdmin")||url.contains("/NeedProduct")
+				||url.contains("/OpenAndBlockAccount")||url.contains("/ProductCannotBeSold")||url.contains("/ProductDetail")||url.contains("/UserDetail")
+				||url.contains("/warehouse")) {
 			User admin = (User) request.getSession().getAttribute("admin");
 			if(admin!=null) {
 				filterChain.doFilter(servletRequest, servletResponse);
@@ -63,7 +68,7 @@ public class AuthorizationFilter implements Filter{
 		}else
 		
 		if(url.contains("/ChangeInf")||url.contains("/ChangePass")||url.contains("/Profile")||url.contains("/AddToCart")
-				||url.contains("/CheckoutController")) {
+				||url.contains("/CheckoutController")||url.contains("/Shopdetails")||url.contains("/UpdateQuantity")) {
 			User customer = (User) request.getSession().getAttribute("userC");
 			if(customer!=null) {
 				filterChain.doFilter(servletRequest, servletResponse);

@@ -60,6 +60,8 @@
     <script src="../assetsForAdmin/assets/vendor/js/helpers.js"></script>
 
     <script src="../assetsForAdmin/assets/js/config.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
 </head>
 <style>
     #menu-icon{
@@ -183,6 +185,7 @@
                     <div class="card">
                         <h5 class="card-header">Danh sách đơn hàng</h5>
                         <div class="table-responsive text-nowrap">
+
 <%--                            <table class="table">--%>
 <%--                                <thead>--%>
 <%--                                <tr>--%>
@@ -236,6 +239,7 @@
 <%--                                </tbody>--%>
 <%--                            </table>--%>
                             <table id="example" class="table table-striped" style="width:100%">
+
                                 <thead>
                                 <tr>
                                     <th>ID</th>
@@ -370,7 +374,12 @@
 
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
 <script src="../assetsForAdmin/assets/vendor/libs/jquery/jquery.js"></script>
 <script src="../assetsForAdmin/assets/vendor/libs/popper/popper.js"></script>
 <script src="../assetsForAdmin/assets/vendor/js/bootstrap.js"></script>

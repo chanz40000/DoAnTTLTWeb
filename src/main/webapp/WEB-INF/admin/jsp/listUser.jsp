@@ -54,6 +54,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css" >
 
+
     <!-- Page CSS -->
     <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -305,6 +306,8 @@
 
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
 <script src="../assetsForAdmin/assets/vendor/libs/jquery/jquery.js"></script>
 <script src="../assetsForAdmin/assets/vendor/libs/popper/popper.js"></script>
 <script src="../assetsForAdmin/assets/vendor/js/bootstrap.js"></script>

@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="util.FormatCurrency"%>
+<%@ page import="database.RatingDAO"%>
 <%@page isELIgnored="false" %>
 <html lang="zxx">
 
@@ -59,7 +60,7 @@
 
         }
         .product__item{
-            background-color: rgba(245,245,245);
+            background-color: rgba(214,214,214);
             height: 350px;
             display: flex;
             align-items: center;
@@ -155,32 +156,10 @@
             font-size: 20px;
 
         }
-        /*.product__item {*/
-        /*    display: flex;*/
-        /*    flex-direction: column;*/
-        /*    align-items: stretch;*/
-        /*    height: auto;*/
-        /*}*/
 
-        /*.product__item__pic {*/
-        /*    height: 300px; !* Fixed height for the image container *!*/
-        /*    overflow: hidden; !* Hide overflow content *!*/
-        /*    display: flex;*/
-        /*    justify-content: center;*/
-        /*    align-items: center;*/
-        /*}*/
-
-        /*.product__item__pic img {*/
-        /*    width: 100%;*/
-        /*    height: 100%;*/
-        /*    object-fit: cover; !* Ensure the image covers the container *!*/
-        /*}*/
-
-        /*.product__item__text {*/
-        /*    padding: 10px;*/
-        /*    text-align: center;*/
-        /*}*/
-
+        .Ratestar img{
+            margin-top:4px;
+        }
 
     </style>
 </head>
@@ -191,6 +170,7 @@
     <div class="loader"></div>
 </div>
 
+<jsp:useBean id="rating" class="database.RatingDAO"></jsp:useBean>
 
 <jsp:include page="navbar.jsp"/>
 
@@ -525,8 +505,13 @@
                     <c:forEach var="p" items="${listProduct}">
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
+
                                 <div class="product__item__pic">
                                     <img class="product-image" src="/image/${p.image}" alt="${p.product_name}">
+<%--=======--%>
+<%--                                <div class="product__item__pic set-bg" > <!--data-setbg=""-->--%>
+<%--                                    <img data-src="img/image/${p.image}" lazy>--%>
+<%-->>>>>>> main--%>
                                     <ul class="product__item__pic__hover">
                                         <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                         <li><a href="Shopdetails?id=${p.productId}"><i class="fa fa-info-circle"></i></a></li>
@@ -542,6 +527,7 @@
                                                             <a href="Login"><i class="fa fa-shopping-cart"></i></a>
                                                         </c:otherwise>
                                                     </c:choose>
+
                                                 </button>
                                             </form>
                                         </li>
@@ -549,12 +535,57 @@
                                 </div>
                                 <div class="product__item__text">
                                     <h6><a href="#">${p.product_name}</a></h6>
+                                    <c:set var="digitImages" value="${{
+    '0': 'img/image/number.0 rating.png',
+    '1': 'img/image/number.1 rating.png',
+    '2': 'img/image/number.2 rating.png',
+    '3': 'img/image/number.3 rating.png',
+    '4': 'img/image/number.4 rating.png',
+    '5': 'img/image/number.5 rating.png',
+    '6': 'img/image/number.6 rating.png',
+    '7': 'img/image/number.7 rating.png',
+    '8': 'img/image/number.8 rating.png',
+    '9': 'img/image/number.9 rating.png'
+}}" />
+
                                     <ul class="Ratestar">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
+                                        <c:set var="averageRating" value="${rating.getAverageRatingByProductId(p.productId)}" />
+                                        <c:set var="integerPart" value="${averageRating.intValue()}" />
+                                        <c:set var="decimalPart" value="${averageRating - integerPart}" />
+                                        <c:choose>
+                                            <c:when test="${averageRating == 0}">
+                                                <c:forEach var="digit" begin="1" end="5">
+                                                    <img data-src="img/image/number not rating.png" lazy width="16px" height="16px">
+                                                </c:forEach>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:if test="${integerPart >= 1 && integerPart <= 5 && decimalPart == 0}">
+                                                    <c:forEach var="digit" begin="1" end="${integerPart}">
+                                                        <img data-src="img/image/number.0 rating.png" lazy width="16px" height="16px">
+                                                    </c:forEach>
+                                                    <c:forEach var="digit" begin="${integerPart + 1}" end="5">
+                                                        <img data-src="img/image/number not rating.png" lazy width="16px" height="16px">
+                                                    </c:forEach>
+                                                </c:if>
+                                                <c:if test="${integerPart >= 1 && integerPart <= 5 && decimalPart != 0}">
+                                                    <c:forEach var="digit" begin="1" end="${integerPart}">
+                                                        <img data-src="img/image/number.0 rating.png" lazy width="16px" height="16px">
+                                                    </c:forEach>
+                                                    <c:set var="decimalPartRounded" value="${Math.round(decimalPart * 10)}" />
+                                                    <img src="img/image/number.${decimalPartRounded} rating.png" width="16px" height="16px" alt="">
+                                                    <c:forEach var="digit" begin="${integerPart + 2}" end="5">
+                                                        <img data-src="img/image/number not rating.png" lazy width="16px" height="16px">
+                                                    </c:forEach>
+                                                </c:if>
+                                            </c:otherwise>
+
+
+
+
+
+
+
+                                        </c:choose>
                                         <li class="Stick"></li>
                                         <li class="Productnotsell">Còn lại ${p.quantity}</li>
                                     </ul>
@@ -799,6 +830,7 @@
     // Enable Dark Reader when the page loads
 
 </script>
+
 </body>
 
 </html>
