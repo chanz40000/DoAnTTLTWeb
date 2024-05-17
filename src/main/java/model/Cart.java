@@ -120,4 +120,16 @@ public class Cart {
     public void clearCart() {
         cart_items.clear();
     }
+    public double calculateTotalPrice() {
+        double totalPrice = 0;
+
+        if (cart_items != null) {
+            for (CartItem item : cart_items) {
+                totalPrice += item.getProduct().getPrice() * item.getQuantity();
+            }
+        }
+
+        return totalPrice;
+    }
+
 }

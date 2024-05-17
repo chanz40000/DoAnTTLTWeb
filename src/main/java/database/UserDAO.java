@@ -68,7 +68,38 @@ public class UserDAO extends AbsDAO<User> {
         }
         return users;
     }
+    public User selectByName(String name) {
+        User result = null;
 
+        try {
+
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "SELECT * FROM users WHERE name = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, name);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int id1 = rs.getInt("user_id");
+                String usernames = rs.getString("username");
+                String passwords = rs.getString("password");
+                int role_id = rs.getInt("role_id");
+                String nameu = rs.getString("name");
+                Date birthday = rs.getDate("birthday");
+                String gt = rs.getString("sexual");
+                String phoneNumber = rs.getString("phoneNumber");
+                String email = rs.getString("email");
+                String avatar = rs.getString("avatar");
+                result = new User(id1, usernames, passwords, role_id, nameu, birthday, gt, phoneNumber, email, avatar);
+
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
     @Override
     public User selectById(int id) {
         User result = null;
@@ -109,7 +140,7 @@ public class UserDAO extends AbsDAO<User> {
             Connection con = JDBCUtil.getConnection();
 
             // tao cau lenh sql
-            String sql = "SELECT * FROM users WHERE role_id = 2";
+            String sql = "SELECT * FROM users WHERE role_id = 1";
 
             PreparedStatement st = con.prepareStatement(sql);
 
@@ -192,7 +223,7 @@ public class UserDAO extends AbsDAO<User> {
             Connection con = JDBCUtil.getConnection();
 
             // tao cau lenh sql
-            String sql = "SELECT * FROM users where role_id = 1 OR role_id = 3";
+            String sql = "SELECT * FROM users where role_id = 2 OR role_id = 3";
 
             PreparedStatement st = con.prepareStatement(sql);
 
@@ -233,7 +264,7 @@ public class UserDAO extends AbsDAO<User> {
             Connection con = JDBCUtil.getConnection();
 
             // tao cau lenh sql
-            String sql = "SELECT * FROM users where role_id = 1";
+            String sql = "SELECT * FROM users where role_id = 2";
 
             PreparedStatement st = con.prepareStatement(sql);
 

@@ -24,17 +24,24 @@
     <title>Tables - Basic Tables | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.bootstrap5.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script defer src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
+    <script defer src="https://cdn.datatables.net/2.0.7/js/dataTables.bootstrap5.js"></script>
     <!-- Favicon -->
+
     <link rel="icon" type="image/x-icon" href="../assetsForAdmin/assets/img/favicon/favicon.ico" />
 
     <!-- Fonts -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
             href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
             rel="stylesheet"
     />
+
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/fonts/boxicons.css" />
@@ -143,6 +150,12 @@
         font-size: 20px;
 
     }
+    /*#content-wrapper{*/
+    /*    width: 100%;*/
+    /*}*/
+.card{
+    width: 100%;
+}
 </style>
 <body>
 <!-- Layout wrapper -->
@@ -166,16 +179,70 @@
                 <!-- Content -->
 
                 <div class="container-xxl flex-grow-1 container-p-y" id="content-big-section">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Đơn hàng /</span> Danh sách đơn hàng</h4>
 
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
-                        <h5 class="card-header">Table Basic</h5>
+                        <h5 class="card-header">Danh sách đơn hàng</h5>
                         <div class="table-responsive text-nowrap">
-                            <table class="table table-striped">
+
+<%--                            <table class="table">--%>
+<%--                                <thead>--%>
+<%--                                <tr>--%>
+<%--                                    <th>Mã đơn hàng</th>--%>
+<%--                                    <th>Mã User</th>--%>
+<%--                                    <th>Tên người nhận</th>--%>
+<%--                                    <th>Số điện thoại</th>--%>
+<%--                                    <th>Địa chỉ</th>--%>
+<%--                                    <th>Phương thức thanh toán</th>--%>
+<%--                                    <th>Tổng tiền</th>--%>
+<%--                                    <th>Ghi chú</th>--%>
+<%--                                    <th>Ngày đặt</th>--%>
+<%--                                    <th>Actions</th>--%>
+<%--                                </tr>--%>
+<%--                                </thead>--%>
+<%--                                <tbody class="table-border-bottom-0">--%>
+<%--                                <jsp:useBean id="orderDAO" class="database.OrderDAO"/>--%>
+<%--                                <c:forEach var="order" items="${orderDAO.selectOrderByStatus(1)}">--%>
+<%--                                   &lt;%&ndash; <li><a href="#">${order.categoryName}</a></li>&ndash;%&gt;--%>
+<%--                                    <tr>--%>
+<%--                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${order.orderId}</strong></td>--%>
+<%--                                        <td>${order.user.userId}</td>--%>
+<%--                                        <td>${order.nameConsignee}</td>--%>
+<%--                                        <td>${order.phone}</td>--%>
+<%--                                        <td>${order.address}</td>--%>
+<%--                                        <td>${order.payment.paymentName}</td>--%>
+<%--                                        <td>${order.totalPrice}</td>--%>
+<%--                                        <td>${order.note}</td>--%>
+<%--                                        <td>${order.bookingDate}</td>--%>
+
+
+<%--                                        <td><span class="badge bg-label-primary me-1">Active</span></td>--%>
+<%--                                        <td>--%>
+<%--                                            <div class="dropdown">--%>
+<%--                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">--%>
+<%--                                                    <i class="bx bx-dots-vertical-rounded"></i>--%>
+<%--                                                </button>--%>
+<%--                                                <div class="dropdown-menu">--%>
+<%--                                                    &lt;%&ndash;<a class="dropdown-item" href="./UserDetail?id=${user.userId}"--%>
+<%--                                                    ><i class="bx bx-edit-alt me-1"></i> Edit</a--%>
+<%--                                                    >--%>
+<%--                                                    <a class="dropdown-item" href="javascript:void(0);"--%>
+<%--                                                    ><i class="bx bx-trash me-1"></i> Delete</a--%>
+<%--                                                    >&ndash;%&gt;--%>
+<%--                                                </div>--%>
+<%--                                            </div>--%>
+<%--                                        </td>--%>
+<%--                                    </tr>--%>
+<%--                                </c:forEach>--%>
+
+<%--                                </tbody>--%>
+<%--                            </table>--%>
+                            <table id="example" class="table table-striped" style="width:100%">
+
                                 <thead>
                                 <tr>
-                                    <th>Mã đơn hàng</th>
+                                    <th>ID</th>
                                     <th>Mã User</th>
                                     <th>Tên người nhận</th>
                                     <th>Số điện thoại</th>
@@ -187,10 +254,10 @@
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
-                                <tbody class="table-border-bottom-0">
+                                <tbody>
                                 <jsp:useBean id="orderDAO" class="database.OrderDAO"/>
                                 <c:forEach var="order" items="${orderDAO.selectOrderByStatus(1)}">
-                                   <%-- <li><a href="#">${order.categoryName}</a></li>--%>
+                                    <%-- <li><a href="#">${order.categoryName}</a></li>--%>
                                     <tr>
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${order.orderId}</strong></td>
                                         <td>${order.user.userId}</td>
@@ -210,19 +277,32 @@
                                                     <i class="bx bx-dots-vertical-rounded"></i>
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <%--<a class="dropdown-item" href="./UserDetail?id=${user.userId}"
-                                                    ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                                                    >
-                                                    <a class="dropdown-item" href="javascript:void(0);"
-                                                    ><i class="bx bx-trash me-1"></i> Delete</a
-                                                    >--%>
+                                                        <%--<a class="dropdown-item" href="./UserDetail?id=${user.userId}"
+                                                        ><i class="bx bx-edit-alt me-1"></i> Edit</a
+                                                        >
+                                                        <a class="dropdown-item" href="javascript:void(0);"
+                                                        ><i class="bx bx-trash me-1"></i> Delete</a
+                                                        >--%>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
                                 </c:forEach>
-
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Mã User</th>
+                                    <th>Tên người nhận</th>
+                                    <th>Số điện thoại</th>
+                                    <th>Địa chỉ</th>
+                                    <th>Phương thức thanh toán</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Ghi chú</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -294,8 +374,12 @@
 
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
 <script src="../assetsForAdmin/assets/vendor/libs/jquery/jquery.js"></script>
 <script src="../assetsForAdmin/assets/vendor/libs/popper/popper.js"></script>
 <script src="../assetsForAdmin/assets/vendor/js/bootstrap.js"></script>
@@ -327,6 +411,7 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
+
 <script>
     const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
     const icondarklight = document.getElementById('icontype');
@@ -346,6 +431,9 @@
             });
             icondarklight.classList.replace("fa-moon", "fa-sun");
         }
+    });
+    $(document).ready(function() {
+        $('#example').DataTable();
     });
 
 

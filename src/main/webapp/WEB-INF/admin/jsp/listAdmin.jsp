@@ -202,7 +202,6 @@
 <div class="buy-now">
     <a
             href="Index"
-            target="_blank"
             class="btn btn-danger btn-buy-now"
     >Quay lại trang shopping</a
     >

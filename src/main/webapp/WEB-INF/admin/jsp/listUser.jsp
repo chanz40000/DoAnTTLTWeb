@@ -208,7 +208,7 @@
                                         <td>${user.sexual}</td>
 
                                         <td>          <c:choose>
-                                            <c:when test="${user.role == 1}">
+                                            <c:when test="${user.role == 2}">
                                                 <span class="badge bg-success me-1">Hoạt Động</span>
                                             </c:when>
                                             <c:when test="${user.role == 3}">

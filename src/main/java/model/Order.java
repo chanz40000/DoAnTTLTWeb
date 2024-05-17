@@ -15,10 +15,10 @@ public class Order{
     private Date bookingDate;
     private String note;
     private double shippingFee;
-    private int status;
+    private StatusOrder status;
     private List<OrderDetail> orderDetailList;
 
-    public Order(int orderId, User user, double totalPrice, String nameConsignee, String phone, String address, Payment payment, Date bookingDate, String note, double shippingFee, int status) {
+    public Order(int orderId, User user, double totalPrice, String nameConsignee, String phone, String address, Payment payment, Date bookingDate, String note, double shippingFee, StatusOrder status) {
         this.orderId = orderId;
         this.user = user;
         this.totalPrice = totalPrice;
@@ -43,11 +43,11 @@ public class Order{
         this.shippingFee = shippingFee;
     }
 
-    public int getStatus() {
+    public StatusOrder getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(StatusOrder status) {
         this.status = status;
     }
 

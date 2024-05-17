@@ -1,37 +1,82 @@
 package model;
 
+import java.sql.Date;
+
+
 public class Rating {
     private int ratingId;
     private Product product;
-    private int rating;
+    private User user;
+    private double ratingstar;
+    private String ratingtext;
+    private long dateRating;
 
-    public Rating(int ratingId, Product product, int rating) {
+    public Rating(int ratingId, Product product, User user, double ratingstar, String ratingtext, long dateRating) {
         this.ratingId = ratingId;
         this.product = product;
-        this.rating = rating;
+        this.user = user;
+        this.ratingstar = ratingstar;
+        this.ratingtext = ratingtext;
+        this.dateRating = dateRating;
     }
 
     public int getRatingId() {
         return ratingId;
     }
 
-    public void setRatingId(int ratingId) {
-        this.ratingId = ratingId;
-    }
-
     public Product getProduct() {
         return product;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public double getRatingstar() {
+        return ratingstar;
+    }
+
+    public String getRatingtext() {
+        return ratingtext;
+    }
+
+    public long getDateRating() {
+        return dateRating;
+    }
+
+    public void setRatingId(int ratingId) {
+        this.ratingId = ratingId;
     }
 
     public void setProduct(Product product) {
         this.product = product;
     }
 
-    public int getRating() {
-        return rating;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setRatingstar(double ratingstar) {
+        this.ratingstar = ratingstar;
+    }
+
+    public void setRatingtext(String ratingtext) {
+        this.ratingtext = ratingtext;
+    }
+
+    public void setDateRating(long dateRating) {
+        this.dateRating = dateRating;
+    }
+
+    @Override
+    public String toString() {
+        return "Rating{" +
+                "ratingId=" + ratingId +
+                ", product=" + product +
+                ", user=" + user +
+                ", ratingstar=" + ratingstar +
+                ", ratingtext='" + ratingtext + '\'' +
+                ", dateRating=" + dateRating +
+                '}';
     }
 }

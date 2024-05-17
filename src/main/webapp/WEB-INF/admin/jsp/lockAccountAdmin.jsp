@@ -82,7 +82,7 @@
                 <!-- Content -->
                 <c:choose>
                     <%-- Kiểm tra nếu người dùng có vai trò là 4 --%>
-                    <c:when test="${userC.role == 4}">
+                    <c:when test="${admin.role == 4}">
                         <div class="container-xxl flex-grow-1 container-p-y">
                             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Khóa tài khoản admin</h4>
 
