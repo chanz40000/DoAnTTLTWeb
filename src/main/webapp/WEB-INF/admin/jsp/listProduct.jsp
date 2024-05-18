@@ -62,40 +62,6 @@
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="../assetsForAdmin/assets/js/config.js"></script>
 
-<%--    1. Cache bộ nhớ trình duyệt (Client-side caching)--%>
-<%--    Bạn có thể sử dụng cache của trình duyệt để lưu trữ các tài nguyên như tệp tin CSS, JavaScript, --%>
-<%--    hình ảnh và các tài liệu HTML.--%>
-<%--    Điều này giúp giảm thời gian tải trang cho người dùng khi họ quay lại trang web.--%>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-            integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-            crossorigin="anonymous"></script>
-
-<%--    import thư viện lru-cache--%>
-    <script src="https://cdn.jsdelivr.net/npm/js-lru-cache@0.1.10/dist/lru-cache.min.js"></script>
-<%--    định nghĩa hàm getDataFromCacheOrSource(id) trong phần --%>
-<%--    . Hàm này sẽ kiểm tra xem dữ liệu đã được lưu trong cache hay chưa. Nếu đã có trong cache,--%>
-<%--    nó sẽ trả về dữ liệu từ cache. Nếu chưa có, nó sẽ gọi fetchDataFromDatabase(id) để lấy dữ liệu từ --%>
-<%--    nguồn và sau đó lưu vào cache trước khi trả về dữ liệu.--%>
-    <script>
-        import LRU from 'lru-cache';
-        // Define LRU cache with max 100 items and 1 hour max age
-        const cache = new LRU({ max: 100, maxAge: 3600 * 1000 });
-
-        // Function to retrieve data from cache or source
-        function getDataFromCacheOrSource(id) {
-            const cachedData = cache.get(id);
-            if (cachedData) {
-                console.log('Data retrieved from cache');
-                return cachedData;
-            } else {
-                console.log('Data retrieved from source');
-                // Call fetchDataFromDatabase(id) to get data from database
-                const data = fetchDataFromDatabase(id); // Assuming fetchDataFromDatabase is defined
-                cache.set(id, data);
-                return data;
-            }
-        }
-    </script>
 </head>
 <style>
   #menu-icon{
@@ -238,35 +204,6 @@
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0" id="productTableBody">
-<%--                    <jsp:useBean id="productDao" class="database.ProductDAO"></jsp:useBean>--%>
-<%--                    <c:forEach var="product" items="${productDao.selectAll()}">--%>
-<%--                        <tr>--%>
-<%--                            <td id="id_product">${product.productId}</td>--%>
-<%--                            <td>${product.product_name}</td>--%>
-<%--                            <td>${product.category.categoryName}</td>--%>
-<%--                            <td>${product.unitPrice}</td>--%>
-<%--                            <td>${product.price}</td>--%>
-<%--                            <td>${product.quantity}</td>--%>
-<%--                            <td>--%>
-<%--                                <div class="dropdown">--%>
-<%--                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">--%>
-<%--                                        <i class="bx bx-dots-vertical-rounded"></i>--%>
-<%--                                    </button>--%>
-<%--                                    <div class="dropdown-menu">--%>
-<%--                                        <a class="dropdown-item" href="./ProductDetail?id=${product.productId}"--%>
-<%--                                        ><i class="bx bx-edit-alt me-1"></i> Detail</a--%>
-<%--                                        >--%>
-<%--                                        <a class="dropdown-item" href="./ChangeInformationProduct?id=${product.productId}"--%>
-<%--                                        ><i class="bx bx-edit-alt me-1"></i> Edit</a--%>
-<%--                                        >--%>
-<%--                                        <a class="dropdown-item" onclick="deleteItem(event)"--%>
-<%--                                        ><i class="bx bx-trash me-1"></i> Delete</a--%>
-<%--                                        >--%>
-<%--                                    </div>--%>
-<%--                                </div>--%>
-<%--                            </td>--%>
-<%--                        </tr>--%>
-<%--                    </c:forEach>--%>
 
                     </tbody>
                   </table>
@@ -358,7 +295,41 @@
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
+<%--    1. Cache bộ nhớ trình duyệt (Client-side caching)--%>
+<%--    Bạn có thể sử dụng cache của trình duyệt để lưu trữ các tài nguyên như tệp tin CSS, JavaScript, --%>
+<%--    hình ảnh và các tài liệu HTML.--%>
+<%--    Điều này giúp giảm thời gian tải trang cho người dùng khi họ quay lại trang web.--%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+
+<%--    import thư viện lru-cache--%>
+<script src="https://cdn.jsdelivr.net/npm/js-lru-cache@0.1.10/dist/lru-cache.min.js"></script>
+<%--    định nghĩa hàm getDataFromCacheOrSource(id) trong phần --%>
+<%--    . Hàm này sẽ kiểm tra xem dữ liệu đã được lưu trong cache hay chưa. Nếu đã có trong cache,--%>
+<%--    nó sẽ trả về dữ liệu từ cache. Nếu chưa có, nó sẽ gọi fetchDataFromDatabase(id) để lấy dữ liệu từ --%>
+<%--    nguồn và sau đó lưu vào cache trước khi trả về dữ liệu.--%>
+
 <script>
+    //import LRU from 'lru-cache';
+    //const LRU = require('lru-cache');
+    // Define LRU cache with max 100 items and 1 hour max age
+    const cache = new LRUCache({ max: 100, maxAge: 3600 * 1000 });
+
+    // Function to retrieve data from cache or source
+    async function getDataFromCacheOrSource() {
+        const cacheKey = 'productList';
+        const cachedData = cache.get(cacheKey);
+        if (cachedData) {
+            console.log('Data retrieved from cache');
+            return cachedData;
+        } else {
+            console.log('Data retrieved from source');
+            const data = await fetchDataFromDatabase();
+            cache.set(cacheKey, data);
+            return data;
+        }
+    }
     // Function to fetch data from database using AJAX
     function fetchDataFromDatabase() {
         return fetch('/GetListProduct') // Đường dẫn đến Servlet hoặc API của bạn
@@ -379,7 +350,7 @@
         tbody.innerHTML = ''; // Xóa bất kỳ dữ liệu cũ nào trong tbody trước khi thêm dữ liệu mới
 
         // Gọi fetchDataFromDatabase() để lấy danh sách sản phẩm và hiển thị trong bảng
-        fetchDataFromDatabase()
+        getDataFromCacheOrSource()
             .then(products => {
                     products.forEach(product => {
                         console.log("product: " + product.productId)
