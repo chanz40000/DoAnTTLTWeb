@@ -355,7 +355,7 @@
                 url: form.attr("action"),
                 data: form.serialize(),
                 success: function (data){
-                    alert("Thêm thành công");
+                    // alert("Thêm thành công");
                     currentQuantityInput.val(newQuantity);
 
                     // Tính toán và cập nhật giá tiền mới
@@ -395,33 +395,38 @@
             let form = $(this);
             let currentQuantityInput = form.closest("tr").find(".valueQuantity");
             let pricePerItem = parseFloat(form.data("price")); // Lấy giá của một sản phẩm
-            let newQuantity = parseInt(currentQuantityInput.val(), 10) - 1;
+            let currentQuantity = parseInt(currentQuantityInput.val(), 10);
 
-            // Cập nhật giá trị 'quantity' trong form trước khi gửi
-            form.find("input[name='quantity']").val(newQuantity);
+            if(currentQuantity > 1) {
+                let newQuantity = parseInt(currentQuantityInput.val(), 10) - 1;
+                // Cập nhật giá trị 'quantity' trong form trước khi gửi
+                form.find("input[name='quantity']").val(newQuantity);
 
-            $.ajax({
-                type: "POST",
-                url: form.attr("action"),
-                data: form.serialize(),
-                success: function (data){
-                    alert("giảm thành công");
-                    currentQuantityInput.val(newQuantity);
+                $.ajax({
+                    type: "POST",
+                    url: form.attr("action"),
+                    data: form.serialize(),
+                    success: function (data) {
+                        // alert("giảm thành công");
+                        currentQuantityInput.val(newQuantity);
 
-                    // Tính toán và cập nhật giá tiền mới
-                    let newTotalPrice = pricePerItem * newQuantity;
-                    let formattedTotalPrice = formatCurrency(newTotalPrice); // Sử dụng hàm JavaScript để định dạng giá tiền
-                    form.closest("tr").find(".shoping__cart__total").text(formattedTotalPrice);
+                        // Tính toán và cập nhật giá tiền mới
+                        let newTotalPrice = pricePerItem * newQuantity;
+                        let formattedTotalPrice = formatCurrency(newTotalPrice); // Sử dụng hàm JavaScript để định dạng giá tiền
+                        form.closest("tr").find(".shoping__cart__total").text(formattedTotalPrice);
 
-                    // Cập nhật lại subtotal và total trên giao diện
-                    updateSubtotalAndTotal();
+                        // Cập nhật lại subtotal và total trên giao diện
+                        updateSubtotalAndTotal();
 
                     },
-                error: function (error){
-                    console.log("Error: ", error);
-                    alert("Có lỗi xảy ra");
-                }
-            });
+                    error: function (error) {
+                        console.log("Error: ", error);
+                        alert("Có lỗi xảy ra");
+                    }
+                });
+            } else{
+                console.log("Không thể giảm xuống 1")
+            }
         });
     });
     $(document).ready(function (){
@@ -429,25 +434,27 @@
             event.preventDefault();
             let form = $(this);
             let productId = form.find("input[name='productId']").val();
+            if (confirm("Bạn có chắc muốn xóa không?")) {
+                $.ajax({
+                    type: "POST",
+                    url: form.attr("action"),
+                    data: {productId: productId},
+                    success: function (data) {
 
-            $.ajax({
-                type: "POST",
-                url: form.attr("action"),
-                data: { productId: productId },
-                success: function (data){
-                    alert("Sản phẩm đã được xóa khỏi giỏ hàng");
-                    // Xóa hàng từ bảng giỏ hàng
-                    form.closest("tr").remove();
-                    // Cập nhật subtotal và total sau khi xóa sản phẩm
-                    // Cập nhật lại subtotal và total trên giao diện
-                    updateSubtotalAndTotal();
-                    // ... (cập nhật mã tương tự như khi thêm hoặc giảm số lượng sản phẩm)
-                },
-                error: function (error){
-                    console.log("Error: ", error);
-                    alert("Có lỗi xảy ra khi xóa sản phẩm");
-                }
-            });
+                        // Xóa hàng từ bảng giỏ hàng
+                        form.closest("tr").remove();
+                        // Cập nhật subtotal và total sau khi xóa sản phẩm
+                        // Cập nhật lại subtotal và total trên giao diện
+                        updateSubtotalAndTotal();
+                    },
+                    error: function (error) {
+                        console.log("Error: ", error);
+                        alert("Có lỗi xảy ra khi xóa sản phẩm");
+                    }
+                });
+            } else {
+                console.log("Huy xoa")
+            }
         });
     });
 

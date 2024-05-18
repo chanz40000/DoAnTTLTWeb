@@ -92,7 +92,7 @@
         }
         .product__item__pic__hover:hover{
             position: absolute;
-            bottom: 100px;
+            bottom: 120px;
         }
         .fa-star{
             font-size: 10px;
@@ -156,6 +156,7 @@
             font-size: 20px;
 
         }
+
         .Ratestar img{
             margin-top:4px;
         }
@@ -504,8 +505,13 @@
                     <c:forEach var="p" items="${listProduct}">
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" > <!--data-setbg=""-->
-                                    <img data-src="img/image/${p.image}" lazy>
+
+                                <div class="product__item__pic">
+                                    <img class="product-image" src="/image/${p.image}" alt="${p.product_name}">
+<%--=======--%>
+<%--                                <div class="product__item__pic set-bg" > <!--data-setbg=""-->--%>
+<%--                                    <img data-src="img/image/${p.image}" lazy>--%>
+<%-->>>>>>> main--%>
                                     <ul class="product__item__pic__hover">
                                         <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                         <li><a href="Shopdetails?id=${p.productId}"><i class="fa fa-info-circle"></i></a></li>
@@ -513,7 +519,15 @@
                                             <form class="add-to-cart-form" action="AddToCart" method="post" id="addToCartForm">
                                                 <input type="hidden" name="productId" value="${p.productId}">
                                                 <button class="submit-button" type="submit">
-                                                    <a><i class="fa fa-shopping-cart"></i></a>
+                                                    <c:choose>
+                                                        <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
+                                                            <a href="#"><i class="fa fa-shopping-cart"></i></a>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <a href="Login"><i class="fa fa-shopping-cart"></i></a>
+                                                        </c:otherwise>
+                                                    </c:choose>
+
                                                 </button>
                                             </form>
                                         </li>
@@ -573,16 +587,16 @@
 
                                         </c:choose>
                                         <li class="Stick"></li>
-                                        <li class="Productnotsell">Còn lại 5</li>
-
+                                        <li class="Productnotsell">Còn lại ${p.quantity}</li>
                                     </ul>
                                     <h5>${FormatCurrency.formatCurrency(p.price)}</h5>
                                 </div>
                             </div>
                         </div>
                     </c:forEach>
-
                 </div>
+
+
                 <c:set var="page" value="${sessionScope.page}" />
                 <c:set var="num" value="${sessionScope.num}" />
 
