@@ -263,6 +263,13 @@
     </dependency>
 
 
+    <!-- https://mvnrepository.com/artifact/org.webjars.npm/lru-cache -->
+    <dependency>
+      <groupId>org.webjars.npm</groupId>
+      <artifactId>lru-cache</artifactId>
+      <version>10.2.0</version>
+    </dependency>
+
 
 
   </dependencies>

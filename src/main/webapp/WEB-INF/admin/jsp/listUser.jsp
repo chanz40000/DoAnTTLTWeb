@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@page isELIgnored="false" %>
+<%@page import="com.mysql.cj.util.LRUCache" %>
 
 <!DOCTYPE html>
 
@@ -67,6 +68,9 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assetsForAdmin/assets/js/config.js"></script>
+
+
+
 </head>
 <style>
     #menu-icon{
@@ -196,43 +200,43 @@
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
-                                <tbody class="table-border-bottom-0">
-                                <jsp:useBean id="userDao" class="database.UserDAO"></jsp:useBean>
-                                <c:forEach var="user" items="${userDao.selectUserLockAndUnLock()}">
-                                    <tr>
-                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${user.username}</strong></td>
-                                        <td>${user.name}</td>
-                                        <td>${user.email}</td>
-                                        <td>${user.phone}</td>
-                                        <td>${user.birthday.toString()}</td>
-                                        <td>${user.sexual}</td>
+                                <tbody class="table-border-bottom-0" id="userTableBody">
+<%--                                <jsp:useBean id="userDao" class="database.UserDAO"></jsp:useBean>--%>
+<%--                                <c:forEach var="user" items="${userDao.selectUserLockAndUnLock()}">--%>
+<%--                                    <tr>--%>
+<%--                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${user.username}</strong></td>--%>
+<%--                                        <td>${user.name}</td>--%>
+<%--                                        <td>${user.email}</td>--%>
+<%--                                        <td>${user.phone}</td>--%>
+<%--                                        <td>${user.birthday.toString()}</td>--%>
+<%--                                        <td>${user.sexual}</td>--%>
 
-                                        <td>          <c:choose>
-                                            <c:when test="${user.role == 2}">
-                                                <span class="badge bg-success me-1">Hoạt Động</span>
-                                            </c:when>
-                                            <c:when test="${user.role == 3}">
-                                                <span class="badge bg-label-danger me-1">Khóa</span>
-                                            </c:when>
-                                        </c:choose>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="./UserDetail?id=${user.userId}"
-                                                    ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                                                    >
-                                                    <a class="dropdown-item" href="javascript:void(0);"
-                                                    ><i class="bx bx-trash me-1"></i> Delete</a
-                                                    >
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
+<%--                                        <td>          <c:choose>--%>
+<%--                                            <c:when test="${user.role == 2}">--%>
+<%--                                                <span class="badge bg-success me-1">Hoạt Động</span>--%>
+<%--                                            </c:when>--%>
+<%--                                            <c:when test="${user.role == 3}">--%>
+<%--                                                <span class="badge bg-label-danger me-1">Khóa</span>--%>
+<%--                                            </c:when>--%>
+<%--                                        </c:choose>--%>
+<%--                                        </td>--%>
+<%--                                        <td>--%>
+<%--                                            <div class="dropdown">--%>
+<%--                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">--%>
+<%--                                                    <i class="bx bx-dots-vertical-rounded"></i>--%>
+<%--                                                </button>--%>
+<%--                                                <div class="dropdown-menu">--%>
+<%--                                                    <a class="dropdown-item" href="./UserDetail?id=${user.userId}"--%>
+<%--                                                    ><i class="bx bx-edit-alt me-1"></i> Edit</a--%>
+<%--                                                    >--%>
+<%--                                                    <a class="dropdown-item" href="javascript:void(0);"--%>
+<%--                                                    ><i class="bx bx-trash me-1"></i> Delete</a--%>
+<%--                                                    >--%>
+<%--                                                </div>--%>
+<%--                                            </div>--%>
+<%--                                        </td>--%>
+<%--                                    </tr>--%>
+<%--                                </c:forEach>--%>
 
                                 </tbody>
                             </table>
@@ -304,8 +308,113 @@
     >
 </div>
 
-<!-- Core JS -->
-<!-- build:js assets/vendor/js/core.js -->
+<%--    1. Cache bộ nhớ trình duyệt (Client-side caching)--%>
+<%--    Bạn có thể sử dụng cache của trình duyệt để lưu trữ các tài nguyên như tệp tin CSS, JavaScript, --%>
+<%--    hình ảnh và các tài liệu HTML.--%>
+<%--    Điều này giúp giảm thời gian tải trang cho người dùng khi họ quay lại trang web.--%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+
+<%--    import thư viện lru-cache--%>
+<script src="https://cdn.jsdelivr.net/npm/js-lru-cache@0.1.10/dist/lru-cache.min.js"></script>
+<%--    định nghĩa hàm getDataFromCacheOrSource(id) trong phần --%>
+<%--    . Hàm này sẽ kiểm tra xem dữ liệu đã được lưu trong cache hay chưa. Nếu đã có trong cache,--%>
+<%--    nó sẽ trả về dữ liệu từ cache. Nếu chưa có, nó sẽ gọi fetchDataFromDatabase(id) để lấy dữ liệu từ --%>
+<%--    nguồn và sau đó lưu vào cache trước khi trả về dữ liệu.--%>
+
+<script>
+    //import LRU from 'lru-cache';
+    //const LRU = require('lru-cache');
+    // Define LRU cache with max 100 items and 1 hour max age
+    const cache = new LRUCache({ max: 100, maxAge: 3600 * 1000 });
+
+    // Function to retrieve data from cache or source
+    async function getDataFromCacheOrSource() {
+        const cacheKey = 'userList';
+        const cachedData = cache.get(cacheKey);
+        if (cachedData) {
+            console.log('Data retrieved from cache');
+            return cachedData;
+        } else {
+            console.log('Data retrieved from source');
+            const data = await fetchDataFromDatabase();
+            cache.set(cacheKey, data);
+            return data;
+        }
+    }
+
+    // Function to fetch data from database using AJAX
+    function fetchDataFromDatabase() {
+        return fetch('/GetListUser') // Đường dẫn đến Servlet hoặc API của bạn
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Lỗi khi lấy dữ liệu từ cơ sở dữ liệu');
+                }
+                return response.json();
+            })
+            .then(data => {
+                return data; // Trả về danh sách sản phẩm từ cơ sở dữ liệu dưới dạng mảng đối tượng
+            });
+    }
+
+    // Function to display products in table
+    function displayProductsInTable() {
+        const tbody = document.getElementById('userTableBody');
+        tbody.innerHTML = ''; // Xóa bất kỳ dữ liệu cũ nào trong tbody trước khi thêm dữ liệu mới
+
+        // Gọi fetchDataFromDatabase() để lấy danh sách sản phẩm và hiển thị trong bảng
+        getDataFromCacheOrSource()
+            .then(users => {
+                users.forEach(user => {
+                    console.log("user: " + user.username);
+                    const row = document.createElement('tr');
+
+                    let roleBadge;
+                    if (user.role == 2) {
+                        roleBadge = '<span class="badge bg-success me-1">Hoạt Động</span>';
+                    } else if (user.role == 3) {
+                        roleBadge = '<span class="badge bg-label-danger me-1">Khóa</span>';
+                    } else {
+                        roleBadge = ''; // handle other cases if needed
+                    }
+
+                    row.innerHTML = '<td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>' + user.username + '</strong></td>' +
+                        '<td>' + user.name + '</td>' +
+                        '<td>' + user.email + '</td>' +
+                        '<td>' + user.phone + '</td>' +
+                        '<td>' + user.birthday+ '</td>' +
+                        '<td>' + user.sexual + '</td>' +
+                        '<td>' + roleBadge+
+                        '</td>' +
+                        '<td>' +
+                        '<div class="dropdown">' +
+                        '<button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">' +
+                        '<i class="bx bx-dots-vertical-rounded"></i>' +
+                        '</button>' +
+                        '<div class="dropdown-menu">' +
+                        '<a class="dropdown-item" href="./UserDetail?id=' + user.userId + '">' +
+                        '<i class="bx bx-edit-alt me-1"></i> Edit' +
+                        '</a>' +
+                        '<a class="dropdown-item" href="javascript:void(0);">' +
+                        '<i class="bx bx-trash me-1"></i> Delete' +
+                        '</a>' +
+                        '</div>' +
+                        '</div>' +
+                        '</td>';
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Lỗi khi lấy dữ liệu từ cơ sở dữ liệu:', error);
+            });
+    }
+
+    // Gọi function để hiển thị sản phẩm trong bảng khi trang được load
+    displayProductsInTable();
+</script>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
 <script src="../assetsForAdmin/assets/vendor/libs/jquery/jquery.js"></script>
