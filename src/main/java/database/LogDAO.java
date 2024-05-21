@@ -58,7 +58,7 @@ public class LogDAO implements DAOInterface<Log>{
                 String address = rs.getString("address");
                 String preValue = rs.getString("preValue");
                 String value = rs.getString("value");
-                int national = rs.getInt("national");
+                String national = rs.getString("national");
 
                 Log log = new Log(id, level, createAt, address, preValue, value, national);
 
@@ -108,7 +108,7 @@ public class LogDAO implements DAOInterface<Log>{
             rs.setString(4, log.getAddress());
             rs.setString(5, log.getPreValue());
             rs.setString(6, log.getValue());
-            rs.setInt(7, log.getNational());
+            rs.setString(7, log.getNational());
 
 
             result = rs.executeUpdate();

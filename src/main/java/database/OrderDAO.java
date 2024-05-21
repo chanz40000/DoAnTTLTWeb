@@ -469,9 +469,23 @@ public class OrderDAO extends AbsDAO<Order>{
         return result;
     }
 
+    //doanh thu tung thang theo nam
+    public double[]revenue2(int year){
+        double[]result = new double[12];
+        for(int i=1; i<13; i++){
+            double rev = this.revenue(i, year);
+            result[i-1]=rev;
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         OrderDAO orderDAO = new OrderDAO();
-        System.out.println(orderDAO.revenue(Date.valueOf(LocalDateTime.now().toLocalDate())));
+        double[]rs=orderDAO.revenue2(2024);
+        for (int i=0; i<5; i++){
+            System.out.println(rs[i]);
+        }
+
     }
 
 }
