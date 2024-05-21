@@ -13,7 +13,7 @@ public class DeleteProduct extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         System.out.println("id"+id);
-        ProductDAO productDAO = new ProductDAO();
+        ProductDAO productDAO = new ProductDAO(request);
         productDAO.delete(productDAO.selectById(Integer.parseInt(id)));
         request.getRequestDispatcher("/WEB-INF/admin/jsp/listProduct.jsp").forward(request,response);
     }

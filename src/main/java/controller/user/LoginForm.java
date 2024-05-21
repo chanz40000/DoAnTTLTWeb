@@ -102,7 +102,8 @@ public class LoginForm extends HttpServlet {
 
         // Check for login attempt
         if (username != null && password != null) {
-            UserDAO userDAO = new UserDAO(); // Assuming UserDAO is instantiated correctly
+            UserDAO userDAO = new UserDAO(request); // Assuming UserDAO is instantiated correctly
+
             User user = userDAO.selectByUsernamePassword(username, password);
 
             if (user != null) {
@@ -154,8 +155,6 @@ public class LoginForm extends HttpServlet {
         try {
             CountryIdentifier countryIdentifier = new CountryIdentifier();
 
-            // Đây là request được đại diện bằng HttpServletRequest, bạn cần đảm bảo có request thực tế
-            // Thay null bằng request thực tế
             String countryId = countryIdentifier.getCountryId(request);
             System.out.println("Quốc gia của bạn là: " + countryId);
         } catch (Exception e) {

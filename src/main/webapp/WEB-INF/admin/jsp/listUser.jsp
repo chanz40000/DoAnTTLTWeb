@@ -309,7 +309,7 @@
 </div>
 
 <%--    1. Cache bộ nhớ trình duyệt (Client-side caching)--%>
-<%--    Bạn có thể sử dụng cache của trình duyệt để lưu trữ các tài nguyên như tệp tin CSS, JavaScript, --%>
+<%--    Bạn có thể sử dụng cache của trình duyệt để lưu trữ các tài nguyên như tệp tin CSS, JavaScript,--%>
 <%--    hình ảnh và các tài liệu HTML.--%>
 <%--    Điều này giúp giảm thời gian tải trang cho người dùng khi họ quay lại trang web.--%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
@@ -318,9 +318,9 @@
 
 <%--    import thư viện lru-cache--%>
 <script src="https://cdn.jsdelivr.net/npm/js-lru-cache@0.1.10/dist/lru-cache.min.js"></script>
-<%--    định nghĩa hàm getDataFromCacheOrSource(id) trong phần --%>
+<%--    định nghĩa hàm getDataFromCacheOrSource() trong phần--%>
 <%--    . Hàm này sẽ kiểm tra xem dữ liệu đã được lưu trong cache hay chưa. Nếu đã có trong cache,--%>
-<%--    nó sẽ trả về dữ liệu từ cache. Nếu chưa có, nó sẽ gọi fetchDataFromDatabase(id) để lấy dữ liệu từ --%>
+<%--    nó sẽ trả về dữ liệu từ cache. Nếu chưa có, nó sẽ gọi fetchDataFromDatabase() để lấy dữ liệu từ--%>
 <%--    nguồn và sau đó lưu vào cache trước khi trả về dữ liệu.--%>
 
 <script>

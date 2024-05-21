@@ -105,7 +105,7 @@ public class CreateProduct2 extends HttpServlet {
 
                     Category category = new CategoryDAO().selectByName(categoryName);
 
-                    ProductDAO productDAO = new ProductDAO();
+                    ProductDAO productDAO = new ProductDAO(request);
                     Product product = new Product(productDAO.creatId() + 1, productName, description,
                             uploadedFileName, 0, Double.parseDouble(price), 0, author, Integer.parseInt(publicationYear), publisher, category);
 
