@@ -966,10 +966,14 @@ public class ProductDAO extends AbsDAO<Product> {
     }
 
     public static void main(String[] args) {
-        ArrayList<Integer> list;
-        list = new ProductDAO().needImport();
-        for (Integer p:list){
-            System.out.println(p);
+//        ArrayList<Integer> list;
+//        list = new ProductDAO().needImport();
+//        for (Integer p:list){
+//            System.out.println(p);
+//        }
+        List<Product> lists = new ProductDAO().selectSameCategory(4,21);
+        for (Product p1:lists){
+            System.out.println(p1);
         }
     }
 

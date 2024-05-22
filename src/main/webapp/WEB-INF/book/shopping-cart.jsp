@@ -106,18 +106,18 @@
             <div class="col-lg-12">
                 <div class="shoping__cart__table">
                     <c:choose>
-                    <c:when test="${not empty sessionScope.cart.cart_items}">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th class="shoping__product">Tên sản phẩm</th>
-                            <th>Giá</th>
-                            <th>Số lượng</th>
-                            <th>Tổng tiền</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                        <c:when test="${not empty sessionScope.cart.cart_items}">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th class="shoping__product">Tên sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Tổng tiền</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
                                 <c:forEach var="item" items="${sessionScope.cart.cart_items}">
                                     <tr>
                                         <td class="shoping__cart__item">
@@ -168,12 +168,12 @@
 
 
 
-                        </tbody>
-                    </table>
-                    </c:when>
+                                </tbody>
+                            </table>
+                        </c:when>
                         <c:otherwise>
                             <div style="display: flex; justify-content: center; align-items: center">
-                                    <img src="img/emptyCart.png" alt="Empty Cart">
+                                <img src="img/emptyCart.png" alt="Empty Cart">
                             </div>
                         </c:otherwise>
                     </c:choose>
@@ -314,10 +314,10 @@
         }
     });
 </script>
-    // Set the initial button text and Font Awesome icon
+// Set the initial button text and Font Awesome icon
 
 
-    // Enable Dark Reader when the page loads
+// Enable Dark Reader when the page loads
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
@@ -334,71 +334,26 @@
             }
         });
 
-    });
-    function formatCurrency(number) {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
-    }
+        function formatCurrency(number) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+        }
 
-    $(document).ready(function (){
-        $(".updateQuantityIncrease").on("submit", function (event){
-            event.preventDefault();
-            let form = $(this);
-            let currentQuantityInput = form.closest("tr").find(".valueQuantity");
-            let pricePerItem = parseFloat(form.data("price")); // Lấy giá của một sản phẩm
-            let newQuantity = parseInt(currentQuantityInput.val(), 10) + 1;
-
-            // Cập nhật giá trị 'quantity' trong form trước khi gửi
-            form.find("input[name='quantity']").val(newQuantity);
-
-            $.ajax({
-                type: "POST",
-                url: form.attr("action"),
-                data: form.serialize(),
-                success: function (data){
-                    // alert("Thêm thành công");
-                    currentQuantityInput.val(newQuantity);
-
-                    // Tính toán và cập nhật giá tiền mới
-                    let newTotalPrice = pricePerItem * newQuantity;
-                    let formattedTotalPrice = formatCurrency(newTotalPrice); // Sử dụng hàm JavaScript để định dạng giá tiền
-                    form.closest("tr").find(".shoping__cart__total").text(formattedTotalPrice);
-
-                    // Cập nhật lại subtotal và total trên giao diện
-                    updateSubtotalAndTotal();
-                },
-                error: function (error){
-                    console.log("Error: ", error);
-                    alert("Có lỗi xảy ra");
-                }
+        function updateCartItemCount() {
+            let totalCount = 0;
+            $(".valueQuantity").each(function() {
+                totalCount += parseInt($(this).val(), 10);
             });
-        });
-    });
+            $(".cart-item-count").text(totalCount);
+        }
 
-    // Hàm cập nhật subtotal và total
-    function updateSubtotalAndTotal() {
-        let subtotal = 0;
-        $(".shoping__cart__total").each(function() {
-            subtotal += parseFloat($(this).text().replace(/\D/g, ""));
-        });
+        $(document).ready(function (){
+            $(".updateQuantityIncrease").on("submit", function (event){
+                event.preventDefault();
+                let form = $(this);
+                let currentQuantityInput = form.closest("tr").find(".valueQuantity");
+                let pricePerItem = parseFloat(form.data("price")); // Lấy giá của một sản phẩm
+                let newQuantity = parseInt(currentQuantityInput.val(), 10) + 1;
 
-        let formattedSubtotal = formatCurrency(subtotal);
-        $(".subtotal").text(formattedSubtotal);
-
-        let total = subtotal; // Đây có thể là nơi bạn tính total nếu có chi phí vận chuyển hoặc thuế khác
-        let formattedTotal = formatCurrency(total);
-        $(".total").text(formattedTotal);
-    }
-
-    $(document).ready(function (){
-        $(".updateQuantityDecrease").on("submit", function (event){
-            event.preventDefault();
-            let form = $(this);
-            let currentQuantityInput = form.closest("tr").find(".valueQuantity");
-            let pricePerItem = parseFloat(form.data("price")); // Lấy giá của một sản phẩm
-            let currentQuantity = parseInt(currentQuantityInput.val(), 10);
-
-            if(currentQuantity > 1) {
-                let newQuantity = parseInt(currentQuantityInput.val(), 10) - 1;
                 // Cập nhật giá trị 'quantity' trong form trước khi gửi
                 form.find("input[name='quantity']").val(newQuantity);
 
@@ -406,8 +361,7 @@
                     type: "POST",
                     url: form.attr("action"),
                     data: form.serialize(),
-                    success: function (data) {
-                        // alert("giảm thành công");
+                    success: function (data){
                         currentQuantityInput.val(newQuantity);
 
                         // Tính toán và cập nhật giá tiền mới
@@ -417,46 +371,102 @@
 
                         // Cập nhật lại subtotal và total trên giao diện
                         updateSubtotalAndTotal();
-
+                        updateCartItemCount();
                     },
-                    error: function (error) {
+                    error: function (error){
                         console.log("Error: ", error);
                         alert("Có lỗi xảy ra");
                     }
                 });
-            } else{
-                console.log("Không thể giảm xuống 1")
-            }
+            });
         });
-    });
-    $(document).ready(function (){
-        $(".shoping__cart__item__close form").on("submit", function (event){
-            event.preventDefault();
-            let form = $(this);
-            let productId = form.find("input[name='productId']").val();
-            if (confirm("Bạn có chắc muốn xóa không?")) {
-                $.ajax({
-                    type: "POST",
-                    url: form.attr("action"),
-                    data: {productId: productId},
-                    success: function (data) {
 
-                        // Xóa hàng từ bảng giỏ hàng
-                        form.closest("tr").remove();
-                        // Cập nhật subtotal và total sau khi xóa sản phẩm
-                        // Cập nhật lại subtotal và total trên giao diện
-                        updateSubtotalAndTotal();
-                    },
-                    error: function (error) {
-                        console.log("Error: ", error);
-                        alert("Có lỗi xảy ra khi xóa sản phẩm");
-                    }
-                });
-            } else {
-                console.log("Huy xoa")
-            }
+        // Hàm cập nhật subtotal và total
+        function updateSubtotalAndTotal() {
+            let subtotal = 0;
+            $(".shoping__cart__total").each(function() {
+                subtotal += parseFloat($(this).text().replace(/\D/g, ""));
+            });
+
+            let formattedSubtotal = formatCurrency(subtotal);
+            $(".subtotal").text(formattedSubtotal);
+
+            let total = subtotal; // Đây có thể là nơi bạn tính total nếu có chi phí vận chuyển hoặc thuế khác
+            let formattedTotal = formatCurrency(total);
+            $(".total").text(formattedTotal);
+        }
+
+        $(document).ready(function (){
+            $(".updateQuantityDecrease").on("submit", function (event){
+                event.preventDefault();
+                let form = $(this);
+                let currentQuantityInput = form.closest("tr").find(".valueQuantity");
+                let pricePerItem = parseFloat(form.data("price")); // Lấy giá của một sản phẩm
+                let currentQuantity = parseInt(currentQuantityInput.val(), 10);
+
+                if(currentQuantity > 1) {
+                    let newQuantity = parseInt(currentQuantityInput.val(), 10) - 1;
+                    // Cập nhật giá trị 'quantity' trong form trước khi gửi
+                    form.find("input[name='quantity']").val(newQuantity);
+
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr("action"),
+                        data: form.serialize(),
+                        success: function (data) {
+                            currentQuantityInput.val(newQuantity);
+
+                            // Tính toán và cập nhật giá tiền mới
+                            let newTotalPrice = pricePerItem * newQuantity;
+                            let formattedTotalPrice = formatCurrency(newTotalPrice); // Sử dụng hàm JavaScript để định dạng giá tiền
+                            form.closest("tr").find(".shoping__cart__total").text(formattedTotalPrice);
+
+                            // Cập nhật lại subtotal và total trên giao diện
+                            updateSubtotalAndTotal();
+                            updateCartItemCount();
+                        },
+                        error: function (error) {
+                            console.log("Error: ", error);
+                            alert("Có lỗi xảy ra");
+                        }
+                    });
+                } else{
+                    console.log("Không thể giảm xuống 1")
+                }
+            });
+        });
+
+        $(document).ready(function (){
+            $(".shoping__cart__item__close form").on("submit", function (event){
+                event.preventDefault();
+                let form = $(this);
+                let productId = form.find("input[name='productId']").val();
+                if (confirm("Bạn có chắc muốn xóa không?")) {
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr("action"),
+                        data: {productId: productId},
+                        success: function (data) {
+
+                            // Xóa hàng từ bảng giỏ hàng
+                            form.closest("tr").remove();
+
+                            // Cập nhật subtotal và total sau khi xóa sản phẩm
+                            updateSubtotalAndTotal();
+                            updateCartItemCount();
+                        },
+                        error: function (error) {
+                            console.log("Error: ", error);
+                            alert("Có lỗi xảy ra khi xóa sản phẩm");
+                        }
+                    });
+                } else {
+                    console.log("Huy xoa")
+                }
+            });
         });
     });
+
 
 </script>
 
