@@ -2,10 +2,6 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ page import="util.FormatCurrency"%>
-<%@ page import="model.ImportDetail" %>
-<%@ page import="model.Import" %>
-<%@ page import="database.ProductDAO" %>
 <%@page isELIgnored="false" %>
 
 <!DOCTYPE html>
