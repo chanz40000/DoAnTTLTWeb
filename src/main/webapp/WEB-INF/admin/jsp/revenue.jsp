@@ -58,7 +58,46 @@
                 <!-- Content -->
                 <h5>Doanh thu ngày hôm nay: </h5>
                 <p>${orderDAO.revenue(Date.valueOf(LocalDateTime.now().toLocalDate()))}</p>
-                <canvas id="canvas" height="250" width="350" style="margin: 40px; padding: 80px; margin-top: 0px;margin-bottom: 60px; padding-top: 0px"></canvas>
+
+
+                <div class="row" style="margin: 30px">
+                    <div class="col">
+                        <canvas id="canvas" height="250" width="350"></canvas>
+                    </div>
+                    <div class="col">
+                        <canvas id="myChart" height="250" width="350"></canvas>
+                    </div>
+                </div>
+
+
+                <div class="row" style="margin: 30px">
+                    <div class="col">
+                        <div class="row">
+                            <label class="col-sm-2 form-label" >Ngày Bắt Đầu</label>
+                            <input name="birthday" type="date" id="ngaybatdau"  required="required">
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 form-label" >Ngày Kết Thúc</label>
+                            <input name="birthday" type="date" id="ngayketthuc"   required="required">
+                        </div>
+                        <div class="row">
+                            <button id="revenueButton" onclick="daytoday()" class="btn btn-primary">Hiện thị doanh thu</button>
+                        </div>
+
+                    </div>
+                    <div class="col">
+                        <canvas id="myChart2" height="250" width="350"></canvas>
+                    </div>
+
+                </div>
+
+                <script>
+                    // Lấy ngày hôm nay theo định dạng YYYY-MM-DD
+                    const today = new Date().toISOString().split('T')[0];
+                    // Đặt giá trị mặc định của input là ngày hôm nay
+                    document.getElementById('ngayketthuc').value = today;
+                    document.getElementById('ngaybatdau').value = today;
+                </script>
 
                 <!-- / Content -->
 
@@ -119,6 +158,96 @@
 <script src="../assetsForAdmin/assets/js/dashboards-analytics.js"></script>
 <!-- Chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script>
+
+<script>
+    let massPopChart2 = null; // Initialize variable to hold the chart instance
+    function daytoday() {
+        var ngay1 = document.getElementById('ngaybatdau').value;
+        var ngay2 = document.getElementById('ngayketthuc').value;
+        var data = { ngaybatdau: ngay1, ngayketthuc: ngay2 };
+
+        fetch('/FromDayToDayRevenue', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+
+                // Check if massPopChart2 is initialized
+                if (!massPopChart2) {
+                    // Initialize massPopChart2 if not already initialized
+                    let labels = Object.keys(data);
+                    let values = Object.values(data);
+                    let myChart = document.getElementById('myChart2').getContext('2d');
+                    massPopChart2 = new Chart(myChart, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: values,
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.6)',
+                                    'rgba(54, 162, 235, 0.6)',
+                                    'rgba(255, 206, 86, 0.6)',
+                                    'rgba(75, 192, 192, 0.6)',
+                                    'rgba(153, 102, 255, 0.6)',
+                                    'rgba(255, 159, 64, 0.6)',
+                                    'rgba(255, 99, 132, 0.6)'
+                                ],
+                                borderWidth: 1,
+                                borderColor: '#777',
+                                hoverBorderWidth: 3,
+                                hoverBorderColor: '#000'
+                            }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Doanh thu tuần này',
+                                fontSize: 25
+                            },
+                            legend: {
+                                display: true,
+                                position: 'right',
+                                labels: {
+                                    fontColor: '#000'
+                                }
+                            },
+                            layout: {
+                                padding: {
+                                    left: 50,
+                                    right: 0,
+                                    bottom: 0,
+                                    top: 0
+                                }
+                            },
+                            tooltips: {
+                                enabled: true
+                            }, plugins: {
+                                title: {
+                                    display: true,
+                                    text: 'Doanh Thu Ngày '+ ngay1+' Đến '+ngay2
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    // Update existing chart data if massPopChart2 is already initialized
+                    let labels = Object.keys(data);
+                    let values = Object.values(data);
+                    massPopChart2.data.labels = labels;
+                    massPopChart2.data.datasets[0].data = values;
+                    massPopChart2.update();
+                }
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+</script>
 <!-- Page JS -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -135,12 +264,12 @@
                             label: "revenue",
                             backgroundColor: "rgba(151,249,190,0.5)",
                             borderColor: "rgba(151,249,190,1)",
-                            data: data
+                            data: data.data1
                         }, {
                             label: "Dataset 2",
                             backgroundColor: "rgba(252,147,65,0.5)",
                             borderColor: "rgba(252,147,65,1)",
-                            data: [28000, 680000, 4000, 19000, 96]
+                            data: data.data2
                         }]
                     },
                     options: {
@@ -151,7 +280,7 @@
                         }, plugins: {
                             title: {
                                 display: true,
-                                text: 'Biểu Đồ Doanh Thu 2 năm gần đây'
+                                text: 'Doanh Thu 2 năm gần đây'
                             }
                         }
                     }
@@ -159,7 +288,77 @@
                 console.log('Dataset 2:', myLineChart.data.datasets[1].data);
             })
             .catch(error => console.error('Error fetching data:', error));
+
+        fetch("/DailyRevenue")
+            .then(response=> response.json())
+            .then(data=>{
+
+                let myChart = document.getElementById('myChart').getContext('2d');
+                let massPopChart = new Chart(myChart, {
+                    type:'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+                    data:{
+                        labels:["Thứ 2", "Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7","CN"],
+                        datasets:[{
+                            data:data,
+                            //backgroundColor:'green',
+                            backgroundColor:[
+                                'rgba(255, 99, 132, 0.6)',
+                                'rgba(54, 162, 235, 0.6)',
+                                'rgba(255, 206, 86, 0.6)',
+                                'rgba(75, 192, 192, 0.6)',
+                                'rgba(153, 102, 255, 0.6)',
+                                'rgba(255, 159, 64, 0.6)',
+                                'rgba(255, 99, 132, 0.6)'
+                            ],
+                            borderWidth:1,
+                            borderColor:'#777',
+                            hoverBorderWidth:3,
+                            hoverBorderColor:'#000'
+                        }]
+                    },
+                    options:{
+                        title:{
+                            display:true,
+                            text:'Doanh thu tuần này',
+                            fontSize:25
+                        },
+                        legend:{
+                            display:true,
+                            position:'right',
+                            labels:{
+                                fontColor:'#000'
+                            }
+                        },
+                        layout:{
+                            padding:{
+                                left:50,
+                                right:0,
+                                bottom:0,
+                                top:0
+                            }
+                        },
+                        tooltips:{
+                            enabled:true
+                        }, plugins: {
+                            title: {
+                                display: true,
+                                text: 'Doanh Thu Tuần Này'
+                            }
+                        }
+                    }
+                });
+
+            })
+        daytoday();
+        // Bind button click event to daytoday function
+        document.getElementById('revenueButton').addEventListener('click', daytoday);
+
     });
+
+
 </script>
+
+
+
 </body>
 </html>
