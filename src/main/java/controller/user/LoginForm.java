@@ -111,11 +111,10 @@ public class LoginForm extends HttpServlet {
 
                 if (user.getRole() == 1 || user.getRole() == 4) {
                     session.setAttribute("admin", user);
-                    // Use sendRedirect for successful admin login
 //                    String url = "/WEB-INF/admin/jsp/index.jsp";
-                    String url = "/WEB-INF/admin/jsp/index.jsp";
-                    RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-                    dispatcher.forward(request, response);
+//                    RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+//                    dispatcher.forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/AdminIndex");
                 }else if(user.getRole() == 3 || user.getRole() == 5){
                     request.setAttribute("Error", "Tài khoản bạn đã bị khóa!");
                     eb.setError((String) request.getAttribute("Error"));
@@ -128,9 +127,7 @@ public class LoginForm extends HttpServlet {
                     session.setMaxInactiveInterval(30 * 60);
                     session.setAttribute("userC", user);
                     // Use forward for successful customer login
-                    String url = "/WEB-INF/book/index.jsp";
-                    RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-                    dispatcher.forward(request, response);
+                    response.sendRedirect(request.getContextPath() + "/Index");
                 }
             } else {
                 // Handle incorrect login credentials

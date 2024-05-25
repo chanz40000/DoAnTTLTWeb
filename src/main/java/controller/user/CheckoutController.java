@@ -1,15 +1,15 @@
 package controller.user;
 
-import database.OrderDAO;
-import database.OrderDetailDAO;
-import database.PaymentDAO;
-import database.ProductDAO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import database.*;
 import model.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,11 +55,10 @@ public class CheckoutController extends HttpServlet {
 
         // Tạo đối tượng Order từ thông tin trong session
         OrderDAO orderDAO = new OrderDAO();
-        java.sql.Date currentTime = new java.sql.Date(System.currentTimeMillis());
         PaymentDAO paymentDAO = new PaymentDAO();
         Payment payment = paymentDAO.selectById(paymentId);
         StatusOrder statusOrder = new StatusOrder(1);
-        Order order = new Order(orderDAO.creatId() + 1, user, cart.calculateTotal(), name, phone, fullAddress, payment, currentTime, note, 0, statusOrder);
+        Order order = new Order(orderDAO.creatId() + 1, user, cart.calculateTotal(), name, phone, fullAddress, payment, new Timestamp(System.currentTimeMillis()), note, 0, statusOrder);
 
         // Insert vào CSDL
         order.setNameConsignee(name);
@@ -69,7 +68,10 @@ public class CheckoutController extends HttpServlet {
         order.setNote(note);
         session.setAttribute("order", order);
         int resultOrder = orderDAO.insert(order);
-
+        // them vao lich su cap nhat trang thai don hang
+        OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
+        OrderHistory orderHistory = new OrderHistory(orderHistoryDAO.creatId() + 1, order, user, new StatusOrder(1), LocalDateTime.now(), "Đặt hàng thành công");
+        orderHistoryDAO.insert(orderHistory);
         // Xử lý kết quả insert
         if (resultOrder > 0) {
             OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
@@ -111,13 +113,19 @@ public class CheckoutController extends HttpServlet {
 
 
                 } else {
-                    String url = request.getContextPath() + "/WEB-INF/book/thankyou.jsp";
-                    RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/book/thankyou.jsp");
                     dispatcher.forward(request, response);
                     return; // Dừng xử lý tiếp theo
                 }
             }
         }
+        // Tạo ObjectMapper
+        ObjectMapper objectMapper = new ObjectMapper();
 
+        // Chuyển đối tượng Order thành chuỗi JSON
+        String orderJson = objectMapper.writeValueAsString(order);
+
+        // Lưu chuỗi JSON vào thuộc tính của request để sử dụng trong JSP hoặc gửi lại cho client
+        request.setAttribute("orderJson", orderJson);
     }
 }
