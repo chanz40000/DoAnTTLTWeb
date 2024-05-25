@@ -391,6 +391,12 @@ public class UserDAO extends AbsDAO<User> {
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
             e.printStackTrace();
+        }if(result==null){
+            this.setValue("Tai khoan "+ username+" da dang nhap that bai");
+            super.WARNING(result);
+        }else{
+            this.setValue("Tai khoan "+ username+" da dang nhap thanh cong");
+            super.update(result);
         }
 
         return result;

@@ -10,9 +10,9 @@ public class Log {
     private String address;
     private String PreValue;
     private String value;
-    private int national;
+    private String national;
 
-    public Log(int ip, String level, LocalDateTime createAt, String address, String preValue, String value, int national) {
+    public Log(int ip, String level, LocalDateTime createAt, String address, String preValue, String value, String national) {
         this.id = ip;
         this.level = level;
         this.createAt = createAt;
@@ -46,7 +46,7 @@ public class Log {
         return value;
     }
 
-    public int getNational() {
+    public String getNational() {
         return national;
     }
 }

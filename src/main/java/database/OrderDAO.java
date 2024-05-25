@@ -4,9 +4,9 @@ import model.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class OrderDAO extends AbsDAO<Order>{
     private ArrayList<Order> data = new ArrayList<>();
@@ -378,8 +378,6 @@ public class OrderDAO extends AbsDAO<Order>{
             result = rs.executeUpdate();
 
             JDBCUtil.closeConnection(con);
-            this.setPreValue(this.gson.toJson(order));
-            int x = super.insert(order);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -485,19 +483,24 @@ public class OrderDAO extends AbsDAO<Order>{
 
         return result;
     }
-    //tinh doanh thu theo ngay
-    public double revenue(Date date){
-        double result =0;
+    //tinh doanh thu theo tuan gan nhat
+    //lay ra ngay hien tai roi suy  ra khoang ngay trong tuan do
+    public Map<String, Double> revenue(Date date){
+        Map<String, Double> result = new HashMap<>();
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT SUM(quantity*price) AS tongtien\n" +
+            String sql = "SELECT a.user_id AS user_id,  SUM(quantity*price) AS tongtien\n" +
                     "FROM orders a JOIN orderdetails b ON a.order_id=b.order_id\n" +
-                    "WHERE a.booking_date=?";
+                    "WHERE a.booking_date=?\n" +
+                    "GROUP BY user_id";
             PreparedStatement pre = con.prepareStatement(sql);
             pre.setDate(1, date);
             ResultSet rs = pre.executeQuery();
             while (rs.next()){
-                result = rs.getDouble("tongtien");
+                int id = rs.getInt("user_id");
+                double tongtien = rs.getDouble("tongtien");
+                UserDAO userDAO = new UserDAO();
+                result.put(userDAO.selectById(id).getName(), tongtien);
             }
 
         } catch (SQLException e) {
@@ -506,19 +509,32 @@ public class OrderDAO extends AbsDAO<Order>{
         return result;
     }
     //doanh thu tu ngay n1 den ngay n2
-    public double revenue(Date date1, Date date2){
-        double result =0;
+    public Map<Date, Double> revenue(Date date1, Date date2){
+        Map<Date, Double>result = new HashMap<>();
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT SUM(quantity*price) AS tongtien\n" +
-                    "FROM orders a JOIN orderdetails b ON a.order_id=b.order_id\n" +
-                    "WHERE a.booking_date>=? AND a.booking_date<=?";
+            String sql = "WITH RECURSIVE date_series AS (\n" +
+                    "    SELECT DATE(?) AS ngay\n" +
+                    "    UNION ALL\n" +
+                    "    SELECT ngay + INTERVAL 1 DAY\n" +
+                    "    FROM date_series\n" +
+                    "    WHERE ngay + INTERVAL 1 DAY <= DATE(?)\n" +
+                    ")\n" +
+                    "SELECT ds.ngay,\n" +
+                    "       COALESCE(SUM(b.quantity * b.price), 0) AS tongtien\n" +
+                    "FROM date_series ds\n" +
+                    "LEFT JOIN orders a ON ds.ngay = a.booking_date\n" +
+                    "LEFT JOIN orderdetails b ON a.order_id = b.order_id\n" +
+                    "GROUP BY ds.ngay\n" +
+                    "ORDER BY ds.ngay;";
             PreparedStatement pre = con.prepareStatement(sql);
             pre.setDate(1, date1);
             pre.setDate(2, date2);
             ResultSet rs = pre.executeQuery();
             while (rs.next()){
-                result = rs.getDouble("tongtien");
+                Date date = rs.getDate("ngay");
+                double tongtien = rs.getDouble("tongtien");
+                result.put(date, tongtien);
             }
 
         } catch (SQLException e) {
@@ -578,9 +594,55 @@ public class OrderDAO extends AbsDAO<Order>{
         return result;
     }
 
+    //doanh thu tung thang theo nam
+    public double[]revenue2(int year){
+        double[]result = new double[12];
+        for(int i=1; i<13; i++){
+            double rev = this.revenue(i, year);
+            result[i-1]=rev;
+        }
+        return result;
+    }
+
+    public double[] revenueForWeek(Date date) {
+        double[]result = new double[7];
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        // Điều chỉnh để trở về ngày Chủ nhật (hoặc Thứ Hai nếu bạn muốn tuần bắt đầu từ Thứ Hai)
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.MONDAY);
+
+        try (Connection con = JDBCUtil.getConnection()) {
+            for (int i = 0; i < 7; i++) {
+                Date currentDate = new Date(calendar.getTimeInMillis());
+                String sql = "SELECT SUM(quantity * price) AS tongtien " +
+                        "FROM orders a JOIN orderdetails b ON a.order_id = b.order_id " +
+                        "WHERE DATE(a.booking_date) = ?";
+                try (PreparedStatement pre = con.prepareStatement(sql)) {
+                    pre.setDate(1, currentDate);
+                    try (ResultSet rs = pre.executeQuery()) {
+                        if (rs.next()) {
+                            result[i]= rs.getDouble("tongtien");
+                        } else {
+                            result[i]=0;
+                        }
+                    }
+                }
+                calendar.add(Calendar.DATE, 1); // Move to the next day
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
     public static void main(String[] args) {
         OrderDAO orderDAO = new OrderDAO();
-        System.out.println(orderDAO.revenue(Date.valueOf(LocalDateTime.now().toLocalDate())));
+        double[]rs=orderDAO.revenueForWeek(Date.valueOf(LocalDateTime.now().toLocalDate()));
+        for (int i=0; i<5; i++){
+            System.out.println(rs[i]);
+        }
+
     }
 
 }

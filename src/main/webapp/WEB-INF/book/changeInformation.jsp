@@ -91,66 +91,15 @@
 				</div>
 				<div style="text-align: center;" class="red" id="baoLoi1">${errorBean.getError()}</div>
 				<div class="red" id="baoLoi2">${errorBean.getError()} </div>
-<%--				<form action="changeInformation" method="post">--%>
-
-<%--					<input type="hidden" name="userId" id="userId" value="${sessionScope.userC.userId}"}>--%>
-
-<%--					<div class="mb-3">--%>
-<%--						<span><i class="fa fa-lock"></i></span>--%>
-<%--						<label class="form-label">Giới tính</label>--%>
-<%--						<div class="form-check">--%>
-<%--							<input type="radio" class="form-check-input" id="nam"--%>
-<%--								   name="gender" value="Nam" required="required"> <label--%>
-<%--								class="form-check-label" for="nam">Nam</label>--%>
-<%--						</div>--%>
-<%--						<div class="form-check">--%>
-<%--							<input type="radio" class="form-check-input" id="nu"--%>
-<%--								   name="gender" value="Nữ" required="required"> <label--%>
-<%--								class="form-check-label" for="nu">Nữ</label>--%>
-<%--						</div>--%>
-<%--						<div class="form-check">--%>
-<%--							<input type="radio" class="form-check-input" id="khac"--%>
-<%--								   name="gender" value="Khác" required="required"> <label--%>
-<%--								class="form-check-label" for="khac">Khác</label>--%>
-<%--						</div>--%>
-<%--					</div>--%>
-<%--					<div class="form-input">--%>
-<%--						<span><i class="fa fa-lock"></i></span>--%>
-<%--						<input name="birthday" type="date" placeholder="Ngày sinh"--%>
-<%--							   required>--%>
-<%--					</div>--%>
-<%--					<div class="form-input">--%>
-<%--						<span><i class="fa fa-lock"></i></span>--%>
-<%--						<input name="phoneNumber" type="number" id="phoneNumber" placeholder="Số điên thoại"--%>
-<%--							   required>--%>
-<%--					</div>--%>
-<%--					<div class="form-input">--%>
-<%--						<span><i class="fa fa-lock"></i></span>--%>
-<%--						<input name="email" type="email" id="email" placeholder="Email"--%>
-<%--							   required>--%>
-<%--					</div>--%>
-<%--					<div class="row mb-3">--%>
-<%--						<div class="col-12 d-flex">--%>
-<%--							<div class="custom-control custom-checkbox">--%>
-<%--								<input type="checkbox" class="custom-control-input" id="cb1">--%>
-<%--								<label class="custom-control-label text-white" for="cb1">I agree all terms &--%>
-<%--									conditions</label>--%>
-<%--							</div>--%>
-<%--						</div>--%>
-<%--					</div>--%>
-<%--					<input type="submit" name="submit"--%>
-<%--						   class="btn btn-primary form-control" value="Thay đổi thông tin">--%>
-
-<%--				</form>--%>
 
 				<form action="changeInformation" method="post">
 
 					<div class="row mb-3">
-						<label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Name</label>
+						<label class="col-sm-2 col-form-label" for="name">Name</label>
 						<div class="col-sm-10">
 							<div class="input-group input-group-merge">
 								<span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
-								<input type="text" class="form-control" id="basic-icon-default-fullname" placeholder="John Doe" aria-label="John Doe" aria-describedby="basic-icon-default-fullname2" fdprocessedid="xcfl0h">
+								<input type="text" class="form-control" id="name" name="name" required="required">
 							</div>
 						</div>
 					</div>

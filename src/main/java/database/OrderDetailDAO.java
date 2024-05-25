@@ -199,7 +199,6 @@ public class OrderDetailDAO extends AbsDAO<OrderDetail>{
 
 
             result = rs.executeUpdate();
-            int x = super.insert(orderDetail);
             JDBCUtil.closeConnection(con);
 
         } catch (SQLException e) {
