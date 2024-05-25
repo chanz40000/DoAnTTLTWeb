@@ -430,8 +430,8 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="form-layouts-horizontal.html" class="menu-link">
-                        <div data-i18n="Horizontal Form">Huy don</div>
+                    <a href="HistoryChangeOrder" class="menu-link">
+                        <div data-i18n="Horizontal Form">Lịch sử sửa đổi trạng thái</div>
                     </a>
                 </li>
             </ul>

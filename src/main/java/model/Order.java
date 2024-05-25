@@ -1,7 +1,8 @@
 package model;
 
 
-import java.sql.Date;
+
+import java.sql.Timestamp;
 import java.util.List;
 
 public class Order{
@@ -12,13 +13,13 @@ public class Order{
     private String phone;
     private String address;
     private Payment payment;
-    private Date bookingDate;
+    private Timestamp bookingDate;
     private String note;
     private double shippingFee;
     private StatusOrder status;
     private List<OrderDetail> orderDetailList;
 
-    public Order(int orderId, User user, double totalPrice, String nameConsignee, String phone, String address, Payment payment, Date bookingDate, String note, double shippingFee, StatusOrder status) {
+    public Order(int orderId, User user, double totalPrice, String nameConsignee, String phone, String address, Payment payment, Timestamp bookingDate, String note, double shippingFee, StatusOrder status) {
         this.orderId = orderId;
         this.user = user;
         this.totalPrice = totalPrice;
@@ -33,6 +34,14 @@ public class Order{
     }
 
     public Order() {
+    }
+
+    public Timestamp getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(Timestamp bookingDate) {
+        this.bookingDate = bookingDate;
     }
 
     public double getShippingFee() {
@@ -79,9 +88,6 @@ public class Order{
         return payment;
     }
 
-    public Date getBookingDate() {
-        return bookingDate;
-    }
 
     public String getNote() {
         return note;
@@ -119,9 +125,6 @@ public class Order{
         this.payment = payment;
     }
 
-    public void setBookingDate(Date bookingDate) {
-        this.bookingDate = bookingDate;
-    }
 
     public void setNote(String note) {
         this.note = note;

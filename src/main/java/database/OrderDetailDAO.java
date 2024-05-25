@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrderDetailDAO extends AbsDAO<OrderDetail>{
     private ArrayList<OrderDetail> data = new ArrayList<>();
@@ -92,7 +93,90 @@ public class OrderDetailDAO extends AbsDAO<OrderDetail>{
 
         return result;
     }
+    public List<OrderDetail> selectByOrderId(int id) {
+        ArrayList<OrderDetail> orderdetails = new ArrayList<>();
 
+        try {
+
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "SELECT * FROM orderdetails WHERE order_id =?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int idorderde = rs.getInt("detail_id");
+                int idOrder = rs.getInt("order_id");
+                int idProduct = rs.getInt("product_id");
+                int quantity = rs.getInt("quantity");
+                double price = rs.getDouble("price");
+                Order o = new OrderDAO().selectById(idOrder);
+
+
+                Product pro = new ProductDAO().selectById(idProduct);
+                OrderDetail orderDetail = new OrderDetail(idorderde,o,pro,quantity,price);
+                orderdetails.add(orderDetail);
+            }
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return orderdetails;
+    }
+    public OrderDetail selectFirstByOrderId(int id) {
+        OrderDetail orderDetail = null;
+
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "SELECT * FROM orderdetails WHERE order_id = ?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                int idorderde = rs.getInt("detail_id");
+                int idOrder = rs.getInt("order_id");
+                int idProduct = rs.getInt("product_id");
+                int quantity = rs.getInt("quantity");
+                double price = rs.getDouble("price");
+                Order o = new OrderDAO().selectById(idOrder);
+                Product pro = new ProductDAO().selectById(idProduct);
+                orderDetail = new OrderDetail(idorderde, o, pro, quantity, price);
+            }
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return orderDetail;
+    }
+    public int sumOrderDetailsQuantityByOrderId(int orderId) {
+        int totalQuantity = 0;
+
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "SELECT SUM(quantity) FROM orderdetails WHERE order_id = ?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, orderId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                totalQuantity = rs.getInt(1);
+            }
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return totalQuantity;
+    }
     @Override
     public int insert(OrderDetail orderDetail) {
         int result = 0;

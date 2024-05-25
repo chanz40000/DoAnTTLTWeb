@@ -519,15 +519,7 @@
                                             <form class="add-to-cart-form" action="AddToCart" method="post" id="addToCartForm">
                                                 <input type="hidden" name="productId" value="${p.productId}">
                                                 <button class="submit-button" type="submit">
-                                                    <c:choose>
-                                                        <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
                                                             <a href="#"><i class="fa fa-shopping-cart"></i></a>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <a href="Login"><i class="fa fa-shopping-cart"></i></a>
-                                                        </c:otherwise>
-                                                    </c:choose>
-
                                                 </button>
                                             </form>
                                         </li>
@@ -778,11 +770,19 @@
         filterByPrice(minamount, maxamount);
     });
 </script>
+<script type="text/javascript">
+    let userName = "${(sessionScope.userC != null ? sessionScope.userC.name : '')||(sessionScope.admin != null ? sessionScope.admin.name : '')}";
+</script>
 <script>
     $(document).ready(function () {
         $(".add-to-cart-form").on("submit", function (event) {
             event.preventDefault();
             var form = $(this);
+            // Kiểm tra giá trị của userName
+            if (userName === '') {
+                alert("Bạn cần đăng nhập để mua hàng.");
+                return;
+            }
             $.ajax({
                 type: "POST",
                 url: form.attr("action"),
