@@ -42,17 +42,17 @@ public class ChangeInformation extends HttpServlet {
             @Override
             protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-                System.out.println("start ");
                 request.setCharacterEncoding("UTF-8");
                 response.setCharacterEncoding("UTF-8");
 
                 User user =(User) request.getSession().getAttribute("userC");
-                System.out.println("id: "+user.getUserId());
+
                 String sexual = request.getParameter("gender");
                 System.out.println("gender: "+sexual);
                 String birthday = request.getParameter("birthday");
                 String phoneNumber = request.getParameter("phoneNumber");
                 String email = request.getParameter("email");
+                String name = request.getParameter("name");
                 java.util.Date date=null;
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 
@@ -91,6 +91,7 @@ public class ChangeInformation extends HttpServlet {
                     user.setEmail(email);
                     user.setSexual(sexual);
                     user.setPhone(phoneNumber);
+                    user.setName(name);
                     try {
                         date =dateFormat.parse(birthday);
                         java.sql.Date sqlDate = new java.sql.Date(date.getTime());

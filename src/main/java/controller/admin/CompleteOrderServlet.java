@@ -25,7 +25,7 @@ import java.util.List;
 public class CompleteOrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Không cần thực hiện gì trong phương thức doGet
+
     }
 
     @Override

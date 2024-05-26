@@ -121,7 +121,7 @@
                                 <c:forEach var="item" items="${sessionScope.cart.cart_items}">
                                     <tr>
                                         <td class="shoping__cart__item">
-                                            <img src="img/cart/cart-1.jpg" alt="">
+                                            <img src="/image/${item.product.image}" alt="" width="50px" height="70px">
                                             <h5>${item.product.product_name}</h5>
                                         </td>
                                         <td class="shoping__cart__price">

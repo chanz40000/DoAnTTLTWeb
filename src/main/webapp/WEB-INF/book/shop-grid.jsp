@@ -874,17 +874,23 @@
             $(".add-to-cart-form").on("submit", function(event) {
                 event.preventDefault();
                 var form = $(this);
+                <c:if test="${sessionScope.userC.name == null}">
+                alert("Bạn cần đăng nhập để mua hàng.");
+                window.location.href = "Login"; // Đường dẫn đến trang đăng nhập của bạn
+                return;
+                </c:if>
+
                 $.ajax({
                     type: "POST",
                     url: form.attr("action"),
                     data: form.serialize(),
-                    success: function(data) {
+                    success: function (data) {
                         alert("Đã đặt hàng thành công!");
                         var currentQuantity = parseInt($(".cart-item-count").text(), 10);
                         var newQuantity = currentQuantity + 1;
                         $(".cart-item-count").text(newQuantity);
                     },
-                    error: function(error) {
+                    error: function (error) {
                         console.error("Error:", error);
                         alert("Đã đặt lỗi");
                     }
@@ -896,7 +902,7 @@
         let currentCategory = null;
 
         // Xử lý sự kiện phân trang
-        $(document).on('click', '.pagination-link', function(e) {
+        $(document).on('click', '.pagination-link', function (e) {
             e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
             var page = $(this).data('page');
             loadProducts(page, currentCategory);
@@ -931,6 +937,7 @@
 
                     initializeLazyLoading();
                     initializeAddToCart();
+
 
                     // Cuộn lên đầu trang sau khi cập nhật nội dung
                     $('html, body').animate({ scrollTop: $('#row').offset().top }, 'fast');

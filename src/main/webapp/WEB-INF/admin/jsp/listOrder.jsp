@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@page isELIgnored="false" %>
+<%@ page import="util.FormatCurrency"%>
 <!DOCTYPE html>
 
 
@@ -158,8 +159,10 @@
 .card{
     width: 100%;
 }
+
 </style>
 <body>
+
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
@@ -171,11 +174,8 @@
         <!-- Layout container -->
         <div class="layout-page">
             <!-- Navbar -->
-
             <jsp:include page="navbar.jsp"/>
-
             <!-- / Navbar -->
-
             <!-- Content wrapper -->
             <div class="content-wrapper" id="content-wrapper">
                 <!-- Content -->
@@ -185,128 +185,328 @@
 
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
-                        <h5 class="card-header">Danh sách đơn hàng</h5>
-                        <div class="table-responsive text-nowrap">
+                        <jsp:useBean id="orderDAO" class="database.OrderDAO"/>
+                        <jsp:useBean id="orderHistoryDAO" class="database.OrderHistoryDAO"/>
+                        <div class="col-xl-12">
+                            <div class="nav-align-top mb-4">
+                                <ul class="nav nav-tabs nav-fill" role="tablist">
+                                    <li class="nav-item">
+                                        <button
+                                                type="button"
+                                                class="nav-link active"
+                                                role="tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#navs-justified-home"
+                                                aria-controls="navs-justified-home"
+                                                aria-selected="true"
+                                        >
+                                            <i class="tf-icons bx bx-home"></i> Cần xác nhận
+                                            <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger">3</span>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button
+                                                type="button"
+                                                class="nav-link"
+                                                role="tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#navs-justified-profile"
+                                                aria-controls="navs-justified-profile"
+                                                aria-selected="false"
+                                        >
+                                            <i class="tf-icons bx bx-user"></i> Giao thành công
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button
+                                                type="button"
+                                                class="nav-link"
+                                                role="tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#navs-justified-messages"
+                                                aria-controls="navs-justified-messages"
+                                                aria-selected="false"
+                                        >
+                                            <i class="tf-icons bx bx-message-square"></i> Hủy/Hoàn
+                                        </button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
+                                        <h5 class="card-header">Danh sách đơn hàng cần xác nhận </h5>
+                                        <div class="table-responsive text-nowrap">
+                                            <table id="example" class="table table-striped" style="width:100%">
 
-<%--                            <table class="table">--%>
-<%--                                <thead>--%>
-<%--                                <tr>--%>
-<%--                                    <th>Mã đơn hàng</th>--%>
-<%--                                    <th>Mã User</th>--%>
-<%--                                    <th>Tên người nhận</th>--%>
-<%--                                    <th>Số điện thoại</th>--%>
-<%--                                    <th>Địa chỉ</th>--%>
-<%--                                    <th>Phương thức thanh toán</th>--%>
-<%--                                    <th>Tổng tiền</th>--%>
-<%--                                    <th>Ghi chú</th>--%>
-<%--                                    <th>Ngày đặt</th>--%>
-<%--                                    <th>Actions</th>--%>
-<%--                                </tr>--%>
-<%--                                </thead>--%>
-<%--                                <tbody class="table-border-bottom-0">--%>
-<%--                                <jsp:useBean id="orderDAO" class="database.OrderDAO"/>--%>
-<%--                                <c:forEach var="order" items="${orderDAO.selectOrderByStatus(1)}">--%>
-<%--                                   &lt;%&ndash; <li><a href="#">${order.categoryName}</a></li>&ndash;%&gt;--%>
-<%--                                    <tr>--%>
-<%--                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${order.orderId}</strong></td>--%>
-<%--                                        <td>${order.user.userId}</td>--%>
-<%--                                        <td>${order.nameConsignee}</td>--%>
-<%--                                        <td>${order.phone}</td>--%>
-<%--                                        <td>${order.address}</td>--%>
-<%--                                        <td>${order.payment.paymentName}</td>--%>
-<%--                                        <td>${order.totalPrice}</td>--%>
-<%--                                        <td>${order.note}</td>--%>
-<%--                                        <td>${order.bookingDate}</td>--%>
+                                                <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Mã User</th>
+                                                    <th>Ngày đặt</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Actions</th>
+                                                    <th>Người sửa</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:set var="ChoXacNhan" value="1"/>
+                                                <c:set var="DangDongGoi" value="2"/>
+                                                <c:set var="DangGiao" value="3"/>
+                                                <c:set var="YeuCauHuy" value="5"/>
+                                                <c:set var="YeuCauTraHang" value="7"/>
+                                                <c:forEach var="order" items="${orderDAO.selectByStatusIds(ChoXacNhan, DangDongGoi, YeuCauHuy, YeuCauTraHang, DangGiao)}">
+                                                    <tr>
+                                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${order.orderId}</strong></td>
 
+                                                        <td>${order.user.userId}</td>
+                                                        <td>${order.bookingDate}</td>
+                                                        <td><span class="badge bg-label-primary me-1">${order.status.statusName}</span></td>
+                                                        <td>
+                                                            <c:if test="${order.status.statusId == 1}">
+                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                                    <input type="hidden" name="action" value="AcceptOrder" />
+                                                                    <button type="submit" class="badge bg-success me-1">Xác nhận</button>
+                                                                </form>
+                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                                    <input type="hidden" name="action" value="RejectOrder" />
+                                                                    <button type="submit" class="badge bg-danger me-1">Hủy</button>
+                                                                </form>
+                                                            </c:if>
+                                                            <c:if test="${order.status.statusId == 2}">
+                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                                    <input type="hidden" name="action" value="Packed" />
+                                                                    <button type="submit" class="badge bg-success me-1">Xong</button>
+                                                                </form>
+                                                            </c:if>
+                                                            <c:if test="${order.status.statusId == 5}">
+                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                                    <input type="hidden" name="action" value="Cancel" />
+                                                                    <button type="submit" class="badge bg-success me-1">Chấp nhận</button>
+                                                                </form>
+                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                                    <input type="hidden" name="action" value="RejectCancelOrder" />
+                                                                    <button type="submit" class="badge bg-danger me-1">Từ chối</button>
+                                                                </form>
+                                                            </c:if>
+                                                            <c:if test="${order.status.statusId == 7}">
+                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                                    <input type="hidden" name="action" value="AcceptReturnOrder" />
+                                                                    <button type="submit" class="badge bg-success me-1">Chấp nhận</button>
+                                                                </form>
+                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                                    <input type="hidden" name="action" value="RejectReturnOrder" />
+                                                                    <button type="submit" class="badge bg-danger me-1">Từ chối</button>
+                                                                </form>
+                                                            </c:if>
+                                                        </td>
+                                                        <td>
+                                                            <c:set var="latestHistory" value="${orderHistoryDAO.selectLatestByOrderId(order.orderId)}"/>
+                                                            <c:if test="${latestHistory ne null}">
+                                                                <c:if test="${not empty latestHistory.user}">
+                                                                    <c:choose>
+                                                                        <c:when test="${latestHistory.user.role == 2}">
+                                                                            ID User: ${latestHistory.user.userId}
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            ID Admin: ${latestHistory.user.userId}
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </c:if>
+                                                            </c:if>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Mã User</th>
+                                                    <th>Ngày đặt</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Actions</th>
+                                                    <th>Người sửa</th>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                                        <h5 class="card-header">Danh sách đơn hàng giao thành công  </h5>
+                                        <div class="table-responsive text-nowrap">
+                                            <table id="example1" class="table table-striped" style="width:100%">
 
-<%--                                        <td><span class="badge bg-label-primary me-1">Active</span></td>--%>
-<%--                                        <td>--%>
-<%--                                            <div class="dropdown">--%>
-<%--                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">--%>
-<%--                                                    <i class="bx bx-dots-vertical-rounded"></i>--%>
-<%--                                                </button>--%>
-<%--                                                <div class="dropdown-menu">--%>
-<%--                                                    &lt;%&ndash;<a class="dropdown-item" href="./UserDetail?id=${user.userId}"--%>
-<%--                                                    ><i class="bx bx-edit-alt me-1"></i> Edit</a--%>
-<%--                                                    >--%>
-<%--                                                    <a class="dropdown-item" href="javascript:void(0);"--%>
-<%--                                                    ><i class="bx bx-trash me-1"></i> Delete</a--%>
-<%--                                                    >&ndash;%&gt;--%>
-<%--                                                </div>--%>
-<%--                                            </div>--%>
-<%--                                        </td>--%>
-<%--                                    </tr>--%>
-<%--                                </c:forEach>--%>
+                                                <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Mã User</th>
+                                                    <th>Ngày đặt</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Người sửa</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:set var="GiaoThanhCong" value="4"/>
+                                                <c:set var="DaNhan" value="10"/>
+                                                <%--                                <c:forEach var="order" items="${orderDAO.selectOrderByStatus(1)}">--%>
+                                                <c:forEach var="order" items="${orderDAO.selectByStatusIds(GiaoThanhCong, DaNhan)}">
+                                                    <%-- <li><a href="#">${order.categoryName}</a></li>--%>
+                                                    <tr>
+                                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${order.orderId}</strong></td>
 
-<%--                                </tbody>--%>
-<%--                            </table>--%>
-                            <table id="example" class="table table-striped" style="width:100%">
+                                                        <td>${order.user.userId}</td>
+                                                        <td>${order.bookingDate}</td>
+                                                            <%--                                        <c:set var="rawDate" value="${order.bookingDate}" />--%>
+                                                            <%--                                        <fmt:parseDate var="formattedDate" value="${rawDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" />--%>
+                                                            <%--                                        <fmt:formatDate value="${formattedDate}" pattern="dd-MM-yyyy HH:mm:ss" var="formattedTime" />--%>
+                                                            <%--                                        <td>${formattedTime}</td>--%>
+                                                        <td><span class="badge bg-label-primary me-1">${order.status.statusName}</span></td>
+                                                        <td>
+                                                            <c:set var="latestHistory" value="${orderHistoryDAO.selectLatestByOrderId(order.orderId)}"/>
+                                                            <c:if test="${latestHistory ne null}">
+                                                                <c:if test="${not empty latestHistory.user}">
+                                                                    <c:choose>
+                                                                        <c:when test="${latestHistory.user.role == 2}">
+                                                                            ID User: ${latestHistory.user.userId}
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            ID Admin: ${latestHistory.user.userId}
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </c:if>
+                                                            </c:if>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Mã User</th>
+                                                    <th>Ngày đặt</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Người sửa</th>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
+                                        <h5 class="card-header">Danh sách đã hủy/Hoàn </h5>
+                                        <div class="table-responsive text-nowrap">
+                                            <table id="example2" class="table table-striped" style="width:100%">
 
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Mã User</th>
-                                    <th>Tên người nhận</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Phương thức thanh toán</th>
-                                    <th>Tổng tiền</th>
-                                    <th>Ghi chú</th>
-                                    <th>Ngày đặt</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <jsp:useBean id="orderDAO" class="database.OrderDAO"/>
-                                <c:forEach var="order" items="${orderDAO.selectOrderByStatus(1)}">
-                                    <%-- <li><a href="#">${order.categoryName}</a></li>--%>
-                                    <tr>
-                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${order.orderId}</strong></td>
-                                        <td>${order.user.userId}</td>
-                                        <td>${order.nameConsignee}</td>
-                                        <td>${order.phone}</td>
-                                        <td>${order.address}</td>
-                                        <td>${order.payment.paymentName}</td>
-                                        <td>${order.totalPrice}</td>
-                                        <td>${order.note}</td>
-                                        <td>${order.bookingDate}</td>
+                                                <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Mã User</th>
+                                                    <th>Ngày đặt</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Actions</th>
+                                                    <th>Người sửa</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <c:set var="DaHuy" value="6"/>
+                                                <c:set var="DaHoan" value="8"/>
+                                                <%--                                <c:forEach var="order" items="${orderDAO.selectOrderByStatus(1)}">--%>
+                                                <c:forEach var="order" items="${orderDAO.selectByStatusIds(DaHuy, DaHoan)}">
+                                                    <%-- <li><a href="#">${order.categoryName}</a></li>--%>
+                                                    <tr>
+                                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${order.orderId}</strong></td>
 
-
-                                        <td><span class="badge bg-label-primary me-1">Active</span></td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                        <%--<a class="dropdown-item" href="./UserDetail?id=${user.userId}"
-                                                        ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                                                        >
-                                                        <a class="dropdown-item" href="javascript:void(0);"
-                                                        ><i class="bx bx-trash me-1"></i> Delete</a
-                                                        >--%>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Mã User</th>
-                                    <th>Tên người nhận</th>
-                                    <th>Số điện thoại</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Phương thức thanh toán</th>
-                                    <th>Tổng tiền</th>
-                                    <th>Ghi chú</th>
-                                    <th>Ngày đặt</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </tfoot>
-                            </table>
+                                                        <td>${order.user.userId}</td>
+                                                        <td>${order.bookingDate}</td>
+                                                            <%--                                        <c:set var="rawDate" value="${order.bookingDate}" />--%>
+                                                            <%--                                        <fmt:parseDate var="formattedDate" value="${rawDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" />--%>
+                                                            <%--                                        <fmt:formatDate value="${formattedDate}" pattern="dd-MM-yyyy HH:mm:ss" var="formattedTime" />--%>
+                                                            <%--                                        <td>${formattedTime}</td>--%>
+                                                        <td><span class="badge bg-label-primary me-1">${order.status.statusName}</span></td>
+                                                        <td>
+                                                            <c:if test="${order.status.statusId == 1}">
+                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                                    <input type="hidden" name="action" value="AcceptOrder" />
+                                                                    <button type="submit" class="badge bg-success me-1">Xác nhận</button>
+                                                                </form>
+                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                                    <input type="hidden" name="action" value="RejectOrder" />
+                                                                    <button type="submit" class="badge bg-danger me-1">Hủy</button>
+                                                                </form>
+                                                            </c:if>
+                                                            <c:if test="${order.status.statusId == 2}">
+                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                                    <input type="hidden" name="action" value="Packed" />
+                                                                    <button type="submit" class="badge bg-success me-1">Xong</button>
+                                                                </form>
+                                                            </c:if>
+                                                            <c:if test="${order.status.statusId == 5}">
+                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                                    <input type="hidden" name="action" value="Cancel" />
+                                                                    <button type="submit" class="badge bg-success me-1">Chấp nhận</button>
+                                                                </form>
+                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                                    <input type="hidden" name="action" value="RejectCancelOrder" />
+                                                                    <button type="submit" class="badge bg-danger me-1">Từ chối</button>
+                                                                </form>
+                                                            </c:if>
+                                                            <c:if test="${order.status.statusId == 7}">
+                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                                    <input type="hidden" name="action" value="AcceptReturnOrder" />
+                                                                    <button type="submit" class="badge bg-success me-1">Chấp nhận</button>
+                                                                </form>
+                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
+                                                                    <input type="hidden" name="action" value="RejectReturnOrder" />
+                                                                    <button type="submit" class="badge bg-danger me-1">Từ chối</button>
+                                                                </form>
+                                                            </c:if>
+                                                        </td>
+                                                        <td>
+                                                            <c:set var="latestHistory" value="${orderHistoryDAO.selectLatestByOrderId(order.orderId)}"/>
+                                                            <c:if test="${latestHistory ne null}">
+                                                                <c:if test="${not empty latestHistory.user}">
+                                                                    <c:choose>
+                                                                        <c:when test="${latestHistory.user.role == 2}">
+                                                                            ID User: ${latestHistory.user.userId}
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            ID Admin: ${latestHistory.user.userId}
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </c:if>
+                                                            </c:if>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                                </tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Mã User</th>
+                                                    <th>Ngày đặt</th>
+                                                    <th>Trạng thái</th>
+                                                    <th>Actions</th>
+                                                    <th>Người sửa</th>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                     <!--/ Basic Bootstrap Table -->
 
@@ -359,7 +559,6 @@
         </div>
         <!-- / Layout page -->
     </div>
-
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>

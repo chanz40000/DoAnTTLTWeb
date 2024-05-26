@@ -7,26 +7,18 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDateTime;
-import java.time.Year;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "RevenueDataServlet", value = "/RevenueDataServlet")
-public class RevenueDataServlet extends HttpServlet {
+@WebServlet(name = "DailyRevenue", value = "/DailyRevenue")
+public class DailyRevenue extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         OrderDAO orderDAO = new OrderDAO();
-       double[] revenueData = orderDAO.revenue2(LocalDateTime.now().getYear());
-        double[] revenueData2 =  orderDAO.revenue2(LocalDateTime.now().getYear()-1);;
-
-        Map<String, double[]> combinedData =new HashMap<>();
-        combinedData.put("data1", revenueData);
-        combinedData.put("data2", revenueData2);
-        // Convert list to JSON
+        double[]revenue = orderDAO.revenueForWeek(Date.valueOf(LocalDateTime.now().toLocalDate()));
         Gson gson = new Gson();
-        String json = gson.toJson(combinedData);
+        String json = gson.toJson(revenue);
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
