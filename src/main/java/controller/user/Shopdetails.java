@@ -32,10 +32,12 @@ public class Shopdetails extends HttpServlet {
         int three = raDao.getAverageRatingsByProductId(3.0,id);
         int two = raDao.getAverageRatingsByProductId(2.0,id);
         int one = raDao.getAverageRatingsByProductId(1.0,id);
+        ArrayList<Product> products = proDao.selectAll();
+
         int sumr = raDao.getSumRatingByProductId(id);
         Product pro = proDao.selectById(id);
         int samecategory = proDao.selectCategoryId(id);
-        List<Product> arr = proDao.selectSameCategory(samecategory,id);
+        List<Product> arrCa = proDao.selectSameCategory(samecategory,id);
         List<Rating> userating = raDao.selectNameFromRatings(id);
         int pageR, numpageR = 6;
         int size = userating.size();
@@ -62,13 +64,15 @@ public class Shopdetails extends HttpServlet {
         request.setAttribute("sumrating",sumr);
         session.setAttribute("average",average);
         session.setAttribute("detail",pro);
-        session.setAttribute("proCa",arr);
         session.setAttribute("five", five);
         session.setAttribute("four", four);
         session.setAttribute("three", three);
         session.setAttribute("two", two);
         session.setAttribute("one", one);
         session.setAttribute("productid", id);
+        request.setAttribute("proCa",arrCa);
+        session.setAttribute("Products", products);
+
         String url = "/WEB-INF/book/shop-details.jsp";
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(url);

@@ -264,12 +264,11 @@
                              src="/image/${detail.image}" alt="">
 
                     </div>
-                    <div class="product__details__pic__slider owl-carousel">
-                        <c:forEach items="${proCa}" var="pc">
-                            <img
-                                    src="img/image/${pc.image}"  alt=""> <!--data-imgbigurl="img/product/details/product-details-2.jpg"-->
-                        </c:forEach>
-                    </div>
+<%--                    <div class="product__details__pic__slider owl-carousel">--%>
+<%--                        <c:forEach items="${Products}" var="pca">--%>
+<%--                            <img src="/image/${pca.image}"--%>
+<%--                        </c:forEach>--%>
+<%--                    </div>--%>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">

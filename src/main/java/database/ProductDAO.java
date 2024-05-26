@@ -507,6 +507,29 @@ public class ProductDAO extends AbsDAO<Product> {
 
         return result;
     }
+    public boolean deleteProducts(StringBuilder productid) {
+        try (Connection connection = JDBCUtil.getConnection()) {
+            // Disable foreign key checks
+            try (PreparedStatement disableChecksStmt = connection.prepareStatement("SET FOREIGN_KEY_CHECKS=0;")) {
+                disableChecksStmt.executeUpdate();
+            }
+
+            // Truncate the Comments table
+            try (PreparedStatement truncateStmt = connection.prepareStatement("DELETE FROM products where product_id IN (" + productid + ")")) {
+                truncateStmt.executeUpdate();
+            }
+
+            // Enable foreign key checks
+            try (PreparedStatement enableChecksStmt = connection.prepareStatement("SET FOREIGN_KEY_CHECKS=1;")) {
+                enableChecksStmt.executeUpdate();
+            }
+
+            return true; // Successful if no exceptions were thrown
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     @Override
     public int update(Product product) {
@@ -966,10 +989,14 @@ public class ProductDAO extends AbsDAO<Product> {
     }
 
     public static void main(String[] args) {
-        ArrayList<Integer> list;
-        list = new ProductDAO().needImport();
-        for (Integer p:list){
-            System.out.println(p);
+//        ArrayList<Integer> list;
+//        list = new ProductDAO().needImport();
+//        for (Integer p:list){
+//            System.out.println(p);
+//        }
+        List<Product> lists = new ProductDAO().selectSameCategory(4,21);
+        for (Product p1:lists){
+            System.out.println(p1);
         }
     }
 

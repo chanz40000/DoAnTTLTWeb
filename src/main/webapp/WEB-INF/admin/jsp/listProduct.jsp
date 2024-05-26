@@ -16,261 +16,266 @@
         data-template="vertical-menu-template-free"
 >
 <head>
-  <meta charset="utf-8" />
-  <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
-  />
+    <meta charset="utf-8" />
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
 
-  <title>Tables - Basic Tables | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>Tables - Basic Tables | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
-  <meta name="description" content="" />
+    <meta name="description" content="" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="../assetsForAdmin/assets/img/favicon/favicon.ico" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../assetsForAdmin/assets/img/favicon/favicon.ico" />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-          href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-          rel="stylesheet"
-  />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <!-- Icons. Uncomment required icon fonts -->
-  <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/fonts/boxicons.css" />
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/fonts/boxicons.css" />
 
-  <!-- Core CSS -->
-  <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/css/core.css" class="template-customizer-core-css" />
-  <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-  <link rel="stylesheet" href="../assetsForAdmin/assets/css/demo.css" />
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../assetsForAdmin/assets/css/demo.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
 
-  <!-- Vendors CSS -->
-  <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-  <!-- Page CSS -->
+    <!-- Page CSS -->
 
-  <!-- Helpers -->
-  <script src="../assetsForAdmin/assets/vendor/js/helpers.js"></script>
+    <!-- Helpers -->
+    <script src="../assetsForAdmin/assets/vendor/js/helpers.js"></script>
 
-  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-  <script src="../assetsForAdmin/assets/js/config.js"></script>
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="../assetsForAdmin/assets/js/config.js"></script>
 
 </head>
 <style>
-  #menu-icon{
-    margin-left: 110px;
+    #menu-icon{
+        margin-left: 110px;
 
-  }
-  .bg-menu-theme #menu-icon-toggle{
-    background-color: #696cff;
-    border: 7px solid #f5f5f9;
-    position: absolute;
-    top: 28px;
-    left: 230px;
-    border-radius: 50%;
-    z-index: 1;
-    display: block !important;
-  }
-  #menu-icon-toggle i{
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-  #menu-icon-toggle::before{
-    color:white;
-    content: "\ecb0";
+    }
+    .bg-menu-theme #menu-icon-toggle{
+        background-color: #696cff;
+        border: 7px solid #f5f5f9;
+        position: absolute;
+        top: 28px;
+        left: 230px;
+        border-radius: 50%;
+        z-index: 1;
+        display: block !important;
+    }
+    #menu-icon-toggle i{
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    #menu-icon-toggle::before{
+        color:white;
+        content: "\ecb0";
 
-  }
-  aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close{
-    width: 100px;
-  }
-  aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close .menu-item div, aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close .menu-sub div{
-    opacity: 0;
+    }
+    aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close{
+        width: 100px;
+    }
+    aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close .menu-item div, aside#layout-menu.layout-menu.menu-vertical.menu.bg-menu-theme.close .menu-sub div{
+        opacity: 0;
 
-  }
-  .bg-menu-theme.close .menu-inner > .menu-item.active > .menu-link {
+    }
+    .bg-menu-theme.close .menu-inner > .menu-item.active > .menu-link {
 
-    /*background-color: rgba(105, 108, 255, 0.16) !important;*/
-    /*color: black;*/
-  }
-  .menu-header-text{
-    opacity: 0;
-  }
-  .bg-menu-theme.close .menu-header:before {
-    display: none;
-  }
-  .bg-menu-theme.close .app-brand-text.demo.menu-text.fw-bolder.ms-2{
-    display: none;
-  }
-  .bg-menu-theme.close{
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-  }
-  .bg-menu-theme.close #menu-icon-toggle{
-    background-color: #696cff;
-    border: 7px solid #f5f5f9;
-    position: absolute;
-    top: 28px;
-    left: 70px;
-    border-radius: 50%;
-    z-index: 1;
-    display: block !important;
-  }
-  .bg-menu-theme.close #menu-icon-toggle{
-    transform: rotate(180deg);
+        /*background-color: rgba(105, 108, 255, 0.16) !important;*/
+        /*color: black;*/
+    }
+    .menu-header-text{
+        opacity: 0;
+    }
+    .bg-menu-theme.close .menu-header:before {
+        display: none;
+    }
+    .bg-menu-theme.close .app-brand-text.demo.menu-text.fw-bolder.ms-2{
+        display: none;
+    }
+    .bg-menu-theme.close{
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .bg-menu-theme.close #menu-icon-toggle{
+        background-color: #696cff;
+        border: 7px solid #f5f5f9;
+        position: absolute;
+        top: 28px;
+        left: 70px;
+        border-radius: 50%;
+        z-index: 1;
+        display: block !important;
+    }
+    .bg-menu-theme.close #menu-icon-toggle{
+        transform: rotate(180deg);
 
-  }
-  /*.bg-menu-theme.close .align-items-center.bg-navbar-theme{*/
-  /*  padding-left: 100px;*/
-  /*}*/
-  .layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached.align-items-center.bg-navbar-theme.close{
-    width:1212px;
-    margin-left: -125px;
-  }
+    }
+    /*.bg-menu-theme.close .align-items-center.bg-navbar-theme{*/
+    /*  padding-left: 100px;*/
+    /*}*/
+    .layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached.align-items-center.bg-navbar-theme.close{
+        width:1212px;
+        margin-left: -125px;
+    }
 
-  .content-wrapper.close{
-    margin-left: -151px;
-    width: 1263px;
-  }
+    .content-wrapper.close{
+        margin-left: -151px;
+        width: 1263px;
+    }
 
-  /*.container-xxl.flex-grow-1.container-p-y .row.close .card-body{*/
-  /*  !*margin-left: -10px;*!*/
-  /*  !*width: 500px;*!*/
-  /*}*/
-  .fa-regular.fa-sun{
-    font-size: 20px;
+    /*.container-xxl.flex-grow-1.container-p-y .row.close .card-body{*/
+    /*  !*margin-left: -10px;*!*/
+    /*  !*width: 500px;*!*/
+    /*}*/
+    .fa-regular.fa-sun{
+        font-size: 20px;
 
-  }
-  .fa-regular.fa-moon{
-    font-size: 20px;
+    }
+    .fa-regular.fa-moon{
+        font-size: 20px;
 
-  }
-  /*.table-responsive.text-nowrap{*/
-  /*    width: 1100px;*/
-  /*}*/
-  /*#cardresp{*/
-  /*    width: 1100px;*/
-  /*}*/
-  /*#layout-navbar{*/
-  /*    width: 1050px;*/
+    }
+    /*.table-responsive.text-nowrap{*/
+    /*    width: 1100px;*/
+    /*}*/
+    /*#cardresp{*/
+    /*    width: 1100px;*/
+    /*}*/
+    /*#layout-navbar{*/
+    /*    width: 1050px;*/
 
-  /*}*/
+    /*}*/
 </style>
 <body>
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
-  <div class="layout-container">
-    <!-- Menu -->
-    <jsp:include page="menu.jsp"/>
+    <div class="layout-container">
+        <!-- Menu -->
+        <jsp:include page="menu.jsp"/>
 
-    <!-- / Menu -->
+        <!-- / Menu -->
 
-    <!-- Layout container -->
-    <div class="layout-page">
-      <!-- Navbar -->
+        <!-- Layout container -->
+        <div class="layout-page">
+            <!-- Navbar -->
 
-      <jsp:include page="navbar.jsp"/>
+            <jsp:include page="navbar.jsp"/>
 
-      <!-- / Navbar -->
+            <!-- / Navbar -->
 
-      <!-- Content wrapper -->
-      <div class="content-wrapper" id="content-wrapper">
-        <!-- Content -->
-        <div class="container-xxl flex-grow-1 container-p-y" id="content-big-section">
-          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> List Product</h4>
+            <!-- Content wrapper -->
+            <div class="content-wrapper" id="content-wrapper">
+                <!-- Content -->
+                <div class="container-xxl flex-grow-1 container-p-y" id="content-big-section">
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> List Product</h4>
 
-          <!-- Basic Bootstrap Table -->
-          <div class="card" id="cardresp">
-            <h5 class="card-header">List Product</h5>
-            <div class="table-responsive text-nowrap">
-              <table class="table table-striped" id="tabledata">
-                <thead>
-                <tr>
-                  <th>Mã sách</th>
-                    <th>Ảnh</th>
-                  <th>Tên sách</th>
-                  <th>Thể loại</th>
-                        <th>Giá nhập</th>
-                        <th>Giá bán</th>
-                        <th>Số lượng trong kho</th>
-                      </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0" id="productTableBody">
+                    <!-- Basic Bootstrap Table -->
+                    <div class="card" id="cardresp">
+                        <h5 class="card-header">List Product</h5>
+                        <div class="table-responsive text-nowrap">
+                            <form action="RemoveCheckProduct" method="POST">
+                                <button type="submit" class="btn btn-primary me-2" onclick="return nocheck();">Save change</button>
 
-                    </tbody>
-                  </table>
+                                <table class="table table-striped" id="tabledata">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
 
-              <button onclick="exportTableToExcel('tabledata', 'category_data')">Export Table Data To Excel File</button>
+                                        <th>Mã sách</th>
+                                        <th>Ảnh</th>
+                                        <th>Tên sách</th>
+                                        <th>Thể loại</th>
+                                        <th>Giá nhập</th>
+                                        <th>Giá bán</th>
+                                        <th>Số lượng trong kho</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="table-border-bottom-0" id="productTableBody">
 
+                                    </tbody>
+                                </table>
+                            </form>
+                            <button onclick="exportTableToExcel('tabledata', 'category_data')">Export Table Data To Excel File</button>
+
+                        </div>
+                    </div>
+                    <!--/ Basic Bootstrap Table -->
+
+                    <hr class="my-5" />
+
+                    <!-- / Content -->
+
+                    <!-- Footer -->
+                    <footer class="content-footer footer bg-footer-theme">
+                        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+                            <div class="mb-2 mb-md-0">
+                                ©
+                                <script>
+                                    document.write(new Date().getFullYear());
+                                </script>
+                                , made with ❤️ by
+                                <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
+                            </div>
+                            <div>
+                                <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+                                <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+
+                                <a
+                                        href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
+                                        target="_blank"
+                                        class="footer-link me-4"
+                                >Documentation</a
+                                >
+
+                                <a
+                                        href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
+                                        target="_blank"
+                                        class="footer-link me-4"
+                                >Support</a
+                                >
+                            </div>
+                        </div>
+                    </footer>
+                    <!-- / Footer -->
+
+                    <div class="content-backdrop fade"></div>
+                </div>
+                <!-- Content wrapper -->
             </div>
-              </div>
-              <!--/ Basic Bootstrap Table -->
+            <!-- / Layout page -->
+        </div>
 
-              <hr class="my-5" />
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+    <!-- / Layout wrapper -->
 
-        <!-- / Content -->
-
-        <!-- Footer -->
-      <footer class="content-footer footer bg-footer-theme">
-          <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-              <div class="mb-2 mb-md-0">
-                  ©
-                  <script>
-                      document.write(new Date().getFullYear());
-                  </script>
-                  , made with ❤️ by
-                  <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
-              </div>
-              <div>
-                  <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
-                  <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
-
-                  <a
-                          href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-                          target="_blank"
-                          class="footer-link me-4"
-                  >Documentation</a
-                  >
-
-                  <a
-                          href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-                          target="_blank"
-                          class="footer-link me-4"
-                  >Support</a
-                  >
-              </div>
-          </div>
-      </footer>
-      <!-- / Footer -->
-
-      <div class="content-backdrop fade"></div>
-  </div>
-    <!-- Content wrapper -->
-</div>
-<!-- / Layout page -->
-</div>
-
-<!-- Overlay -->
-<div class="layout-overlay layout-menu-toggle"></div>
-</div>
-<!-- / Layout wrapper -->
-
-<div class="buy-now">
-    <a
-            href="Index"
-            target="_blank"
-            class="btn btn-danger btn-buy-now"
-    >Quay lại trang shopping</a
-    >
-</div>
+    <div class="buy-now">
+        <a
+                href="Index"
+                target="_blank"
+                class="btn btn-danger btn-buy-now"
+        >Quay lại trang shopping</a
+        >
+    </div>
 </div>
 
 <!-- Core JS -->
@@ -356,7 +361,8 @@
                         console.log("product: " + product.productId)
                         const row = document.createElement('tr');
                         row.innerHTML =
-                            '<td id="id_product">' + product.productId + '</td>'
+                            '<td><input type="checkbox" name="selectedProducts" value="' + product.productId + '" /></td>'
+                            + '<td id="id_product">' + product.productId + '</td>'
                             + '<td><img style="width: 50px; height: 50px" alt="" src="/image/' + product.image + '"></td>'
                             + '<td>' + product.product_name + '</td>'
                             + '<td>' + product.category.categoryName + '</td>'
@@ -470,37 +476,43 @@
     }
 </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
 
-        function deleteItem(event){
-            var trElement = event.target.closest('tr');
+    function deleteItem(event){
+        var trElement = event.target.closest('tr');
 
-            // Check if <tr> element is found
-            if (!trElement) return;
+        // Check if <tr> element is found
+        if (!trElement) return;
 
-            // Get the id_import attribute value from the <td> element inside the <tr>
-            var idImport = trElement.querySelector('td[id="id_product"]').textContent;
-            // var idImport=this.parentElement.getElementById('id_import');
-            var confirmation = confirm("Bạn có chắc chắn muốn xóa không?");
-            if(confirmation){
-                $.ajax({
-                    url: "/DeleteProduct",
-                    type: "get",
-                    data:{id: idImport},
-                    success: function(response) {
-                        // Handle success response
-                        console.log("Item deleted successfully");
-                        // Optionally, you can update the UI here
-                        trElement.remove();
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle error response
-                        console.error("Failed to delete item", error);
-                    }
-                });
-            }
-
+        // Get the id_import attribute value from the <td> element inside the <tr>
+        var idImport = trElement.querySelector('td[id="id_product"]').textContent;
+        // var idImport=this.parentElement.getElementById('id_import');
+        var confirmation = confirm("Bạn có chắc chắn muốn xóa không?");
+        if(confirmation){
+            $.ajax({
+                url: "/DeleteProduct",
+                type: "get",
+                data:{id: idImport},
+                success: function(response) {
+                    // Handle success response
+                    console.log("Item deleted successfully");
+                    // Optionally, you can update the UI here
+                    trElement.remove();
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response
+                    console.error("Failed to delete item", error);
+                }
+            });
         }
-    </script>
+
+    }
+    function nocheck(){
+        if(document.querySelectorAll('input[type="checkbox"]:checked').length ==0 ){
+            alert("You haven't check");
+            return false;
+        }
+    }
+</script>
 </body>
