@@ -6,6 +6,11 @@
 
 
 <!DOCTYPE html>
+<style>
+    a{
+        text-decoration: none;
+    }
+</style>
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
         <a href="./AdminIndex" class="app-brand-link">
@@ -354,6 +359,7 @@
                 </li>
             </ul>
         </li>
+
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-detail"></i>
@@ -430,8 +436,8 @@
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="form-layouts-horizontal.html" class="menu-link">
-                        <div data-i18n="Horizontal Form">Huy don</div>
+                    <a href="HistoryChangeOrder" class="menu-link">
+                        <div data-i18n="Horizontal Form">Lịch sử sửa đổi trạng thái</div>
                     </a>
                 </li>
             </ul>

@@ -5,13 +5,15 @@ import java.sql.Date;
 
 public class Comment {
     private int commentid;
+    public int ratingid;
     private Product product;
     private User user;
     private String detailComment;
-    private Date dateComment;
+    private long dateComment;
 
-    public Comment(int commentid, Product product, User user, String detailComment, Date dateComment) {
+    public Comment(int commentid, int ratingid, Product product, User user, String detailComment, long dateComment) {
         this.commentid = commentid;
+        this.ratingid = ratingid;
         this.product = product;
         this.user = user;
         this.detailComment = detailComment;
@@ -20,6 +22,10 @@ public class Comment {
 
     public int getCommentid() {
         return commentid;
+    }
+
+    public int getRatingid() {
+        return ratingid;
     }
 
     public Product getProduct() {
@@ -34,12 +40,16 @@ public class Comment {
         return detailComment;
     }
 
-    public Date getDateComment() {
+    public long getDateComment() {
         return dateComment;
     }
 
     public void setCommentid(int commentid) {
         this.commentid = commentid;
+    }
+
+    public void setRatingid(int ratingid) {
+        this.ratingid = ratingid;
     }
 
     public void setProduct(Product product) {
@@ -54,7 +64,7 @@ public class Comment {
         this.detailComment = detailComment;
     }
 
-    public void setDateComment(Date dateComment) {
+    public void setDateComment(long dateComment) {
         this.dateComment = dateComment;
     }
 
@@ -62,6 +72,7 @@ public class Comment {
     public String toString() {
         return "Comment{" +
                 "commentid=" + commentid +
+                ", ratingid=" + ratingid +
                 ", product=" + product +
                 ", user=" + user +
                 ", detailComment='" + detailComment + '\'' +

@@ -48,14 +48,14 @@ public class OrderDAO extends AbsDAO<Order>{
                 String phone = rs.getString("phone");
                 String address = rs.getString("address");
                 int idPayment = rs.getInt("payment_id");
-                Date dateO = rs.getDate("booking_date");
+                Timestamp time = rs.getTimestamp("booking_date");
                 String note = rs.getString("note");
                 double shippingFee = rs.getDouble("shipping_fee");
                 int status = rs.getInt("status_id");
                 User u = new UserDAO().selectById(idUser);
                 Payment pay = new PaymentDAO().selectById(idPayment);
                 StatusOrder statusOrder = new StatusOrderDAO().selectById(status);
-                Order order = new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,dateO,note,shippingFee,statusOrder);
+                Order order = new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,time,note,shippingFee,statusOrder);
 
 
                 orders.add(order);
@@ -86,14 +86,14 @@ public class OrderDAO extends AbsDAO<Order>{
                 String phone = rs.getString("phone");
                 String address = rs.getString("address");
                 int idPayment = rs.getInt("payment_id");
-                Date dateO = rs.getDate("booking_date");
+                Timestamp time = rs.getTimestamp("booking_date");
                 String note = rs.getString("note");
                 double shippingFee = rs.getDouble("shipping_fee");
                 int statusId = rs.getInt("status_id");
                 User u = new UserDAO().selectById(idUser);
                 Payment pay = new PaymentDAO().selectById(idPayment);
                 StatusOrder statusOrder = new StatusOrderDAO().selectById(status);
-                Order order = new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,dateO,note,shippingFee,statusOrder);
+                Order order = new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,time,note,shippingFee,statusOrder);
                 orders.add(order);
             }
         }catch (Exception e){
@@ -142,14 +142,14 @@ public class OrderDAO extends AbsDAO<Order>{
                 String phone = rs.getString("phone");
                 String address = rs.getString("address");
                 int idPayment = rs.getInt("payment_id");
-                Date dateO = rs.getDate("booking_date");
+                Timestamp time = rs.getTimestamp("booking_date");
                 String note = rs.getString("note");
                 double shippingFee = rs.getDouble("shipping_fee");
                 int status = rs.getInt("status_id");
                 User u = new UserDAO().selectById(idUser);
                 Payment pay = new PaymentDAO().selectById(idPayment);
                 StatusOrder statusOrder = new StatusOrderDAO().selectById(status);
-                result= new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,dateO,note,shippingFee,statusOrder);
+                result= new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,time,note,shippingFee,statusOrder);
 
 
             }
@@ -162,17 +162,30 @@ public class OrderDAO extends AbsDAO<Order>{
         return result;
 
     }
-    public Order selectByUserId(int id) {
-        Order result = null;
+    public List<Order> selectByStatusIds(int... statusIds) {
+        List<Order> orders = new ArrayList<>();
+        Connection con = null;
 
         try {
+            con = JDBCUtil.getConnection();
 
-            Connection con = JDBCUtil.getConnection();
+            // Tạo câu truy vấn SQL động với số lượng điều kiện status_id tùy biến
+            StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM orders WHERE status_id IN (");
+            for (int i = 0; i < statusIds.length; i++) {
+                sqlBuilder.append("?");
+                if (i < statusIds.length - 1) {
+                    sqlBuilder.append(", ");
+                }
+            }
+            sqlBuilder.append(")");
 
-            String sql = "SELECT * FROM orders WHERE user_id =?";
+            PreparedStatement st = con.prepareStatement(sqlBuilder.toString());
 
-            PreparedStatement st = con.prepareStatement(sql);
-            st.setInt(1, id);
+            // Đặt giá trị cho các tham số status_id
+            for (int i = 0; i < statusIds.length; i++) {
+                st.setInt(i + 1, statusIds[i]);
+            }
+
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 int idImport = rs.getInt("order_id");
@@ -182,28 +195,71 @@ public class OrderDAO extends AbsDAO<Order>{
                 String phone = rs.getString("phone");
                 String address = rs.getString("address");
                 int idPayment = rs.getInt("payment_id");
-                Date dateO = rs.getDate("booking_date");
+                Timestamp time = rs.getTimestamp("booking_date");
                 String note = rs.getString("note");
                 double shippingFee = rs.getDouble("shipping_fee");
                 int status = rs.getInt("status_id");
                 User u = new UserDAO().selectById(idUser);
                 Payment pay = new PaymentDAO().selectById(idPayment);
                 StatusOrder statusOrder = new StatusOrderDAO().selectById(status);
-                result= new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,dateO,note,shippingFee,statusOrder);
-
-
+                Order order = new Order(idImport, u, totalPrice, userConsignee, phone, address, pay, time, note, shippingFee, statusOrder);
+                orders.add(order);
             }
-
-            JDBCUtil.closeConnection(con);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            JDBCUtil.closeConnection(con);
         }
 
-        return result;
-
+        return orders;
     }
-    public Order selectByUserIdAndStatusId(int userId, int statusId) {
-        Order result = null;
+
+    public List<Order> selectByUserId(int userId) {
+        List<Order> orders = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            con = JDBCUtil.getConnection();
+            String sql = "SELECT * FROM orders WHERE user_id = ?";
+            st = con.prepareStatement(sql);
+            st.setInt(1, userId);
+            rs = st.executeQuery();
+
+            while (rs.next()) {
+                int idImport = rs.getInt("order_id");
+                int idUser = rs.getInt("user_id");
+                double totalPrice = rs.getDouble("total_price");
+                String userConsignee = rs.getString("nameConsignee");
+                String phone = rs.getString("phone");
+                String address = rs.getString("address");
+                int idPayment = rs.getInt("payment_id");
+                Timestamp time = rs.getTimestamp("booking_date");
+                String note = rs.getString("note");
+                double shippingFee = rs.getDouble("shipping_fee");
+                int status = rs.getInt("status_id");
+
+                User u = new UserDAO().selectById(idUser);
+                Payment pay = new PaymentDAO().selectById(idPayment);
+                StatusOrder statusOrder = new StatusOrderDAO().selectById(status);
+
+                Order order = new Order(idImport, u, totalPrice, userConsignee, phone, address, pay, time, note, shippingFee, statusOrder);
+                orders.add(order);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try { if (rs != null) rs.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (st != null) st.close(); } catch (Exception e) { e.printStackTrace(); }
+            try { if (con != null) con.close(); } catch (Exception e) { e.printStackTrace(); }
+        }
+
+        return orders;
+    }
+
+    public List<Order> selectByUserIdAndStatusId(int userId, int statusId) {
+        List<Order> orders = new ArrayList<>();
 
         try {
 
@@ -223,14 +279,15 @@ public class OrderDAO extends AbsDAO<Order>{
                 String phone = rs.getString("phone");
                 String address = rs.getString("address");
                 int idPayment = rs.getInt("payment_id");
-                Date dateO = rs.getDate("booking_date");
+                Timestamp time = rs.getTimestamp("booking_date");
                 String note = rs.getString("note");
                 double shippingFee = rs.getDouble("shipping_fee");
                 int status = rs.getInt("status_id");
                 User u = new UserDAO().selectById(idUser);
                 Payment pay = new PaymentDAO().selectById(idPayment);
                 StatusOrder statusOrder = new StatusOrderDAO().selectById(status);
-                result= new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,dateO,note,shippingFee,statusOrder);
+                Order order = new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,time,note,shippingFee,statusOrder);
+                orders.add(order);
             }
 
             JDBCUtil.closeConnection(con);
@@ -238,9 +295,61 @@ public class OrderDAO extends AbsDAO<Order>{
             e.printStackTrace();
         }
 
-        return result;
+        return orders;
 
     }
+    public List<Order> selectByUserIdAndStatusIds(int userId, int... statusIds) {
+        List<Order> orders = new ArrayList<>();
+
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            // Tạo câu truy vấn SQL động với số lượng điều kiện status_id tùy biến
+            StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM orders WHERE user_id = ? AND status_id IN (");
+            for (int i = 0; i < statusIds.length; i++) {
+                sqlBuilder.append("?");
+                if (i < statusIds.length - 1) {
+                    sqlBuilder.append(", ");
+                }
+            }
+            sqlBuilder.append(")");
+
+            PreparedStatement st = con.prepareStatement(sqlBuilder.toString());
+            st.setInt(1, userId);
+
+            // Đặt giá trị cho các tham số status_id
+            for (int i = 0; i < statusIds.length; i++) {
+                st.setInt(i + 2, statusIds[i]);
+            }
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int idImport = rs.getInt("order_id");
+                int idUser = rs.getInt("user_id");
+                double totalPrice = rs.getDouble("total_price");
+                String userConsignee = rs.getString("nameConsignee");
+                String phone = rs.getString("phone");
+                String address = rs.getString("address");
+                int idPayment = rs.getInt("payment_id");
+                Timestamp time = rs.getTimestamp("booking_date");
+                String note = rs.getString("note");
+                double shippingFee = rs.getDouble("shipping_fee");
+                int status = rs.getInt("status_id");
+                User u = new UserDAO().selectById(idUser);
+                Payment pay = new PaymentDAO().selectById(idPayment);
+                StatusOrder statusOrder = new StatusOrderDAO().selectById(status);
+                Order order = new Order(idImport,u,totalPrice,userConsignee,phone,address,pay,time,note,shippingFee,statusOrder);
+                orders.add(order);
+            }
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return orders;
+    }
+
     @Override
     public int insert(Order order) {
         int result = 0;
@@ -248,7 +357,7 @@ public class OrderDAO extends AbsDAO<Order>{
             Connection con = JDBCUtil.getConnection();
 
             String sql = "INSERT INTO orders(order_id, user_id,total_price,nameConsignee,phone,address,payment_id,booking_date,note,shipping_fee,status_id)"
-                    + "VALUE(?, ?, ?, ?,?,?,?,?,?,?,?)";
+                    + "VALUES(?, ?, ?, ?,?,?,?,?,?,?,?)";
 
             PreparedStatement rs = con.prepareStatement(sql);
 
@@ -259,7 +368,7 @@ public class OrderDAO extends AbsDAO<Order>{
             rs.setString(5, order.getPhone());
             rs.setString(6, order.getAddress());
             rs.setDouble(7, order.getPayment().getPaymentId());
-            rs.setDate(8, order.getBookingDate());
+            rs.setTimestamp(8, order.getBookingDate());
             rs.setString(9, order.getNote());
             rs.setDouble(10, order.getShippingFee());
             rs.setInt(11,order.getStatus().getStatusId());
@@ -353,7 +462,7 @@ public class OrderDAO extends AbsDAO<Order>{
                 rs.setString(5, order.getPhone());
                 rs.setString(6, order.getAddress());
                 rs.setDouble(7, order.getPayment().getPaymentId());
-                rs.setDate(8, order.getBookingDate());
+                rs.setTimestamp(8, order.getBookingDate());
                 rs.setString(9, order.getNote());
                 rs.setDouble(10, order.getShippingFee());
                 rs.setInt(11,order.getStatus().getStatusId());

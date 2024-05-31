@@ -2,16 +2,19 @@ package database;
 
 import model.Comment;
 import model.Product;
+import model.Rating;
 import model.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
-import java.sql.Date;
 
 public class CommentDAO implements DAOInterface<Comment> {
+    private ArrayList<Comment> data = new ArrayList<>();
+
+    public int creatId() {
+        data = selectAll();
+        return data.size();
+    }
 
     @Override
     public ArrayList<Comment> selectAll() {
@@ -32,14 +35,15 @@ public class CommentDAO implements DAOInterface<Comment> {
             while (rs.next()) {
 
                 int idcomment = rs.getInt("comment_id");
+                int idrating = rs.getInt("rating_id");
                 int idproduct = rs.getInt("product_id");
                 int iduser = rs.getInt("user_id");
                 String detailcomment = rs.getString("detail_comment");
-                Date datec = rs.getDate("date_comment");
+                Long datecomment = rs.getTimestamp("date_comment").getTime();
+
                 Product pr = new ProductDAO().selectById(idproduct);
                 User use = new UserDAO().selectById(iduser);
-
-                Comment co = new Comment(idcomment,pr,use,detailcomment,datec);
+                Comment co = new Comment(idcomment,idrating,pr,use,detailcomment,datecomment);
 
 
                 comments.add(co);
@@ -69,13 +73,17 @@ public class CommentDAO implements DAOInterface<Comment> {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 int idcomment = rs.getInt("comment_id");
+                int idrating = rs.getInt("rating_id");
+
                 int idproduct = rs.getInt("product_id");
                 int iduser = rs.getInt("user_id");
                 String detailcomment = rs.getString("detail_comment");
-                Date datec = rs.getDate("date_comment");
+                Long datecomment = rs.getTimestamp("date_comment").getTime();
+                Rating ra = new RatingDAO().selectById(idrating);
+
                 Product pr = new ProductDAO().selectById(idproduct);
                 User use = new UserDAO().selectById(iduser);
-                result = new Comment(idcomment,pr,use,detailcomment,datec);
+                result = new Comment(idcomment,idrating,pr,use,detailcomment,datecomment);
 
             }
 
@@ -92,17 +100,20 @@ public class CommentDAO implements DAOInterface<Comment> {
         int result = 0;
         try {
             Connection con = JDBCUtil.getConnection();
+            Timestamp dateComment = new Timestamp(comment.getDateComment() * 1000);
 
-            String sql = "INSERT INTO comments(comment_id,product_id,user_id,detail_comment,date_comment)"
-                    + "VALUE(?, ?, ?, ?, ?)";
+
+            String sql = "INSERT INTO comments(comment_id,rating_id,product_id,user_id,detail_comment,date_comment)"
+                    + "VALUE(?,?, ?, ?, ?, ?)";
 
             PreparedStatement rs = con.prepareStatement(sql);
 
             rs.setInt(1, comment.getCommentid());
-            rs.setInt(2,comment.getProduct().getProductId());
-            rs.setInt(3,comment.getUser().getUserId());
-            rs.setString(4,comment.getDetailComment());
-            rs.setDate(5,  comment.getDateComment());
+            rs.setInt(2,comment.getRatingid());
+            rs.setInt(3,comment.getProduct().getProductId());
+            rs.setInt(4,comment.getUser().getUserId());
+            rs.setString(5,comment.getDetailComment());
+            rs.setTimestamp(6, dateComment);
 
             result = rs.executeUpdate();
 
@@ -167,7 +178,8 @@ public class CommentDAO implements DAOInterface<Comment> {
             try {
                 Connection con = JDBCUtil.getConnection();
 
-                String sql = "UPDATE comments SET product_id=? " +
+                String sql = "UPDATE comments SET" + "rating_id=? " +
+                        " product_id=? " +
                         ", user_id=? " +
                         ", detail_comment=? " +
                         ", date_comment=? " +
@@ -177,10 +189,12 @@ public class CommentDAO implements DAOInterface<Comment> {
                 PreparedStatement rs = con.prepareStatement(sql);
 
                 rs.setInt(1, comment.getCommentid());
-                rs.setInt(2,comment.getProduct().getProductId());
-                rs.setInt(3,comment.getUser().getUserId());
-                rs.setString(4,comment.getDetailComment());
-                rs.setDate(5, (Date) comment.getDateComment());
+                rs.setInt(2,comment.getRatingid());
+                rs.setInt(3,comment.getProduct().getProductId());
+                rs.setInt(4,comment.getUser().getUserId());
+                rs.setString(5,comment.getDetailComment());
+                rs.setLong(6, comment.getDateComment());
+
 
 
                 result = rs.executeUpdate();

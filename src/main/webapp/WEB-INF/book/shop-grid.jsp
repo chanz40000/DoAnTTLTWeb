@@ -202,8 +202,10 @@
                     <div class="sidebar__item">
                         <h4>Department</h4>
                         <ul>
+                            <li><a id="all-category" href="#" class="category-link" data-category="">All</a>
+                            </li>
                             <c:forEach var="ca" items="${list}">
-                                <li><a href="FilterCategory?caname=${ca.categoryName}" data-category-name="${ca.categoryName}" class="category-link">${ca.categoryName}</a></li>
+                                <li><a href="#" data-category="${ca.categoryName}" class="category-link">${ca.categoryName}</a></li>
                             </c:forEach>
                         </ul>
                     </div>
@@ -500,18 +502,17 @@
                     </div>
                 </div>
 
-
                 <div class="row" id="row">
                     <c:forEach var="p" items="${listProduct}">
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
 
                                 <div class="product__item__pic">
-                                    <img class="product-image" src="/image/${p.image}" alt="${p.product_name}">
-<%--=======--%>
-<%--                                <div class="product__item__pic set-bg" > <!--data-setbg=""-->--%>
-<%--                                    <img data-src="img/image/${p.image}" lazy>--%>
-<%-->>>>>>> main--%>
+                                    <img class="product-image" lazy data-src="/image/${p.image}" width="180px" height="250px" alt="${p.product_name}">
+                                        <%--=======--%>
+                                        <%--                                <div class="product__item__pic set-bg" > <!--data-setbg=""-->--%>
+                                        <%--                                    <img data-src="img/image/${p.image}" lazy>--%>
+                                        <%-->>>>>>> main--%>
                                     <ul class="product__item__pic__hover">
                                         <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                         <li><a href="Shopdetails?id=${p.productId}"><i class="fa fa-info-circle"></i></a></li>
@@ -521,7 +522,7 @@
                                                 <button class="submit-button" type="submit">
                                                     <c:choose>
                                                         <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
-                                                            <a href="#"><i class="fa fa-shopping-cart"></i></a>
+                                                            <a href=""><i class="fa fa-shopping-cart"></i></a>
                                                         </c:when>
                                                         <c:otherwise>
                                                             <a href="Login"><i class="fa fa-shopping-cart"></i></a>
@@ -534,19 +535,8 @@
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><a href="#">${p.product_name}</a></h6>
-                                    <c:set var="digitImages" value="${{
-    '0': 'img/image/number.0 rating.png',
-    '1': 'img/image/number.1 rating.png',
-    '2': 'img/image/number.2 rating.png',
-    '3': 'img/image/number.3 rating.png',
-    '4': 'img/image/number.4 rating.png',
-    '5': 'img/image/number.5 rating.png',
-    '6': 'img/image/number.6 rating.png',
-    '7': 'img/image/number.7 rating.png',
-    '8': 'img/image/number.8 rating.png',
-    '9': 'img/image/number.9 rating.png'
-}}" />
+                                    <h6>${p.product_name}</h6>
+
 
                                     <ul class="Ratestar">
                                         <c:set var="averageRating" value="${rating.getAverageRatingByProductId(p.productId)}" />
@@ -572,7 +562,7 @@
                                                         <img data-src="img/image/number.0 rating.png" lazy width="16px" height="16px">
                                                     </c:forEach>
                                                     <c:set var="decimalPartRounded" value="${Math.round(decimalPart * 10)}" />
-                                                    <img src="img/image/number.${decimalPartRounded} rating.png" width="16px" height="16px" alt="">
+                                                    <img data-src="img/image/number.${decimalPartRounded} rating.png" lazy width="16px" height="16px" alt="">
                                                     <c:forEach var="digit" begin="${integerPart + 2}" end="5">
                                                         <img data-src="img/image/number not rating.png" lazy width="16px" height="16px">
                                                     </c:forEach>
@@ -597,26 +587,30 @@
                 </div>
 
 
-                <c:set var="page" value="${sessionScope.page}" />
-                <c:set var="num" value="${sessionScope.num}" />
 
                 <div class="product__pagination" style="padding-left: 300px">
+
+                    <c:set var="page" value="${sessionScope.page}" />
+                    <c:set var="num" value="${sessionScope.num}" />
+                    <c:set var="selectedCategory" value="${sessionScope.selectedCategory}" />
 
                     <c:choose>
                         <c:when test="${not empty param.productName}">
                             <c:if test="${page eq 1}">
-                                <a href="" class="active">1</a>
+                                <a href="#" class="pagination-link active" data-page="1">1</a>
                             </c:if>
                         </c:when>
                         <c:otherwise>
                             <c:forEach begin="1" end="${num}" var="i">
                                 <c:url value="/Shopgrid" var="pageUrl">
                                     <c:param name="page" value="${i}" />
+                                    <c:param name="category" value="${selectedCategory}" />
                                 </c:url>
-                                <a href="${pageUrl}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>
+                                <a class="pagination-link" href="${pageUrl}" data-page="${i}" data-category="${selectedCategory}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>
                             </c:forEach>
                         </c:otherwise>
                     </c:choose>
+
                 </div>
             </div>
         </div>
@@ -705,31 +699,82 @@
 
 
 <script>
-    $(document).ready(function() {
-        // Khi người dùng gõ từ vào ô input
-        $('#productName').on('input', function() {
-            searchByName(this);
+    document.addEventListener('DOMContentLoaded', () => {
+        // Lazy loading function
+        function initializeLazyLoading() {
+            const lazyImages = document.querySelectorAll('[lazy]');
+
+            // Observer to check when images appear on screen
+            const lazyImageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const lazyImage = entry.target;
+                        const src = lazyImage.dataset.src;
+
+                        if (lazyImage.tagName.toLowerCase() === 'img') {
+                            // If it's an <img> tag, set src attribute
+                            lazyImage.src = src;
+                        } else {
+                            // If it's a <div> tag, set background-image
+                            lazyImage.style.backgroundImage = `url('${src}')`;
+                        }
+
+                        // Remove the lazy attribute
+                        lazyImage.removeAttribute('lazy');
+
+                        // Stop observing this image
+                        observer.unobserve(lazyImage);
+                    }
+                });
+            });
+
+            // Observe each lazy image
+            lazyImages.forEach((lazyImage) => {
+                lazyImageObserver.observe(lazyImage);
+            });
+        }
+
+        // Initialize lazy loading when the document is ready
+        initializeLazyLoading();
+
+        // Search function
+        function searchByName(param) {
+            var txtSearch = $(param).val();
+            console.log("Searching by name: " + txtSearch);
+
+            if (txtSearch.trim() === "") {
+                txtSearch = "";
+            }
+
+            $.ajax({
+                url: "/SearchByAjax",
+                type: "GET",
+                data: {
+                    productName: txtSearch
+                },
+                success: function(response) {
+                    var newSearch = $(response).find('#row').html();
+                    var newPaginationSearch = $(response).find('.product__pagination').html();
+                    $('#row').html(newSearch);
+                    $('.product__pagination').html(newPaginationSearch);
+
+                    // Reinitialize lazy loading for the new content
+                    initializeLazyLoading();
+                },
+                error: function(xhr) {
+                    console.error("Error during AJAX request: " + xhr.status + " " + xhr.statusText);
+                }
+            });
+        }
+
+        // Event listener for input changes
+        $(document).ready(function() {
+            $('#productName').on('input', function() {
+                searchByName(this);
+            });
         });
     });
 
-    function searchByName(param) {
-        var txtSearch = $(param).val(); // Sử dụng jQuery để lấy giá trị của ô input
-        console.log("Đang tìm kiếm theo tên: " + txtSearch); // In ra thông điệp trước khi gửi request
-
-        $.ajax({
-            url: "http://localhost:8080/SearchByAjax", // Sửa đường dẫn thành SearchByAjax
-            type: "GET", // Sửa thành GET để gửi thông tin qua phương thức GET
-            data: {
-                productName: txtSearch
-            },
-            success: function(data) {
-                $('#row').html(data); // Sử dụng jQuery để thay đổi nội dung của phần tử có id là 'row'
-            },
-            error: function(xhr) {
-                // Xử lý lỗi nếu cần
-            }
-        });
-    }
 </script>
 <script>
     $(document).ready(function() {
@@ -779,27 +824,149 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
-        $(".add-to-cart-form").on("submit", function (event) {
-            event.preventDefault();
-            var form = $(this);
+    // $(document).ready(function () {
+    //     $(".add-to-cart-form").on("submit", function (event) {
+    //         event.preventDefault();
+    //         var form = $(this);
+    //         $.ajax({
+    //             type: "POST",
+    //             url: form.attr("action"),
+    //             data: form.serialize(),
+    //             success: function (data) {
+    //                 alert("Đã đặt hàng thành công!");
+    //                 var currentQuantity = parseInt($(".cart-item-count").text(), 10);
+    //                 var newQuantity = currentQuantity + 1;
+    //                 $(".cart-item-count").text(newQuantity);
+    //             },
+    //             error: function (error) {
+    //                 console.log("Error:", error);
+    //                 alert("Đã đặt lỗi");
+    //             }
+    //         });
+    //     });
+    // });
+</script>
+<script>
+    $(document).ready(function() {
+        function initializeLazyLoading() {
+            const lazyImages = document.querySelectorAll('[lazy]');
+            const lazyImageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const lazyImage = entry.target;
+                        const src = lazyImage.dataset.src;
+                        if (lazyImage.tagName.toLowerCase() === 'img') {
+                            lazyImage.src = src;
+                        } else {
+                            lazyImage.style.backgroundImage = `url('${src}')`;
+                        }
+                        lazyImage.removeAttribute('lazy');
+                        observer.unobserve(lazyImage);
+                    }
+                });
+            });
+            lazyImages.forEach((lazyImage) => {
+                lazyImageObserver.observe(lazyImage);
+            });
+        }
+
+        function initializeAddToCart() {
+            $(".add-to-cart-form").on("submit", function(event) {
+                event.preventDefault();
+                var form = $(this);
+                <c:if test="${sessionScope.userC.name == null}">
+                alert("Bạn cần đăng nhập để mua hàng.");
+                window.location.href = "Login"; // Đường dẫn đến trang đăng nhập của bạn
+                return;
+                </c:if>
+
+                $.ajax({
+                    type: "POST",
+                    url: form.attr("action"),
+                    data: form.serialize(),
+                    success: function (data) {
+                        alert("Đã đặt hàng thành công!");
+                        var currentQuantity = parseInt($(".cart-item-count").text(), 10);
+                        var newQuantity = currentQuantity + 1;
+                        $(".cart-item-count").text(newQuantity);
+                    },
+                    error: function (error) {
+                        console.error("Error:", error);
+                        alert("Đã đặt lỗi");
+                    }
+                });
+            });
+        }
+
+        // Biến lưu trữ danh mục hiện tại
+        let currentCategory = null;
+
+        // Xử lý sự kiện phân trang
+        $(document).on('click', '.pagination-link', function (e) {
+            e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+            var page = $(this).data('page');
+            loadProducts(page, currentCategory);
+        });
+
+        // Xử lý sự kiện chọn mục sản phẩm
+        $(document).on('click', '.category-link', function(e) {
+            e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+            var category = $(this).data('category');
+            if (category === '') { // Check if the category is 'All'
+                currentCategory = null;
+            } else {
+                currentCategory = category;
+            }
+            loadProducts(1, currentCategory); // Trang đầu tiên khi chọn một danh mục sản phẩm
+        });
+
+        // Hàm tải sản phẩm
+        function loadProducts(page, category) {
             $.ajax({
-                type: "POST",
-                url: form.attr("action"),
-                data: form.serialize(),
-                success: function (data) {
-                    alert("Đã đặt hàng thành công!");
-                    var currentQuantity = parseInt($(".cart-item-count").text(), 10);
-                    var newQuantity = currentQuantity + 1;
-                    $(".cart-item-count").text(newQuantity);
+                url: 'Shopgrid',
+                type: 'GET',
+                data: {
+                    page: page,
+                    category: category
                 },
-                error: function (error) {
-                    console.log("Error:", error);
-                    alert("Đã đặt lỗi");
+                success: function(response) {
+                    var newContent = $(response).find('#row').html();
+                    var newPagination = $(response).find('.pagination').html();
+                    $('#row').html(newContent);
+                    $('.pagination').html(newPagination);
+
+                    initializeLazyLoading();
+                    initializeAddToCart();
+
+
+                    // Cuộn lên đầu trang sau khi cập nhật nội dung
+                    $('html, body').animate({ scrollTop: $('#row').offset().top }, 'fast');
+
+                    // Update 'num' based on the number of products in the current category
+                    // var num = Math.ceil(($(response).find('.product-item').length) / numpage);
+                    // session.setAttribute("num", num);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Lỗi khi tải sản phẩm:', error);
                 }
             });
-        });
+        }
+
+        initializeLazyLoading();
+        initializeAddToCart();
     });
+
+
+
+
+
+
+
+
+
+    // Laad de initiële productenlijst
+
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
 
