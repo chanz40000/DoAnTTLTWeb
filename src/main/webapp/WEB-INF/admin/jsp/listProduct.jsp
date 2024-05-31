@@ -381,7 +381,7 @@
                             + '<a class="dropdown-item" href="./ChangeInformationProduct?id=' + product.productId + '">'
                             + '<i class="bx bx-edit-alt me-1"></i> Sửa'
                             + '</a>'
-                            + '<a class="dropdown-item" href="#" onclick="deleteItem(event)">'
+                            + '<a class="dropdown-item" href="" onclick="deleteItem(event)">'
                             + ' <i class="bx bx-trash me-1"></i> Xóa'
                             + '</a>'
                             + '</div>'

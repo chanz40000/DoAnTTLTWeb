@@ -264,40 +264,40 @@
                              src="/image/${detail.image}" alt="">
 
                     </div>
-<%--                    <div class="product__details__pic__slider owl-carousel">--%>
-<%--                        <c:forEach items="${Products}" var="pca">--%>
-<%--                            <img src="/image/${pca.image}"--%>
-<%--                        </c:forEach>--%>
-<%--                    </div>--%>
+                    <%--                    <div class="product__details__pic__slider owl-carousel">--%>
+                    <%--                        <c:forEach items="${Products}" var="pca">--%>
+                    <%--                            <img src="/image/${pca.image}"--%>
+                    <%--                        </c:forEach>--%>
+                    <%--                    </div>--%>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">
                 <div class="product__details__text">
-<%--<<<<<<< HEAD--%>
-<%--                    <h3>${detail.getProduct_name()}</h3>--%>
-<%--                    <div class="product__details__rating">--%>
-<%--                        <i class="fa fa-star"></i>--%>
-<%--                        <i class="fa fa-star"></i>--%>
-<%--                        <i class="fa fa-star"></i>--%>
-<%--                        <i class="fa fa-star"></i>--%>
-<%--                        <i class="fa fa-star-half-o"></i>--%>
-<%--                        <span>(18 reviews)</span>--%>
-<%--                    </div>--%>
-<%--                    <div class="product__details__price">${detail.getPrice()}</div>--%>
-<%--                    <p>${detail.getDescription()}</p>--%>
-<%--                    <div class="product__details__quantity">--%>
-<%--                        <div class="quantity">--%>
-<%--                            <div class="pro-qty">--%>
-<%--                                <input type="text" value="1">--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                    <a href="#" class="primary-btn">ADD TO CARD</a>--%>
-<%--                    <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>--%>
-<%--                    <br>--%>
-<%--                    <b>Ý kiến sản phẩm</b>--%>
-<%--=======--%>
-                    <form action="RatingProduct" method="post">
+                    <%--<<<<<<< HEAD--%>
+                    <%--                    <h3>${detail.getProduct_name()}</h3>--%>
+                    <%--                    <div class="product__details__rating">--%>
+                    <%--                        <i class="fa fa-star"></i>--%>
+                    <%--                        <i class="fa fa-star"></i>--%>
+                    <%--                        <i class="fa fa-star"></i>--%>
+                    <%--                        <i class="fa fa-star"></i>--%>
+                    <%--                        <i class="fa fa-star-half-o"></i>--%>
+                    <%--                        <span>(18 reviews)</span>--%>
+                    <%--                    </div>--%>
+                    <%--                    <div class="product__details__price">${detail.getPrice()}</div>--%>
+                    <%--                    <p>${detail.getDescription()}</p>--%>
+                    <%--                    <div class="product__details__quantity">--%>
+                    <%--                        <div class="quantity">--%>
+                    <%--                            <div class="pro-qty">--%>
+                    <%--                                <input type="text" value="1">--%>
+                    <%--                            </div>--%>
+                    <%--                        </div>--%>
+                    <%--                    </div>--%>
+                    <%--                    <a href="#" class="primary-btn">ADD TO CARD</a>--%>
+                    <%--                    <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>--%>
+                    <%--                    <br>--%>
+                    <%--                    <b>Ý kiến sản phẩm</b>--%>
+                    <%--=======--%>
+                    <form action="RatingProduct" class="RatingPr" method="post">
                         <input type="hidden" name="pid" value=${detail.productId}>
                         <h3>${detail.getProduct_name()}</h3>
                         <c:set var="digitImages" value="${{
@@ -469,94 +469,14 @@
                             <b>2 Nhận xét sản phẩm</b>
 
                             <div class="commentarea">
-                                <textarea placeholder="Your message" class="textareacomment"  name="textarearating"></textarea>
+                                <label>
+                                    <textarea placeholder="Your message" class="textareacomment"  name="textarearating"></textarea>
+                                </label>
                                 <br>
                                 <button type="submit" class="btn-send">SEND MESSAGE</button>
                             </div>
                         </div>
-                        <%--                    <div class="col-lg-12">--%>
 
-
-
-                        <%--                        <div class="product__details__tab">--%>
-                        <%--                            <ul class="nav nav-tabs" role="tablist">--%>
-                        <%--                                <li class="nav-item">--%>
-                        <%--                                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"--%>
-                        <%--                                       aria-selected="true">Description</a>--%>
-                        <%--                                </li>--%>
-                        <%--                                <li class="nav-item">--%>
-                        <%--                                    <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"--%>
-                        <%--                                       aria-selected="false">Information</a>--%>
-                        <%--                                </li>--%>
-                        <%--                                <li class="nav-item">--%>
-                        <%--                                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"--%>
-                        <%--                                       aria-selected="false">Reviews <span>(1)</span></a>--%>
-                        <%--                                </li>--%>
-                        <%--                            </ul>--%>
-                        <%--                            <div class="tab-content">--%>
-                        <%--                                <div class="tab-pane active" id="tabs-1" role="tabpanel">--%>
-                        <%--                                    <div class="product__details__tab__desc">--%>
-                        <%--                                        <h6>Products Infomation</h6>--%>
-                        <%--                                        <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.--%>
-                        <%--                                            Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Vivamus--%>
-                        <%--                                            suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam--%>
-                        <%--                                            vehicula elementum sed sit amet dui. Donec rutrum congue leo eget malesuada.--%>
-                        <%--                                            Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat,--%>
-                        <%--                                            accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a--%>
-                        <%--                                            pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet quam vehicula--%>
-                        <%--                                            elementum sed sit amet dui. Vestibulum ante ipsum primis in faucibus orci luctus--%>
-                        <%--                                            et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam--%>
-                        <%--                                            vel, ullamcorper sit amet ligula. Proin eget tortor risus.</p>--%>
-                        <%--                                        <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem--%>
-                        <%--                                            ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet--%>
-                        <%--                                            elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum--%>
-                        <%--                                            porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus--%>
-                        <%--                                            nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.--%>
-                        <%--                                            Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Sed--%>
-                        <%--                                            porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum--%>
-                        <%--                                            sed sit amet dui. Proin eget tortor risus.</p>--%>
-                        <%--                                    </div>--%>
-                        <%--                                </div>--%>
-                        <%--                                <div class="tab-pane" id="tabs-2" role="tabpanel">--%>
-                        <%--                                    <div class="product__details__tab__desc">--%>
-                        <%--                                        <h6>Products Infomation</h6>--%>
-                        <%--                                        <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.--%>
-                        <%--                                            Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.--%>
-                        <%--                                            Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam--%>
-                        <%--                                            sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo--%>
-                        <%--                                            eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.--%>
-                        <%--                                            Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent--%>
-                        <%--                                            sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac--%>
-                        <%--                                            diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante--%>
-                        <%--                                            ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;--%>
-                        <%--                                            Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.--%>
-                        <%--                                            Proin eget tortor risus.</p>--%>
-                        <%--                                        <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem--%>
-                        <%--                                            ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet--%>
-                        <%--                                            elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum--%>
-                        <%--                                            porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus--%>
-                        <%--                                            nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>--%>
-                        <%--                                    </div>--%>
-                        <%--                                </div>--%>
-                        <%--                                <div class="tab-pane" id="tabs-3" role="tabpanel">--%>
-                        <%--                                    <div class="product__details__tab__desc">--%>
-                        <%--                                        <h6>Products Infomation</h6>--%>
-                        <%--                                        <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.--%>
-                        <%--                                            Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.--%>
-                        <%--                                            Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam--%>
-                        <%--                                            sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo--%>
-                        <%--                                            eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.--%>
-                        <%--                                            Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent--%>
-                        <%--                                            sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac--%>
-                        <%--                                            diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante--%>
-                        <%--                                            ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;--%>
-                        <%--                                            Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.--%>
-                        <%--                                            Proin eget tortor risus.</p>--%>
-                        <%--                                    </div>--%>
-                        <%--                                </div>--%>
-                        <%--                            </div>--%>
-                        <%--                        </div>--%>
-                        <%--                    </div>--%>
                     </form>
 
                 </div>
@@ -596,39 +516,22 @@
                         <img id="personrate" src="img/image/number.0 rating.png"  width="14px" height="14px" alt="">
                     </c:forEach>
                     <br>
-                    <c:if test="${not empty usera.ratingtext}">
-                        <span>${usera.ratingtext}</span><br>
-                        <button id="buttoncomment${loopStatus.index}"><i class="fa-regular fa-comment"></i> Bình luận</button>
-                        <div class="reply-comment__wrapper${loopStatus.index}">
-                            <form action="" method="">
-                                <div style="min-height: 40px;">
-                                    <input type="hidden" name="productid" value="${usera.product.productId}">
-                                    <input type="hidden" name="ratingid" value="${usera.ratingId}">
-                                    <textarea placeholder="Viết bình luận" class="reply-comment__input" name="detailcomment" rows="1" style="height: 40px;"></textarea>
-                                    <button type="submit" class="custom-button"></button>
 
-                                </div>
-                            </form>
-                        </div>
-                        <hr>
-                    </c:if>
-                    <c:if test="${empty usera.ratingtext}">
-                        <button id="buttoncomment${loopStatus.index}"><i class="fa-regular fa-comment"></i> Bình luận</button>
-                        <div class="reply-comment__wrapper${loopStatus.index}">
+                    <span>${usera.ratingtext}</span><br>
+                    <button id="buttoncomment${loopStatus.index}"><i class="fa-regular fa-comment"></i> Bình luận</button>
+                    <div class="reply-comment__wrapper${loopStatus.index}">
+                        <form action="CommentRating" class="CommentRa" method="post">
+                            <div style="min-height: 40px;">
+                                <input type="hidden" name="productid" value="${usera.product.productId}">
+                                <input type="hidden" name="ratingid" value="${usera.ratingId}">
+                                <textarea placeholder="Viết bình luận" class="reply-comment__input" name="detailcomment" rows="1" style="height: 40px;"></textarea>
+                                <button type="submit" class="custom-button"></button>
 
-                            <form action="" method="">
-                                <div style="min-height: 40px;">
-                                    <input type="hidden" name="productid" value="${usera.product.productId}">
-                                    <input type="hidden" name="ratingid" value="${usera.ratingId}">
-                                    <textarea placeholder="Viết bình luận" class="reply-comment__input" name="detailcomment" rows="1" style="height: 40px;"></textarea>
-                                    <button type="submit" class="custom-button"></button>
+                            </div>
+                        </form>
+                    </div>
+                    <hr>
 
-                                </div>
-                            </form>
-                        </div>
-
-                        <hr>
-                    </c:if>
                 </div>
             </c:forEach>
         </div>
@@ -650,7 +553,7 @@
                     <c:param name="id" value="${productid}" />
                     <c:param name="pageR" value="${i}" />
                 </c:url>
-                <a href="${pageUrl}" <c:if test="${i == pageR}">class="active"</c:if>>${i}</a>
+                <a href="${pageUrl}" data-page="${i}" class="pagination-link" data-product="${productid}"<c:if test="${i == pageR}">class="active"</c:if>>${i}</a>
             </c:forEach>
         </c:otherwise>
     </c:choose>
@@ -904,32 +807,93 @@
 
 </script>
 <script>
-    // // Select all buttons with the id "buttoncomment"
-    // const toggleButtons = document.querySelectorAll("#buttoncomment");
-    //
-    // // Add an event listener to each button
-    // toggleButtons.forEach(button => {
-    //     const replyWrapper = button.closest(".reply-comment__wrapper");
-    //     button.addEventListener("click", function (){
-    //         toggleReplies(replyWrapper);
-    //     });
-    // });
-    //
-    // function toggleReplies(replyWrapper) {
-    //     const replies = document.querySelectorAll(".reply-comment__wrapper");
-    //     replies.forEach(item => {
-    //         if (item !== replyWrapper) {
-    //             item.classList.remove("show");
-    //         } else {
-    //             item.classList.toggle("show");
-    //         }
-    //     });
-    // }
+    $(document).ready(function() {
+        $('.pagination-link').click(function(e) {
+            e.preventDefault();
+            var pageR = $(this).data('page');
+            var productid = $(this).data('product');
+            loadRatings(pageR, productid);
+        });
+    });
+
+    function loadRatings(pageR, productid) {
+        $.ajax({
+            url: '/Shopdetails',
+            type: 'GET',
+            data: {
+                id: productid,
+                pageR: pageR
+            },
+            success: function(response) {
+                const newRatings = $(response).find('.phanbinhluan').html();
+                $('.phanbinhluan').html(newRatings);
+
+                // Scroll to the top of the ratings section after updating content
+                $('html, body').animate({ scrollTop: $('.phanbinhluan').offset().top }, 'fast');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error loading ratings:', error);
+            }
+        });
+    }
 
 
 
 </script>
+<script>
 
+    $(document).ready(function() {
+        $('.RatingPr').on("submit", function (e) {
+            e.preventDefault(); // Prevent default form submission
+            let form = $(this);
+
+            $.ajax({
+                url: form.attr("action"), // Replace with your servlet URL
+                type: 'POST',
+                data: form.serialize(),
+                success: function(response) {
+                    const newRatings = $(response).find('.phanbinhluan').html();
+                    $('.phanbinhluan').html(newRatings);
+
+                    // Scroll to the top of the ratings section after updating content
+                    $('html, body').animate({ scrollTop: $('.phanbinhluan').offset().top }, 'fast');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error loading ratings:', error);
+                }
+            });
+        })
+    })
+
+
+</script>
+<script>
+
+    $(document).ready(function() {
+        $('.CommentRa').on("submit", function (e) {
+            e.preventDefault(); // Prevent default form submission
+            let form = $(this);
+
+            $.ajax({
+                url: form.attr("action"), // Replace with your servlet URL
+                type: 'POST',
+                data: form.serialize(),
+                success: function(response) {
+                    const newRatings = $(response).find('.phanbinhluan').html();
+                    $('.phanbinhluan').html(newRatings);
+
+                    // Scroll to the top of the ratings section after updating content
+                    $('html, body').animate({ scrollTop: $('.phanbinhluan').offset().top }, 'fast');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error loading ratings:', error);
+                }
+            });
+        })
+    })
+
+
+</script>
 </body>
 
 </html>
