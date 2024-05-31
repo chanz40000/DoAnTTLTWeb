@@ -730,6 +730,34 @@ public class ProductDAO extends AbsDAO<Product> {
         }
         return result;
     }
+
+    //top 5 san pham ban chay nhat
+
+    public Map<Integer, Integer> topNBestProduct(int top){
+        //sl ton kho
+        Map<Integer, Integer>result=new HashMap<>();
+
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT product_id, SUM(quantity) as tong\n" +
+                    "FROM orderdetails\n" +
+                    "GROUP BY product_id\n" +
+                    "ORDER BY tong DESC\n" +
+                    "LIMIT ?;";
+            PreparedStatement pre = con.prepareStatement(sql);
+            pre.setInt(1, top);
+            ResultSet res = pre.executeQuery();
+            while (res.next()){
+                int id_product = res.getInt("product_id");
+                int sumQuantity = res.getInt("tong");
+                result.put(id_product, sumQuantity);
+            }
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
 //<<<<<<< HEAD
 //    return result;
 //}
@@ -966,11 +994,12 @@ public class ProductDAO extends AbsDAO<Product> {
     }
 
     public static void main(String[] args) {
-        ArrayList<Integer> list;
-        list = new ProductDAO().needImport();
-        for (Integer p:list){
-            System.out.println(p);
-        }
+        Map<Integer, Integer> list;
+        list = new ProductDAO().topNBestProduct(4);
+
+
+        int x = list.get(0).intValue();
+        System.out.println("x"+x);
     }
 
 //    public ArrayList<Product> selectByCategoryName(String categoryname) {
