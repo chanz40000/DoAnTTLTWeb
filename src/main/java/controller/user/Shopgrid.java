@@ -16,18 +16,15 @@ import java.util.List;
 public class Shopgrid extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //list danh sach cua the loai sach
         CategoryDAO categoryDAO = new CategoryDAO();
-        ArrayList<Category> categories =categoryDAO.selectAll();
+        ArrayList<Category> categories = categoryDAO.selectAll();
         HttpSession session = request.getSession();
-        session.setAttribute("list",categories);
-        //list danh sach cua san pham
+        session.setAttribute("list", categories);
+
         ProductDAO productDAO = new ProductDAO();
         ArrayList<Product> products = productDAO.selectAll();
 
-
         int page, numpage = 12;
-
         int size = products.size();
         int num = (size % numpage == 0) ? (size / numpage) : ((size / numpage) + 1);
         String xpage = request.getParameter("page");
@@ -46,8 +43,15 @@ public class Shopgrid extends HttpServlet {
         session.setAttribute("listProducts", products);
         session.setAttribute("page", page);
         session.setAttribute("num", num);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/book/shop-grid.jsp");
-        dispatcher.forward(request, response);
+
+        String accept = request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            response.setContentType("application/json");
+            // Return JSON if needed
+        } else {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/book/shop-grid.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 
     @Override
