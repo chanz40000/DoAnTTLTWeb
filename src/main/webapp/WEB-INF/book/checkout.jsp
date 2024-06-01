@@ -244,6 +244,7 @@
     <div class="checkout__input__checkbox" style="display: flex;">
         <label style="margin-left: -15px">Phương thức thanh toán</label>
         <div style="margin-left: 20px; margin-top: -10px">
+
             <select name="payment" id="payment" title="Select Category">
                 <c:forEach items="${paymentDAO.selectAll()}" var="c">
                     <option value="${c.paymentId}">${c.paymentName}</option>

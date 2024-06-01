@@ -2,10 +2,6 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ page import="util.FormatCurrency"%>
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.sql.Date" %>
-<%@ page import="database.OrderDAO" %>
 <%@page isELIgnored="false" %>
 
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
@@ -56,8 +52,8 @@
             <!-- Content wrapper -->
             <div class="content-wrapper">
                 <!-- Content -->
-                <h5>Doanh thu ngày hôm nay: </h5>
-                <p>${orderDAO.revenue(Date.valueOf(LocalDateTime.now().toLocalDate()))}</p>
+
+
 
 
                 <div class="row" style="margin: 30px">
@@ -83,10 +79,41 @@
                         <div class="row">
                             <button id="revenueButton" onclick="daytoday()" class="btn btn-primary">Hiện thị doanh thu</button>
                         </div>
+                        <div class="row">
+                            <canvas id="myChart2" height="250" width="350"></canvas>
+                        </div>
 
                     </div>
-                    <div class="col">
-                        <canvas id="myChart2" height="250" width="350"></canvas>
+                    <div class="col" style="margin-left: 100px">
+<%--                        <canvas id="myChart2" height="250" width="350"></canvas>--%>
+    <div>TOP 5 SP Bán chạy nhất</div>
+    <jsp:useBean id="productDAO" class="database.ProductDAO" />
+    <c:set var="listProduct" value="${productDAO.topNBestProduct(5)}"/>
+    <div class="card-body">
+        <ul class="p-0 m-0">
+            <c:forEach var="entry" items="${listProduct.entrySet()}">
+                <c:set var="productId" value="${entry.key}" />
+                <c:set var="quantity" value="${entry.value}" />
+                <c:set var="product" value="${productDAO.selectById(productId)}" />
+                <li class="d-flex mb-4 pb-1">
+                    <div class="avatar flex-shrink-0 me-3">
+                        <img class="product-image rounded" src="/image/${product.image}" alt="${product.product_name}">
+                    </div>
+                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                        <div class="me-2">
+                            <small class="text-muted d-block mb-1">${product.product_name}</small>
+                            <div class="user-progress d-flex align-items-center gap-1">
+                                <h6 class="mb-0">${quantity}</h6>
+                                <span class="text-muted">Quyển</span>
+                            </div>
+                                <%--                                        <h6 class="mb-0">${product.description}</h6>--%>
+                        </div>
+
+                    </div>
+                </li>
+            </c:forEach>
+        </ul>
+    </div>
                     </div>
 
                 </div>
@@ -361,4 +388,5 @@
 
 
 </body>
+
 </html>

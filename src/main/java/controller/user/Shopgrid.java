@@ -2,6 +2,7 @@ package controller.user;
 
 import database.CategoryDAO;
 import database.ProductDAO;
+import database.RatingDAO;
 import model.Category;
 import model.Product;
 
@@ -24,6 +25,19 @@ public class Shopgrid extends HttpServlet {
         ProductDAO productDAO = new ProductDAO();
         ArrayList<Product> products = productDAO.selectAll();
 
+
+        RatingDAO raDao = new RatingDAO();
+        String category = request.getParameter("category");
+
+//        List<Product> products;
+
+        if (category != null && !category.isEmpty()) {
+            products = productDAO.selectByCategoryName(category);
+        } else {
+            products = productDAO.selectAll();
+        }
+
+
         int page, numpage = 12;
         int size = products.size();
         int num = (size % numpage == 0) ? (size / numpage) : ((size / numpage) + 1);
@@ -43,14 +57,24 @@ public class Shopgrid extends HttpServlet {
         session.setAttribute("listProducts", products);
         session.setAttribute("page", page);
         session.setAttribute("num", num);
-
+        session.setAttribute("selectedCategory", category);
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             response.setContentType("application/json");
             // Return JSON if needed
+        } else if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+            request.getRequestDispatcher("/WEB-INF/book/shop-grid.jsp").forward(request, response);
         } else {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/book/shop-grid.jsp");
             dispatcher.forward(request, response);
+
+
+
+//        if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+//            request.getRequestDispatcher("/WEB-INF/book/shop-grid.jsp").forward(request, response);
+//        } else {
+//            request.getRequestDispatcher("/WEB-INF/book/shop-grid.jsp").forward(request, response);
+//
         }
     }
 
