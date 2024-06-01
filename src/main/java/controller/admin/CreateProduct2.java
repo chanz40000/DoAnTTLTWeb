@@ -21,12 +21,12 @@ import java.util.List;
 public class CreateProduct2 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Xử lý yêu cầu GET nếu cần
+        // Xu ly yeu cau GET neu can
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Bắt đầu xử lý yêu cầu");
+        System.out.println("Bat dau xu ly yeu cau");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
@@ -47,10 +47,11 @@ public class CreateProduct2 extends HttpServlet {
             ServletFileUpload upload = new ServletFileUpload(factory);
 
             try {
+                // Phan tich request va lay cac phan tu
                 List<FileItem> items = upload.parseRequest(request);
                 for (FileItem item : items) {
                     if (item.isFormField()) {
-                        // Xử lý các trường form
+                        // Xu ly cac truong form
                         switch (item.getFieldName()) {
                             case "product_name":
                                 productName = item.getString("UTF-8");
@@ -75,50 +76,59 @@ public class CreateProduct2 extends HttpServlet {
                                 break;
                         }
                     } else {
-                        // Xử lý file upload
+                        // Xu ly file upload
                         String fileName = item.getName();
                         File uploadedFile = new File(repository, fileName);
                         item.write(uploadedFile);
+                        // Tao thumbnail cho file upload
                         Thumbnails.of(uploadedFile).size(500, 1000)
                                 .outputQuality(0.75)
                                 .toFile(new File(repository, "thumb_" + fileName));
+
+                        // Thu muc dich trong thu muc goc cua ung dung web
                         File imgDir = new File(servletContext.getRealPath("/image"));
                         if (uploadedFile.exists()) {
-                            // Xóa tập tin đích nếu tồn tại
+                            // Xoa tap tin dich neu ton tai
                             File existingFile = new File(imgDir, fileName);
                             if (existingFile.exists()) {
                                 existingFile.delete();
                             }
                         }
+                        // Tao thu muc neu chua ton tai
                         if (!imgDir.exists()) {
                             imgDir.mkdir();
                         }
+                        // Di chuyen file den thu muc dich
                         File newFile = new File(imgDir, fileName);
                         FileUtils.moveFile(uploadedFile, newFile);
                         uploadedFileName = fileName;
                     }
                 }
 
-                // Kiểm tra các giá trị cần thiết
+                // Kiem tra cac gia tri can thiet
                 if (productName != null && categoryName != null && author != null && publicationYear != null &&
                         description != null && publisher != null && uploadedFileName != null) {
 
+                    // Lay category tu ten
                     Category category = new CategoryDAO().selectByName(categoryName);
 
+                    // Tao ProductDAO de quan ly san pham
                     ProductDAO productDAO = new ProductDAO(request);
+                    // Tao doi tuong san pham moi va chen vao co so du lieu
                     Product product = new Product(productDAO.creatId() + 1, productName, description,
                             uploadedFileName, 0, Double.parseDouble(price), 0, author, Integer.parseInt(publicationYear), publisher, category);
 
                     productDAO.insert(product);
-                    System.out.println("Hoàn thành");
+                    System.out.println("Hoan thanh");
                 } else {
-                    throw new ServletException("Thiếu thông tin sản phẩm");
+                    throw new ServletException("Thieu thong tin san pham");
                 }
             } catch (Exception e) {
-                throw new ServletException("Không thể tải lên", e);
+                throw new ServletException("Khong the tai len", e);
             }
         }
 
+        // Chuyen huong den trang danh sach san pham
         request.getRequestDispatcher("/WEB-INF/admin/jsp/listProduct.jsp").forward(request, response);
     }
 }

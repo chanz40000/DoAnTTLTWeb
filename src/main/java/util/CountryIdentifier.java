@@ -7,6 +7,7 @@ import com.maxmind.geoip2.model.CountryResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -14,12 +15,13 @@ import java.net.UnknownHostException;
 public class CountryIdentifier {
 
     private DatabaseReader dbReader;
-    String mmdbFilepath = "C:/Users/ADMIN/eclipse-workspace/BookWeb-master/src/main/java/util/GeoLite2-Country (1).mmdb";
+//    String mmdbFilepath = "C:/Users/ADMIN/eclipse-workspace/BookWeb-master/src/main/java/util/GeoLite2-Country (1).mmdb";
 
     public CountryIdentifier() throws IOException {
         // Khởi tạo DatabaseReader từ đường dẫn đến file GeoIP2 database
 
-        File database = new File(mmdbFilepath);
+//        File database = new File(mmdbFilepath);
+        InputStream database = getClass().getClassLoader().getResourceAsStream("GeoLite2-Country (1).mmdb");
         this.dbReader = new DatabaseReader.Builder(database).build();
     }
 

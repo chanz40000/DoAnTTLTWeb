@@ -160,6 +160,11 @@
         .Ratestar img{
             margin-top:4px;
         }
+         .product__pagination a.active {
+             background-color: #fd7e14;
+             color: black;
+             border: none;
+         }
 
     </style>
 </head>
@@ -586,31 +591,84 @@
                     </c:forEach>
                 </div>
 
+                <c:set var="page" value="${sessionScope.page}" />
+                <c:set var="num" value="${sessionScope.num}" />
+                <c:set var="selectedCategory" value="${sessionScope.selectedCategory}"/>
 
+                <c:set var="displayPages" value="3" />
+                <c:set var="halfDisplay" value="${displayPages / 2}" />
+                <c:set var="startPage" value="${page - halfDisplay}" />
+                <c:set var="endPage" value="${page + halfDisplay}" />
+
+
+                <c:if test="${startPage < 1}">
+                    <c:set var="startPage" value="1" />
+                    <c:set var="endPage" value="${startPage + displayPages - 1}" />
+                </c:if>
+
+                <c:if test="${endPage > num}">
+                    <c:set var="endPage" value="${num}" />
+                    <c:set var="startPage" value="${endPage - displayPages + 1}" />
+                    <c:if test="${startPage < 1}">
+                        <c:set var="startPage" value="1" />
+                    </c:if>
+                </c:if>
 
                 <div class="product__pagination" style="padding-left: 300px">
+                    <c:if test="${page > 1}">
+                        <c:url value="/Shopgrid" var="prevPageUrl">
+                            <c:param name="page" value="${page - 1}" />
+                        </c:url>
+                        <a href="javascript:void(0);" class="pagination-link" data-page="${page - 1}"><</a>
+                    </c:if>
 
-                    <c:set var="page" value="${sessionScope.page}" />
-                    <c:set var="num" value="${sessionScope.num}" />
-                    <c:set var="selectedCategory" value="${sessionScope.selectedCategory}" />
+                    <c:forEach begin="${startPage}" end="${endPage}" var="i">
+                        <c:url value="/Shopgrid" var="pageUrl">
+                            <c:param name="page" value="${i}" />
+                        </c:url>
+                        <a href="javascript:void(0);" class="pagination-link" data-page="${i}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>
+                    </c:forEach>
 
-                    <c:choose>
-                        <c:when test="${not empty param.productName}">
-                            <c:if test="${page eq 1}">
-                                <a href="#" class="pagination-link active" data-page="1">1</a>
-                            </c:if>
-                        </c:when>
-                        <c:otherwise>
-                            <c:forEach begin="1" end="${num}" var="i">
-                                <c:url value="/Shopgrid" var="pageUrl">
-                                    <c:param name="page" value="${i}" />
-                                    <c:param name="category" value="${selectedCategory}" />
-                                </c:url>
-                                <a class="pagination-link" href="${pageUrl}" data-page="${i}" data-category="${selectedCategory}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>
-                            </c:forEach>
-                        </c:otherwise>
-                    </c:choose>
+                    <c:if test="${endPage < num}">
+                        ...
+                    </c:if>
 
+                    <c:if test="${endPage < num}">
+                        <c:url value="/Shopgrid" var="lastPageUrl">
+                            <c:param name="page" value="${num}" />
+                        </c:url>
+                        <a href="javascript:void(0);" class="pagination-link" data-page="${num}">${num}</a>
+                    </c:if>
+
+                    <c:if test="${page < num}">
+                        <c:url value="/Shopgrid" var="nextPageUrl">
+                            <c:param name="page" value="${page + 1}" />
+                        </c:url>
+                        <a href="javascript:void(0);" class="pagination-link" data-page="${page + 1}">></a>
+                    </c:if>
+<%--=======--%>
+<%--                    <c:set var="page" value="${sessionScope.page}" />--%>
+<%--                    <c:set var="num" value="${sessionScope.num}" />--%>
+<%--                    <c:set var="selectedCategory" value="${sessionScope.selectedCategory}" />--%>
+
+<%--                    <c:choose>--%>
+<%--                        <c:when test="${not empty param.productName}">--%>
+<%--                            <c:if test="${page eq 1}">--%>
+<%--                                <a href="#" class="pagination-link active" data-page="1">1</a>--%>
+<%--                            </c:if>--%>
+<%--                        </c:when>--%>
+<%--                        <c:otherwise>--%>
+<%--                            <c:forEach begin="1" end="${num}" var="i">--%>
+<%--                                <c:url value="/Shopgrid" var="pageUrl">--%>
+<%--                                    <c:param name="page" value="${i}" />--%>
+<%--                                    <c:param name="category" value="${selectedCategory}" />--%>
+<%--                                </c:url>--%>
+<%--                                <a class="pagination-link" href="${pageUrl}" data-page="${i}" data-category="${selectedCategory}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>--%>
+<%--                            </c:forEach>--%>
+<%--                        </c:otherwise>--%>
+<%--                    </c:choose>--%>
+
+<%-->>>>>>> main--%>
                 </div>
             </div>
         </div>
@@ -696,7 +754,35 @@
 <script src="js/mixitup.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<script>
+    $(document).ready(function() {
+        function bindPaginationLinks() {
+            $('.pagination-link').off('click').on('click', function() {
+                var page = $(this).data('page');
+                $.ajax({
+                    url: '/Shopgrid',
+                    type: 'GET',
+                    data: { page: page },
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function(response) {
+                        $('#row').html($(response).find('#row').html());
+                        $('.product__pagination').html($(response).find('.product__pagination').html());
+                        bindPaginationLinks(); // Gắn lại sự kiện cho các liên kết phân trang mới
+                        // Cập nhật lớp 'active'
+                        $('.pagination-link').removeClass('active');
+                        $('.pagination-link[data-page="' + page + '"]').addClass('active');
+                    }
+                });
+            });
+        }
+
+        bindPaginationLinks(); // Gắn sự kiện lần đầu tiên
+    });
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -996,6 +1082,18 @@
 
     // Enable Dark Reader when the page loads
 
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPage = ${page}; // Lấy giá trị của trang hiện tại từ JSTL
+        const links = document.querySelectorAll('.product__pagination a[data-page]');
+
+        links.forEach(link => {
+            if (parseInt(link.getAttribute('data-page')) === currentPage) {
+                link.classList.add('active');
+            }
+        });
+    });
 </script>
 
 </body>
