@@ -181,13 +181,35 @@ public class CategoryDAO implements DAOInterface<Category>{
         return result;
     }
 
-    public static void main(String[] args) {
-        CategoryDAO categoryDAO = new CategoryDAO();
-        ArrayList<Category> categori = categoryDAO.selectAll();
-        for(Category c : categori){
-            System.out.println(c);
+//    Đánh index dữ liệu.
+//             Nên Index những cột được dùng trong WHERE,
+//    JOIN và ORDER BY
+// Dùng chức năng index prefix" or "multi-columns
+// Dùng thuộc tính NOT NULL cho những cột được
+//            Index
+// Không dùng Index cho các bảng thường xuyên có
+//            UPDATE, INSERT
+// Không dùng Index cho các cột mà giá trị thường xuyên bị thay đổi
+    //chỉ cần chạy phương thức createIndex một lần khi tạo bảng hoặc khi
+// bạn muốn thêm chỉ mục vào bảng đã tồn tại.
+// Nếu chỉ mục đã tồn tại, việc chạy lại phương thức này có thể gây lỗi.
+    //bang category, payment, product, statusOrder
+    public void createIndex() {
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            // Tạo chỉ mục trên cột category_name
+            String sql = "CREATE INDEX idx_category_id ON categories(category_id)";
+            PreparedStatement st = con.prepareStatement(sql);
+
+            // Thực thi câu lệnh
+            st.executeUpdate();
+
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        Category c1 = new CategoryDAO().selectById(1);
-        System.out.println(c1);
     }
+
 }
+

@@ -174,4 +174,24 @@ public class PaymentDAO implements DAOInterface<Payment>{
 
         return result;
     }
+    public void createIndex() {
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            // Tạo chỉ mục trên cột category_name
+            String sql = "CREATE INDEX idx_payment_id ON payment_methods(payment_id)";
+            PreparedStatement st = con.prepareStatement(sql);
+
+            // Thực thi câu lệnh
+            st.executeUpdate();
+
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void main(String[] args) {
+        new PaymentDAO().createIndex();
+    }
 }
