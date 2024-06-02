@@ -585,60 +585,90 @@
 <script src="${pageContext.request.contextPath}/js/Chart.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $('.change-status').click(function (e) {
-            e.preventDefault();
+    $(document).ready(function() {
+        // Gắn sự kiện click ban đầu
+        attachClickEvent();
 
-            let button = $(this);
-            let orderId = button.data('orderid');
-            let action = button.data('action');
+        // Hàm để gắn sự kiện click
+        function attachClickEvent() {
+            $(".change-status").off("click").on("click", function(event) {
+                event.preventDefault();
 
-            $.ajax({
-                type: 'POST',
-                url: 'ChangeStatusOrder',
-                data: {
-                    orderId: orderId,
-                    action: action
-                },
-                success: function (response) {
-                    if (response.success) {
-                        // Update the status text in the UI
-                        let newStatus = response.newStatus;
-                        button.closest('tr').find('.order-status').text(newStatus);
+                let button = $(this);
+                let orderId = button.data("orderid");
+                let action = button.data("action");
 
-                        // Optional: Handle buttons based on new status
-                        handleButtons(button.closest('tr'), newStatus);
+                console.log("Button clicked. Order ID: " + orderId + ", Action: " + action);
 
-                        alert("Status updated successfully.");
-                    } else {
-                        alert("Failed to update status.");
+                // Disable the button to prevent multiple clicks
+                button.prop("disabled", true);
+
+                $.ajax({
+                    type: "POST",
+                    url: "ChangeStatusOrder",
+                    data: {
+                        orderId: orderId,
+                        action: action
+                    },
+                    success: function(response) {
+                        console.log("AJAX success response: ", response);
+                        if (response.success) {
+                            let newStatus = response.newStatus;
+
+                            // Cập nhật trạng thái
+                            button.closest("tr").find(".order-status").text(newStatus);
+
+                            // Cập nhật các nút hành động
+                            updateActionButtons(button.closest("tr"), newStatus);
+                        } else {
+                            alert("Cập nhật trạng thái thất bại.");
+                        }
+                        button.prop("disabled", false); // Re-enable the button
+                    },
+                    error: function(error) {
+                        console.error("AJAX error response: ", error);
+                        alert("Đã xảy ra lỗi khi cập nhật trạng thái.");
+                        button.prop("disabled", false); // Re-enable the button if there's an error
                     }
-                },
-                error: function () {
-                    alert("An error occurred.");
-                }
+                });
             });
-        });
+        }
 
-        function handleButtons(row, newStatus) {
-            row.find('.change-status').remove(); // Remove all status change buttons
+        function updateActionButtons(row, newStatus) {
+            let actionsCell = row.find("td:eq(4)");
+            actionsCell.empty();
 
-            if (newStatus === "Đang được đóng gói") {
-                row.find('td:eq(4)').append(`
-                <button class="badge bg-success me-1 change-status" data-orderid="${row.find('td:eq(0)').text().trim()}" data-action="Packed">Xong</button>
+            if (newStatus === "Đang chờ xác nhận") {
+                actionsCell.append(`
+                <button class="badge bg-success me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="AcceptOrder">Xác nhận</button>
+                <button class="badge bg-danger me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="RejectOrder">Hủy</button>
             `);
-            } else if (newStatus === "Đang giao hàng") {
-                row.find('td:eq(4)').append(`
-                <button class="badge bg-success me-1 change-status" data-orderid="${row.find('td:eq(0)').text().trim()}" data-action="Cancel">Chấp nhận</button>
-                <button class="badge bg-danger me-1 change-status" data-orderid="${row.find('td:eq(0)').text().trim()}" data-action="RejectCancelOrder">Từ chối</button>
+            } else if (newStatus === "Đang được đóng gói") {
+                actionsCell.append(`
+                <button class="badge bg-success me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="Packed">Xong</button>
+            `);
+            } else if (newStatus === "Yêu cầu hủy") {
+                actionsCell.append(`
+                <button class="badge bg-success me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="Cancel">Chấp nhận</button>
+                <button class="badge bg-danger me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="RejectCancelOrder">Từ chối</button>
+            `);
+            } else if (newStatus === "Yêu cầu trả hàng") {
+                actionsCell.append(`
+                <button class="badge bg-success me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="AcceptReturnOrder">Chấp nhận</button>
+                <button class="badge bg-danger me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="RejectReturnOrder">Từ chối</button>
             `);
             }
-            // Add more status handling if needed
+
+            // Gắn lại sự kiện click cho các nút mới
+            attachClickEvent();
         }
     });
 
-
 </script>
+
+
+
+
 <script>
     const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
     const icondarklight = document.getElementById('icontype');
