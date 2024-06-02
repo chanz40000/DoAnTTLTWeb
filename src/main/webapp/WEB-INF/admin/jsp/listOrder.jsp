@@ -236,7 +236,6 @@
                                         <h5 class="card-header">Danh sách đơn hàng cần xác nhận </h5>
                                         <div class="table-responsive text-nowrap">
                                             <table id="example" class="table table-striped" style="width:100%">
-
                                                 <thead>
                                                 <tr>
                                                     <th>ID</th>
@@ -256,53 +255,24 @@
                                                 <c:forEach var="order" items="${orderDAO.selectByStatusIds(ChoXacNhan, DangDongGoi, YeuCauHuy, YeuCauTraHang, DangGiao)}">
                                                     <tr>
                                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${order.orderId}</strong></td>
-
                                                         <td>${order.user.userId}</td>
                                                         <td>${order.bookingDate}</td>
-                                                        <td><span class="badge bg-label-primary me-1">${order.status.statusName}</span></td>
+                                                        <td><span class="badge bg-label-primary me-1 order-status">${order.status.statusName}</span></td>
                                                         <td>
                                                             <c:if test="${order.status.statusId == 1}">
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="AcceptOrder" />
-                                                                    <button type="submit" class="badge bg-success me-1">Xác nhận</button>
-                                                                </form>
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="RejectOrder" />
-                                                                    <button type="submit" class="badge bg-danger me-1">Hủy</button>
-                                                                </form>
+                                                                <button class="badge bg-success me-1 change-status" data-orderid="${order.orderId}" data-action="AcceptOrder">Xác nhận</button>
+                                                                <button class="badge bg-danger me-1 change-status" data-orderid="${order.orderId}" data-action="RejectOrder">Hủy</button>
                                                             </c:if>
                                                             <c:if test="${order.status.statusId == 2}">
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="Packed" />
-                                                                    <button type="submit" class="badge bg-success me-1">Xong</button>
-                                                                </form>
+                                                                <button class="badge bg-success me-1 change-status" data-orderid="${order.orderId}" data-action="Packed">Xong</button>
                                                             </c:if>
                                                             <c:if test="${order.status.statusId == 5}">
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="Cancel" />
-                                                                    <button type="submit" class="badge bg-success me-1">Chấp nhận</button>
-                                                                </form>
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="RejectCancelOrder" />
-                                                                    <button type="submit" class="badge bg-danger me-1">Từ chối</button>
-                                                                </form>
+                                                                <button class="badge bg-success me-1 change-status" data-orderid="${order.orderId}" data-action="Cancel">Chấp nhận</button>
+                                                                <button class="badge bg-danger me-1 change-status" data-orderid="${order.orderId}" data-action="RejectCancelOrder">Từ chối</button>
                                                             </c:if>
                                                             <c:if test="${order.status.statusId == 7}">
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="AcceptReturnOrder" />
-                                                                    <button type="submit" class="badge bg-success me-1">Chấp nhận</button>
-                                                                </form>
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="RejectReturnOrder" />
-                                                                    <button type="submit" class="badge bg-danger me-1">Từ chối</button>
-                                                                </form>
+                                                                <button class="badge bg-success me-1 change-status" data-orderid="${order.orderId}" data-action="AcceptReturnOrder">Chấp nhận</button>
+                                                                <button class="badge bg-danger me-1 change-status" data-orderid="${order.orderId}" data-action="RejectReturnOrder">Từ chối</button>
                                                             </c:if>
                                                         </td>
                                                         <td>
@@ -612,7 +582,63 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/Chart.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        $('.change-status').click(function (e) {
+            e.preventDefault();
+
+            let button = $(this);
+            let orderId = button.data('orderid');
+            let action = button.data('action');
+
+            $.ajax({
+                type: 'POST',
+                url: 'ChangeStatusOrder',
+                data: {
+                    orderId: orderId,
+                    action: action
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Update the status text in the UI
+                        let newStatus = response.newStatus;
+                        button.closest('tr').find('.order-status').text(newStatus);
+
+                        // Optional: Handle buttons based on new status
+                        handleButtons(button.closest('tr'), newStatus);
+
+                        alert("Status updated successfully.");
+                    } else {
+                        alert("Failed to update status.");
+                    }
+                },
+                error: function () {
+                    alert("An error occurred.");
+                }
+            });
+        });
+
+        function handleButtons(row, newStatus) {
+            row.find('.change-status').remove(); // Remove all status change buttons
+
+            if (newStatus === "Đang được đóng gói") {
+                row.find('td:eq(4)').append(`
+                <button class="badge bg-success me-1 change-status" data-orderid="${row.find('td:eq(0)').text().trim()}" data-action="Packed">Xong</button>
+            `);
+            } else if (newStatus === "Đang giao hàng") {
+                row.find('td:eq(4)').append(`
+                <button class="badge bg-success me-1 change-status" data-orderid="${row.find('td:eq(0)').text().trim()}" data-action="Cancel">Chấp nhận</button>
+                <button class="badge bg-danger me-1 change-status" data-orderid="${row.find('td:eq(0)').text().trim()}" data-action="RejectCancelOrder">Từ chối</button>
+            `);
+            }
+            // Add more status handling if needed
+        }
+    });
+
+
+</script>
 <script>
     const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
     const icondarklight = document.getElementById('icontype');

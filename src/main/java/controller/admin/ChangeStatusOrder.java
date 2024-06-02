@@ -10,6 +10,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,51 +32,53 @@ public class ChangeStatusOrder extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html; charset=UTF-8");
+        response.setContentType("application/json; charset=UTF-8");
+
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("admin");
         String orderIdString = request.getParameter("orderId");
         int orderId = Integer.parseInt(orderIdString);
         String action = request.getParameter("action");
         String reason = "";
-        StatusOrder xacNhanDonHang = new StatusOrder(2);
-        StatusOrder dangVanChuyen = new StatusOrder(3);
-        StatusOrder huyDonHang = new StatusOrder(6);
-        StatusOrder hoanDon = new StatusOrder(8);
-        StatusOrder daNhan = new StatusOrder(10);
-        if ("AcceptOrder".equals(action)){
-            // Dong y don hang
+        StatusOrder newStatus = null;
+
+        if ("AcceptOrder".equals(action)) {
+            newStatus = new StatusOrder(2, "Đang được đóng gói"); // Set correct status name
             reason = "Đồng ý đơn hàng";
-            updateOrderStatus(orderId, xacNhanDonHang, user, reason);
         } else if ("RejectOrder".equals(action)) {
-            // Huy don hang
+            newStatus = new StatusOrder(6, "Đã hủy"); // Set correct status name
             reason = "Gặp sự cố! Xin lỗi quý khách vì vấn đề này, mong bạn thông cảm và bỏ qua cho chúng tôi.";
-            updateOrderStatus(orderId, huyDonHang, user, reason);
         } else if ("Packed".equals(action)) {
-            // Da dong goi don hang
+            newStatus = new StatusOrder(3, "Đang giao hàng"); // Set correct status name
             reason = "Đơn hàng đã được đóng gói và đang được vận chuyển.";
-            updateOrderStatus(orderId, dangVanChuyen, user, reason);
-            // Sau mot thoi gian thi don hang tu set trang thai da giao thanh cong
             scheduleStatusUpdate(orderId);
         } else if ("Cancel".equals(action)) {
-            // Admin chap nhan yeu cau huy don cua khach hang
+            newStatus = new StatusOrder(6, "Đã hủy"); // Set correct status name
             reason = "Đơn hàng đã được chấp nhận hủy.";
-            updateOrderStatus(orderId, huyDonHang, user, reason);
         } else if ("RejectCancelOrder".equals(action)) {
-            // Admin tu choi yeu cau huy don cua khach hang
+            newStatus = new StatusOrder(2, "Đang được đóng gói"); // Set correct status name
             reason = "Admin từ chối yêu cầu hủy đơn.";
-            updateOrderStatus(orderId, xacNhanDonHang, user, reason);
         } else if ("AcceptReturnOrder".equals(action)) {
-            // Admin dong y yeu cau tra hang cua khach hang
+            newStatus = new StatusOrder(8, "Đã hoàn"); // Set correct status name
             reason = "Đơn hàng đã được chấp nhận hoàn.";
-            updateOrderStatus(orderId, hoanDon, user, reason);
         } else if ("RejectReturnOrder".equals(action)) {
-            // Admin tu choi yeu cau tra hang cua khach hang
+            newStatus = new StatusOrder(10, "Đã nhận"); // Set correct status name
             reason = "Admin từ chối yêu cầu hoàn đơn.";
-            updateOrderStatus(orderId, daNhan, user, reason);
         }
-        request.setAttribute("action", action);
-        response.sendRedirect(request.getContextPath() + "/ListOrder");
+
+        if (newStatus != null) {
+            updateOrderStatus(orderId, newStatus, user, reason);
+
+            // Sending JSON response
+            PrintWriter out = response.getWriter();
+            out.print("{\"success\": true, \"newStatus\": \"" + newStatus.getStatusName() + "\"}");
+            out.flush();
+        } else {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            PrintWriter out = response.getWriter();
+            out.print("{\"success\": false}");
+            out.flush();
+        }
     }
 
     private void updateOrderStatus(int orderId, StatusOrder status, User user, String reason){
