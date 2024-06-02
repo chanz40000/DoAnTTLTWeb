@@ -141,4 +141,24 @@ public class StatusOrderDAO implements DAOInterface<StatusOrder>{
         }
         return result;
     }
+    public void createIndex() {
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            // Tạo chỉ mục trên cột category_name
+            String sql = "CREATE INDEX idx_status_id ON orderstatus(status_id)";
+            PreparedStatement st = con.prepareStatement(sql);
+
+            // Thực thi câu lệnh
+            st.executeUpdate();
+
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void main(String[] args) {
+        new StatusOrderDAO().createIndex();
+    }
 }
