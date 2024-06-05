@@ -1,7 +1,7 @@
 package model;
 
-import java.sql.Date;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Rating {
     private int ratingId;
@@ -19,6 +19,7 @@ public class Rating {
         this.ratingtext = ratingtext;
         this.dateRating = dateRating;
     }
+
 
     public int getRatingId() {
         return ratingId;
@@ -78,5 +79,9 @@ public class Rating {
                 ", ratingtext='" + ratingtext + '\'' +
                 ", dateRating=" + dateRating +
                 '}';
+    }
+    public String getFormattedDateRating() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(new Date(dateRating));
     }
 }

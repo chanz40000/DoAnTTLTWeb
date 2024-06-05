@@ -240,11 +240,11 @@
       <version>10.2.2</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.maxmind.geoip2/geoip2 -->
-    <dependency>
-      <groupId>com.maxmind.geoip2</groupId>
-      <artifactId>geoip2</artifactId>
-      <version>4.2.0</version>
-    </dependency>
+      <dependency>
+          <groupId>com.maxmind.geoip2</groupId>
+          <artifactId>geoip2</artifactId>
+          <version>4.2.0</version>
+      </dependency>
 
     <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
     <dependency>

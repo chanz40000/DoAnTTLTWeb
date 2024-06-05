@@ -223,6 +223,12 @@
         padding-right: 10px;
 
     }
+    .product__pagination a.active {
+        /*background-color: #fd7e14;*/
+        background-color: #7fad39;
+        color: black;
+        border: none;
+    }
 
 </style>
 <body>
@@ -524,6 +530,8 @@
                             <div style="min-height: 40px;">
                                 <input type="hidden" name="productid" value="${usera.product.productId}">
                                 <input type="hidden" name="ratingid" value="${usera.ratingId}">
+                                <input type="hidden" name="ratingstar" value="${usera.ratingstar}">
+                                <input type="hidden" name="ratingtext" value="${usera.ratingtext}">
                                 <textarea placeholder="Viết bình luận" class="reply-comment__input" name="detailcomment" rows="1" style="height: 40px;"></textarea>
                                 <button type="submit" class="custom-button"></button>
 
@@ -808,34 +816,65 @@
 </script>
 <script>
     $(document).ready(function() {
-        $('.pagination-link').click(function(e) {
-            e.preventDefault();
-            var pageR = $(this).data('page');
-            var productid = $(this).data('product');
-            loadRatings(pageR, productid);
+        // Function to load reviews for a given page
+        function loadRatings(pageR, productid) {
+            $.ajax({
+                url: '/Shopdetails',
+                type: 'GET',
+                data: {
+                    id: productid,
+                    pageR: pageR
+                },
+                success: function(response) {
+                    // Update the reviews section
+                    const newRatings = $(response).find('.phanbinhluan').html();
+                    $('.phanbinhluan').html(newRatings);
+
+                    // Update the pagination section
+                    const newPagination = $(response).find('.product__pagination').html();
+                    $('.product__pagination').html(newPagination);
+
+                    // Re-bind the click event to the new pagination links
+                    bindPaginationLinks();
+
+                    // Update the active page
+                    updateActivePage(pageR);
+
+                    // Scroll to the top of the reviews section after updating content
+                    $('html, body').animate({ scrollTop: $('.phanbinhluan').offset().top }, 'fast');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error loading ratings:', error);
+                }
+            });
+        }
+
+        // Function to bind click events to pagination links
+        function bindPaginationLinks() {
+            $(document).on('click', '.pagination-link', function(e) {
+                e.preventDefault();
+                var pageR = $(this).data('page');
+                var productid = $(this).data('product');
+                loadRatings(pageR, productid);
+            });
+        }
+
+        // Function to update the active class on pagination links
+        function updateActivePage(pageR) {
+            $('.pagination-link').removeClass('active');
+            $('.pagination-link[data-page="' + pageR + '"]').addClass('active');
+        }
+
+        // Initial binding of the pagination links
+        bindPaginationLinks();
+
+        // Update the active class on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPageR = ${pageR}; // Get the current page value from JSTL
+            updateActivePage(currentPageR);
         });
     });
 
-    function loadRatings(pageR, productid) {
-        $.ajax({
-            url: '/Shopdetails',
-            type: 'GET',
-            data: {
-                id: productid,
-                pageR: pageR
-            },
-            success: function(response) {
-                const newRatings = $(response).find('.phanbinhluan').html();
-                $('.phanbinhluan').html(newRatings);
-
-                // Scroll to the top of the ratings section after updating content
-                $('html, body').animate({ scrollTop: $('.phanbinhluan').offset().top }, 'fast');
-            },
-            error: function(xhr, status, error) {
-                console.error('Error loading ratings:', error);
-            }
-        });
-    }
 
 
 
@@ -893,6 +932,18 @@
     })
 
 
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPageR = ${pageR}; // Lấy giá trị của trang hiện tại từ JSTL
+        const links = document.querySelectorAll('.product__pagination a[data-page]');
+
+        links.forEach(link => {
+            if (parseInt(link.getAttribute('data-page')) === currentPageR) {
+                link.classList.add('active');
+            }
+        });
+    });
 </script>
 </body>
 

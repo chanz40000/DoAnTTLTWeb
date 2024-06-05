@@ -30,6 +30,8 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.maxmind.geoip2:geoip2:4.2.0'
+
     api libs.mysql.mysql.connector.java
     api libs.taglibs.standard
     api libs.org.apache.taglibs.taglibs.standard.jstlel

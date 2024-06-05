@@ -160,11 +160,12 @@
         .Ratestar img{
             margin-top:4px;
         }
-         .product__pagination a.active {
-             background-color: #fd7e14;
-             color: black;
-             border: none;
-         }
+        .product__pagination a.active {
+            /*background-color: #fd7e14;*/
+            background-color: #7fad39;
+            color: black;
+            border: none;
+        }
 
     </style>
 </head>
@@ -646,29 +647,29 @@
                         </c:url>
                         <a href="javascript:void(0);" class="pagination-link" data-page="${page + 1}">></a>
                     </c:if>
-<%--=======--%>
-<%--                    <c:set var="page" value="${sessionScope.page}" />--%>
-<%--                    <c:set var="num" value="${sessionScope.num}" />--%>
-<%--                    <c:set var="selectedCategory" value="${sessionScope.selectedCategory}" />--%>
+                    <%--=======--%>
+                    <%--                    <c:set var="page" value="${sessionScope.page}" />--%>
+                    <%--                    <c:set var="num" value="${sessionScope.num}" />--%>
+                    <%--                    <c:set var="selectedCategory" value="${sessionScope.selectedCategory}" />--%>
 
-<%--                    <c:choose>--%>
-<%--                        <c:when test="${not empty param.productName}">--%>
-<%--                            <c:if test="${page eq 1}">--%>
-<%--                                <a href="#" class="pagination-link active" data-page="1">1</a>--%>
-<%--                            </c:if>--%>
-<%--                        </c:when>--%>
-<%--                        <c:otherwise>--%>
-<%--                            <c:forEach begin="1" end="${num}" var="i">--%>
-<%--                                <c:url value="/Shopgrid" var="pageUrl">--%>
-<%--                                    <c:param name="page" value="${i}" />--%>
-<%--                                    <c:param name="category" value="${selectedCategory}" />--%>
-<%--                                </c:url>--%>
-<%--                                <a class="pagination-link" href="${pageUrl}" data-page="${i}" data-category="${selectedCategory}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>--%>
-<%--                            </c:forEach>--%>
-<%--                        </c:otherwise>--%>
-<%--                    </c:choose>--%>
+                    <%--                    <c:choose>--%>
+                    <%--                        <c:when test="${not empty param.productName}">--%>
+                    <%--                            <c:if test="${page eq 1}">--%>
+                    <%--                                <a href="#" class="pagination-link active" data-page="1">1</a>--%>
+                    <%--                            </c:if>--%>
+                    <%--                        </c:when>--%>
+                    <%--                        <c:otherwise>--%>
+                    <%--                            <c:forEach begin="1" end="${num}" var="i">--%>
+                    <%--                                <c:url value="/Shopgrid" var="pageUrl">--%>
+                    <%--                                    <c:param name="page" value="${i}" />--%>
+                    <%--                                    <c:param name="category" value="${selectedCategory}" />--%>
+                    <%--                                </c:url>--%>
+                    <%--                                <a class="pagination-link" href="${pageUrl}" data-page="${i}" data-category="${selectedCategory}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>--%>
+                    <%--                            </c:forEach>--%>
+                    <%--                        </c:otherwise>--%>
+                    <%--                    </c:choose>--%>
 
-<%-->>>>>>> main--%>
+                    <%-->>>>>>> main--%>
                 </div>
             </div>
         </div>
@@ -758,182 +759,6 @@
 
 <script>
     $(document).ready(function() {
-        function bindPaginationLinks() {
-            $('.pagination-link').off('click').on('click', function() {
-                var page = $(this).data('page');
-                $.ajax({
-                    url: '/Shopgrid',
-                    type: 'GET',
-                    data: { page: page },
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    success: function(response) {
-                        $('#row').html($(response).find('#row').html());
-                        $('.product__pagination').html($(response).find('.product__pagination').html());
-                        bindPaginationLinks(); // Gắn lại sự kiện cho các liên kết phân trang mới
-                        // Cập nhật lớp 'active'
-                        $('.pagination-link').removeClass('active');
-                        $('.pagination-link[data-page="' + page + '"]').addClass('active');
-                    }
-                });
-            });
-        }
-
-        bindPaginationLinks(); // Gắn sự kiện lần đầu tiên
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Lazy loading function
-        function initializeLazyLoading() {
-            const lazyImages = document.querySelectorAll('[lazy]');
-
-            // Observer to check when images appear on screen
-            const lazyImageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const lazyImage = entry.target;
-                        const src = lazyImage.dataset.src;
-
-                        if (lazyImage.tagName.toLowerCase() === 'img') {
-                            // If it's an <img> tag, set src attribute
-                            lazyImage.src = src;
-                        } else {
-                            // If it's a <div> tag, set background-image
-                            lazyImage.style.backgroundImage = `url('${src}')`;
-                        }
-
-                        // Remove the lazy attribute
-                        lazyImage.removeAttribute('lazy');
-
-                        // Stop observing this image
-                        observer.unobserve(lazyImage);
-                    }
-                });
-            });
-
-            // Observe each lazy image
-            lazyImages.forEach((lazyImage) => {
-                lazyImageObserver.observe(lazyImage);
-            });
-        }
-
-        // Initialize lazy loading when the document is ready
-        initializeLazyLoading();
-
-        // Search function
-        function searchByName(param) {
-            var txtSearch = $(param).val();
-            console.log("Searching by name: " + txtSearch);
-
-            if (txtSearch.trim() === "") {
-                txtSearch = "";
-            }
-
-            $.ajax({
-                url: "/SearchByAjax",
-                type: "GET",
-                data: {
-                    productName: txtSearch
-                },
-                success: function(response) {
-                    var newSearch = $(response).find('#row').html();
-                    var newPaginationSearch = $(response).find('.product__pagination').html();
-                    $('#row').html(newSearch);
-                    $('.product__pagination').html(newPaginationSearch);
-
-                    // Reinitialize lazy loading for the new content
-                    initializeLazyLoading();
-                },
-                error: function(xhr) {
-                    console.error("Error during AJAX request: " + xhr.status + " " + xhr.statusText);
-                }
-            });
-        }
-
-        // Event listener for input changes
-        $(document).ready(function() {
-            $('#productName').on('input', function() {
-                searchByName(this);
-            });
-        });
-    });
-
-</script>
-<script>
-    $(document).ready(function() {
-        // Khởi tạo slider giá
-        $(".price-range").slider({
-            range: true,
-            minamount: 10000,
-            maxamount: 500000,
-            values: [10000, 500000],
-            slide: function(event, ui) {
-                var minamount = ui.values[0]; // Lấy giá trị min từ slider
-                var maxamount = ui.values[1]; // Lấy giá trị max từ slider
-                $("#minamount").val(minamount); // Cập nhật giá trị min cho input hidden
-                $("#maxamount").val(maxamount); // Cập nhật giá trị max cho input hidden
-                // Lọc sản phẩm theo giá
-                filterByPrice(minamount, maxamount);
-            }
-        });
-
-        // Hàm lọc sản phẩm theo giá
-        function filterByPrice(minamount, maxamount) {
-            console.log("Lọc sản phẩm theo giá:", minamount, maxamount);
-            // Gọi API để lọc sản phẩm
-            $.ajax({
-                url: "http://localhost:8080/FilterPrice",
-                type: "GET",
-                data: {
-                    minamount: minamount.toString(), // Chuyển đổi min thành chuỗi
-                    maxamount: maxamount.toString() // Chuyển đổi max thành chuỗi
-                },
-                success: function(data) {
-                    // Cập nhật nội dung cho phần tử #row
-                    $('#row').html(data);
-                },
-                error: function(xhr) {
-                    // Xử lý lỗi nếu cần
-                }
-            });
-        }
-
-        // Lấy giá trị ban đầu của slider
-        var minamount = $("#minamount").val();
-        var maxamount = $("#maxamount").val();
-
-        // Lọc sản phẩm theo giá ban đầu
-        filterByPrice(minamount, maxamount);
-    });
-</script>
-<script>
-    // $(document).ready(function () {
-    //     $(".add-to-cart-form").on("submit", function (event) {
-    //         event.preventDefault();
-    //         var form = $(this);
-    //         $.ajax({
-    //             type: "POST",
-    //             url: form.attr("action"),
-    //             data: form.serialize(),
-    //             success: function (data) {
-    //                 alert("Đã đặt hàng thành công!");
-    //                 var currentQuantity = parseInt($(".cart-item-count").text(), 10);
-    //                 var newQuantity = currentQuantity + 1;
-    //                 $(".cart-item-count").text(newQuantity);
-    //             },
-    //             error: function (error) {
-    //                 console.log("Error:", error);
-    //                 alert("Đã đặt lỗi");
-    //             }
-    //         });
-    //     });
-    // });
-</script>
-<script>
-    $(document).ready(function() {
         function initializeLazyLoading() {
             const lazyImages = document.querySelectorAll('[lazy]');
             const lazyImageObserver = new IntersectionObserver((entries, observer) => {
@@ -1017,20 +842,18 @@
                 },
                 success: function(response) {
                     var newContent = $(response).find('#row').html();
-                    var newPagination = $(response).find('.pagination').html();
+                    var newPagination = $(response).find('.product__pagination').html();
                     $('#row').html(newContent);
-                    $('.pagination').html(newPagination);
+                    $('.product__pagination').html(newPagination);
 
                     initializeLazyLoading();
                     initializeAddToCart();
 
-
                     // Cuộn lên đầu trang sau khi cập nhật nội dung
                     $('html, body').animate({ scrollTop: $('#row').offset().top }, 'fast');
 
-                    // Update 'num' based on the number of products in the current category
-                    // var num = Math.ceil(($(response).find('.product-item').length) / numpage);
-                    // session.setAttribute("num", num);
+                    // Update 'active' class for pagination links
+                    updateActivePage(page);
                 },
                 error: function(xhr, status, error) {
                     console.error('Lỗi khi tải sản phẩm:', error);
@@ -1038,22 +861,18 @@
             });
         }
 
+        // Hàm cập nhật 'active' cho phân trang
+        function updateActivePage(page) {
+            $('.pagination-link').removeClass('active');
+            $('.pagination-link[data-page="' + page + '"]').addClass('active');
+        }
+
+        // Khởi tạo lazy loading và giỏ hàng lần đầu
         initializeLazyLoading();
         initializeAddToCart();
     });
-
-
-
-
-
-
-
-
-
-    // Laad de initiële productenlijst
-
-
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
 
 <script>
