@@ -186,9 +186,9 @@
                         </c:choose>
 
                     </div>
+                </div>
             </div>
         </div>
-    </div>
     </div>
     <div class="container">
         <div class="row">
@@ -204,6 +204,7 @@
                             <c:when test="${not empty sessionScope.admin}">
                                 <li class="active"><a href="./Index">Trang chủ</a></li>
                                 <li><a href="./Shopgrid">Shop</a></li>
+
                                 <li><a href="./BankAccount">Blog</a></li>
                                 <li><a href="./Contact">Contact</a></li>
                                 <li><a href="/AdminIndex">Admin</a></li>
@@ -211,6 +212,13 @@
                             <c:otherwise>
                                 <li class="active"><a href="./Index">Trang chủ</a></li>
                                 <li><a href="./Shopgrid">Shop</a></li>
+                                <li><a href="#">Pages</a>
+                                    <ul class="header__menu__dropdown">
+                                        <li><a href="./RatingPage">Rating</a></li>
+                                        <li><a href="./CommentPage">Comment</a></li>
+
+                                    </ul>
+                                </li>
                                 <li><a href="./BankAccount">Blog</a></li>
                                 <li><a href="./Contact">Contact</a></li>
                             </c:otherwise>
@@ -239,23 +247,23 @@
         </div>
     </div>
 
-<%--    <div>--%>
-<%--        <ul class="navbar-nav w-100">--%>
-<%--            <li class="nav-item w-100">--%>
-<%--                <form action="${pageContext.request.contextPath}/search"--%>
-<%--                      class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">--%>
-<%--                    <input type="text" id="productName" name="productName"--%>
-<%--                           class="form-control-search"--%>
-<%--                           placeholder="search"/>">--%>
-<%--                    <button type="submit" class="button-search">--%>
-<%--                        <img src="/image/icons8-find-30.png" alt="Search">--%>
-<%--                    </button>--%>
-<%--                </form>--%>
+    <%--    <div>--%>
+    <%--        <ul class="navbar-nav w-100">--%>
+    <%--            <li class="nav-item w-100">--%>
+    <%--                <form action="${pageContext.request.contextPath}/search"--%>
+    <%--                      class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">--%>
+    <%--                    <input type="text" id="productName" name="productName"--%>
+    <%--                           class="form-control-search"--%>
+    <%--                           placeholder="search"/>">--%>
+    <%--                    <button type="submit" class="button-search">--%>
+    <%--                        <img src="/image/icons8-find-30.png" alt="Search">--%>
+    <%--                    </button>--%>
+    <%--                </form>--%>
 
 
-<%--            </li>--%>
-<%--        </ul>--%>
-<%--    </div>--%>
+    <%--            </li>--%>
+    <%--        </ul>--%>
+    <%--    </div>--%>
 </header>
 <!-- Header Section End -->
 
