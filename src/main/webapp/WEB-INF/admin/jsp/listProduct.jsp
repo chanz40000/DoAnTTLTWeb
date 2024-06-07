@@ -163,6 +163,19 @@
     /*    width: 1050px;*/
 
     /*}*/
+    .product__pagination a {
+        margin: 0 5px;
+        text-decoration: none;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        color: #000;
+    }
+
+    .product__pagination a.active {
+        background-color: #696cff;
+        color: #fff;
+    }
 </style>
 <body>
 <!-- Layout wrapper -->
@@ -216,7 +229,20 @@
                             <button onclick="exportTableToExcel('tabledata', 'category_data')">Export Table Data To Excel File</button>
 
                         </div>
+                        <c:set var="page" value="${sessionScope.page}" />
+                        <c:set var="num" value="${sessionScope.num}" />
+                        <div class="product__pagination" style="padding-left: 300px">
+                            <c:forEach begin="1" end="${num}" var="i">
+                                <c:url value="/GetListProduct" var="pageUrl">
+                                    <c:param name="page" value="${i}" />
+                                </c:url>
+                                <a href="${pageUrl}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>
+                            </c:forEach>
+                        </div>
+                        <br>
                     </div>
+
+
                     <!--/ Basic Bootstrap Table -->
 
                     <hr class="my-5" />
@@ -314,6 +340,9 @@
 <%--    . Hàm này sẽ kiểm tra xem dữ liệu đã được lưu trong cache hay chưa. Nếu đã có trong cache,--%>
 <%--    nó sẽ trả về dữ liệu từ cache. Nếu chưa có, nó sẽ gọi fetchDataFromDatabase(id) để lấy dữ liệu từ --%>
 <%--    nguồn và sau đó lưu vào cache trước khi trả về dữ liệu.--%>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
 
 <script>
     //import LRU from 'lru-cache';
@@ -396,7 +425,6 @@
                 console.error('Lỗi khi lấy dữ liệu từ cơ sở dữ liệu:', error);
             });
     }
-
     // Gọi function để hiển thị sản phẩm trong bảng khi trang được load
     displayProductsInTable();
 </script>
