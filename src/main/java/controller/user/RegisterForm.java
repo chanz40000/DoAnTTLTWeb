@@ -1,9 +1,8 @@
 package controller.user;
 
-import model.ErrorBean;
 import database.UserDAO;
+import model.ErrorBean;
 import model.User;
-import util.Email;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,9 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,6 +26,9 @@ public class RegisterForm extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            request.setCharacterEncoding("UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("text/html; charset=UTF-8");
             String username = request.getParameter("usernamere");
             String name = request.getParameter("namere");
             String email = request.getParameter("emailre");
