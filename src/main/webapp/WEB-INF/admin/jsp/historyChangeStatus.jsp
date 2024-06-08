@@ -24,13 +24,13 @@
     <title>Tables - Basic Tables | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.bootstrap5.css">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script defer src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
-    <script defer src="https://cdn.datatables.net/2.0.7/js/dataTables.bootstrap5.js"></script>
-    <!-- Favicon -->
+    <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css"/>
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../assetsForAdmin/assets/img/favicon/favicon.ico" />
 
     <!-- Fonts -->
@@ -60,8 +60,6 @@
     <script src="../assetsForAdmin/assets/vendor/js/helpers.js"></script>
 
     <script src="../assetsForAdmin/assets/js/config.js"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
 </head>
 <style>
     #menu-icon{
@@ -342,7 +340,9 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
-
+<script>
+    new DataTable('#example');
+</script>
 <script>
     const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
     const icondarklight = document.getElementById('icontype');
@@ -363,10 +363,6 @@
             icondarklight.classList.replace("fa-moon", "fa-sun");
         }
     });
-    $(document).ready(function() {
-        $('#example').DataTable();
-    });
-
 
 </script>
 </body>

@@ -25,8 +25,14 @@
     <title>Tables - Basic Tables | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
+  -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
 
-    <!-- Favicon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css"/>
+
     <link rel="icon" type="image/x-icon" href="../assetsForAdmin/assets/img/favicon/favicon.ico" />
 
     <!-- Fonts -->
@@ -47,7 +53,6 @@
     <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/css/core.css" class="template-customizer-core-css" />
     <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="../assetsForAdmin/assets/css/demo.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
 
     <!-- Vendors CSS -->
@@ -163,6 +168,19 @@
     /*    width: 1050px;*/
 
     /*}*/
+    .product__pagination a {
+        margin: 0 5px;
+        text-decoration: none;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        color: #000;
+    }
+
+    .product__pagination a.active {
+        background-color: #696cff;
+        color: #fff;
+    }
 </style>
 <body>
 <!-- Layout wrapper -->
@@ -192,13 +210,12 @@
                         <h5 class="card-header">List Product</h5>
                         <div class="table-responsive text-nowrap">
                             <form action="RemoveCheckProduct" method="POST">
-                                <button type="submit" class="btn btn-primary me-2" onclick="return nocheck();">Save change</button>
+                                <button type="submit" class="btn btn-primary me-2" onclick="return nocheck();">Xóa sản phẩm đã chọn</button>
 
-                                <table class="table table-striped" id="tabledata">
+                                <table class="table table-striped" id="tabledata" style="width:100%">
                                     <thead>
                                     <tr>
                                         <th></th>
-
                                         <th>Mã sách</th>
                                         <th>Ảnh</th>
                                         <th>Tên sách</th>
@@ -206,17 +223,35 @@
                                         <th>Giá nhập</th>
                                         <th>Giá bán</th>
                                         <th>Số lượng trong kho</th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0" id="productTableBody">
-
                                     </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th>Mã sách</th>
+                                        <th>Ảnh</th>
+                                        <th>Tên sách</th>
+                                        <th>Thể loại</th>
+                                        <th>Giá nhập</th>
+                                        <th>Giá bán</th>
+                                        <th>Số lượng trong kho</th>
+                                        <th></th>
+                                    </tr>
+                                    </tfoot>
                                 </table>
+
                             </form>
                             <button onclick="exportTableToExcel('tabledata', 'category_data')">Export Table Data To Excel File</button>
 
                         </div>
+
+                        <br>
                     </div>
+
+
                     <!--/ Basic Bootstrap Table -->
 
                     <hr class="my-5" />
@@ -314,8 +349,12 @@
 <%--    . Hàm này sẽ kiểm tra xem dữ liệu đã được lưu trong cache hay chưa. Nếu đã có trong cache,--%>
 <%--    nó sẽ trả về dữ liệu từ cache. Nếu chưa có, nó sẽ gọi fetchDataFromDatabase(id) để lấy dữ liệu từ --%>
 <%--    nguồn và sau đó lưu vào cache trước khi trả về dữ liệu.--%>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
 
 <script>
+
     //import LRU from 'lru-cache';
     //const LRU = require('lru-cache');
     // Define LRU cache with max 100 items and 1 hour max age
@@ -390,6 +429,7 @@
                         ;
                         tbody.appendChild(row);
                     });
+                new DataTable('#tabledata');
                 }
             )
             .catch(error => {

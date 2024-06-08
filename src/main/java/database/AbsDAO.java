@@ -1,6 +1,7 @@
 package database;
 
 import com.google.gson.Gson;
+//import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import model.Log;
 import util.CountryIdentifier;
@@ -57,6 +58,9 @@ public class AbsDAO <T> implements DAOInterface<T> {
         } catch (IOException | GeoIp2Exception e) {
             throw new RuntimeException(e);
         }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
         return countryId;
     }
 

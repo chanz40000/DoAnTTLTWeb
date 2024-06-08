@@ -366,8 +366,8 @@ public class ProductDAO extends AbsDAO<Product> {
         return products;
     }
     //dem trang
-    public List<Product> getListByPage(List<Product> list, int start, int end){
-        List<Product> arr = new ArrayList<Product>();
+    public ArrayList<Product> getListByPage(ArrayList<Product> list, int start, int end){
+        ArrayList<Product> arr = new ArrayList<Product>();
         for (int i = start; i < end; i++) {
             arr.add(list.get(i));
         }

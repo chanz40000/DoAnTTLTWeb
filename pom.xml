@@ -105,6 +105,7 @@
       <version>1.0.0</version>
     </dependency>
 
+
     <!-- https://mvnrepository.com/artifact/com.ip2location/ip2location-java -->
     <dependency>
       <groupId>com.ip2location</groupId>
@@ -154,6 +155,12 @@
       <version>1.0-beta</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/com.maxmind.geoip2/geoip2 -->
+    <dependency>
+      <groupId>com.maxmind.geoip2</groupId>
+      <artifactId>geoip2</artifactId>
+      <version>4.2.0</version>
+    </dependency>
 
 
 
@@ -239,6 +246,8 @@
       <artifactId>lru-cache</artifactId>
       <version>10.2.2</version>
     </dependency>
+
+
     <!-- https://mvnrepository.com/artifact/com.maxmind.geoip2/geoip2 -->
       <dependency>
           <groupId>com.maxmind.geoip2</groupId>
@@ -246,12 +255,15 @@
           <version>4.2.0</version>
       </dependency>
 
-    <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+
     <dependency>
       <groupId>net.coobird</groupId>
       <artifactId>thumbnailator</artifactId>
-      <version>0.4.20</version>
+      <version>0.4.14</version>
     </dependency>
+
+
+
     <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
     <dependency>
       <groupId>commons-fileupload</groupId>
