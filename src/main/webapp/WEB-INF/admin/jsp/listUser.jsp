@@ -26,6 +26,12 @@
     <title>Tables - Basic Tables | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css"/>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../assetsForAdmin/assets/img/favicon/favicon.ico" />
@@ -52,15 +58,11 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css" >
 
 
     <!-- Page CSS -->
     <script defer src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script defer src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>\
-    <script defer src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
     <script defer src="script.js"></script>
     <!-- Helpers -->
     <script src="../assetsForAdmin/assets/vendor/js/helpers.js"></script>
@@ -198,6 +200,7 @@
                                     <th>Birthday</th>
                                     <th>Sexual</th>
                                     <th>Actions</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0" id="userTableBody">
@@ -239,6 +242,18 @@
 <%--                                </c:forEach>--%>
 
                                 </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone number</th>
+                                    <th>Birthday</th>
+                                    <th>Sexual</th>
+                                    <th>Actions</th>
+                                    <th></th>
+                                </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -404,6 +419,7 @@
                         '</td>';
                     tbody.appendChild(row);
                 });
+                new DataTable('#example');
             })
             .catch(error => {
                 console.error('Lỗi khi lấy dữ liệu từ cơ sở dữ liệu:', error);

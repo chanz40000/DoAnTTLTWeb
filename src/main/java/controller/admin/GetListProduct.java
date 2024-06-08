@@ -16,34 +16,12 @@ public class GetListProduct extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ProductDAO productDAO = new ProductDAO();
-//        ArrayList<Product> products = productDAO.selectAll();
-        ArrayList<Product> list = productDAO.selectAll();
-
-        HttpSession session = request.getSession();
-        int page, numpage = 12;
-        int size = list.size();
-        int num = (size % numpage == 0) ? (size / numpage) : ((size / numpage) + 1);
-        String xpage = request.getParameter("page");
-
-        if (xpage == null || xpage.isEmpty()) {
-            page = 1;
-        } else {
-            page = Integer.parseInt(xpage);
-        }
-
-        int start = (page - 1) * numpage;
-        int end = Math.min(page * numpage, size);
-        ArrayList<Product> products = productDAO.getListByPage(list, start, end);
-
-
-        session.setAttribute("listProduct", list);
-//        session.setAttribute("listProducts", products);
-        session.setAttribute("page", page);
-        session.setAttribute("num", num);
+        ArrayList<Product> products = productDAO.selectAll();
 
         // Chuyển đổi danh sách sản phẩm thành chuỗi JSON
         Gson gson = new Gson();
         String jsonProducts = gson.toJson(products);
+
         // Gửi phản hồi JSON về client
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
