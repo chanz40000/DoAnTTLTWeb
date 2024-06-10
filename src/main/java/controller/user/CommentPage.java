@@ -1,7 +1,7 @@
 package controller.user;
 
-import database.RatingDAO;
-import model.Rating;
+import database.CommentDAO;
+import model.Comment;
 import model.User;
 
 import javax.servlet.*;
@@ -10,8 +10,8 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet(name = "RatingPage", value = "/RatingPage")
-public class RatingPage extends HttpServlet {
+@WebServlet(name = "CommentPage", value = "/CommentPage")
+public class CommentPage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -19,9 +19,9 @@ public class RatingPage extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("userC");
-        ArrayList<Rating> ratings = new RatingDAO().selectRByuserid(user.getUserId());
-        request.setAttribute("ratings",ratings);
-        request.getRequestDispatcher("/WEB-INF/book/Rating.jsp").forward(request,response);
+        ArrayList<Comment> comments = new CommentDAO().selectCByuserid(user.getUserId());
+        request.setAttribute("comments",comments);
+        request.getRequestDispatcher("/WEB-INF/book/Comment.jsp").forward(request,response);
     }
 
     @Override

@@ -1,20 +1,25 @@
 package model;
 
 
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Comment {
     private int commentid;
     public int ratingid;
     private Product product;
+    private double ratingstar;
+    private String ratingtext;
     private User user;
     private String detailComment;
     private long dateComment;
 
-    public Comment(int commentid, int ratingid, Product product, User user, String detailComment, long dateComment) {
+    public Comment(int commentid, int ratingid, Product product, double ratingstar, String ratingtext, User user, String detailComment, long dateComment) {
         this.commentid = commentid;
         this.ratingid = ratingid;
         this.product = product;
+        this.ratingstar = ratingstar;
+        this.ratingtext = ratingtext;
         this.user = user;
         this.detailComment = detailComment;
         this.dateComment = dateComment;
@@ -30,6 +35,14 @@ public class Comment {
 
     public Product getProduct() {
         return product;
+    }
+
+    public double getRatingstar() {
+        return ratingstar;
+    }
+
+    public String getRatingtext() {
+        return ratingtext;
     }
 
     public User getUser() {
@@ -56,6 +69,14 @@ public class Comment {
         this.product = product;
     }
 
+    public void setRatingstar(double ratingstar) {
+        this.ratingstar = ratingstar;
+    }
+
+    public void setRatingtext(String ratingtext) {
+        this.ratingtext = ratingtext;
+    }
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -74,9 +95,15 @@ public class Comment {
                 "commentid=" + commentid +
                 ", ratingid=" + ratingid +
                 ", product=" + product +
+                ", ratingstar=" + ratingstar +
+                ", ratingtext='" + ratingtext + '\'' +
                 ", user=" + user +
                 ", detailComment='" + detailComment + '\'' +
                 ", dateComment=" + dateComment +
                 '}';
+    }
+    public String getFormattedDateComment() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(new Date(dateComment));
     }
 }

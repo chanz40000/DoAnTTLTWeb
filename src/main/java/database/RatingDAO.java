@@ -102,7 +102,11 @@ public class RatingDAO implements DAOInterface<Rating> {
             Connection con = JDBCUtil.getConnection();
 
             // Tạo câu lệnh SQL với điều kiện WHERE product_id = ?
-            String sql = "SELECT pr.product_name,r.rating_id,r.user_id,r.rating_star,r.rating_text,r.date_rating  FROM ratings r JOIN products pr on r.product_id = pr.product_id  WHERE user_id = ?";
+            String sql = "SELECT pr.product_name, r.rating_id, r.user_id, " +
+                    "r.rating_star, r.rating_text, r.date_rating " +
+                    "FROM ratings r JOIN products pr on r.product_id = pr.product_id " +
+                    "WHERE user_id = ? " +
+                    "ORDER BY date_rating DESC";
 
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, userId); // Thiết lập giá trị cho tham số product_id
@@ -116,12 +120,16 @@ public class RatingDAO implements DAOInterface<Rating> {
                 String name = rs.getString("product_name");
                 int ratingStar = rs.getInt("rating_star");
                 String ratingText = rs.getString("rating_text");
-                Long daterating = rs.getTimestamp("date_rating").getTime();
+                long dateratingLong = rs.getTimestamp("date_rating").getTime();
+
+                // Convert milliseconds to formatted date string using getter method
+
                 Product pr = new ProductDAO().selectByName(name);
                 User use = new UserDAO().selectById(iduser);
 
-                Rating ra = new Rating(idrating, pr, use, ratingStar, ratingText, daterating);
+                Rating ra = new Rating(idrating, pr, use, ratingStar, ratingText, dateratingLong);
                 ratings.add(ra);
+
             }
 
             JDBCUtil.closeConnection(con);

@@ -1,6 +1,7 @@
 package database;
 
 import com.google.gson.Gson;
+//import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import model.Log;
 import util.CountryIdentifier;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class AbsDAO <T> implements DAOInterface<T> {
-//    private String nameOfTable="";
+    //    private String nameOfTable="";
     private String preValue="";
     private String value="";
     private String ipAddress="";
@@ -57,6 +58,9 @@ public class AbsDAO <T> implements DAOInterface<T> {
         } catch (IOException | GeoIp2Exception e) {
             throw new RuntimeException(e);
         }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
         return countryId;
     }
 

@@ -25,11 +25,12 @@
     <title>Tables - Basic Tables | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.bootstrap5.css">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script defer src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
-    <script defer src="https://cdn.datatables.net/2.0.7/js/dataTables.bootstrap5.js"></script>
+    <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css"/>
     <!-- Favicon -->
 
     <link rel="icon" type="image/x-icon" href="../assetsForAdmin/assets/img/favicon/favicon.ico" />
@@ -236,7 +237,6 @@
                                         <h5 class="card-header">Danh sách đơn hàng cần xác nhận </h5>
                                         <div class="table-responsive text-nowrap">
                                             <table id="example" class="table table-striped" style="width:100%">
-
                                                 <thead>
                                                 <tr>
                                                     <th>ID</th>
@@ -256,53 +256,24 @@
                                                 <c:forEach var="order" items="${orderDAO.selectByStatusIds(ChoXacNhan, DangDongGoi, YeuCauHuy, YeuCauTraHang, DangGiao)}">
                                                     <tr>
                                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${order.orderId}</strong></td>
-
                                                         <td>${order.user.userId}</td>
                                                         <td>${order.bookingDate}</td>
-                                                        <td><span class="badge bg-label-primary me-1">${order.status.statusName}</span></td>
+                                                        <td><span class="badge bg-label-primary me-1 order-status">${order.status.statusName}</span></td>
                                                         <td>
                                                             <c:if test="${order.status.statusId == 1}">
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="AcceptOrder" />
-                                                                    <button type="submit" class="badge bg-success me-1">Xác nhận</button>
-                                                                </form>
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="RejectOrder" />
-                                                                    <button type="submit" class="badge bg-danger me-1">Hủy</button>
-                                                                </form>
+                                                                <button class="badge bg-success me-1 change-status" data-orderid="${order.orderId}" data-action="AcceptOrder">Xác nhận</button>
+                                                                <button class="badge bg-danger me-1 change-status" data-orderid="${order.orderId}" data-action="RejectOrder">Hủy</button>
                                                             </c:if>
                                                             <c:if test="${order.status.statusId == 2}">
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="Packed" />
-                                                                    <button type="submit" class="badge bg-success me-1">Xong</button>
-                                                                </form>
+                                                                <button class="badge bg-success me-1 change-status" data-orderid="${order.orderId}" data-action="Packed">Xong</button>
                                                             </c:if>
                                                             <c:if test="${order.status.statusId == 5}">
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="Cancel" />
-                                                                    <button type="submit" class="badge bg-success me-1">Chấp nhận</button>
-                                                                </form>
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="RejectCancelOrder" />
-                                                                    <button type="submit" class="badge bg-danger me-1">Từ chối</button>
-                                                                </form>
+                                                                <button class="badge bg-success me-1 change-status" data-orderid="${order.orderId}" data-action="Cancel">Chấp nhận</button>
+                                                                <button class="badge bg-danger me-1 change-status" data-orderid="${order.orderId}" data-action="RejectCancelOrder">Từ chối</button>
                                                             </c:if>
                                                             <c:if test="${order.status.statusId == 7}">
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="AcceptReturnOrder" />
-                                                                    <button type="submit" class="badge bg-success me-1">Chấp nhận</button>
-                                                                </form>
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="RejectReturnOrder" />
-                                                                    <button type="submit" class="badge bg-danger me-1">Từ chối</button>
-                                                                </form>
+                                                                <button class="badge bg-success me-1 change-status" data-orderid="${order.orderId}" data-action="AcceptReturnOrder">Chấp nhận</button>
+                                                                <button class="badge bg-danger me-1 change-status" data-orderid="${order.orderId}" data-action="RejectReturnOrder">Từ chối</button>
                                                             </c:if>
                                                         </td>
                                                         <td>
@@ -612,6 +583,95 @@
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/Chart.min.js"></script>
+
+<script>
+    new DataTable('#example');
+    new DataTable('#example1');
+    new DataTable('#example2');
+    $(document).ready(function() {
+        // Gắn sự kiện click ban đầu
+        attachClickEvent();
+
+        // Hàm để gắn sự kiện click
+        function attachClickEvent() {
+            $(".change-status").off("click").on("click", function(event) {
+                event.preventDefault();
+
+                let button = $(this);
+                let orderId = button.data("orderid");
+                let action = button.data("action");
+
+                console.log("Button clicked. Order ID: " + orderId + ", Action: " + action);
+
+                // Disable the button to prevent multiple clicks
+                button.prop("disabled", true);
+
+                $.ajax({
+                    type: "POST",
+                    url: "ChangeStatusOrder",
+                    data: {
+                        orderId: orderId,
+                        action: action
+                    },
+                    success: function(response) {
+                        console.log("AJAX success response: ", response);
+                        if (response.success) {
+                            let newStatus = response.newStatus;
+
+                            // Cập nhật trạng thái
+                            button.closest("tr").find(".order-status").text(newStatus);
+
+                            // Cập nhật các nút hành động
+                            updateActionButtons(button.closest("tr"), newStatus);
+                        } else {
+                            alert("Cập nhật trạng thái thất bại.");
+                        }
+                        button.prop("disabled", false); // Re-enable the button
+                    },
+                    error: function(error) {
+                        console.error("AJAX error response: ", error);
+                        alert("Đã xảy ra lỗi khi cập nhật trạng thái.");
+                        button.prop("disabled", false); // Re-enable the button if there's an error
+                    }
+                });
+            });
+        }
+
+        function updateActionButtons(row, newStatus) {
+            let actionsCell = row.find("td:eq(4)");
+            actionsCell.empty();
+
+            if (newStatus === "Đang chờ xác nhận") {
+                actionsCell.append(`
+                <button class="badge bg-success me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="AcceptOrder">Xác nhận</button>
+                <button class="badge bg-danger me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="RejectOrder">Hủy</button>
+            `);
+            } else if (newStatus === "Đang được đóng gói") {
+                actionsCell.append(`
+                <button class="badge bg-success me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="Packed">Xong</button>
+            `);
+            } else if (newStatus === "Yêu cầu hủy") {
+                actionsCell.append(`
+                <button class="badge bg-success me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="Cancel">Chấp nhận</button>
+                <button class="badge bg-danger me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="RejectCancelOrder">Từ chối</button>
+            `);
+            } else if (newStatus === "Yêu cầu trả hàng") {
+                actionsCell.append(`
+                <button class="badge bg-success me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="AcceptReturnOrder">Chấp nhận</button>
+                <button class="badge bg-danger me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="RejectReturnOrder">Từ chối</button>
+            `);
+            }
+
+            // Gắn lại sự kiện click cho các nút mới
+            attachClickEvent();
+        }
+    });
+
+</script>
+
+
+
 
 <script>
     const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
