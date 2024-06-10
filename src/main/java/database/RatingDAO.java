@@ -1,11 +1,11 @@
 package database;
 
-import model.*;
+import model.Product;
+import model.Rating;
+import model.User;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -447,32 +447,8 @@ public class RatingDAO implements DAOInterface<Rating> {
         }
     }
 
-    public static void main(String[] args) {
-        int num = new RatingDAO().getSumRatingByProductId(1);
-//        double db = new RatingDAO().getAverageRatingByProductId(1);
-//        int rate = new RatingDAO().getAverageRatingsByProductId(4.0,5);
-//        System.out.println(db);
-//        System.out.println(num);
-//        System.out.println(rate);
-//        List<Integer> productIds = new ArrayList<>();
-//        productIds.add(1);
-//        productIds.add(2);
-//        productIds.add(3);
-//        List<Integer> userIds = new ArrayList<>();
-//        userIds.add(1);
-//        userIds.add(2);
-//        userIds.add(2);
 
-        RatingDAO raDAO = new RatingDAO();
-        List<Rating> ratinges = raDAO.selectNameFromRatings(3);
-        List<Rating> ratings = raDAO.getListByPage(ratinges,1,4);
-//        System.out.println(raDAO.selectNameFromRatings(2));
-        for(Rating r:ratings){
-            System.out.println(r);
 
-        }
-//        raDAO.printAverageRatingsByProductIds(productIds);
-    }
 
 
 }

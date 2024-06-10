@@ -3,15 +3,13 @@ package database;
 import com.google.gson.Gson;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import model.Log;
+import util.CountryIdentifier;
+import util.IPv4Converter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import com.ip2location.*;
-import com.ip2location.IP2Location;
-import util.CountryIdentifier;
-import util.IPv4Converter;
 
 public class AbsDAO <T> implements DAOInterface<T> {
 //    private String nameOfTable="";

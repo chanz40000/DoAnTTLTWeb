@@ -377,6 +377,11 @@
                     </a>
                 </li>
                 <li class="menu-item">
+                    <a href="./warehouse2" class="menu-link">
+                        <div data-i18n="Basic Inputs">Nhập sản phẩm2</div>
+                    </a>
+                </li>
+                <li class="menu-item">
                     <a href="./ProductCannotBeSold" class="menu-link">
                         <div data-i18n="Input groups">Sản phẩm không bán được</div>
                     </a>
