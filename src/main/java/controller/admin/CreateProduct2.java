@@ -5,6 +5,7 @@ import database.ProductDAO;
 import model.Category;
 import model.Product;
 
+
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;

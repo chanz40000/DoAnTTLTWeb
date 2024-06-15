@@ -519,26 +519,33 @@
                                         <%--                                <div class="product__item__pic set-bg" > <!--data-setbg=""-->--%>
                                         <%--                                    <img data-src="img/image/${p.image}" lazy>--%>
                                         <%-->>>>>>> main--%>
-                                    <ul class="product__item__pic__hover">
-                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                        <li><a href="Shopdetails?id=${p.productId}"><i class="fa fa-info-circle"></i></a></li>
-                                        <li>
-                                            <form class="add-to-cart-form" action="AddToCart" method="post" id="addToCartForm">
-                                                <input type="hidden" name="productId" value="${p.productId}">
-                                                <button class="submit-button" type="submit">
-                                                    <c:choose>
-                                                        <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
-                                                            <a href=""><i class="fa fa-shopping-cart"></i></a>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <a href="Login"><i class="fa fa-shopping-cart"></i></a>
-                                                        </c:otherwise>
-                                                    </c:choose>
+                                    <c:choose>
+                                        <c:when test="${p.quantity > 0}">
+                                            <ul class="product__item__pic__hover">
+                                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                                <li><a href="Shopdetails?id=${p.productId}"><i class="fa fa-info-circle"></i></a></li>
+                                                <li>
+                                                    <form class="add-to-cart-form" action="AddToCart" method="post" id="addToCartForm">
+                                                        <input type="hidden" name="productId" value="${p.productId}">
+                                                        <button class="submit-button" type="submit">
+                                                            <c:choose>
+                                                                <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
+                                                                    <a href=""><i class="fa fa-shopping-cart"></i></a>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <a href="Login"><i class="fa fa-shopping-cart"></i></a>
+                                                                </c:otherwise>
+                                                            </c:choose>
 
-                                                </button>
-                                            </form>
-                                        </li>
-                                    </ul>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </c:when>
+                                        <c:otherwise>
+
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div class="product__item__text">
                                     <h6>${p.product_name}</h6>
@@ -574,18 +581,21 @@
                                                     </c:forEach>
                                                 </c:if>
                                             </c:otherwise>
-
-
-
-
-
-
-
                                         </c:choose>
                                         <li class="Stick"></li>
+                                        <c:choose>
+                                            <c:when test="${p.quantity > 0}">
                                         <li class="Productnotsell">Còn lại ${p.quantity}</li>
                                     </ul>
                                     <h5>${FormatCurrency.formatCurrency(p.price)}</h5>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li class="Productnotsell">Hết hàng</li>
+                                                </ul>
+                                                <h5 style="color: #a71d2a">Hết hàng</h5>
+                                            </c:otherwise>
+                                        </c:choose>
+
                                 </div>
                             </div>
                         </div>
