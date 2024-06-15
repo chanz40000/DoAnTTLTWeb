@@ -520,8 +520,23 @@
                                         <%--                                    <img data-src="img/image/${p.image}" lazy>--%>
                                         <%-->>>>>>> main--%>
                                     <ul class="product__item__pic__hover">
-                                        <li><a href="#"><i class="fa fa-heart"></i></a></li>
                                         <li><a href="Shopdetails?id=${p.productId}"><i class="fa fa-info-circle"></i></a></li>
+                                        <li>
+                                            <form class="add-to-wishlist-form" action="AddToWishList" method="post" id="addToWishListForm">
+                                                <input type="hidden" name="productId" value="${p.productId}">
+                                                <button class="submit-button" type="submit">
+                                                    <c:choose>
+                                                        <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
+                                                            <a href=""><i class="fa fa-heart"></i></a>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <a href="Login"><i class="fa fa-heart"></i></a>
+                                                        </c:otherwise>
+                                                    </c:choose>
+
+                                                </button>
+                                            </form>
+                                        </li>
                                         <li>
                                             <form class="add-to-cart-form" action="AddToCart" method="post" id="addToCartForm">
                                                 <input type="hidden" name="productId" value="${p.productId}">
@@ -592,15 +607,16 @@
                     </c:forEach>
                 </div>
 
+                <c:set var="isSearch" value="${not empty param.productName}" />
+
                 <c:set var="page" value="${sessionScope.page}" />
                 <c:set var="num" value="${sessionScope.num}" />
-                <c:set var="selectedCategory" value="${sessionScope.selectedCategory}"/>
+                <c:set var="selectedCategory" value="${sessionScope.selectedCategory}" />
 
                 <c:set var="displayPages" value="3" />
                 <c:set var="halfDisplay" value="${displayPages / 2}" />
                 <c:set var="startPage" value="${page - halfDisplay}" />
                 <c:set var="endPage" value="${page + halfDisplay}" />
-
 
                 <c:if test="${startPage < 1}">
                     <c:set var="startPage" value="1" />
@@ -616,38 +632,42 @@
                 </c:if>
 
                 <div class="product__pagination" style="padding-left: 300px">
-                    <c:if test="${page > 1}">
-                        <c:url value="/Shopgrid" var="prevPageUrl">
-                            <c:param name="page" value="${page - 1}" />
-                        </c:url>
-                        <a href="javascript:void(0);" class="pagination-link" data-page="${page - 1}"><</a>
-                    </c:if>
+                    <c:if test="${not isSearch}">
+                        <c:if test="${page > 1}">
+                            <c:url value="/Shopgrid" var="prevPageUrl">
+                                <c:param name="page" value="${page - 1}" />
+                            </c:url>
+                            <a href="javascript:void(0);" class="pagination-link" data-page="${page - 1}"><</a>
+                        </c:if>
 
-                    <c:forEach begin="${startPage}" end="${endPage}" var="i">
-                        <c:url value="/Shopgrid" var="pageUrl">
-                            <c:param name="page" value="${i}" />
-                        </c:url>
-                        <a href="javascript:void(0);" class="pagination-link" data-page="${i}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>
-                    </c:forEach>
+                        <c:forEach begin="${startPage}" end="${endPage}" var="i">
+                            <c:url value="/Shopgrid" var="pageUrl">
+                                <c:param name="page" value="${i}" />
+                            </c:url>
+                            <a href="javascript:void(0);" class="pagination-link" data-page="${i}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>
+                        </c:forEach>
 
-                    <c:if test="${endPage < num}">
-                        ...
-                    </c:if>
+                        <c:if test="${endPage < num}">
+                            ...
+                        </c:if>
 
-                    <c:if test="${endPage < num}">
-                        <c:url value="/Shopgrid" var="lastPageUrl">
-                            <c:param name="page" value="${num}" />
-                        </c:url>
-                        <a href="javascript:void(0);" class="pagination-link" data-page="${num}">${num}</a>
-                    </c:if>
+                        <c:if test="${endPage < num}">
+                            <c:url value="/Shopgrid" var="lastPageUrl">
+                                <c:param name="page" value="${num}" />
+                            </c:url>
+                            <a href="javascript:void(0);" class="pagination-link" data-page="${num}">${num}</a>
+                        </c:if>
 
-                    <c:if test="${page < num}">
-                        <c:url value="/Shopgrid" var="nextPageUrl">
-                            <c:param name="page" value="${page + 1}" />
-                        </c:url>
-                        <a href="javascript:void(0);" class="pagination-link" data-page="${page + 1}">></a>
+                        <c:if test="${page < num}">
+                            <c:url value="/Shopgrid" var="nextPageUrl">
+                                <c:param name="page" value="${page + 1}" />
+                            </c:url>
+                            <a href="javascript:void(0);" class="pagination-link" data-page="${page + 1}">></a>
+                        </c:if>
                     </c:if>
-                    <%--=======--%>
+                </div>
+
+            <%--=======--%>
                     <%--                    <c:set var="page" value="${sessionScope.page}" />--%>
                     <%--                    <c:set var="num" value="${sessionScope.num}" />--%>
                     <%--                    <c:set var="selectedCategory" value="${sessionScope.selectedCategory}" />--%>
@@ -782,7 +802,7 @@
         }
 
         function initializeAddToCart() {
-            $(".add-to-cart-form").on("submit", function(event) {
+            $(".add-to-cart-form").off("submit").on("submit", function(event) {
                 event.preventDefault();
                 var form = $(this);
                 <c:if test="${sessionScope.userC.name == null}">
@@ -804,6 +824,36 @@
                     error: function (error) {
                         console.error("Error:", error);
                         alert("Đã đặt lỗi");
+                    }
+                });
+            });
+        }
+
+        function initializeAddToWishlist() {
+            $(".add-to-wishlist-form").off("submit").on("submit", function(event) {
+                event.preventDefault();
+                var form = $(this);
+
+                // Check if the user is logged in (existing code)
+
+                $.ajax({
+                    type: "POST",
+                    url: form.attr("action"),
+                    data: form.serialize(),
+                    success: function(data) {
+                        alert("Đã thêm vào danh sách yêu thích!");
+                        var currentQuantity = parseInt($(".wishlist-item-count").text(), 10);
+                        var newQuantity = currentQuantity + 1;
+                        $(".wishlist-item-count").text(newQuantity);
+                        // Optionally, update UI elements here
+                    },
+                    error: function(error) {
+                        if (error.responseText.includes("Product already exists in wishlist")) {
+                            alert("Sản phẩm này đã tồn tại trong danh sách yêu thích!");
+                        } else {
+                            console.error("Error:", error);
+                            alert("Đã xảy ra lỗi khi thêm vào danh sách yêu thích.");
+                        }
                     }
                 });
             });
@@ -848,6 +898,7 @@
 
                     initializeLazyLoading();
                     initializeAddToCart();
+                    initializeAddToWishlist();
 
                     // Cuộn lên đầu trang sau khi cập nhật nội dung
                     $('html, body').animate({ scrollTop: $('#row').offset().top }, 'fast');
@@ -870,6 +921,92 @@
         // Khởi tạo lazy loading và giỏ hàng lần đầu
         initializeLazyLoading();
         initializeAddToCart();
+        initializeAddToWishlist();
+
+        function searchByName(param) {
+            var txtSearch = $(param).val().trim();
+            console.log("Searching by name: " + txtSearch);
+            if (txtSearch === "") {
+                // Load all products if the search input is empty
+                loadProducts(1, currentCategory);
+            } else {
+                $.ajax({
+                    url: "/SearchByAjax",
+                    type: "GET",
+                    data: {
+                        productName: txtSearch
+                    },
+                    success: function(response) {
+                        var newSearch = $(response).find('#row').html();
+                        var newPaginationSearch = $(response).find('.product__pagination').html();
+                        $('#row').html(newSearch);
+                        $('.product__pagination').html(newPaginationSearch);
+
+                        // Reinitialize lazy loading and add-to-cart/add-to-wishlist for the new content
+                        initializeLazyLoading();
+                        initializeAddToCart();
+                        initializeAddToWishlist();
+
+                        // Update pagination display based on search results
+                        $('.product__pagination').html('<a href="javascript:void(0);" class="pagination-link active" data-page="1">1</a>');
+                    },
+                    error: function(xhr) {
+                        console.error("Error during AJAX request: " + xhr.status + " " + xhr.statusText);
+                    }
+                });
+            }
+        }
+
+        // Event listener for input changes
+        $('#productName').on('input', function() {
+            searchByName(this);
+        });
+    });
+
+
+</script>
+<script>
+    $(document).ready(function() {
+        // Khởi tạo slider giá
+        $(".price-range").slider({
+            range: true,
+            minamount: 10000,
+            maxamount: 500000,
+            values: [10000, 500000],
+            slide: function(event, ui) {
+                var minamount = ui.values[0]; // Lấy giá trị min từ slider
+                var maxamount = ui.values[1]; // Lấy giá trị max từ slider
+                $("#minamount").val(minamount); // Cập nhật giá trị min cho input hidden
+                $("#maxamount").val(maxamount); // Cập nhật giá trị max cho input hidden
+                // Lọc sản phẩm theo giá
+                filterByPrice(minamount, maxamount);
+            }
+        });
+        // Hàm lọc sản phẩm theo giá
+        function filterByPrice(minamount, maxamount) {
+            console.log("Lọc sản phẩm theo giá:", minamount, maxamount);
+            // Gọi API để lọc sản phẩm
+            $.ajax({
+                url: "http://localhost:8080/FilterPrice",
+                type: "GET",
+                data: {
+                    minamount: minamount.toString(), // Chuyển đổi min thành chuỗi
+                    maxamount: maxamount.toString() // Chuyển đổi max thành chuỗi
+                },
+                success: function(data) {
+                    // Cập nhật nội dung cho phần tử #row
+                    $('#row').html(data);
+                },
+                error: function(xhr) {
+                    // Xử lý lỗi nếu cần
+                }
+            });
+        }
+        // Lấy giá trị ban đầu của slider
+        var minamount = $("#minamount").val();
+        var maxamount = $("#maxamount").val();
+        // Lọc sản phẩm theo giá ban đầu
+        filterByPrice(minamount, maxamount);
     });
 </script>
 

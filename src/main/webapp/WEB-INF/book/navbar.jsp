@@ -35,6 +35,14 @@
 
 <!DOCTYPE html>
 <nav>
+    <jsp:useBean id="wishlistDAO" class="database.WishListDAO" scope="session" />
+    <c:set var="wishCount" value="0" />
+
+    <c:if test="${not empty sessionScope.userC}">
+        <c:set var="userId" value="${sessionScope.userC.userId}" />
+        <c:set var="wishCount" value="${wishlistDAO.countByUserId(userId)}" />
+        <c:set var="wishCount" value="${wishCount}" scope="request" />
+    </c:if>
     <!-- Humberger Begin -->
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
@@ -230,7 +238,12 @@
             <div class="col-lg-3">
                 <div class="header__cart">
                     <ul>
-                        <li><a href="#"><i class="fa fa-heart"></i> <span>2</span></a></li>
+                        <li>
+                            <a href="WishListPage">
+                                <i class="fa fa-heart"></i>
+                                <span class="wishlist-item-count">${requestScope.wishCount == null ? '0' :requestScope.wishCount}</span>
+                            </a>
+                        </li>
                         <li>
                             <a href="Shoppingcart">
                                 <i class="fa fa-shopping-bag"></i>
