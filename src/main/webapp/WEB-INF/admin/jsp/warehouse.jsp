@@ -135,60 +135,8 @@
       transform: rotate(180deg);
 
     }
-    /*.bg-menu-theme.close .align-items-center.bg-navbar-theme{*/
-    /*  padding-left: 100px;*/
-    /*}*/
-    .layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached.align-items-center.bg-navbar-theme.close{
-      width:1212px;
-      margin-left: -125px;
-    }
-
-    .content-wrapper.close{
-      margin-left: -151px;
-      width: 1263px;
-    }
-    /*.container-xxl.flex-grow-1.container-p-y .row.close .card-body{*/
-    /*  !*margin-left: -10px;*!*/
-    /*  !*width: 500px;*!*/
-    /*}*/
-    .fa-regular.fa-sun{
-      font-size: 20px;
-
-    }
-    .fa-regular.fa-moon{
-      font-size: 20px;
-
-    }
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<%--  <script>--%>
-<%--    $(document).ready(function (){--%>
-<%--      $("form#uploadForm").submit(function (event){--%>
-<%--        event.preventDefault();--%>
-<%--        var formData = new FormData(this);--%>
-<%--        $.ajax({--%>
-<%--          url: "upload",--%>
-<%--          type: 'POST',--%>
-<%--          data: formData,--%>
-<%--          success: function(data){--%>
-<%--            var rows = data;--%>
-<%--            for(var i=0; i<rows.length; i++){--%>
-<%--              var columns = rows[i];--%>
-<%--              var eachRow = "<tr>";--%>
-<%--              for(var j=0; j<columns.length; j++){--%>
-<%--                eachRow += "<td>"+ columns[j]+"</td>";--%>
-<%--              }--%>
-<%--              eachRow += "</tr>";--%>
-<%--              $('#tbody').append(eachRow);--%>
-<%--            }--%>
-<%--          },--%>
-<%--          cache: false,--%>
-<%--          contentType: false,--%>
-<%--          processData: false--%>
-<%--        });--%>
-<%--      });--%>
-<%--    });--%>
-<%--  </script>--%>
 </head>
 
 <body>
@@ -203,27 +151,14 @@
     <!-- Menu -->
     <jsp:include page="menu.jsp"/>
 
-    <!-- / Menu -->
-
-
-
     <!-- Layout container -->
     <div class="layout-page">
-      <!-- Navbar -->
-      <!-- / Navbar -->
+->
 
       <div class="content-wrapper">
-<%--        <form id="uploadForm" enctype="multipart/form-data" method="post"> <!-- Thêm ID cho form -->--%>
-<%--          <input type="file" name="file" id="fileInput">--%>
-<%--          <input type="submit" value="Save">--%>
-<%--        </form>--%>
-<%--          <table>--%>
-<%--            <tbody id="tbody"> <!-- Thêm ID cho tbody -->--%>
-<%--            </tbody>--%>
-<%--          </table>--%>
 
   <h1>Upload Excel File</h1>
-  <form id="uploadForm" action="Upload2" method="post" enctype="multipart/form-data">
+  <form id="uploadForm" enctype="multipart/form-data" method="post">
     <input type="file" name="file" id="fileInput">
     <input type="submit" value="Upload">
   </form>
@@ -261,186 +196,54 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.3/xlsx.full.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gson/2.8.8/gson.min.js"></script>
-<%--<script>--%>
-<%--  document.addEventListener('DOMContentLoaded', function() {--%>
-<%--    document.getElementById('fileInput').addEventListener('change', function(event) {--%>
-<%--      var file = event.target.files[0];--%>
-<%--      if (file) {--%>
-<%--        console.log("Tên file đã chọn: ", file.name);--%>
-<%--        // Tạo đối tượng URL để lấy đường dẫn đầy đủ--%>
-<%--        var filePath = URL.createObjectURL(file);--%>
-<%--        console.log("duong dan file đã chọn: ", filePath);--%>
-<%--        // Gửi đường dẫn file qua AJAX tới Servlet--%>
-<%--        $.ajax({--%>
-<%--          url: '/Upload2', // URL của servlet--%>
-<%--          type: 'POST', // Phương thức HTTP--%>
-<%--          contentType: 'application/json', // Kiểu dữ liệu gửi đi--%>
-
-<%--          data: JSON.stringify({ filePath: file.name }), // Dữ liệu gửi đi--%>
-<%--          success: function(response) { // Hàm được gọi khi nhận được phản hồi thành công từ servlet--%>
-<%--            var tbody = document.getElementById('tbody');--%>
-<%--            tbody.innerHTML = ''; // Xóa dữ liệu cũ--%>
-
-<%--            response.forEach(function(product) { // Lặp qua mỗi sản phẩm trong phản hồi--%>
-<%--              var tr = document.createElement('tr');--%>
-
-<%--              // Tạo và thêm các ô cho từng thuộc tính của sản phẩm--%>
-<%--              var tdName = document.createElement('td');--%>
-<%--              tdName.textContent = product.product_name;--%>
-<%--              var unitPrice = document.createElement('td');--%>
-<%--              unitPrice.textContent = product.unitPrice;--%>
-<%--              var price = document.createElement('td');--%>
-<%--              price.textContent = product.price;--%>
-<%--              var quantity = document.createElement('td');--%>
-<%--              quantity.textContent = product.quantity;--%>
-
-<%--              // Thêm các ô vào hàng của bảng--%>
-<%--              tr.appendChild(tdName);--%>
-<%--              tr.appendChild(unitPrice);--%>
-<%--              tr.appendChild(price);--%>
-<%--              tr.appendChild(quantity);--%>
-<%--              tbody.appendChild(tr); // Thêm hàng vào tbody--%>
-<%--            });--%>
-<%--          },--%>
-<%--          error: function(xhr, status, error) {--%>
-<%--            console.error('Lỗi xảy ra khi gửi file:', error);--%>
-<%--          }--%>
-<%--        });--%>
-<%--      } else {--%>
-<%--        console.error('Không có file nào được chọn.');--%>
-<%--      }--%>
-<%--    });--%>
-<%--  });--%>
-<%--</script>--%>
 <script>
-  // Xử lý sự kiện khi người dùng chọn file
   document.getElementById('fileInput').addEventListener('change', function(event) {
     var file = event.target.files[0];
-    console.log("filee: ");
-    console.log(file.name);
-    var nameFile = file.name;
     var reader = new FileReader();
-
-    // Đọc file Excel
     reader.onload = function(e) {
       var data = new Uint8Array(e.target.result);
       var workbook = XLSX.read(data, { type: 'array' });
-
-      // Lấy dữ liệu từ sheet đầu tiên
       var sheetName = workbook.SheetNames[0];
       var sheet = workbook.Sheets[sheetName];
       var jsonData = XLSX.utils.sheet_to_json(sheet);
 
-      // Chỉ lấy các tên tác phẩm từ cột đầu tiên
       var productNames = [];
       jsonData.forEach(function(row) {
-        productNames.push(row['Product Name']); // Thay 'Product Name' bằng tên cột thực tế chứa tên tác phẩm
-        console.log("Lấy được dòng: ", row['Product Name']);
+        productNames.push(row['Product Name']);
       });
 
-      // Gửi mảng tên tác phẩm qua AJAX tới Servlet
       $.ajax({
-        url: '/Upload2', // URL của servlet
-        type: 'POST', // Phương thức HTTP
-        contentType: 'application/json', // Kiểu dữ liệu gửi đi
-
-        data: JSON.stringify({ productNames: productNames }), // Dữ liệu gửi đi, productNames là một mảng tên tác phẩm
-        success: function(response) { // Hàm được gọi khi nhận được phản hồi thành công từ servlet
-                      var tbody = document.getElementById('tbody');
-                      tbody.innerHTML = ''; // Xóa dữ liệu cũ
-
-                      response.forEach(function(product) { // Lặp qua mỗi sản phẩm trong phản hồi
-                        var tr = document.createElement('tr');
-
-                        // Tạo và thêm các ô cho từng thuộc tính của sản phẩm
-                        var tdName = document.createElement('td');
-                        tdName.textContent = product.product_name;
-                        var unitPrice = document.createElement('td');
-                        unitPrice.textContent = product.unitPrice;
-                        var price = document.createElement('td');
-                        price.textContent = product.price;
-                        var quantity = document.createElement('td');
-                        quantity.textContent = product.quantity;
-
-                        // Thêm các ô vào hàng của bảng
-                        tr.appendChild(tdName);
-                        tr.appendChild(unitPrice);
-                        tr.appendChild(price);
-                        tr.appendChild(quantity);
-                        tbody.appendChild(tr); // Thêm hàng vào tbody
-                      });
-                    }
-                  });
-              };
-
+        url: '/Upload2',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ productNames: productNames }),
+        success: function(response) {
+          var tbody = document.getElementById('tbody');
+          tbody.innerHTML = '';
+          response.forEach(function(product) {
+            var tr = document.createElement('tr');
+            var tdName = document.createElement('td');
+            tdName.textContent = product.product_name;
+            var unitPrice = document.createElement('td');
+            unitPrice.textContent = product.unitPrice;
+            var price = document.createElement('td');
+            price.textContent = product.price;
+            var quantity = document.createElement('td');
+            quantity.textContent = product.quantity;
+            tr.appendChild(tdName);
+            tr.appendChild(unitPrice);
+            tr.appendChild(price);
+            tr.appendChild(quantity);
+            tbody.appendChild(tr);
+          });
+        },
+        error: function(xhr, status, error) {
+          console.error('Error:', error);
+        }
+      });
+    };
     reader.readAsArrayBuffer(file);
   });
 </script>
-<%--<script>--%>
-<%--    // Xử lý sự kiện khi người dùng chọn file--%>
-<%--    document.getElementById('fileInput').addEventListener('change', function(event) {--%>
-<%--      var file = event.target.files[0];--%>
-<%--      var reader = new FileReader();--%>
-
-<%--      // Đọc file Excel--%>
-<%--      reader.onload = function(e) {--%>
-<%--        var data = new Uint8Array(e.target.result);--%>
-<%--        var workbook = XLSX.read(data, { type: 'array' });--%>
-
-<%--        // Lấy dữ liệu từ sheet đầu tiên--%>
-<%--        var sheetName = workbook.SheetNames[0];--%>
-<%--        var sheet = workbook.Sheets[sheetName];--%>
-<%--        var jsonData = XLSX.utils.sheet_to_json(sheet);--%>
-
-<%--        // Chuyển đổi dữ liệu thành đối tượng JavaScript--%>
-<%--        var jsonObject = [];--%>
-<%--        jsonData.forEach(function(row) {--%>
-<%--          var obj = {};--%>
-<%--          row.forEach(function(cell, index) {--%>
-<%--            console.log(cell);--%>
-<%--            obj['column' + index] = cell;--%>
-<%--          });--%>
-<%--          jsonObject.push(obj);--%>
-<%--        });--%>
-
-<%--        // Chuyển đổi đối tượng JavaScript thành chuỗi Gson--%>
-<%--        var jsonString = JSON.stringify(jsonObject);--%>
-
-<%--        $.ajax({--%>
-<%--          url: 'Upload2', // URL của servlet--%>
-<%--          type: 'POST', // Phương thức HTTP--%>
-<%--          contentType: 'application/json', // Kiểu dữ liệu gửi đi--%>
-<%--          data: jsonString, // Dữ liệu gửi đi, productNames là một mảng sản phẩm--%>
-<%--          success: function(response) { // Hàm được gọi khi nhận được phản hồi thành công từ servlet--%>
-<%--            var tbody = document.getElementById('tbody');--%>
-<%--            tbody.innerHTML = ''; // Xóa dữ liệu cũ--%>
-
-<%--            response.forEach(function(product) { // Lặp qua mỗi sản phẩm trong phản hồi--%>
-<%--              var tr = document.createElement('tr');--%>
-
-<%--              // Tạo và thêm các ô cho từng thuộc tính của sản phẩm--%>
-<%--              var tdName = document.createElement('td');--%>
-<%--              tdName.textContent = product.product_name;--%>
-<%--              var unitPrice = document.createElement('td');--%>
-<%--              unitPrice.textContent = product.unitPrice;--%>
-<%--              var price = document.createElement('td');--%>
-<%--              price.textContent = product.price;--%>
-<%--              var quantity = document.createElement('td');--%>
-<%--              quantity.textContent = product.quantity;--%>
-
-<%--              // Thêm các ô vào hàng của bảng--%>
-<%--              tr.appendChild(tdName);--%>
-<%--              tr.appendChild(unitPrice);--%>
-<%--              tr.appendChild(price);--%>
-<%--              tr.appendChild(quantity);--%>
-<%--              tbody.appendChild(tr); // Thêm hàng vào tbody--%>
-<%--            });--%>
-<%--          }--%>
-<%--        });--%>
-<%--    };--%>
-
-<%--    reader.readAsArrayBuffer(file);--%>
-<%--  });--%>
-<%--</script>--%>
 </body>
 </html>
