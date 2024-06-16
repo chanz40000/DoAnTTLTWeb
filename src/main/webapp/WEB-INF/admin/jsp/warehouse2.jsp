@@ -61,6 +61,38 @@
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="../assetsForAdmin/assets/js/config.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function (){
+      $("form").submit(
+              function (event){
+                event.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                  url: "upload",
+                  type: 'POST',
+                  data: formData,
+                  success: function(data){
+                    var row = data;
+                    for(i=0; i<row.length; i++){
+                      var column = row[i];
+                      var eachrow = "<tr>";
+                      for(j=0; j<column.length; j++){
+                        eachrow=eachrow+ "<td>"+ column[j]+"</td>";
+                      }
+                      eachrow = eachrow+"</td>";
+                      $('#tbody').append(eachrow);
+                    }
+                  },
+                  cache: false,
+                  contentType: false,
+                  processData: false
+                })
+              }
+      )
+    });
+  </script>
   <style>
     .hide{
       display: none;
@@ -160,13 +192,19 @@
 </head>
 
 <body>
+
+
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
   <div class="layout-container">
+
+
+
     <!-- Menu -->
     <jsp:include page="menu.jsp"/>
 
     <!-- / Menu -->
+
 
 
     <!-- Layout container -->
@@ -183,6 +221,16 @@
           </a>
         </div>
 
+        <form enctype="multipart/form-data" method="post">
+          <button><input type="file" name="file"></button>
+
+          <input type="submit" value="Save">
+        </form>
+        <table>
+          <tbody id="tbody">
+
+          </tbody>
+        </table>
         <jsp:useBean id="productDAO" class="database.ProductDAO"></jsp:useBean>
         <c:set var="listProduct" value="${productDAO.selectAll()}" ></c:set>
         <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">

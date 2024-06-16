@@ -1,9 +1,9 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="util.FormatCurrency"%>
 <%@page isELIgnored="false" %>
+<!DOCTYPE html>
 <html lang="zxx">
 
 <head>
@@ -18,49 +18,60 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" src="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css">
     <style>
-        .submit-button {
-            border: none;
-            background: none;
-            padding: 0;
-            font-size: 0; /* Ẩn văn bản trong nút */
-            cursor: pointer;
+        .cart-btn, .primary-btn{
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+            background-color: #ffa97d;
         }
 
-        .submit-button .fa {
-            font-size: 24px; /* Kích thước biểu tượng */
-            color: #000; /* Màu của biểu tượng */
+        .cart-btn:hover {
+            background-color: #f86e21;
+            color: white;
+            transform: scale(1.1);
         }
-        button#toggle-dark-mode{
-            background: none;
-            color: inherit;
-            border: none;
-            position: absolute;
-            font: inherit;
-            cursor: pointer;
-            outline: inherit;
-            top: 12px;
-        }
-        .fa-regular.fa-sun{
-            font-size: 20px;
-            color: #f5f56d;
-
-        }
-        .fa-regular.fa-moon{
-            font-size: 20px;
-
+        .primary-btn:hover{
+            background-color: #f86e21;
+            color: white;
+            transform: scale(1.1);
         }
     </style>
 </head>
+<style>
+    button#toggle-dark-mode{
+        background: none;
+        color: inherit;
+        border: none;
+        position: absolute;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+        top: 12px;
 
+
+
+
+
+    }
+    .fa-regular.fa-sun{
+        font-size: 20px;
+        color: #f5f56d;
+
+    }
+    .fa-regular.fa-moon{
+        font-size: 20px;
+
+    }
+</style>
 <body>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -77,54 +88,70 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="breadcrumb__text">
-                    <h2>Thank You</h2>
-                    <div class="breadcrumb__option">
-                        <a href="Index">Home</a>
-                        <span>Thank You</span>
-                    </div>
+                    <h2>Yêu thích</h2>
+
                 </div>
             </div>
         </div>
     </div>
 </section>
 <!-- Breadcrumb Section End -->
-<div class="thankyou">
-    <table id="example" class="table table-striped" style="width:100%">
-        <thead>
-        <tr>
-            <th>Hình</th>
-            <th>Tên</th>
-            <th>Giá tiền</th>
-            <th>Mua</th>
-            <th>Xóa</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>61</td>
-            <td>2011-04-25</td>
-            <td>$320,800</td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-            <th>Hình</th>
-            <th>Tên</th>
-            <th>Giá tiền</th>
-            <th>Mua</th>
-            <th>Xóa</th>
-        </tr>
-        </tfoot>
-    </table>
 
-</div>
-<!-- Product Section Begin -->
+<!-- Shoping Cart Section Begin -->
+<section class="shoping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__cart__table">
+                    <c:choose>
+                        <c:when test="${not empty wishlists}">
+                            <table id="example" style="width: 1200px">
+                                <thead>
+                                <tr>
+                                    <th class="shoping__product">Tên sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Hành động</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="wish" items="${wishlists}">
+                                    <tr>
+                                        <td class="shoping__cart__item">
+                                            <img src="/image/${wish.productid.image}" alt="" width="50px" height="70px">
+
+                                            <h5>${wish.productid.product_name}</h5>
+                                        </td>
+
+                                        <td>
+                                                ${wish.productid.price}
+                                        </td>
+                                        <td class="wishlist__item__close">
+                                            <form action="RemoveItemWishList" method="post">
+                                                <input type="hidden" name="itemId" value="${wish.itemId}">
+                                                <button type="submit" class="icon_close" style="border: none; background-color: transparent;"></button>
+                                            </form>
+                                        </td>
 
 
-<!-- Product Section End -->
+                                    </tr>
+
+                                </c:forEach>
+
+
+
+                                </tbody>
+                            </table>
+                        </c:when>
+
+                    </c:choose>
+                </div>
+            </div>
+            <a href="Shopgrid" class="primary-btn cart-btn">Tiếp tục mua sắm</a>
+        </div>
+
+    </div>
+</section>
+<!-- Shoping Cart Section End -->
 
 <!-- Footer Section Begin -->
 <footer class="footer spad">
@@ -133,7 +160,7 @@
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="footer__about">
                     <div class="footer__about__logo">
-                        <a href="./index.jsp"><img src="img/logo.png" alt=""></a>
+                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
                     </div>
                     <ul>
                         <li>Address: 60-49 Road 11378 New York</li>
@@ -195,14 +222,14 @@
 <!-- Footer Section End -->
 
 <!-- Js Plugins -->
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.nice-select.min.js"></script>
-<script src="js/jquery-ui.min.js"></script>
-<script src="js/jquery.slicknav.js"></script>
-<script src="js/mixitup.min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/main.js"></script>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
 
 <script>
@@ -225,12 +252,55 @@
             icondarklight.classList.replace("fa-moon", "fa-sun");
         }
     });
+</script>
+// Set the initial button text and Font Awesome icon
 
-    // Set the initial button text and Font Awesome icon
 
+// Enable Dark Reader when the page loads
 
-    // Enable Dark Reader when the page loads
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+<script>
+    $(document).ready(function() {
+        var table = new DataTable('#example', {
+            pagingType: 'simple_numbers'
+        });
+        table.rows().reverse();
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $(".wishlist__item__close form").on("submit", function (event) {
+            event.preventDefault();
+            let form = $(this);
+            let itemId = form.find("input[name='itemId']").val();
+
+            if (confirm("Bạn có chắc muốn xóa khỏi danh sách yêu thích?")) {
+                $.ajax({
+                    type: "POST",
+                    url: form.attr("action"), // Replace with actual URL for RemoveItemWishList controller
+                    data: { itemId: itemId }, // Send itemId as data
+                    success: function (data) {
+                        // Remove item from UI
+                        form.closest("tr").remove();
+                        var currentQuantity = parseInt($(".wishlist-item-count").text(), 10);
+                        var newQuantity = currentQuantity - 1;
+                        $(".wishlist-item-count").text(newQuantity);
+                        // Optionally update wishlist count (if displayed)
+                        // Replace with your function to update count in UI
+                    },
+                    error: function (error) {
+                        console.error("Error:", error);
+                        alert("Có lỗi xảy ra khi xóa sản phẩm khỏi danh sách yêu thích.");
+                    }
+                });
+            } else {
+                console.log("Đã hủy xóa");
+            }
+        });
+    });
 </script>
 
 

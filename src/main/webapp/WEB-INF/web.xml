@@ -27,6 +27,14 @@
   <session-config>
     <session-timeout>15</session-timeout>
   </session-config>
+  <servlet>
+    <servlet-name>upload</servlet-name>
+    <servlet-class>controller.admin.Upload</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>upload</servlet-name>
+    <url-pattern>/upload</url-pattern>
+  </servlet-mapping>
 
 
 <!--  <error-page>-->
