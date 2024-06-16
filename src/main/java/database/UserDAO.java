@@ -8,12 +8,12 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.*;
 
 
 public class UserDAO extends AbsDAO<User> {
     private ArrayList<User> data = new ArrayList<>();
-
+    private Map<String, Long> lastFailedLoginMap = new HashMap<>();
     public UserDAO(HttpServletRequest request) {
         super(request);
     }
@@ -361,10 +361,9 @@ public class UserDAO extends AbsDAO<User> {
 
         return false;
     }
-
+    // kiểm tra đăng nhập
     public User selectByUsernamePassword(String username, String password) {
         User result = null;
-
         try {
 
             Connection con = JDBCUtil.getConnection();
@@ -385,23 +384,106 @@ public class UserDAO extends AbsDAO<User> {
                 String phoneNumber = rs.getString("phoneNumber");
                 String email = rs.getString("email");
                 String avatar = rs.getString("avatar");
-                result = new User(id1, usernames, passwords, role_id, name, birthday, gt, phoneNumber, email, avatar);
-
+                int failedLogin = rs.getInt("failedLogin");
+                result = new User(id1, usernames, passwords, role_id, name, birthday, gt, phoneNumber, email, avatar, failedLogin);
             }
             JDBCUtil.closeConnection(con);
         } catch (Exception e) {
             e.printStackTrace();
         }if(result==null){
-            this.setValue("Tai khoan "+ username+" da dang nhap that bai");
+            incrementFailedLoginAttempts(username);
+            int failedLoginCount = getFailedLogin(username); // Tăng số lần đăng nhập sai
+            this.setValue("Tai khoan " + username + " da dang nhap that bai ");
             super.WARNING(result);
+            // khi số lần đăng nhập sai bằng 5
+            // khóa tài khoản và ghi log
+            // đặt lại thời gian tại khi vừa bị khóa tài khoản
+            if (failedLoginCount == 5) {
+                startFailedLoginResetTimer(username);
+                this.setValue("Tai khoan " + username + " đa bi khoa do đang nhap that bai qua nhieu lan.");
+                super.WARNING(result);
+            }
         }else{
-            this.setValue("Tai khoan "+ username+" da dang nhap thanh cong");
+            int failedLoginCount = getFailedLogin(username);
+            // chỉ được đăng nhập nếu tài khoản của bị khóa khi đăng nhập sau lần thứ 5
+            if (failedLoginCount < 5) {
+            resetFailedLoginAttempts(username);  // Đặt lại số lần đăng nhập sai
+            this.setValue("Tai khoan " + username + " da dang nhap thanh cong");
             super.update(result);
+            }
         }
 
         return result;
     }
+    // tăng số lần đăng nhập sai
+    public void incrementFailedLoginAttempts(String username) {
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "UPDATE users SET failedLogin = failedLogin + 1 WHERE username = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, username);
+            st.executeUpdate();
+            JDBCUtil.closeConnection(con);
+            int failedLoginCount = getFailedLogin(username);
+            long currentTime = System.currentTimeMillis();
+            lastFailedLoginMap.put(username, currentTime);
+            // Đặt lại số lần đăng nhập thất bại sau 2 tiếng
+            // khi số lần đăng nhập sai chưa bị khóa tài khoản thì trong 2 tiếng reset số lần đăng nhập sai
+            if (failedLoginCount < 5) {
+                startFailedLoginResetTimer(username);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    // Đặt lại số đăng nhập sai về 0
+    public void resetFailedLoginAttempts(String username) {
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "UPDATE users SET failedLogin = 0 WHERE username = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, username);
+            st.executeUpdate();
+            lastFailedLoginMap.remove(username);
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    // lấy số lần đăng nhập thất bại của user
+    public int getFailedLogin(String username) {
+        int failedLogin = 0;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT failedLogin FROM users WHERE username = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, username);
+            ResultSet rs = st.executeQuery();
 
+            if (rs.next()) {
+                failedLogin = rs.getInt("failedLogin");
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return failedLogin;
+    }
+    // đặt lại số lần đăng nhập sai trong 2 tiếng
+    private void startFailedLoginResetTimer(String username) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                long currentTime = System.currentTimeMillis();
+                long lastFailedLoginTime = lastFailedLoginMap.getOrDefault(username, 0L);
+                // Nếu đã qua 2 tiếng kể từ lần đăng nhập thất bại cuối cùng
+                if (currentTime - lastFailedLoginTime >= 2 * 60 * 60 * 1000) {  // 2 tiếng
+                    resetFailedLoginAttempts(username);
+                }
+            }
+        }, 2 * 60 * 60 * 1000);  // 2 tiếng
+    }
     public boolean selectByEmail(String email) {
 
         try {
