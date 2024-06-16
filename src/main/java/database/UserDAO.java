@@ -393,7 +393,7 @@ public class UserDAO extends AbsDAO<User> {
         }if(result==null){
             incrementFailedLoginAttempts(username);
             int failedLoginCount = getFailedLogin(username); // Tăng số lần đăng nhập sai
-            this.setValue("Tai khoan " + username + " da dang nhap that bai ");
+            this.setValue("Tai khoan " + username + " da dang nhap that bai "+failedLoginCount+" lan");
             super.WARNING(result);
             // khi số lần đăng nhập sai bằng 5
             // khóa tài khoản và ghi log
