@@ -24,6 +24,9 @@ import java.net.InetAddress;
 
 @WebServlet(name = "LoginForm", value = "/LoginForm")
 public class LoginForm extends HttpServlet {
+    private static final int MAX_LOGIN_FAILED = 3;
+    private static final int LOCK_LOGIN = 5;
+    private static final int WARNING_LOGIN = 4;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
        /* String username = request.getParameter("username");
@@ -123,6 +126,13 @@ public class LoginForm extends HttpServlet {
                     String url = request.getContextPath() + "/WEB-INF/book/logintwo.jsp";
                     RequestDispatcher dispatcher = request.getRequestDispatcher(url);
                     dispatcher.forward(request, response);
+                }else if(user.getFailedLogin() >= LOCK_LOGIN){
+                    request.setAttribute("Error", "Tài khoản của bạn đã bị khóa trong 2 tiếng do đăng nhập thất bại quá nhiều lần! Vui lòng thử lại sau.");
+                    eb.setError((String) request.getAttribute("Error"));
+                    request.setAttribute("errorBean", eb);
+                    String url = request.getContextPath() + "/WEB-INF/book/logintwo.jsp";
+                    RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+                    dispatcher.forward(request, response);
                 }else {
                     //xác định thời gian, bằng giây, giữa các yêu cầu từ Client trước khi Servlet container sẽ vô hiệu hóa session này
                     session.setMaxInactiveInterval(30 * 60);
@@ -131,8 +141,20 @@ public class LoginForm extends HttpServlet {
                     response.sendRedirect(request.getContextPath() + "/Index");
                 }
             } else {
-                // Handle incorrect login credentials
-                request.setAttribute("Error", "Tên đăng nhập hoặc mật khẩu chưa chính xác!");
+                // lấy số lần đăng nhập sai của tài khoản
+                int failedLoginCount = userDAO.getFailedLogin(username);
+                // số lần nhỏ hơn 5 thì cảnh báo người dùng
+                if (failedLoginCount >= MAX_LOGIN_FAILED && failedLoginCount < LOCK_LOGIN) {
+                    request.setAttribute("Error", "Bạn đã đăng nhập sai " + failedLoginCount + " lần. Vui lòng kiểm tra lại thông tin đăng nhập.");
+                     if (failedLoginCount == WARNING_LOGIN) {
+                        request.setAttribute("Error", "Bạn đã đăng nhập sai " + failedLoginCount + " lần. Nhập sai thêm lần nữa tài khoản sẽ bị khóa trong 2 tiếng!");
+                    }
+                } else if (failedLoginCount >= LOCK_LOGIN) {
+                    // thông báo bị khóa
+                    request.setAttribute("Error", "Tài khoản của bạn đã bị khóa trong 2 tiếng do đăng nhập thất bại quá nhiều lần! Vui lòng thử lại sau.");
+                } else {
+                    request.setAttribute("Error", "Tên đăng nhập hoặc mật khẩu chưa chính xác!");
+                }
                 eb.setError((String) request.getAttribute("Error"));
                 request.setAttribute("errorBean", eb);
                 String url = request.getContextPath() + "/WEB-INF/book/logintwo.jsp";
