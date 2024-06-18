@@ -108,11 +108,15 @@ public class ImportDetailDAO extends AbsDAO<ImportDetail>{
             rs.setDouble(6,importDetail.getTotalPrice());
 
 
+            ProductDAO productDAO = new ProductDAO();
+            productDAO.updateImportPrice(importDetail.getProduct().getProductId(), importDetail.getUnitPrice());
+
+
             result = rs.executeUpdate();
             System.out.println("insert successfull");
 
             this.setValue(this.gson.toJson(importDetail));
-            int x = super.insert(importDetail);
+            //int x = super.insert(importDetail);
             JDBCUtil.closeConnection(con);
 
         } catch (SQLException e) {

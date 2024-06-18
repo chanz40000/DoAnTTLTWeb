@@ -25,7 +25,6 @@
     <title>Tables - Basic Tables | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
-  -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
     <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
@@ -145,11 +144,6 @@
         margin-left: -151px;
         width: 1263px;
     }
-
-    /*.container-xxl.flex-grow-1.container-p-y .row.close .card-body{*/
-    /*  !*margin-left: -10px;*!*/
-    /*  !*width: 500px;*!*/
-    /*}*/
     .fa-regular.fa-sun{
         font-size: 20px;
 
@@ -158,16 +152,6 @@
         font-size: 20px;
 
     }
-    /*.table-responsive.text-nowrap{*/
-    /*    width: 1100px;*/
-    /*}*/
-    /*#cardresp{*/
-    /*    width: 1100px;*/
-    /*}*/
-    /*#layout-navbar{*/
-    /*    width: 1050px;*/
-
-    /*}*/
     .product__pagination a {
         margin: 0 5px;
         text-decoration: none;
@@ -188,9 +172,7 @@
     <div class="layout-container">
         <!-- Menu -->
         <jsp:include page="menu.jsp"/>
-
         <!-- / Menu -->
-
         <!-- Layout container -->
         <div class="layout-page">
             <!-- Navbar -->

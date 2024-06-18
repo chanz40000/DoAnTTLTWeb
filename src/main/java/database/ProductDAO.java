@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ProductDAO extends AbsDAO<Product> {
@@ -608,6 +607,28 @@ public class ProductDAO extends AbsDAO<Product> {
 
         return result;
     }
+    //thay doi gia nhap
+    public boolean updateImportPrice(int idProduct, double price) {
+        boolean result = false;
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "UPDATE book.products SET unit_price = ? " +
+                    "WHERE product_id = ?";
+
+            PreparedStatement rs = con.prepareStatement(sql);
+            rs.setDouble(1, price);
+            rs.setInt(2, idProduct);
+            rs.executeUpdate();
+            result=true;
+            System.out.println("Cap nhat thanh cong");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
 
     public ArrayList<Product> selectByProductName(String productName) {
 
@@ -801,199 +822,6 @@ public class ProductDAO extends AbsDAO<Product> {
     public static void main(String[] args) {
         new ProductDAO().createIndex();
     }
-
-//<<<<<<< HEAD
-//    return result;
-//}
-//
-//=======
-//
-//    public ArrayList<Product> selectByCategoryName(String categoryname) {
-//        ArrayList<Product> products = new ArrayList<>();
-//        try {
-//            // tao mot connection
-//            Connection con = JDBCUtil.getConnection();
-//
-//
-//            // tao cau lenh sql
-//            String sql = "SELECT * FROM products WHERE category LIKE ? ";
-//
-//            PreparedStatement st = con.prepareStatement(sql);
-//            st.setString(1, "%"+ categoryname +"%");
-//            // thuc thi
-//
-//            ResultSet rs = st.executeQuery();
-//
-//            while (rs.next()) {
-//
-//                int idProduct = rs.getInt("product_id");
-//                String nameProduct = rs.getString("product_name");
-//                String description = rs.getString("description");
-//                String image = rs.getString("image");
-//                double unitPrice = rs.getDouble("unit_price");
-//                double price = rs.getDouble("price");
-//                int quantity = rs.getInt("quantity");
-//                String author = rs.getString("author");
-//                int publicationYear = rs.getInt("publication_year");
-//                String publisher = rs.getString("publisher");
-//                int categoryId = rs.getInt("category_id");
-//
-//                Category category = new CategoryDAO().selectById(categoryId);
-//                Product product = new Product(idProduct,nameProduct,description,image,unitPrice,price,quantity,author,publicationYear,publisher,category);
-//
-//
-//                products.add(product);
-//
-//            }
-//
-//            JDBCUtil.closeConnection(con);
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return products;
-//    }
-//    public ArrayList<Product> selectPrice(int low, int high) {
-//        ArrayList<Product> products = new ArrayList<>();
-//        try {
-//            // tao mot connection
-//            Connection con = JDBCUtil.getConnection();
-//
-//            // tao cau lenh sql
-//            String sql = "SELECT * FROM products where price >= " + low + " and price <= " + high;
-//
-//            PreparedStatement st = con.prepareStatement(sql);
-//
-//            // thuc thi
-//
-//            ResultSet rs = st.executeQuery();
-//
-//            while (rs.next()) {
-//
-//                int idProduct = rs.getInt("product_id");
-//                String nameProduct = rs.getString("product_name");
-//                String description = rs.getString("description");
-//                String image = rs.getString("image");
-//                double unitPrice = rs.getDouble("unit_price");
-//                double price = rs.getDouble("price");
-//                int quantity = rs.getInt("quantity");
-//                String author = rs.getString("author");
-//                int publicationYear = rs.getInt("publication_year");
-//                String publisher = rs.getString("publisher");
-//                int categoryId = rs.getInt("category_id");
-//
-//                Category category = new CategoryDAO().selectById(categoryId);
-//                Product product = new Product(idProduct,nameProduct,description,image,unitPrice,price,quantity,author,publicationYear,publisher,category);
-//
-//
-//                products.add(product);
-//
-//            }
-//
-//            JDBCUtil.closeConnection(con);
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return products;
-//    }
-//    public int selectCategoryId(int productid) {
-//        int categoryId = -1; // Khởi tạo categoryId mặc định là -1 (nếu không tìm thấy)
-//
-//        try {
-//            // Tạo một kết nối
-//            Connection con = JDBCUtil.getConnection();
-//
-//            // Tạo câu lệnh SQL
-//            String sql = "SELECT category_id FROM products WHERE product_id=?";
-//
-//            PreparedStatement st = con.prepareStatement(sql);
-//            st.setInt(1, productid);
-//            ResultSet rs = st.executeQuery();
-//
-//            if (rs.next()) {
-//                categoryId = rs.getInt("category_id");
-//            }
-//
-//            JDBCUtil.closeConnection(con);
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        return categoryId;
-//    }
-//    public ArrayList<Product> selectSameCategory(int categoryid,int productid) {
-//        ArrayList<Product> products = new ArrayList<>();
-//        try {
-//            // tao mot connection
-//            Connection con = JDBCUtil.getConnection();
-//
-//            // tao cau lenh sql
-//            String sql = "SELECT * FROM products WHERE category_id=? AND product_id != ?";
-//
-//            PreparedStatement st = con.prepareStatement(sql);
-//            st.setInt(1, categoryid);
-//            st.setInt(2, productid);
-//
-//            // thuc thi
-//
-//            ResultSet rs = st.executeQuery();
-//
-//            while (rs.next()) {
-//
-//                int idProduct = rs.getInt("product_id");
-//                String nameProduct = rs.getString("product_name");
-//                String description = rs.getString("description");
-//                String image = rs.getString("image");
-//                double unitPrice = rs.getDouble("unit_price");
-//                double price = rs.getDouble("price");
-//                int quantity = rs.getInt("quantity");
-//                String author = rs.getString("author");
-//                int publicationYear = rs.getInt("publication_year");
-//                String publisher = rs.getString("publisher");
-//                int categoryId = rs.getInt("category_id");
-//
-//                Category category = new CategoryDAO().selectById(categoryId);
-//                Product product = new Product(idProduct,nameProduct,description,image,unitPrice,price,quantity,author,publicationYear,publisher,category);
-//
-//
-//                products.add(product);
-//
-//            }
-//
-//            JDBCUtil.closeConnection(con);
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return products;
-//    }
-//>>>>>>> 8aca79fab262d5406a2ed61b4cf224f0b2017c6f
-//san pham can nhap hang
-//SELECT product_id, SUM(quantity_sold) AS quantity_sold, SUM(quantity_imported) AS quantity_imported
-//    FROM (
-//            SELECT p.product_id,
-//            IFNULL(SUM(od.quantity), 0) AS quantity_sold,
-//           0 AS quantity_imported
-//    FROM products p
-//    LEFT JOIN orderdetails od ON p.product_id = od.product_id
-//    LEFT JOIN orders o ON od.order_id = o.order_id
-//    WHERE o.booking_date >= DATE_SUB(NOW(), INTERVAL 3 MONTH)
-//    GROUP BY p.product_id
-//
-//    UNION ALL
-//
-//    SELECT product_id,
-//           0 AS quantity_sold,
-//    IFNULL(SUM(number_of_warehouses), 0) AS quantity_imported
-//    FROM importdetails a
-//    LEFT JOIN imports b ON a.import_id = b.import_id
-//    WHERE b.import_date >= DATE_SUB(NOW(), INTERVAL 3 MONTH)
-//    GROUP BY product_id
-//) AS combined
-//    GROUP BY product_id
-//    HAVING (SUM(quantity_sold) - SUM(quantity_imported)) > 0;
 
     public ArrayList<Integer> needImport(){
         ArrayList<Integer> result = new ArrayList<>();

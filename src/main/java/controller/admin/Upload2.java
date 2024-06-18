@@ -46,10 +46,11 @@ public class Upload2 extends HttpServlet {
                  Product product2= productDAO.selectByName(productName);
                  if(product2!=null) {
                      JSONObject product = new JSONObject();
+                     product.put("product_id", product2.getProductId());
+                     System.out.println("id: "+ product2.getProductId());
                      product.put("product_name", product2.getProduct_name());
-                     product.put("unitPrice", product2.getUnitPrice()); // Sample unit price
-                     product.put("price", product2.getPrice()); // Sample price
                      product.put("quantity", product2.getQuantity()); // Sample quantity
+                     product.put("unitPrice", product2.getUnitPrice()); // Sample unit price
                      responseArray.put(product);
                  }
 
