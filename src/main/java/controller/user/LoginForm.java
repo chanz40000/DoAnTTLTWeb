@@ -1,26 +1,19 @@
 package controller.user;
 
-import com.maxmind.geoip2.DatabaseReader;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.CountryResponse;
-import model.ErrorBean;
 import database.UserDAO;
+import model.ErrorBean;
 import model.User;
 import util.CountryIdentifier;
-import util.IPv4Converter;
 import util.PasswordEncryption;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
 
 @WebServlet(name = "LoginForm", value = "/LoginForm")
 public class LoginForm extends HttpServlet {
@@ -112,6 +105,7 @@ public class LoginForm extends HttpServlet {
 
                 if (user.getRole() == 1 || user.getRole() == 4) {
                     session.setAttribute("admin", user);
+                    session.setAttribute("userC", user);
 //                    String url = "/WEB-INF/admin/jsp/index.jsp";
 //                    RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 //                    dispatcher.forward(request, response);
@@ -127,6 +121,7 @@ public class LoginForm extends HttpServlet {
                     //xác định thời gian, bằng giây, giữa các yêu cầu từ Client trước khi Servlet container sẽ vô hiệu hóa session này
                     session.setMaxInactiveInterval(30 * 60);
                     session.setAttribute("userC", user);
+                    System.out.println("userC: "+ user.getName());
                     // Use forward for successful customer login
                     response.sendRedirect(request.getContextPath() + "/Index");
                 }

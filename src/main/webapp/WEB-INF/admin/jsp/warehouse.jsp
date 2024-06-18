@@ -27,7 +27,14 @@
   <meta name="description" content="" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="../assetsForAdmin/assets/img/favicon/favicon.ico"/>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+  <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css"/>
+
+  <link rel="icon" type="image/x-icon" href="../assetsForAdmin/assets/img/favicon/favicon.ico" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -47,6 +54,7 @@
   <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/css/core.css" class="template-customizer-core-css" />
   <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
   <link rel="stylesheet" href="../assetsForAdmin/assets/css/demo.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
 
   <!-- Vendors CSS -->
   <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
@@ -54,9 +62,11 @@
   <!-- Page CSS -->
 
   <!-- Helpers -->
-  <script src="https://kit.fontawesome.com/2b3abce4d1.js" crossorigin="anonymous"></script>
-  <%--  <script src="../assetsForAdmin/assets/vendor/js/script.js"></script>--%>
   <script src="../assetsForAdmin/assets/vendor/js/helpers.js"></script>
+
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  <script src="../assetsForAdmin/assets/js/config.js"></script>
 
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
@@ -145,58 +155,138 @@
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
   <div class="layout-container">
-
-
-
     <!-- Menu -->
     <jsp:include page="menu.jsp"/>
 
     <!-- Layout container -->
     <div class="layout-page">
-->
 
-      <div class="content-wrapper">
+      <!-- Content wrapper -->
+      <jsp:include page="navbar.jsp"/>
 
-  <h1>Upload Excel File</h1>
-  <form id="uploadForm" enctype="multipart/form-data" method="post">
-    <input type="file" name="file" id="fileInput">
-    <input type="submit" value="Upload">
-  </form>
-  <table>
-    <thead>
-    <tr>
-      <th>Product Name</th>
-      <th>categoryName</th>
-      <th>unitPrice</th>
-      <th>price</th>
-      <th>product.quantity</th>
-    </tr>
-    </thead>
-    <tbody id="tbody">
-    <!-- Dữ liệu sẽ được hiển thị ở đây -->
-    <c:forEach var="product" items="${products}">
-      <tr>
-        <td>${product.product_name}</td>
-        <td>${product.unitPrice}</td>
-        <td>${product.price}</td>
-        <td>${product.quantity}</td>
-      </tr>
-    </c:forEach>
-    </tbody>
-  </table>
+      <div class="content-wrapper" id="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y" id="content-big-section">
+          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> List Product</h4>
+
+          <!-- Basic Bootstrap Table -->
+          <div class="card" id="cardresp">
+            <h5 class="card-header">Nhập Hàng</h5>
+            <div class="table-responsive text-nowrap">
+                <table class="table table-striped" id="tabledata" style="width:100%">
+                  <thead>
+                  <tr>
+                    <th>Mã sách</th>
+                    <th>Tên sách</th>
+                    <th>Giá nhập</th>
+                    <th>Số lượng</th>
+                    <th>Tổng tiền</th>
+                    <th>Xóa sp</th>
+                  </tr>
+                  </thead>
+                  <tbody class="table-border-bottom-0" id="tbody">
+                  </tbody>
+                </table>
+              <div class="price-total"><p style="padding-left: 700px; padding-top: 15px; font-weight: bold">Tổng tiền: <span></span><sup>đ</sup></p>
+              </div>
+              <div class="checkout__input">
+                <label for="note">Ghi chú</label>
+                <input type="text" id="note" name="note" >
+              </div>
+              <input type="submit" value="Complete Order" >
+
+            <div class="container-fluid">
+              <h5>Upload Excel File</h5>
+              <form id="uploadForm" enctype="multipart/form-data" method="post">
+                <input type="file" name="file" id="fileInput">
+                <input type="submit" value="Upload">
+              </form>
+            </div>
+
+
+            </div>
+
+            <br>
+          </div>
+
+
+          <!--/ Basic Bootstrap Table -->
+
+          <hr class="my-5" />
+
+          <!-- / Content -->
+
+          <!-- Footer -->
+          <footer class="content-footer footer bg-footer-theme">
+            <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+              <div class="mb-2 mb-md-0">
+                ©
+                <script>
+                  document.write(new Date().getFullYear());
+                </script>
+                , made with ❤️ by
+                <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
+              </div>
+              <div>
+                <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+                <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+
+                <a
+                        href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
+                        target="_blank"
+                        class="footer-link me-4"
+                >Documentation</a
+                >
+
+                <a
+                        href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
+                        target="_blank"
+                        class="footer-link me-4"
+                >Support</a
+                >
+              </div>
+            </div>
+          </footer>
+          <!-- / Footer -->
+
+          <div class="content-backdrop fade"></div>
+        </div>
+        <!-- Content wrapper -->
       </div>
 
     </div>
     <!-- / Layout page -->
   </div>
-
-  <!-- Overlay -->
-  <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.3/xlsx.full.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gson/2.8.8/gson.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+<script src="../assetsForAdmin/assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../assetsForAdmin/assets/vendor/libs/popper/popper.js"></script>
+<script src="../assetsForAdmin/assets/vendor/js/bootstrap.js"></script>
+<script src="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="../assetsForAdmin/assets/vendor/js/menu.js"></script>
+<!-- endbuild -->
+
+<!-- Vendors JS -->
+
+<!-- Main JS -->
+<script src="../assetsForAdmin/assets/js/main.js"></script>
+
+<!-- Page JS -->
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-lru-cache@0.1.10/dist/lru-cache.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
 <script>
+  //nhap file excel
   document.getElementById('fileInput').addEventListener('change', function(event) {
     var file = event.target.files[0];
     var reader = new FileReader();
@@ -222,20 +312,66 @@
           tbody.innerHTML = '';
           response.forEach(function(product) {
             var tr = document.createElement('tr');
-            var tdName = document.createElement('td');
-            tdName.textContent = product.product_name;
-            var unitPrice = document.createElement('td');
-            unitPrice.textContent = product.unitPrice;
-            var price = document.createElement('td');
-            price.textContent = product.price;
-            var quantity = document.createElement('td');
-            quantity.textContent = product.quantity;
-            tr.appendChild(tdName);
-            tr.appendChild(unitPrice);
-            tr.appendChild(price);
-            tr.appendChild(quantity);
+
+            var idTd = document.createElement('td');
+            var idP = document.createElement('p');
+            idP.name = 'productId';
+            idP.id='productId';
+            idP.setAttribute('data-product-id', product.product_id);
+            idP.textContent = product.product_id;
+            idTd.appendChild(idP);
+
+            var nameTd = document.createElement('td');
+            nameTd.className = 'titleProduct';
+            nameTd.textContent = product.product_name;
+
+            var unitPriceTd = document.createElement('td');
+            var unitPriceInput = document.createElement('input');
+            unitPriceInput.name = 'unitPrice';
+            unitPriceInput.type = 'number';
+            unitPriceInput.className = 'input-value';
+            unitPriceInput.value = product.unitPrice;
+            unitPriceTd.appendChild(unitPriceInput);
+
+            var quantityTd = document.createElement('td');
+            var quantityInput = document.createElement('input');
+            quantityInput.name = 'numberOfWarehouses';
+            quantityInput.type = 'number';
+            quantityInput.className = 'input-value';
+            quantityInput.value = product.quantity;
+            quantityTd.appendChild(quantityInput);
+
+            var totalPriceTd = document.createElement('td');
+            var totalPriceInput = document.createElement('input');
+            totalPriceInput.name = 'totalPrice';
+            totalPriceInput.type = 'number';
+            totalPriceInput.readOnly = true;
+            totalPriceInput.value = (product.unitPrice * product.quantity).toFixed(2);
+            totalPriceTd.appendChild(totalPriceInput);
+
+            var deleteButtonTd = document.createElement('td');
+            var deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
+            deleteButton.className = 'btn btn-sm btn-outline-primary';
+
+            var deleteSpan = document.createElement('span');
+            deleteSpan.className = 'cart-delete';
+            deleteSpan.textContent = 'Xóa';
+
+            deleteButton.appendChild(deleteSpan);
+            deleteButtonTd.appendChild(deleteButton);
+
+            tr.appendChild(idTd);
+            tr.appendChild(nameTd);
+            tr.appendChild(unitPriceTd);
+            tr.appendChild(quantityTd);
+            tr.appendChild(totalPriceTd);
+            tr.appendChild(deleteButtonTd);
             tbody.appendChild(tr);
           });
+          deleteCart();
+          inputChange();
+          cartTotal();
         },
         error: function(xhr, status, error) {
           console.error('Error:', error);
@@ -244,6 +380,110 @@
     };
     reader.readAsArrayBuffer(file);
   });
+//xoa san pham khoi danh sach nhap
+  function deleteCart() {
+    var cartItem = document.querySelectorAll("tbody.table-border-bottom-0 tr ");
+    for (var i=0; i<cartItem.length; i++){
+      var productT= document.querySelectorAll(".cart-delete")
+      productT[i].addEventListener("click", function (even){
+        var cartDelete = even.target
+        var cartItemR = cartDelete.parentElement.parentElement.parentElement
+        cartItemR.remove()
+        cartTotal();
+      })
+
+      // console.log(productT)
+    }
+
+  }
+
+  //thay doi so luong thi gia tien cung thay doi theo
+  function inputChange(){
+    var cartItem = document.querySelectorAll("tbody.table-border-bottom-0 tr ");
+    for (var i=0; i<cartItem.length; i++){
+      var inputValue= document.querySelectorAll(".input-value")
+      inputValue[i].addEventListener("change", function (){
+        cartTotal();
+      })
+      // console.log(productT)
+    }
+  }
+
+  //nhap hang
+  function collectDataFromTable() {
+    var data = [];
+    var rows = document.querySelectorAll('tbody.table-border-bottom-0 tr');
+    var note = document.getElementById('note').value;
+    if (note === null || note === "") note = " ";
+
+    rows.forEach(function(row) {
+      var productId = row.querySelector('p[data-product-id]').dataset.productId;
+      var productName = row.querySelector('.titleProduct').innerText;
+      var numberOfWarehouses = row.querySelector('input[name="numberOfWarehouses"]').value;
+      var unitPrice = row.querySelector('input[name="unitPrice"]').value;
+      var totalPrice = row.querySelector('input[name="totalPrice"]').value;
+
+
+      var item = productId+"-"+ productName + "-" + numberOfWarehouses + "-" + unitPrice + "-" + totalPrice  + "-" + note;
+      data.push(item);
+    });
+
+    return data.join(',');
+  }
+  document.querySelector('input[type="submit"]').addEventListener('click', function(event) {
+    event.preventDefault(); // Ngăn chặn hành động mặc định của nút submit
+
+    var data = collectDataFromTable();
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/CompleteOrderServlet', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          // Hiển thị thông báo nhập hàng thành công
+          alert("Nhập hàng thành công!");
+
+          // Làm mới trang sau một khoảng thời gian ngắn
+          setTimeout(function() {
+            window.location.reload(); // Làm mới trang sau 1 giây
+          }, 1000); // 1000 milliseconds = 1 giây
+        } else {
+          console.error('Error:', xhr.statusText);
+        }
+      }
+    };
+    xhr.send(JSON.stringify(data));
+  });
+
+  function cartTotal() {
+    var cartItem = document.querySelectorAll("tbody.table-border-bottom-0 tr");
+    var totalAll = 0;
+
+    cartItem.forEach(function(row) {
+      var numberOfWarehouses = parseFloat(row.querySelector('input[name="numberOfWarehouses"]').value);
+      var unitPrice = parseFloat(row.querySelector('input[name="unitPrice"]').value);
+      var totalPrice = numberOfWarehouses * unitPrice;
+      totalAll += totalPrice;
+    });
+
+    var cartTotalA = document.querySelector(".price-total span");
+    cartTotalA.innerHTML = totalAll.toLocaleString('de-DE') + '<sup>đ</sup>';
+  }
+
+
+  //tinh tong tien
+  function calculateTotal() {
+    var cartItems = document.querySelectorAll("tbody.table-border-bottom-0 tr");
+    cartItems.forEach(function(row) {
+      var numberOfWarehouses = parseFloat(row.querySelector('input[name="numberOfWarehouses"]').value);
+      var unitPrice = parseFloat(row.querySelector('input[name="unitPrice"]').value);
+      var totalPrice = numberOfWarehouses * unitPrice;
+      row.querySelector('input[name="totalPrice"]').value = totalPrice.toFixed(2);
+      cartTotal();
+    });
+
+  }
 </script>
 </body>
 </html>

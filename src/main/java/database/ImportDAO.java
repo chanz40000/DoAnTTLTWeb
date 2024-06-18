@@ -1,18 +1,23 @@
 package database;
 
-import model.*;
+import model.Import;
+import model.ImportDetail;
+import model.Product;
+import model.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.servlet.http.HttpServletRequest;
+import java.sql.*;
 import java.util.ArrayList;
-import java.sql.Date;
-import java.util.List;
 
 public class ImportDAO extends AbsDAO<Import> {
 
     ArrayList<Import> imports = new ArrayList<>();
+
+    public ImportDAO(HttpServletRequest request) {
+    }
+    public ImportDAO() {
+    }
+
     public int creatId() {
         imports = selectAll();
         return imports.size()+1;
@@ -131,7 +136,7 @@ public class ImportDAO extends AbsDAO<Import> {
             result = rs.executeUpdate();
             JDBCUtil.closeConnection(con);
             this.setValue("import_id: "+imported.getImportId()+"-"+ "user_id: "+ imported.getImporter().getUserId()+"-"+ "supplier: "+ imported.getSupplier()+"-"+"note: "+imported.getNote()+"-import_date: "+imported.getImportDate().toString()+"-total_price: "+imported);
-            super.insert(imported);
+            //super.insert(imported);
 
         } catch (SQLException e) {
             e.printStackTrace();
