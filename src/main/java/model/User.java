@@ -14,7 +14,22 @@ public class User{
     private String phone;
     private String email;
     private String avatar;
+    private int failedLogin;
     private List<Order> orderList;
+
+    public User(int userId, String username, String password, int role, String name, Date birthday, String sexual, String phone, String email, String avatar, int failedLogin) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.name = name;
+        this.birthday = birthday;
+        this.sexual = sexual;
+        this.phone = phone;
+        this.email = email;
+        this.avatar = avatar;
+        this.failedLogin = failedLogin;
+    }
 
     public User(int userId, String username, String password, int role, String name, Date birthday, String sexual, String phone, String email, String avatar) {
         this.userId = userId;
@@ -27,6 +42,14 @@ public class User{
         this.phone = phone;
         this.email = email;
         this.avatar = avatar;
+    }
+
+    public int getFailedLogin() {
+        return failedLogin;
+    }
+
+    public void setFailedLogin(int failedLogin) {
+        this.failedLogin = failedLogin;
     }
 
     public int getUserId() {
