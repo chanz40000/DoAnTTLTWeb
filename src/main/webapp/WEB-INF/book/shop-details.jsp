@@ -230,6 +230,67 @@
         border: none;
     }
 
+    .dropbtn {
+        background-color: transparent;
+        color: black;
+        padding: 0;
+        font-size: 14px;
+        border: none;
+        cursor: pointer;
+        outline: none;
+    }
+
+    /* Position the dropdown content */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* Style the dropdown links */
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+
+    /* Style the filter and sort section */
+    .filter-sort-section {
+        display: flex;
+        align-items: center;
+    }
+
+    .filter-section,
+    .sort-section {
+        display: flex;
+        align-items: center;
+    }
+
+    .filter-section {
+        margin-right: 10px;
+    }
+
+    .filter-sort-text {
+        margin: 0 5px;
+    }
+    .filter-divide-text{
+        margin-left: 5px;
+    }
+
 </style>
 <body>
 <!-- Page Preloder -->
@@ -487,9 +548,38 @@
 
                 </div>
             </div>
-            <hr style="width: 1000px;border: 0.5px solid #dcdcdc">
-
+            <hr style="margin-right: 7px;width: 1145px;border: 0.5px solid #dcdcdc">
         </div>
+        <div class="pdp-mod-filterSort" style="display: flex; justify-content: space-between; margin-right: auto;">
+            <span class="title">Product Reviews</span>
+
+            <!-- Filter and Sort Section -->
+            <div class="filter-sort-section">
+                <span class="filter-sort-text">Filter:</span>
+                <div class="dropdown">
+                    <button class="dropbtn">All star <i class="fa fa-caret-down"></i></button>
+                    <div class="dropdown-content">
+                        <a href="#" data-id="${detail.productId}"  data-rating="">All star</a>
+                        <a href="#" data-id="${detail.productId}" data-rating="5">5 star</a>
+                        <a href="#" data-id="${detail.productId}" data-rating="4">4 star</a>
+                        <a href="#" data-id="${detail.productId}" data-rating="3">3 star</a>
+                        <a href="#"data-id="${detail.productId}"  data-rating="2">2 star</a>
+                        <a href="#" data-id="${detail.productId}" data-rating="1">1 star</a>
+                    </div>
+                </div>
+                <%--                <span class="filter-divide-text">|</span>--%>
+                <%--                <span class="filter-sort-text">Sort:</span>--%>
+                <%--                <div class="dropdown">--%>
+                <%--                    <button class="dropbtn">Newest <i class="fa fa-caret-down"></i></button>--%>
+                <%--                    <div class="dropdown-content">--%>
+                <%--                        <a href="#">Newest</a>--%>
+                <%--                        <a href="#">Oldest</a>--%>
+                <%--                    </div>--%>
+                <%--                </div>--%>
+            </div>
+        </div>
+
+        <hr style="width: 1150px;border: 0.5px solid #dcdcdc">
         <div class="phanbinhluan">
             <c:set var="counter" value="0" />
 
@@ -544,28 +634,77 @@
             </c:forEach>
         </div>
     </div>
-    <c:set var="pageR" value="${sessionScope.pageR}" />
-    <c:set var="numR" value="${sessionScope.numR}" />
-
-
 </section>
-<!-- Product Details Section End -->
-<div class="product__pagination" style="padding-left: 680px;gap:100px;margin-top:-100px">
-    <c:choose>
-        <c:when test="${not empty param.productName}">
-            <%-- Handle pagination for filtered ratings if needed --%>
-        </c:when>
-        <c:otherwise>
-            <c:forEach begin="1" end="${numR}" var="i">
-                <c:url value="/Shopdetails" var="pageUrl">
-                    <c:param name="id" value="${productid}" />
-                    <c:param name="pageR" value="${i}" />
-                </c:url>
-                <a href="${pageUrl}" data-page="${i}" class="pagination-link" data-product="${productid}"<c:if test="${i == pageR}">class="active"</c:if>>${i}</a>
-            </c:forEach>
-        </c:otherwise>
-    </c:choose>
+
+
+<c:set var="pageR" value="${sessionScope.pageR}" />
+<c:set var="numR" value="${sessionScope.numR}" />
+<div class="product__pagination" style="padding-left: 600px; gap: 100px; margin-top: -100px;">
+    <c:set var="productid" value="${sessionScope.productid}" />
+    <c:set var="ratingstr" value="${param.star != null ? param.star : ''}" />
+    <c:set var="displayPages" value="3" />
+    <c:set var="halfDisplay" value="${displayPages / 2}" />
+    <c:set var="startPage" value="${pageR - halfDisplay}" />
+    <c:set var="endPage" value="${pageR + halfDisplay}" />
+
+    <c:if test="${startPage < 1}">
+        <c:set var="startPage" value="1" />
+        <c:set var="endPage" value="${startPage + displayPages - 1}" />
+    </c:if>
+
+    <c:if test="${endPage > numR}">
+        <c:set var="endPage" value="${numR}" />
+        <c:set var="startPage" value="${endPage - displayPages + 1}" />
+        <c:if test="${startPage < 1}">
+            <c:set var="startPage" value="1" />
+        </c:if>
+    </c:if>
+
+    <div class="product__pagination" style="padding-left: 600px;">
+        <c:if test="${pageR > 1}">
+            <c:url value="/Shopdetails" var="prevPageUrl">
+                <c:param name="id" value="${productid}" />
+                <c:param name="star" value="${ratingstr}" />
+                <c:param name="pageR" value="${pageR - 1}" />
+            </c:url>
+            <a href="${prevPageUrl}" class="pagination-link" data-page="${pageR - 1}" data-star="${ratingstr}">&lt;</a>
+        </c:if>
+
+        <c:forEach begin="${startPage}" end="${endPage}" var="i">
+            <c:url value="/Shopdetails" var="pageUrl">
+                <c:param name="id" value="${productid}" />
+                <c:param name="star" value="${ratingstr}" />
+                <c:param name="pageR" value="${i}" />
+            </c:url>
+            <a href="${pageUrl}" class="pagination-link <c:if test='${i == pageR}'>active</c:if>'" data-page="${i}" data-star="${ratingstr}">${i}</a>
+        </c:forEach>
+
+        <c:if test="${endPage < numR}">
+            ...
+        </c:if>
+
+        <c:if test="${endPage < numR}">
+            <c:url value="/Shopdetails" var="lastPageUrl">
+                <c:param name="id" value="${productid}" />
+                <c:param name="star" value="${ratingstr}" />
+                <c:param name="pageR" value="${numR}" />
+            </c:url>
+            <a href="${lastPageUrl}" class="pagination-link" data-page="${numR}" data-star="${ratingstr}">${numR}</a>
+        </c:if>
+
+        <c:if test="${pageR < numR}">
+            <c:url value="/Shopdetails" var="nextPageUrl">
+                <c:param name="id" value="${productid}" />
+                <c:param name="star" value="${ratingstr}" />
+                <c:param name="pageR" value="${pageR + 1}" />
+            </c:url>
+            <a href="${nextPageUrl}" class="pagination-link" data-page="${pageR + 1}" data-star="${ratingstr}">&gt;</a>
+        </c:if>
+    </div>
 </div>
+
+
+<!-- Product Details Section End -->
 
 <!-- Related Product Section Begin -->
 <section class="related-product" style="margin-top: 50px">
@@ -816,73 +955,132 @@
 </script>
 <script>
     $(document).ready(function() {
-        // Function to load reviews for a given page
-        function loadRatings(pageR, productid) {
+        // Store the selected star rating globally
+        let selectedStar = '';
+
+        // Handle dropdown selection
+        $('.dropdown-content a').click(function(event) {
+            event.preventDefault();
+            selectedStar = $(this).data('rating');
+            var text = $(this).text();
+            $('.dropbtn').text(text); // Update dropbtn text
+            var productid = $(this).data('id');
+
+            // Load reviews based on selected star rating and first page
+            loadRatings(productid, selectedStar, 1);
+        });
+
+        var initialProductId = $('.dropdown-content a:first-child').data('id'); // Get the initial product ID
+        loadRatings(initialProductId, '', 1); // Load all reviews initially
+
+        // Function to load reviews based on star rating and page number
+        function loadRatings(productid, star, pageR) {
             $.ajax({
                 url: '/Shopdetails',
                 type: 'GET',
                 data: {
                     id: productid,
+                    star: star,
                     pageR: pageR
                 },
                 success: function(response) {
-                    // Update the reviews section
-                    const newRatings = $(response).find('.phanbinhluan').html();
+                    var newRatings = $(response).find('.phanbinhluan').html();
                     $('.phanbinhluan').html(newRatings);
 
-                    // Update the pagination section
-                    const newPagination = $(response).find('.product__pagination').html();
+                    var newPagination = $(response).find('.product__pagination').html();
                     $('.product__pagination').html(newPagination);
 
-                    // Re-bind the click event to the new pagination links
-                    bindPaginationLinks();
-
-                    // Update the active page
+                    // Re-bind pagination links
+                    bindPaginationLinks(productid, star);
                     updateActivePage(pageR);
 
-                    // Scroll to the top of the reviews section after updating content
+                    // Re-bind form submission for CommentRa
+                    bindCommentFormSubmission();
+
+                    // Scroll to the top of the ratings section after updating content
                     $('html, body').animate({ scrollTop: $('.phanbinhluan').offset().top }, 'fast');
                 },
                 error: function(xhr, status, error) {
                     console.error('Error loading ratings:', error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'An error occurred while loading reviews.',
+                        timer: 1500,
+                        showConfirmButton: false,
+                        position: 'top-end',
+                        backdrop: false,
+                        timerProgressBar: true
+                    });
                 }
             });
         }
 
-        // Function to bind click events to pagination links
-        function bindPaginationLinks() {
-            $(document).on('click', '.pagination-link', function(e) {
+        // Function to bind events to pagination links
+        function bindPaginationLinks(productid, star) {
+            $(document).off('click', '.pagination-link').on('click', '.pagination-link', function(e) {
                 e.preventDefault();
                 var pageR = $(this).data('page');
-                var productid = $(this).data('product');
-                loadRatings(pageR, productid);
+                loadRatings(productid, star, pageR);
             });
         }
 
-        // Function to update the active class on pagination links
+        // Function to update the active page in pagination
         function updateActivePage(pageR) {
             $('.pagination-link').removeClass('active');
             $('.pagination-link[data-page="' + pageR + '"]').addClass('active');
         }
 
-        // Initial binding of the pagination links
-        bindPaginationLinks();
+        // Initial binding of pagination links
+        bindPaginationLinks(initialProductId, '');
 
-        // Update the active class on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentPageR = ${pageR}; // Get the current page value from JSTL
-            updateActivePage(currentPageR);
-        });
+        // Function to bind form submission for CommentRa using event delegation
+        function bindCommentFormSubmission() {
+            $(document).off('submit', '.CommentRa').on('submit', '.CommentRa', function(e) {
+                e.preventDefault(); // Prevent default form submission
+                let form = $(this);
+                let productid = form.find('[name="productid"]').val(); // Assuming there's a hidden input with productid
+
+                $.ajax({
+                    url: form.attr('action'), // Replace with your servlet URL
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function(response) {
+                        const newRatings = $(response).find('.phanbinhluan').html();
+                        const newPagings = $(response).find('.product__pagination').html();
+                        $('.dropbtn').text("All star"); // Update dropbtn text
+
+                        $('.phanbinhluan').html(newRatings);
+                        $('.product__pagination').html(newPagings);
+
+                        // Re-bind pagination links
+                        bindPaginationLinks(productid, selectedStar);
+                        updateActivePage(1); // Set page 1 as active
+
+
+                        // Re-bind form submission for CommentRa
+                        bindCommentFormSubmission();
+
+                        // Scroll to the top of the ratings section after updating content
+                        $('html, body').animate({ scrollTop: $('.phanbinhluan').offset().top }, 'fast');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error loading ratings:', error);
+                    }
+                });
+            });
+        }
+
+        // Initial binding of form submission for CommentRa
+        bindCommentFormSubmission();
     });
 
-
-
-
-</script>
-<script>
-
+    // Script for RatingPr form submission
     $(document).ready(function() {
-        $('.RatingPr').on("submit", function (e) {
+        function updateActivePage(pageR) {
+            $('.pagination-link').removeClass('active');
+            $('.pagination-link[data-page="' + pageR + '"]').addClass('active');
+        }
+        $(document).off('submit', '.RatingPr').on('submit', '.RatingPr', function(e) {
             e.preventDefault(); // Prevent default form submission
             let form = $(this);
 
@@ -892,7 +1090,11 @@
                 data: form.serialize(),
                 success: function(response) {
                     const newRatings = $(response).find('.phanbinhluan').html();
+                    const newPagings = $(response).find('.product__pagination').html();
+                    $('.dropbtn').text("All star");
                     $('.phanbinhluan').html(newRatings);
+                    $('.product__pagination').html(newPagings);
+                    updateActivePage(1); // Set page 1 as active
 
                     // Scroll to the top of the ratings section after updating content
                     $('html, body').animate({ scrollTop: $('.phanbinhluan').offset().top }, 'fast');
@@ -901,47 +1103,6 @@
                     console.error('Error loading ratings:', error);
                 }
             });
-        })
-    })
-
-
-</script>
-<script>
-
-    $(document).ready(function() {
-        $('.CommentRa').on("submit", function (e) {
-            e.preventDefault(); // Prevent default form submission
-            let form = $(this);
-
-            $.ajax({
-                url: form.attr("action"), // Replace with your servlet URL
-                type: 'POST',
-                data: form.serialize(),
-                success: function(response) {
-                    const newRatings = $(response).find('.phanbinhluan').html();
-                    $('.phanbinhluan').html(newRatings);
-
-                    // Scroll to the top of the ratings section after updating content
-                    $('html, body').animate({ scrollTop: $('.phanbinhluan').offset().top }, 'fast');
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error loading ratings:', error);
-                }
-            });
-        })
-    })
-
-
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const currentPageR = ${pageR}; // Lấy giá trị của trang hiện tại từ JSTL
-        const links = document.querySelectorAll('.product__pagination a[data-page]');
-
-        links.forEach(link => {
-            if (parseInt(link.getAttribute('data-page')) === currentPageR) {
-                link.classList.add('active');
-            }
         });
     });
 </script>
