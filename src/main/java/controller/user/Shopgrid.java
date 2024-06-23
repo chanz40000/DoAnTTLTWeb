@@ -23,18 +23,23 @@ public class Shopgrid extends HttpServlet {
         session.setAttribute("list", categories);
 
         ProductDAO productDAO = new ProductDAO();
-        ArrayList<Product> products = productDAO.selectAll();
+        ArrayList<Product> products;
 
 
         RatingDAO raDao = new RatingDAO();
         String category = request.getParameter("category");
-
-//        List<Product> products;
+        String sort = request.getParameter("sort");
+        String orderBy = null;
+        if ("asc".equals(sort)) {
+            orderBy = "ASC";
+        } else if ("desc".equals(sort)) {
+            orderBy = "DESC";
+        }
 
         if (category != null && !category.isEmpty()) {
-            products = productDAO.selectByCategoryName(category);
+            products = productDAO.selectByCategoryName(category, orderBy);
         } else {
-            products = productDAO.selectAll();
+            products = productDAO.selectAllOrder(orderBy);
         }
 
 
@@ -58,6 +63,7 @@ public class Shopgrid extends HttpServlet {
         session.setAttribute("page", page);
         session.setAttribute("num", num);
         session.setAttribute("selectedCategory", category);
+        session.setAttribute("sortOrder", sort);
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             response.setContentType("application/json");
