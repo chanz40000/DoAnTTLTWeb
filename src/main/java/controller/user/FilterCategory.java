@@ -18,9 +18,15 @@ public class FilterCategory extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         String categoryname = request.getParameter("caname");
-
+        String sort = request.getParameter("sort");
+        String orderBy = null;
+        if ("asc".equals(sort)) {
+            orderBy = "ASC";
+        } else if ("desc".equals(sort)) {
+            orderBy = "DESC";
+        }
         ProductDAO proDao = new ProductDAO();
-        ArrayList<Product> arr = proDao.selectByCategoryName(categoryname);
+        ArrayList<Product> arr = proDao.selectByCategoryName(categoryname, orderBy);
 
         int numpage = 6;
         int size = arr.size();

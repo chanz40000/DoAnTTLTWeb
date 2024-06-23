@@ -160,13 +160,37 @@
         .Ratestar img{
             margin-top:4px;
         }
+        .product__pagination a {
+            border: 2px solid black;
+            color: black;
+            transition: background-color 0.3s, color 0.3s, transform 0.5s;
+        }
+        .product__pagination a:hover {
+            background-color: orange;
+            color: black;
+            transform: scale(1.1);
+            border: none;
+        }
         .product__pagination a.active {
-            /*background-color: #fd7e14;*/
-            background-color: #7fad39;
+            background-color: orange;
             color: black;
             border: none;
         }
+        .strikethrough {
+            position: relative;
+            display: inline-block;
+        }
 
+        .strikethrough::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 2px; /* Thickness of the strikethrough line */
+            background-color: red; /* Red color for the strikethrough line */
+            transform: translateY(-50%);
+        }
     </style>
 </head>
 
@@ -487,16 +511,16 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-5">
                             <div class="filter__sort">
-                                <span>Sort By</span>
-                                <select>
-                                    <option value="0">Default</option>
-                                    <option value="0">Default</option>
+                                <span>Lọc theo:</span>
+                                <select name="sort" id="sortSelect" onchange="applySort()">
+                                    <option value="desc" ${sortOrder == 'desc' ? 'selected' : ''}>Giá giảm dần</option>
+                                    <option value="asc" ${sortOrder == 'asc' ? 'selected' : ''}>Giá tăng dần</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4">
                             <div class="filter__found">
-                                <h6><span>16</span> Products found</h6>
+                                <h6><span>${sessionScope.listProducts.size()}</span> sản phẩm đã tìm được</h6>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-3">
@@ -515,70 +539,48 @@
 
                                 <div class="product__item__pic">
                                     <img class="product-image" lazy data-src="/image/${p.image}" width="180px" height="250px" alt="${p.product_name}">
-                                        <%--=======--%>
-                                        <%--                                <div class="product__item__pic set-bg" > <!--data-setbg=""-->--%>
-                                        <%--                                    <img data-src="img/image/${p.image}" lazy>--%>
-                                        <%-->>>>>>> main--%>
-                                        <%-- nay dang lam kiem tra so luong --%>
-                                        <%--<<<<<<< HEAD--%>
-                                        <%--                                    <c:choose>--%>
-                                        <%--                                        <c:when test="${p.quantity > 0}">--%>
-                                        <%--                                            <ul class="product__item__pic__hover">--%>
-                                        <%--                                                <li><a href="#"><i class="fa fa-heart"></i></a></li>--%>
-                                        <%--                                                <li><a href="Shopdetails?id=${p.productId}"><i class="fa fa-info-circle"></i></a></li>--%>
-                                        <%--                                                <li>--%>
-                                        <%--                                                    <form class="add-to-cart-form" action="AddToCart" method="post" id="addToCartForm">--%>
-                                        <%--                                                        <input type="hidden" name="productId" value="${p.productId}">--%>
-                                        <%--                                                        <button class="submit-button" type="submit">--%>
-                                        <%--                                                            <c:choose>--%>
-                                        <%--                                                                <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">--%>
-                                        <%--                                                                    <a href=""><i class="fa fa-shopping-cart"></i></a>--%>
-                                        <%--                                                                </c:when>--%>
-                                        <%--                                                                <c:otherwise>--%>
-                                        <%--                                                                    <a href="Login"><i class="fa fa-shopping-cart"></i></a>--%>
-                                        <%--                                                                </c:otherwise>--%>
-                                        <%--                                                            </c:choose>--%>
-                                        <%--=======--%>
-                                    <ul class="product__item__pic__hover">
-                                        <li><a href="Shopdetails?id=${p.productId}"><i class="fa fa-info-circle"></i></a></li>
-                                        <li>
-                                            <form class="add-to-wishlist-form" action="AddToWishList" method="post" id="addToWishListForm">
-                                                <input type="hidden" name="productId" value="${p.productId}">
-                                                <button class="submit-button" type="submit">
-                                                    <c:choose>
-                                                        <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
-                                                            <a href=""><i class="fa fa-heart"></i></a>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <a href="Login"><i class="fa fa-heart"></i></a>
-                                                        </c:otherwise>
-                                                    </c:choose>
+                                            <ul class="product__item__pic__hover">
+                                                <li><a href="Shopdetails?id=${p.productId}"><i class="fa fa-info-circle"></i></a></li>
+                                                <li>
+                                                    <form class="add-to-wishlist-form" action="AddToWishList" method="post" id="addToWishListForm">
+                                                        <input type="hidden" name="productId" value="${p.productId}">
+                                                        <button class="submit-button" type="submit">
+                                                            <c:choose>
+                                                                <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
+                                                                    <a href=""><i class="fa fa-heart"></i></a>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <a href="Login"><i class="fa fa-heart"></i></a>
+                                                                </c:otherwise>
+                                                            </c:choose>
 
-                                                </button>
-                                            </form>
-                                        </li>
-                                        <li>
-                                            <form class="add-to-cart-form" action="AddToCart" method="post" id="addToCartForm">
-                                                <input type="hidden" name="productId" value="${p.productId}">
-                                                <button class="submit-button" type="submit">
-                                                    <c:choose>
-                                                        <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
-                                                            <a href=""><i class="fa fa-shopping-cart"></i></a>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <a href="Login"><i class="fa fa-shopping-cart"></i></a>
-                                                        </c:otherwise>
-                                                    </c:choose>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                                <c:choose>
+                                                <c:when test="${p.quantity > 0}">
+                                                <li>
+                                                    <form class="add-to-cart-form" action="AddToCart" method="post" id="addToCartForm">
+                                                        <input type="hidden" name="productId" value="${p.productId}">
+                                                        <button class="submit-button" type="submit">
+                                                            <c:choose>
+                                                                <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
+                                                                    <a href=""><i class="fa fa-shopping-cart"></i></a>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <a href="Login"><i class="fa fa-shopping-cart"></i></a>
+                                                                </c:otherwise>
+                                                            </c:choose>
 
-                                                </button>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                        <%--                                        </c:when>--%>
-                                        <%--                                        <c:otherwise>--%>
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                                </c:when>
+                                                    <c:otherwise>
 
-                                        <%--                                        </c:otherwise>--%>
-                                        <%--                                    </c:choose>--%>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </ul>
                                 </div>
                                 <div class="product__item__text">
                                     <h6>${p.product_name}</h6>
@@ -625,7 +627,10 @@
                                     <c:otherwise>
                                         <li class="Productnotsell">Hết hàng</li>
                                         </ul>
-                                        <h5 style="color: #a71d2a">Hết hàng</h5>
+                                        <h5>
+                                            <span class="strikethrough">${FormatCurrency.formatCurrency(p.price)}</span>
+                                            <span style="color: #e30404">HẾT HÀNG</span>
+                                        </h5>
                                     </c:otherwise>
                                     </c:choose>
 
@@ -661,63 +666,42 @@
 
                 <div class="product__pagination" style="padding-left: 300px">
                     <c:if test="${not isSearch}">
+                        <!-- Nút về trang đầu -->
                         <c:if test="${page > 1}">
-                            <c:url value="/Shopgrid" var="prevPageUrl">
-                                <c:param name="page" value="${page - 1}" />
-                            </c:url>
-                            <a href="javascript:void(0);" class="pagination-link" data-page="${page - 1}"><</a>
+                            <a style="background-color: #000000; border: none; color: white" href="javascript:void(0);" class="pagination-link" data-page="1"><<</a>
                         </c:if>
 
+                        <!-- Nút trang trước -->
+                        <c:if test="${page > 1}">
+                            <a style="background-color: #000000; border: none; color: white" href="javascript:void(0);" class="pagination-link" data-page="${page - 1}"><</a>
+                        </c:if>
+
+                        <!-- Hiển thị các trang giữa -->
                         <c:forEach begin="${startPage}" end="${endPage}" var="i">
-                            <c:url value="/Shopgrid" var="pageUrl">
-                                <c:param name="page" value="${i}" />
-                            </c:url>
                             <a href="javascript:void(0);" class="pagination-link" data-page="${i}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>
                         </c:forEach>
 
+                        <!-- Dấu ba chấm -->
                         <c:if test="${endPage < num}">
-                            ...
+                            <a class="pagination-link disabled">...</a>
                         </c:if>
 
+                        <!-- Hiển thị trang cuối cùng nếu cần -->
                         <c:if test="${endPage < num}">
-                            <c:url value="/Shopgrid" var="lastPageUrl">
-                                <c:param name="page" value="${num}" />
-                            </c:url>
                             <a href="javascript:void(0);" class="pagination-link" data-page="${num}">${num}</a>
                         </c:if>
 
+                        <!-- Nút trang tiếp theo -->
                         <c:if test="${page < num}">
-                            <c:url value="/Shopgrid" var="nextPageUrl">
-                                <c:param name="page" value="${page + 1}" />
-                            </c:url>
-                            <a href="javascript:void(0);" class="pagination-link" data-page="${page + 1}">></a>
+                            <a style="background-color: #000000; border: none; color: white" href="javascript:void(0);" class="pagination-link" data-page="${page + 1}">></a>
+                        </c:if>
+
+                        <!-- Nút về trang cuối -->
+                        <c:if test="${page < num}">
+                            <a style="background-color: #000000; border: none; color: white" href="javascript:void(0);" class="pagination-link" data-page="${num}">>></a>
                         </c:if>
                     </c:if>
                 </div>
-
-                <%--=======--%>
-                <%--                    <c:set var="page" value="${sessionScope.page}" />--%>
-                <%--                    <c:set var="num" value="${sessionScope.num}" />--%>
-                <%--                    <c:set var="selectedCategory" value="${sessionScope.selectedCategory}" />--%>
-
-                <%--                    <c:choose>--%>
-                <%--                        <c:when test="${not empty param.productName}">--%>
-                <%--                            <c:if test="${page eq 1}">--%>
-                <%--                                <a href="#" class="pagination-link active" data-page="1">1</a>--%>
-                <%--                            </c:if>--%>
-                <%--                        </c:when>--%>
-                <%--                        <c:otherwise>--%>
-                <%--                            <c:forEach begin="1" end="${num}" var="i">--%>
-                <%--                                <c:url value="/Shopgrid" var="pageUrl">--%>
-                <%--                                    <c:param name="page" value="${i}" />--%>
-                <%--                                    <c:param name="category" value="${selectedCategory}" />--%>
-                <%--                                </c:url>--%>
-                <%--                                <a class="pagination-link" href="${pageUrl}" data-page="${i}" data-category="${selectedCategory}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>--%>
-                <%--                            </c:forEach>--%>
-                <%--                        </c:otherwise>--%>
-                <%--                    </c:choose>--%>
-
-                <%-->>>>>>> main--%>
             </div>
         </div>
     </div>
@@ -804,7 +788,29 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function applySort() {
+        const sortSelect = document.getElementById('sortSelect');
+        const selectedSort = sortSelect.value;
+        const currentUrl = window.location.href;
+        const url = new URL(currentUrl);
 
+        url.searchParams.set('sort', selectedSort);
+
+        // Preserve other parameters (category, page)
+        const category = url.searchParams.get('category');
+        const page = url.searchParams.get('page');
+
+        if (category) {
+            url.searchParams.set('category', category);
+        }
+        if (page) {
+            url.searchParams.set('page', page);
+        }
+
+        window.location.href = url.toString();
+    }
+</script>
 <script>
     $(document).ready(function() {
         function initializeLazyLoading() {
@@ -909,6 +915,7 @@
             loadProducts(1, currentCategory); // Trang đầu tiên khi chọn một danh mục sản phẩm
         });
 
+
         // Hàm tải sản phẩm
         function loadProducts(page, category) {
             $.ajax({
@@ -916,7 +923,8 @@
                 type: 'GET',
                 data: {
                     page: page,
-                    category: category
+                    category: category,
+                    sort: $('#sortSelect').val()
                 },
                 success: function(response) {
                     var newContent = $(response).find('#row').html();
