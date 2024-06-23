@@ -209,6 +209,43 @@ public class RatingDAO implements DAOInterface<Rating> {
         }
         return ratings;
     }
+    public ArrayList<Rating> selectStarFromRatings(int productid, int rating_star) {
+        ArrayList<Rating> ratings = new ArrayList<>();
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "SELECT u.name, r.rating_id, r.product_id, r.rating_star, r.rating_text, UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(r.date_rating) as date_rating " +
+                    "FROM ratings r JOIN users u ON r.user_id = u.user_id " +
+                    "WHERE r.product_id = ? AND r.rating_star = ? ORDER BY r.date_rating DESC";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, productid);
+            st.setInt(2, rating_star);
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                int idrating = rs.getInt("rating_id");
+                int idproduct = rs.getInt("product_id");
+                String name = rs.getString("name");
+                int ratingStar = rs.getInt("rating_star");
+                String ratingText = rs.getString("rating_text");
+                long dateRating = rs.getLong("date_rating");
+                Product pr = new ProductDAO().selectById(idproduct);
+
+                User use = new UserDAO().selectByName(name);
+
+                Rating ra = new Rating(idrating, pr, use, ratingStar, ratingText, dateRating);
+                ratings.add(ra);
+            }
+
+            JDBCUtil.closeConnection(con);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ratings;
+    }
+
     public List<Rating> selectInfoRatings(int productid) {
         List<Rating> ratings = new ArrayList<>();
         try {

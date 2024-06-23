@@ -5,12 +5,9 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CountryResponse;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Inet6Address;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 public class CountryIdentifier {
 
@@ -28,7 +25,7 @@ public class CountryIdentifier {
     public String getCountryId(HttpServletRequest request) throws IOException, GeoIp2Exception {
         // Lấy địa chỉ IP của client từ request
         String clientIpAddress = getClientIpAddress(request);
-        System.out.println("clientIpAddress: "+ clientIpAddress);
+        //System.out.println("clientIpAddress: "+ clientIpAddress);
         String ipv4 = IPv4Converter.convertIPv4(clientIpAddress);
 
             // Chuyển đổi địa chỉ IP từ dạng string sang đối tượng InetAddress
@@ -38,8 +35,8 @@ public class CountryIdentifier {
             CountryResponse responsee = dbReader.country(ip);
 
             // In thông tin về quốc gia
-            System.out.println("Country Name: " + responsee.getCountry().getName());
-            System.out.println("Country ISO Code: " + responsee.getCountry().getIsoCode());
+            //System.out.println("Country Name: " + responsee.getCountry().getName());
+            //System.out.println("Country ISO Code: " + responsee.getCountry().getIsoCode());
             return responsee.getCountry().getName();
 
     }
@@ -54,8 +51,8 @@ public class CountryIdentifier {
         CountryResponse responsee = dbReader.country(ip);
 
         // In thông tin về quốc gia
-        System.out.println("Country Name: " + responsee.getCountry().getName());
-        System.out.println("Country ISO Code: " + responsee.getCountry().getIsoCode());
+        //System.out.println("Country Name: " + responsee.getCountry().getName());
+        //System.out.println("Country ISO Code: " + responsee.getCountry().getIsoCode());
         return responsee.getCountry().getName();
 
     }

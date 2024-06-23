@@ -261,6 +261,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     $(document).ready(function() {
         var table = new DataTable('#example', {
@@ -272,35 +274,53 @@
 </script>
 <script>
     $(document).ready(function () {
-        $(".wishlist__item__close form").on("submit", function (event) {
+        $(document).on("submit", ".wishlist__item__close form", function (event) {
             event.preventDefault();
             let form = $(this);
             let itemId = form.find("input[name='itemId']").val();
 
-            if (confirm("Bạn có chắc muốn xóa khỏi danh sách yêu thích?")) {
-                $.ajax({
-                    type: "POST",
-                    url: form.attr("action"), // Replace with actual URL for RemoveItemWishList controller
-                    data: { itemId: itemId }, // Send itemId as data
-                    success: function (data) {
-                        // Remove item from UI
-                        form.closest("tr").remove();
-                        var currentQuantity = parseInt($(".wishlist-item-count").text(), 10);
-                        var newQuantity = currentQuantity - 1;
-                        $(".wishlist-item-count").text(newQuantity);
-                        // Optionally update wishlist count (if displayed)
-                        // Replace with your function to update count in UI
-                    },
-                    error: function (error) {
-                        console.error("Error:", error);
-                        alert("Có lỗi xảy ra khi xóa sản phẩm khỏi danh sách yêu thích.");
-                    }
-                });
-            } else {
-                console.log("Đã hủy xóa");
-            }
+            Swal.fire({
+                title: 'Bạn có chắc muốn xóa khỏi danh sách yêu thích?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr("action"), // Thay thế với URL thực tế cho controller RemoveItemWishList
+                        data: { itemId: itemId }, // Gửi itemId như là dữ liệu
+                        success: function (data) {
+                            // Xóa mục từ giao diện
+                            form.closest("tr").remove();
+                            var currentQuantity = parseInt($(".wishlist-item-count").text(), 10);
+                            var newQuantity = currentQuantity - 1;
+                            $(".wishlist-item-count").text(newQuantity);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Đã xóa sản phẩm khỏi danh sách yêu thích.',
+                                showConfirmButton: false,
+                                timer: 1500 // Tự động đóng sau 1.5 giây
+                            });
+
+                        },
+                        error: function (error) {
+                            console.error("Lỗi:", error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Có lỗi xảy ra khi xóa sản phẩm khỏi danh sách yêu thích.',
+                                showConfirmButton: true
+                            });
+                        }
+                    });
+                } else {
+                    console.log("Đã hủy xóa");
+                }
+            });
         });
     });
+
 </script>
 
 

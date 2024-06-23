@@ -27,7 +27,14 @@
   <meta name="description" content="" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="../assetsForAdmin/assets/img/favicon/favicon.ico"/>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+  <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css"/>
+
+  <link rel="icon" type="image/x-icon" href="../assetsForAdmin/assets/img/favicon/favicon.ico" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -47,6 +54,7 @@
   <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/css/core.css" class="template-customizer-core-css" />
   <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
   <link rel="stylesheet" href="../assetsForAdmin/assets/css/demo.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
 
   <!-- Vendors CSS -->
   <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
@@ -54,15 +62,11 @@
   <!-- Page CSS -->
 
   <!-- Helpers -->
-    <script src="https://kit.fontawesome.com/2b3abce4d1.js" crossorigin="anonymous"></script>
-<%--  <script src="../assetsForAdmin/assets/vendor/js/script.js"></script>--%>
   <script src="../assetsForAdmin/assets/vendor/js/helpers.js"></script>
 
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="../assetsForAdmin/assets/js/config.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script>
     $(document).ready(function (){
       $("form").submit(
@@ -198,16 +202,7 @@
 <div class="layout-wrapper layout-content-navbar">
   <div class="layout-container">
 
-
-
-    <!-- Menu -->
     <jsp:include page="menu.jsp"/>
-
-    <!-- / Menu -->
-
-
-
-    <!-- Layout container -->
     <div class="layout-page">
       <!-- Navbar -->
 
@@ -220,17 +215,6 @@
             <i class="bx bx-menu bx-sm"></i>
           </a>
         </div>
-
-        <form enctype="multipart/form-data" method="post">
-          <button><input type="file" name="file"></button>
-
-          <input type="submit" value="Save">
-        </form>
-        <table>
-          <tbody id="tbody">
-
-          </tbody>
-        </table>
         <jsp:useBean id="productDAO" class="database.ProductDAO"></jsp:useBean>
         <c:set var="listProduct" value="${productDAO.selectAll()}" ></c:set>
         <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
@@ -329,9 +313,8 @@
 
       <!-- / Navbar -->
 
-      <div class="card card11">
         <div class="table-responsive text-nowrap">
-          <table class="table ">
+          <table class="table table-striped" id="tabledata">
             <thead>
             <tr class="hide">
               <th>Mã sách</th>
@@ -364,7 +347,7 @@
 
           </table>
         </div>
-      </div>
+
       <!-- Content wrapper -->
       <div class="content-wrapper" id="content-wrapper">
         <!-- Content -->
@@ -377,7 +360,7 @@
             <h5 class="card-header">Table Basic</h5>
             <div class="table-responsive text-nowrap">
 <%--              <form action="/ImportOrder" method="post">--%>
-              <table class="table">
+              <table class="table table-striped">
                 <thead>
                 <tr>
                   <th>Mã SP</th>
@@ -401,7 +384,7 @@
     </div>
   <div class="checkout__input">
     <label for="note">Ghi chú</label>
-    <input type="text" id="note" name="note" ></input>
+    <input type="text" id="note" name="note" >
   </div>
   <input type="submit" value="Complete Order" >
 <%--              </form>--%>
@@ -473,7 +456,7 @@
     var data = [];
     var rows = document.querySelectorAll('tbody.table-border-bottom-0 tr');
     var note = document.getElementById('note').value;
-    if(note.equals(null)) note=" ";
+    if (note === null || note === "") note = " ";
 
     rows.forEach(function(row) {
       var productId = row.querySelector('p[name="productId"]').innerText;
@@ -657,50 +640,6 @@ function calculateTotal() {
   }
 
 
-
-</script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    var toggle = document.getElementById("menu-icon-toggle");
-    var sidebar = document.getElementById("layout-menu");
-    var searchbar = document.getElementById("layout-navbar");
-    var contentnew = document.getElementById("content-wrapper");
-    // bigcontent = document.getElementById('content-big-section');
-
-    toggle.addEventListener("click", function () {
-      sidebar.classList.toggle("close");
-      searchbar.classList.toggle("close");
-      contentnew.classList.toggle("close");
-      // bigcontent.classList.toggle("close");
-    });
-  });
-</script>
-<script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
-<script>
-  const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
-  const icondarklight = document.getElementById('icontype');
-
-  // Initially disable Dark Reader
-  DarkReader.disable();
-
-  toggleDarkModeButton.addEventListener("click", () => {
-    if (DarkReader.isEnabled()) {
-      DarkReader.disable();
-      icondarklight.classList.replace("fa-sun", "fa-moon");
-    } else {
-      DarkReader.enable({
-        brightness: 100,
-        contrast: 90,
-        sepia: 10
-      });
-      icondarklight.classList.replace("fa-moon", "fa-sun");
-    }
-  });
-
-  // Set the initial button text and Font Awesome icon
-
-
-  // Enable Dark Reader when the page loads
 
 </script>
 <script src="../assetsForAdmin/assets/vendor/libs/jquery/jquery.js"></script>

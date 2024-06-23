@@ -1,7 +1,5 @@
 package controller.admin;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import database.ImportDAO;
 import database.ImportDetailDAO;
 import database.ProductDAO;
@@ -9,17 +7,14 @@ import model.Import;
 import model.ImportDetail;
 import model.User;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URLDecoder;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @WebServlet(name = "CompleteOrderServlet", value = "/CompleteOrderServlet")
 public class CompleteOrderServlet extends HttpServlet {
@@ -40,6 +35,7 @@ public class CompleteOrderServlet extends HttpServlet {
         String line;
         while ((line = reader.readLine()) != null) {
             sb.append(line);
+            System.out.println("line: "+ line);
         }
         reader.close();
 
@@ -48,11 +44,12 @@ public class CompleteOrderServlet extends HttpServlet {
         String[] importDetails = data.split(","); // Sử dụng split("/") để tách chuỗi thành mảng dữ liệu
 
         //them vao database
-        ImportDAO importDAO = new ImportDAO();
+        ImportDAO importDAO = new ImportDAO(request);
         ImportDetailDAO importDetailDAO = new ImportDetailDAO();
-        ProductDAO productDAO = new ProductDAO();
+        ProductDAO productDAO = new ProductDAO(request);
 
-        User user = (User) request.getSession().getAttribute("userC");
+        User user = (User) request.getSession().getAttribute("admin");
+        System.out.println("id: "+ user.getUserId());
 
         long millis=System.currentTimeMillis();
         java.sql.Date date=new java.sql.Date(millis);
@@ -61,7 +58,7 @@ public class CompleteOrderServlet extends HttpServlet {
         String notes = importDetails[0];
         String decodedPart = URLDecoder.decode(notes, "UTF-8");
         String[]dataDetail2 = decodedPart.split("-");
-        String note = dataDetail2[5];
+        String note = dataDetail2.length > 5 ? dataDetail2[5] : "";
 
         Import importClass= new Import(import_id, user, "ncc1", note, date );
         importDAO.insert(importClass);

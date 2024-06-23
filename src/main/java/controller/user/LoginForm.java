@@ -1,26 +1,19 @@
 package controller.user;
 
-import com.maxmind.geoip2.DatabaseReader;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.CountryResponse;
-import model.ErrorBean;
 import database.UserDAO;
+import model.ErrorBean;
 import model.User;
 import util.CountryIdentifier;
-import util.IPv4Converter;
 import util.PasswordEncryption;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
 import java.io.IOException;
-import java.net.InetAddress;
 
 @WebServlet(name = "LoginForm", value = "/LoginForm")
 public class LoginForm extends HttpServlet {
@@ -29,63 +22,7 @@ public class LoginForm extends HttpServlet {
     private static final int WARNING_LOGIN = 4;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       /* String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        password = PasswordEncryption.toSHA1(password);
-        boolean check_error = false;
-        HttpSession session = request.getSession();
 
-        session.setAttribute("username", username);
-
-        //kiem tra password
-        if (password == null || password.trim().length() == 0) {
-            check_error = true;
-            request.setAttribute("e_password", "chua nhap mat khau");
-        }
-
-        UserDAO test = new UserDAO();
-        User user = test.selectByUsernamePassword(username, password);
-        System.out.println("nguoi dung: " + username);
-
-        String url = "";
-
-
-        if (user != null) {
-
-
-            if (user.getRole() == 1) {
-                session.setAttribute("admin", user);
-                url = "/WEB-INF/book/index.jsp";
-                response.sendRedirect(request.getContextPath() + url);
-
-            } else {
-
-                if (user != null) {
-                    session.setMaxInactiveInterval(30 * 60);
-                    session.setAttribute("customer", user);
-                    url = "/WEB-INF/book/index.jsp";
-
-
-                }
-            }
-
-
-        } else {
-            request.setAttribute("Error", "ten dang nhap hoac mat khau chua chinh xac!");
-            ErrorBean eb = new ErrorBean();
-            eb.setError((String) request.getAttribute("Error"));
-            request.setAttribute("errorBean", eb);
-
-            url = request.getContextPath() + "/WEB-INF/book/logintwo.jsp";
-            String encodedError = URLEncoder.encode(eb.getError(), "UTF-8");
-            request.setAttribute("encodedError", encodedError);
-            return;
-        }
-        if (url != null) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-            dispatcher.forward(request, response);
-
-        }*/
     }
 
     @Override
@@ -115,9 +52,7 @@ public class LoginForm extends HttpServlet {
 
                 if (user.getRole() == 1 || user.getRole() == 4) {
                     session.setAttribute("admin", user);
-//                    String url = "/WEB-INF/admin/jsp/index.jsp";
-//                    RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-//                    dispatcher.forward(request, response);
+                    session.setAttribute("userC", user);
                     response.sendRedirect(request.getContextPath() + "/AdminIndex");
                 }else if(user.getRole() == 3 || user.getRole() == 5){
                     request.setAttribute("Error", "Tài khoản bạn đã bị khóa!");
@@ -137,6 +72,7 @@ public class LoginForm extends HttpServlet {
                     //xác định thời gian, bằng giây, giữa các yêu cầu từ Client trước khi Servlet container sẽ vô hiệu hóa session này
                     session.setMaxInactiveInterval(30 * 60);
                     session.setAttribute("userC", user);
+                    System.out.println("userC: "+ user.getName());
                     // Use forward for successful customer login
                     response.sendRedirect(request.getContextPath() + "/Index");
                 }
@@ -162,15 +98,7 @@ public class LoginForm extends HttpServlet {
                 dispatcher.forward(request, response);
             }
         }
-//        } else {
-//            // User hasn't attempted login, indicate non-logged-in state
-//            request.setAttribute("notLoggedIn", true);
-//            // Forward to index.jsp to display information for non-logged-in users
-//            String url = "/WEB-INF/book/index.jsp";
-//            RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-//            dispatcher.forward(request, response);
-//        }
-//C:/Users/ADMIN/eclipse-workspace/BookWeb-master/src/main/java/util/GeoLite2-Country
+
         try {
             CountryIdentifier countryIdentifier = new CountryIdentifier();
 

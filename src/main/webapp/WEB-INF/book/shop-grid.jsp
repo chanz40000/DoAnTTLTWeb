@@ -539,9 +539,6 @@
 
                                 <div class="product__item__pic">
                                     <img class="product-image" lazy data-src="/image/${p.image}" width="180px" height="250px" alt="${p.product_name}">
-
-<%--                                    <c:choose>--%>
-<%--                                        <c:when test="${p.quantity > 0}">--%>
                                             <ul class="product__item__pic__hover">
                                                 <li><a href="Shopdetails?id=${p.productId}"><i class="fa fa-info-circle"></i></a></li>
                                                 <li>
@@ -707,6 +704,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </section>
 
