@@ -5,7 +5,6 @@ import database.ProductDAO;
 import database.RatingDAO;
 import model.Category;
 import model.Product;
-import util.EHCacheUtil;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -24,31 +23,32 @@ public class Shopgrid extends HttpServlet {
         session.setAttribute("list", categories);
 
         ProductDAO productDAO = new ProductDAO();
+        ArrayList<Product> products = productDAO.selectAll();
+
+
         RatingDAO raDao = new RatingDAO();
-
         String category = request.getParameter("category");
-        String xpage = request.getParameter("page");
-        int page = (xpage == null || xpage.isEmpty()) ? 1 : Integer.parseInt(xpage);
 
-        // Tạo khóa cho bộ nhớ đệm
-        String cacheKey = (category != null ? category : "all") + "-" + page;
+//        List<Product> products;
 
-        // Kiểm tra bộ nhớ đệm
-        ArrayList<Product> products = (ArrayList<Product>) EHCacheUtil.get(cacheKey);
-
-        // Nếu bộ nhớ đệm không có dữ liệu, truy vấn cơ sở dữ liệu và lưu vào bộ nhớ đệm
-        if (products == null) {
-            if (category != null && !category.isEmpty()) {
-                products = productDAO.selectByCategoryName(category);
-            } else {
-                products = productDAO.selectAll();
-            }
-            EHCacheUtil.set(cacheKey, products);
+        if (category != null && !category.isEmpty()) {
+            products = productDAO.selectByCategoryName(category);
+        } else {
+            products = productDAO.selectAll();
         }
 
-        int numpage = 12;
+
+        int page, numpage = 12;
         int size = products.size();
         int num = (size % numpage == 0) ? (size / numpage) : ((size / numpage) + 1);
+        String xpage = request.getParameter("page");
+
+        if (xpage == null || xpage.isEmpty()) {
+            page = 1;
+        } else {
+            page = Integer.parseInt(xpage);
+        }
+
         int start = (page - 1) * numpage;
         int end = Math.min(page * numpage, size);
         List<Product> list = productDAO.getListByPage(products, start, end);
@@ -58,7 +58,6 @@ public class Shopgrid extends HttpServlet {
         session.setAttribute("page", page);
         session.setAttribute("num", num);
         session.setAttribute("selectedCategory", category);
-
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             response.setContentType("application/json");
@@ -68,6 +67,14 @@ public class Shopgrid extends HttpServlet {
         } else {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/book/shop-grid.jsp");
             dispatcher.forward(request, response);
+
+
+
+//        if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
+//            request.getRequestDispatcher("/WEB-INF/book/shop-grid.jsp").forward(request, response);
+//        } else {
+//            request.getRequestDispatcher("/WEB-INF/book/shop-grid.jsp").forward(request, response);
+//
         }
     }
 
