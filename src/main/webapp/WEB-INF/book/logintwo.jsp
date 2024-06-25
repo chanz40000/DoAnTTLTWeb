@@ -52,7 +52,7 @@
                     <div class="text-white mb-3">or login with</div>
                     <div class="row mb-3">
                         <div class="col-4">
-                            <a href="" class="btn btn-block btn-social btn-facebook">
+                            <a href="https://www.facebook.com/v20.0/dialog/oauth?&client_id=1253447572292759&redirect_uri=http://localhost:8080/LoginToIndexByFB&scope=email" class="btn btn-block btn-social btn-facebook">
                                 <i class="fa fa-facebook"></i>
                             </a>
                         </div>
