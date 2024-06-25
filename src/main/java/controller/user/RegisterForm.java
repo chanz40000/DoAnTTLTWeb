@@ -47,25 +47,25 @@ public class RegisterForm extends HttpServlet {
 
             // Kiểm tra định dạng email
             if (!isValidEmail(email)) {
-                eb2.setError("Email của bạn không đúng định dạng abc@xyz.abc. Vui lòng nhập lại");
+                eb2.setError("Email của bạn không đúng định dạng abc@xyz.abc ");
                 request.setAttribute("errorBean2", eb2);
                 baoLoi2 += eb2.getError();
                 url = "/WEB-INF/book/register.jsp";
             } else if (cd.selectByUsername(username)) {
-                eb1.setError("Tên đăng nhập đã tồn tại, vui lòng chọn tên đăng nhập khác");
+                eb1.setError("Tên đăng nhập đã tồn tại, vui lòng chọn tên đăng nhập khác.");
                 request.setAttribute("errorBean1", eb1);
                 baoLoi1 += eb1.getError();
 
                 url = "/WEB-INF/book/register.jsp";
             } else if (!isValidUserName(username)) {
-                eb1.setError("Tên đăng nhập chỉ được chứa chữ và số và không chứa khoảng trắng");
+                eb1.setError("Tên đăng nhập chỉ được chứa chữ và số và không chứa khoảng trắng.");
                 request.setAttribute("errorBean1", eb1);
                 baoLoi1 += eb1.getError();
 
                 url = "/WEB-INF/book/register.jsp";
             }
             else if (cd.selectByEmail(email)) {
-                eb2.setError("Email đã tồn tại, vui lòng chọn email khác");
+                eb2.setError("Email đã tồn tại, vui lòng chọn email khác.");
                 request.setAttribute("errorBean2", eb2);
                 baoLoi2 += eb2.getError();
                 url = "/WEB-INF/book/register.jsp";

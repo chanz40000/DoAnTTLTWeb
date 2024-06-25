@@ -58,14 +58,14 @@ public class LoginForm extends HttpServlet {
                     request.setAttribute("Error", "Tài khoản bạn đã bị khóa!");
                     eb.setError((String) request.getAttribute("Error"));
                     request.setAttribute("errorBean", eb);
-                    String url = request.getContextPath() + "/WEB-INF/book/logintwo.jsp";
+                    String url = request.getContextPath() + "/WEB-INF/book/login.jsp";
                     RequestDispatcher dispatcher = request.getRequestDispatcher(url);
                     dispatcher.forward(request, response);
                 }else if(user.getFailedLogin() >= LOCK_LOGIN){
                     request.setAttribute("Error", "Tài khoản của bạn đã bị khóa trong 2 tiếng do đăng nhập thất bại quá nhiều lần! Vui lòng thử lại sau.");
                     eb.setError((String) request.getAttribute("Error"));
                     request.setAttribute("errorBean", eb);
-                    String url = request.getContextPath() + "/WEB-INF/book/logintwo.jsp";
+                    String url = request.getContextPath() + "/WEB-INF/book/login.jsp";
                     RequestDispatcher dispatcher = request.getRequestDispatcher(url);
                     dispatcher.forward(request, response);
                 }else {
@@ -93,7 +93,7 @@ public class LoginForm extends HttpServlet {
                 }
                 eb.setError((String) request.getAttribute("Error"));
                 request.setAttribute("errorBean", eb);
-                String url = request.getContextPath() + "/WEB-INF/book/logintwo.jsp";
+                String url = request.getContextPath() + "/WEB-INF/book/login.jsp";
                 RequestDispatcher dispatcher = request.getRequestDispatcher(url);
                 dispatcher.forward(request, response);
             }
@@ -103,7 +103,7 @@ public class LoginForm extends HttpServlet {
             CountryIdentifier countryIdentifier = new CountryIdentifier();
 
             String countryId = countryIdentifier.getCountryId(request);
-            System.out.println("Quốc gia của bạn là: " + countryId);
+            System.out.println("Quoc gia cua ban la: " + countryId);
         } catch (Exception e) {
             e.printStackTrace();
         }

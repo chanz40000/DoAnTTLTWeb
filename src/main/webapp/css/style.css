@@ -338,6 +338,7 @@ ol {
     top: 23px;
     opacity: 1;
     visibility: visible;
+    border-radius: 10px;
 }
 
 .header__top__right__language:after {
