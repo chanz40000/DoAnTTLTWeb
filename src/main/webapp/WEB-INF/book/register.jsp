@@ -7,92 +7,60 @@
     <title>Register</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="css/styleforlogin.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <link rel="icon" type="image/png" size="50" href="img/icons8-book-64.png">
+    <title>Đăng ký</title>
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
 
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Main css -->
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-6 col-md-6 form-container">
-            <div class="col-lg-8 col-md-12 col-sm-9 col-xs-12 form-box text-center">
-                <div class="logoforlogin">
-                    <div class="thumbnail"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/hat.svg"
-                                                width="150px" height="150px"></div>
-                </div>
-                <div class="heading mb-3">
-                    <h4>Tạo tài khoản cho bạn</h4>
-                </div>
-
-
-                <form action="RegisterForm" method="post">
-                    <div style="text-align: center;color: red;font-size: 12px" class="red"  id="baoLoi">${errorBean1.getError()}</div>
-                    <div class="form-input">
-                        <span><i class="fa fa-user"></i></span>
-                        <input name="usernamere" type="text" placeholder="Tên tài khoản" required>
-                    </div>
-                    <div class="form-input">
-                        <span><i class="fa fa-user"></i></span>
-                        <input name="namere" type="text" placeholder="Tên" required>
-                    </div>
-                    <div style="text-align: center;color: red;font-size: 12px" class="red" id="baoLoi">${errorBean2.getError()} </div>
-                    <div class="form-input">
-
-                        <span><i class="fa fa-envelope"></i></span>
-                        <input name="emailre" type="email" placeholder="Địa chỉ email" required>
-                    </div>
-                    <div class="form-input">
-                        <span><i class="fa fa-lock"></i></span>
-                        <input name="passwordre" type="password" placeholder="Mật khẩu" required>
-                    </div>
-                    <div style="text-align: center;color: red;font-size: 12px" class="red" id="baoLoi">${errorBean3.getError()} </div>
-                    <div class="form-input">
-
-                        <span><i class="fa fa-lock"></i></span>
-                        <input name="enterThePasswordre" type="password" placeholder="Nhập lại mật khẩu" required>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-12 d-flex">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="cb1">
-                                <label class="custom-control-label text-white" for="cb1">I agree all terms &
-                                    conditions</label>
-                            </div>
+<!-- Sign up form -->
+	<section class="signup">
+		<div class="container">
+			<div class="signup-content">
+				<div class="signup-form">
+					<h2 class="form-title">Tạo tài khoản</h2>
+					<form action="RegisterForm" method="post" class="register-form" id="register-form">
+                        <div style="text-align: center;color: red;font-size: 12px" class="red"  id="baoLoi1">${errorBean1.getError()}</div>
+						<div class="form-group">
+							<label for="usernamere"><i class="zmdi zmdi-account material-icons-name"></i></label>
+							<input type="text" name="usernamere" id="usernamere" placeholder="Nhập username của bạn"/>
+						</div>
+                        <div class="form-group">
+                            <label for="namere"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="namere" id="namere" placeholder="Nhập tên của bạn"/>
                         </div>
-                    </div>
-                    <div class="text-left mb-3">
-                        <button type="submit" class="btn">Register</button>
-                    </div>
-                    <%--                    <div class="text-white mb-3">or register with</div>--%>
-                    <%--                    <div class="row mb-3">--%>
-                    <%--                        <div class="col-4">--%>
-                    <%--                            <a href="" class="btn btn-block btn-social btn-facebook">--%>
-                    <%--                                <i class="fa fa-facebook"></i>--%>
-                    <%--                            </a>--%>
-                    <%--                        </div>--%>
-                    <%--                        <div class="col-4">--%>
-                    <%--                            <a href="" class="btn btn-block btn-social btn-google">--%>
-                    <%--                                <i class="fa fa-google"></i>--%>
-                    <%--                            </a>--%>
-                    <%--                        </div>--%>
-                    <%--                        <div class="col-4">--%>
-                    <%--                            <a href="" class="btn btn-block btn-social btn-twitter">--%>
-                    <%--                                <i class="fa fa-twitter"></i>--%>
-                    <%--                            </a>--%>
-                    <%--                        </div>--%>
-                    <%--                    </div>--%>
-                    <div class="text-white">Already have an account?
-                        <a href="./Login" class="login-link">Login here</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="col-lg-6 col-md-6 d-none d-md-block image-container"></div>
-    </div>
-</div>
+                        <div style="text-align: center;color: red;font-size: 12px" class="red" id="baoLoi2">${errorBean2.getError()} </div>
+						<div class="form-group">
+							<label for="emailre"><i class="zmdi zmdi-email"></i></label>
+							<input type="email" name="emailre" id="emailre" placeholder="Nhập Email của bạn"/>
+						</div>
+                        <div style="text-align: center;color: red;font-size: 12px" class="red" id="baoLoi3">${errorBean3.getError()} </div>
+						<div class="form-group">
+							<label for="passwordre"><i class="zmdi zmdi-lock"></i></label>
+							<input type="password" name="passwordre" id="passwordre" placeholder="Nhập mật khẩu của bạn"/>
+						</div>
+						<div class="form-group">
+							<label for="enterThePasswordre"><i class="zmdi zmdi-lock-outline"></i></label>
+							<input type="password" name="enterThePasswordre" id="enterThePasswordre" placeholder="Nhập lại mật khẩu của bạn"/>
+						</div>
+						<div class="form-group">
+							<input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
+							<label for="agree-term" class="label-agree-term"><span><span></span></span>Tôi đồng ý vơi tắt cả   <a href="#" class="term-service">điều khoản dịch vụ</a></label>
+						</div>
+						<div class="form-group form-button">
+							<input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+						</div>
+					</form>
+				</div>
+				<div class="signup-image">
+					<figure><img src="/img/signup-image.jpg" alt="sing up image"></figure>
+					<a href="Login" class="signup-image-link">Đã có tài khoản? Đăng nhập</a>
+				</div>
+			</div>
+		</div>
+	</section>
+<script src="/js/jquery.min.login.js"></script>
 </body>
 </html>
