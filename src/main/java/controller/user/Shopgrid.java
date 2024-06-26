@@ -12,6 +12,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "Shopgrid", value = "/Shopgrid")
 public class Shopgrid extends HttpServlet {
@@ -24,7 +25,7 @@ public class Shopgrid extends HttpServlet {
 
         ProductDAO productDAO = new ProductDAO();
         ArrayList<Product> products;
-
+        Map<Integer, Integer> topProducts = productDAO.topNBestProduct(10);
 
         RatingDAO raDao = new RatingDAO();
         String category = request.getParameter("category");
@@ -64,6 +65,7 @@ public class Shopgrid extends HttpServlet {
         session.setAttribute("num", num);
         session.setAttribute("selectedCategory", category);
         session.setAttribute("sortOrder", sort);
+        session.setAttribute("sortSelect", sort);
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             response.setContentType("application/json");
