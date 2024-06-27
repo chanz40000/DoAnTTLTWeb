@@ -61,7 +61,7 @@ public class ValidateOTP extends HttpServlet {
 
             request.setAttribute("email", request.getParameter("email"));
             request.setAttribute("status", "success");
-            String url = request.getContextPath() + "/WEB-INF/book/NewPassword.jsp";
+            String url = request.getContextPath() + "/WEB-INF/book/newPassword.jsp";
             RequestDispatcher dispatcher = request.getRequestDispatcher(url);
             dispatcher.forward(request, response);
 
