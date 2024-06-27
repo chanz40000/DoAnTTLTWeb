@@ -93,9 +93,10 @@
 					<div class="social-login">
 						<span class="social-label">Hoặc đăng nhập với </span>
 						<ul class="socials">
-							<li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+							<li><a href="https://www.facebook.com/v20.0/dialog/oauth?&client_id=1253447572292759&redirect_uri=http://localhost:8080/LoginToIndexByFB&scope=email"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
 							<li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
-							<li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+							<li><a href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/LoginToIndexByGg&response_type=code
+		   &client_id=696956091388-hcpd2qt40e9bklgu9qqsm5q8v4ca7lbm.apps.googleusercontent.com&approval_prompt=force"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
 						</ul>
 					</div>
 				</div>

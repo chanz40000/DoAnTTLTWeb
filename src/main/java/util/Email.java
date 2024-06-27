@@ -4,18 +4,11 @@
 package util;
 
 
-import java.util.Date;
-import java.util.Properties;
-
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.activation.*;
+import java.util.Date;
+import java.util.Properties;
 
 
 
@@ -32,7 +25,7 @@ public class Email {
 	//password: objd edul gnes zspk
 
 	static String from="21130565@st.hcmuaf.edu.vn";
-	static String password="Trungtin270903";
+    static String password="ngxm uwty mgkv lbwt";
 
 	public static void sendEmail(String to, String noiDung, String subject) {
 
