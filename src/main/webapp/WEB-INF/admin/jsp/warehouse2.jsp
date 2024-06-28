@@ -465,12 +465,22 @@
       var unitPrice = row.querySelector('input[name="unitPrice"]').value;
       var totalPrice = row.querySelector('input[name="totalPrice"]').value;
 
+      var item = {
+        productId: productId,
+        productName: productName,
+        numberOfWarehouses: numberOfWarehouses,
+        unitPrice: unitPrice,
+        totalPrice: totalPrice,
+        note: note
+      };
 
-      var item = productId+"-"+ productName + "-" + numberOfWarehouses + "-" + unitPrice + "-" + totalPrice  + "-" + note;
+      // var item = productId+"-"+ productName + "-" + numberOfWarehouses + "-" + unitPrice + "-" + totalPrice  + "-" + note;
+
       data.push(item);
     });
 
-    return data.join(',');
+    // return data.join(',');
+    return data;
   }
   document.querySelector('input[type="submit"]').addEventListener('click', function(event) {
     event.preventDefault(); // Ngăn chặn hành động mặc định của nút submit
@@ -478,7 +488,7 @@
     var data = collectDataFromTable();
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/CompleteOrderServlet', true);
+    xhr.open('POST', '/CompleteOrderServlet2', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function() {
       if (xhr.readyState === XMLHttpRequest.DONE) {
