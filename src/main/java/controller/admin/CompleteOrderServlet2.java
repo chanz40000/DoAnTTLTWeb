@@ -2,6 +2,12 @@ package controller.admin;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import database.ImportDAO;
+import database.ImportDetailDAO;
+import database.ProductDAO;
+import model.Import;
+import model.ImportDetail;
+import model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,9 +46,47 @@ public class CompleteOrderServlet2 extends HttpServlet {
         Gson gson = new Gson();
         List<Item> items = gson.fromJson(jsonData, new TypeToken<List<Item>>(){}.getType());
 
-        System.out.println("item"+ items.get(1).note+items.get(1).productName);
-        // Xử lý dữ liệu (ví dụ: lưu vào cơ sở dữ liệu)
-        // ...
+        //them vao database
+        ImportDAO importDAO = new ImportDAO(request);
+        ImportDetailDAO importDetailDAO = new ImportDetailDAO();
+        ProductDAO productDAO = new ProductDAO(request);
+
+        User user = (User) request.getSession().getAttribute("admin");
+        System.out.println("id: "+ user.getUserId());
+
+        long millis=System.currentTimeMillis();
+        java.sql.Date date=new java.sql.Date(millis);
+        int import_id = importDAO.creatId();
+
+        String notes = items.get(0).note;
+
+        Import importClass= new Import(import_id, user, "ncc1", notes, date );
+        importDAO.insert(importClass);
+
+
+        System.out.println("action");
+        double total = 0;
+        for (Item item : items) {
+            int idProduct = Integer.parseInt(item.getProductId()) ;
+            String nameProduct = item.productName;
+            int quantity = item.getNumberOfWarehouses();
+
+            double unitPrice = item.unitPrice;
+
+
+            double totalPrice = quantity*unitPrice;
+            System.out.println("name"+nameProduct);
+            System.out.println("quantity"+quantity);
+            total+=totalPrice;
+            System.out.println("total: "+total);
+            model.ImportDetail itemm = new ImportDetail(importDetailDAO.creatId(), importClass,
+                    productDAO.selectById(idProduct),quantity , unitPrice, quantity*unitPrice);
+
+            importDetailDAO.insert(itemm);
+
+            productDAO.updateQuantityIncrease(idProduct, quantity);
+
+        }
 
         // Gửi phản hồi về cho client
         response.setContentType("application/json");
