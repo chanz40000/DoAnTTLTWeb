@@ -91,7 +91,7 @@ public class RegisterForm extends HttpServlet {
                 User customer = new User((cd.creatId() + 1), username, password, 2, solve(name), null, null, null, email, null);
                 cd.insert(customer);
 //                Email.sendEmail(email, "Chúc mừng bạn đã trở thành khách hàng thân thiết của cửa hàng chúng tôi!", "Thông báo đăng ký tài khoản thành công");
-                url = "/WEB-INF/book/logintwo.jsp";
+                url = "/WEB-INF/book/login.jsp";
             }
 
 
