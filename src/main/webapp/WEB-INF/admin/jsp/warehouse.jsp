@@ -197,14 +197,21 @@
             <div class="container-fluid">
               <h5>Upload Excel File</h5>
               <form id="uploadForm" enctype="multipart/form-data" method="post">
-                <input type="file" name="file" id="fileInput">
-                <input type="submit" value="Upload">
+                <input type="file" name="file" id="fileInput" class="hide">
+                <input type="button" value="Upload" id="uploadButton">
               </form>
             </div>
-
-
             </div>
 
+            <h5>Non-existing Products</h5>
+            <table>
+              <thead>
+              <tr>
+                <th>Product Name</th>
+              </tr>
+              </thead>
+              <tbody id="noProductsTbody"></tbody>
+            </table>
             <br>
           </div>
 
@@ -286,99 +293,123 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
 <script>
-  //nhap file excel
-  document.getElementById('fileInput').addEventListener('change', function(event) {
-    var file = event.target.files[0];
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      var data = new Uint8Array(e.target.result);
-      var workbook = XLSX.read(data, { type: 'array' });
-      var sheetName = workbook.SheetNames[0];
-      var sheet = workbook.Sheets[sheetName];
-      var jsonData = XLSX.utils.sheet_to_json(sheet);
+  $(document).ready(function() {
+    // Khi người dùng click vào nút "Upload"
+    $('#uploadButton').click(function() {
+      // Kích hoạt sự kiện click vào input file
+      $('#fileInput').click();
+    });
 
-      var productNames = [];
-      jsonData.forEach(function(row) {
-        productNames.push(row['Product Name']);
-      });
+    // Khi người dùng chọn file
+    $('#fileInput').change(function(event) {
+      var file = event.target.files[0];
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var data = new Uint8Array(e.target.result);
+        var workbook = XLSX.read(data, { type: 'array' });
+        var sheetName = workbook.SheetNames[0];
+        var sheet = workbook.Sheets[sheetName];
+        var jsonData = XLSX.utils.sheet_to_json(sheet);
 
-      $.ajax({
-        url: '/Upload2',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({ productNames: productNames }),
-        success: function(response) {
-          var tbody = document.getElementById('tbody');
-          tbody.innerHTML = '';
-          response.forEach(function(product) {
-            var tr = document.createElement('tr');
+        var productNames = [];
+        jsonData.forEach(function(row) {
+          productNames.push(row['Product Name']);
+        });
 
-            var idTd = document.createElement('td');
-            var idP = document.createElement('p');
-            idP.name = 'productId';
-            idP.id='productId';
-            idP.setAttribute('data-product-id', product.product_id);
-            idP.textContent = product.product_id;
-            idTd.appendChild(idP);
+        $.ajax({
+          url: '/Upload2',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({ productNames: productNames }),
+          success: function(response) {
+            var tbody = document.getElementById('tbody');
+            tbody.innerHTML = '';
+            response.forEach(function(product) {
+              var tr = document.createElement('tr');
 
-            var nameTd = document.createElement('td');
-            nameTd.className = 'titleProduct';
-            nameTd.textContent = product.product_name;
+              var idTd = document.createElement('td');
+              var idP = document.createElement('p');
+              idP.name = 'productId';
+              idP.id = 'productId';
+              idP.setAttribute('data-product-id', product.product_id);
+              idP.textContent = product.product_id;
+              idTd.appendChild(idP);
 
-            var unitPriceTd = document.createElement('td');
-            var unitPriceInput = document.createElement('input');
-            unitPriceInput.name = 'unitPrice';
-            unitPriceInput.type = 'number';
-            unitPriceInput.className = 'input-value';
-            unitPriceInput.value = product.unitPrice;
-            unitPriceTd.appendChild(unitPriceInput);
+              var nameTd = document.createElement('td');
+              nameTd.className = 'titleProduct';
+              nameTd.textContent = product.product_name;
 
-            var quantityTd = document.createElement('td');
-            var quantityInput = document.createElement('input');
-            quantityInput.name = 'numberOfWarehouses';
-            quantityInput.type = 'number';
-            quantityInput.className = 'input-value';
-            quantityInput.value = product.quantity;
-            quantityTd.appendChild(quantityInput);
+              var unitPriceTd = document.createElement('td');
+              var unitPriceInput = document.createElement('input');
+              unitPriceInput.name = 'unitPrice';
+              unitPriceInput.type = 'number';
+              unitPriceInput.className = 'input-value';
+              unitPriceInput.value = product.unitPrice;
+              unitPriceInput.setAttribute('oninput', 'calculateTotal()');
+              unitPriceInput.setAttribute('onclick', 'inputChange()');
+              unitPriceTd.appendChild(unitPriceInput);
 
-            var totalPriceTd = document.createElement('td');
-            var totalPriceInput = document.createElement('input');
-            totalPriceInput.name = 'totalPrice';
-            totalPriceInput.type = 'number';
-            totalPriceInput.readOnly = true;
-            totalPriceInput.value = (product.unitPrice * product.quantity).toFixed(2);
-            totalPriceTd.appendChild(totalPriceInput);
+              var quantityTd = document.createElement('td');
+              var quantityInput = document.createElement('input');
+              quantityInput.name = 'numberOfWarehouses';
+              quantityInput.type = 'number';
+              quantityInput.className = 'input-value';
+              quantityInput.value = product.quantity;
+              quantityInput.setAttribute('oninput', 'calculateTotal()');
+              quantityInput.setAttribute('onclick', 'inputChange()');
+              quantityTd.appendChild(quantityInput);
 
-            var deleteButtonTd = document.createElement('td');
-            var deleteButton = document.createElement('button');
-            deleteButton.type = 'button';
-            deleteButton.className = 'btn btn-sm btn-outline-primary';
+              var totalPriceTd = document.createElement('td');
+              var totalPriceInput = document.createElement('input');
+              totalPriceInput.name = 'totalPrice';
+              totalPriceInput.type = 'number';
+              totalPriceInput.readOnly = true;
+              totalPriceInput.value = (product.unitPrice * product.quantity).toFixed(2);
+              totalPriceTd.appendChild(totalPriceInput);
 
-            var deleteSpan = document.createElement('span');
-            deleteSpan.className = 'cart-delete';
-            deleteSpan.textContent = 'Xóa';
+              var deleteButtonTd = document.createElement('td');
+              var deleteButton = document.createElement('button');
+              deleteButton.type = 'button';
+              deleteButton.className = 'btn btn-sm btn-outline-primary';
 
-            deleteButton.appendChild(deleteSpan);
-            deleteButtonTd.appendChild(deleteButton);
+              var deleteSpan = document.createElement('span');
+              deleteSpan.className = 'cart-delete';
+              deleteSpan.textContent = 'Xóa';
 
-            tr.appendChild(idTd);
-            tr.appendChild(nameTd);
-            tr.appendChild(unitPriceTd);
-            tr.appendChild(quantityTd);
-            tr.appendChild(totalPriceTd);
-            tr.appendChild(deleteButtonTd);
-            tbody.appendChild(tr);
-          });
-          deleteCart();
-          inputChange();
-          cartTotal();
-        },
-        error: function(xhr, status, error) {
-          console.error('Error:', error);
-        }
-      });
-    };
-    reader.readAsArrayBuffer(file);
+              deleteButton.appendChild(deleteSpan);
+              deleteButtonTd.appendChild(deleteButton);
+
+              tr.appendChild(idTd);
+              tr.appendChild(nameTd);
+              tr.appendChild(unitPriceTd);
+              tr.appendChild(quantityTd);
+              tr.appendChild(totalPriceTd);
+              tr.appendChild(deleteButtonTd);
+              tbody.appendChild(tr);
+            });
+            deleteCart();
+            inputChange();
+            cartTotal();
+
+            // var noProductsTbody = document.getElementById('noProductsTbody');
+            // noProductsTbody.innerHTML = '';
+            // response.noProducts.forEach(function(product) {
+            //   var tr = document.createElement('tr');
+            //
+            //   var nameTd = document.createElement('td');
+            //   nameTd.textContent = product.product_name;
+            //   tr.appendChild(nameTd);
+            //
+            //   noProductsTbody.appendChild(tr);
+            // });
+          },
+          error: function(xhr, status, error) {
+            console.error('Error:', error);
+          }
+        });
+      };
+      reader.readAsArrayBuffer(file);
+    });
   });
 //xoa san pham khoi danh sach nhap
   function deleteCart() {
@@ -424,11 +455,19 @@
       var totalPrice = row.querySelector('input[name="totalPrice"]').value;
 
 
-      var item = productId+"-"+ productName + "-" + numberOfWarehouses + "-" + unitPrice + "-" + totalPrice  + "-" + note;
+      var item = {
+        productId: productId,
+        productName: productName,
+        numberOfWarehouses: numberOfWarehouses,
+        unitPrice: unitPrice,
+        totalPrice: totalPrice,
+        note: note
+      };
+
       data.push(item);
     });
 
-    return data.join(',');
+    return data;
   }
   document.querySelector('input[type="submit"]').addEventListener('click', function(event) {
     event.preventDefault(); // Ngăn chặn hành động mặc định của nút submit
@@ -436,7 +475,7 @@
     var data = collectDataFromTable();
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/CompleteOrderServlet', true);
+    xhr.open('POST', '/CompleteOrderServlet2', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onreadystatechange = function() {
       if (xhr.readyState === XMLHttpRequest.DONE) {
