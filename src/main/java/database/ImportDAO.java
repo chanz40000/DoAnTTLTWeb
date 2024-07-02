@@ -161,6 +161,10 @@ public class ImportDAO extends AbsDAO<Import> {
     @Override
     public int delete(Import imported) {
         int result = 0;
+        ImportDetailDAO importDetailDAO = new ImportDetailDAO();
+        importDetailDAO.deleteByImportId(imported.getImportId());
+
+
         //new ImportDetailDAO().deleteByImportId(imported.getImportId());
         try {
 
