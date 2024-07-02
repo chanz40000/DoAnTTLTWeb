@@ -17,7 +17,7 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.css">
     <!-- Css Styles -->
 
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -223,6 +223,20 @@
         padding-right: 10px;
 
     }
+    .emojiPickerButton {
+        background-color: white;
+        width: 24px;
+        height: 24px;
+        border: none;
+        background-size: cover;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        position: relative;
+        margin-right: 5px;
+        right:10px;
+
+    }
+
     .product__pagination a.active {
         /*background-color: #fd7e14;*/
         background-color: #7fad39;
@@ -533,8 +547,10 @@
                         <br>
                         <br><br><br>
                         <div>
+
                             <b>2 Nhận xét sản phẩm</b>
 
+                            <button class="emojiPickerButton" type="button" id="emojiPickerButton">😀</button>
                             <div class="commentarea">
                                 <label>
                                     <textarea placeholder="Your message" class="textareacomment"  name="textarearating"></textarea>
@@ -622,9 +638,10 @@
                                 <input type="hidden" name="ratingid" value="${usera.ratingId}">
                                 <input type="hidden" name="ratingstar" value="${usera.ratingstar}">
                                 <input type="hidden" name="ratingtext" value="${usera.ratingtext}">
-                                <textarea placeholder="Viết bình luận" class="reply-comment__input" name="detailcomment" rows="1" style="height: 40px;"></textarea>
-                                <button type="submit" class="custom-button"></button>
 
+
+                                <textarea placeholder="Viết bình luận" class="reply-comment__input" name="detailcomment" id="replyCommentInput" rows="1" style="height: 40px;"></textarea>
+                                <button type="submit" class="custom-button"></button>
                             </div>
                         </form>
                     </div>
@@ -859,6 +876,10 @@
 <script src="js/mixitup.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
+<script src="https://cdn.botpress.cloud/webchat/v2/inject.js"></script>
+
+<script src="https://mediafiles.botpress.cloud/1d0997ec-87ba-4ea8-8a5c-c2fba00d5019/webchat/v2/config.js"></script>
 
 <style>
     .ykiensanpham{
@@ -953,8 +974,36 @@
     <%--});--%>
 
 </script>
+<%--<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>--%>
+<%--<script src="js/inputEmoji.js"></script>--%>
+<%--<script>--%>
+<%--    $(function () {--%>
+<%--        $('.reply-comment__input').emoji({place: 'after'});--%>
+<%--    })--%>
+<%--</script>--%>
+<script src="js/vanillaEmojiPicker.js"></script>
+<script>
+    // Khởi tạo EmojiPicker
+    new EmojiPicker({
+        trigger: [
+            {
+                selector: '.emojiPickerButton',
+                insertInto: '.textareacomment'
+            }
+        ],
+        closeButton: true
+
+    });
+</script>
 <script>
     $(document).ready(function() {
+
+
+        // Handle the emoji picker button click
+        // $('#emojiPickerButton').click(function() {
+        //     $(".reply-comment__input").data("emojioneArea").showPicker();
+        // });
+
         // Store the selected star rating globally
         let selectedStar = '';
 
@@ -1056,7 +1105,6 @@
                         bindPaginationLinks(productid, selectedStar);
                         updateActivePage(1); // Set page 1 as active
 
-
                         // Re-bind form submission for CommentRa
                         bindCommentFormSubmission();
 
@@ -1106,8 +1154,8 @@
         });
     });
 </script>
-<script src="https://cdn.botpress.cloud/webchat/v2/inject.js"></script>
-<script src="https://mediafiles.botpress.cloud/1d0997ec-87ba-4ea8-8a5c-c2fba00d5019/webchat/v2/config.js"></script>
+
+
 </body>
 
 </html>
