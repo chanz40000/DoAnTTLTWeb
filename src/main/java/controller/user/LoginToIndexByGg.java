@@ -77,7 +77,7 @@ public class LoginToIndexByGg extends HttpServlet {
             // User found, log them in
             if (user2.getRole() == 1) {
                 session.setAttribute("admin", user);
-                String url = "/WEB-INF/book/index.jsp";
+                String url = "/WEB-INF/admin/jsp/index.jsp";
 
                 // Redirect to admin index page
                 RequestDispatcher dispatcher = request.getRequestDispatcher(url);
@@ -86,7 +86,7 @@ public class LoginToIndexByGg extends HttpServlet {
                 session.setMaxInactiveInterval(30 * 60);
                 session.setAttribute("userC", user);
                 // Redirect to user index page
-                String url = "/WEB-INF/admin/jsp/index.jsp";
+                String url = "/WEB-INF/book/index.jsp";
 
                 // Redirect to admin index page
                 RequestDispatcher dispatcher = request.getRequestDispatcher(url);
