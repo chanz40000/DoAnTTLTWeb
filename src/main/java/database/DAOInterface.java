@@ -9,7 +9,7 @@ public interface DAOInterface<T> {
 
 
     public int insert(T t) throws SQLException;
-    public int insertAll(ArrayList<T> list);
+    public int insertAll(ArrayList<T> list) throws SQLException;
     public int delete(T t);
     public int deleteAll(ArrayList<T> list);
     public int update(T t);

@@ -1,0 +1,205 @@
+package database;
+
+import model.Category;
+import model.Coupon;
+import model.CouponType;
+import model.Order;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Date;
+
+public class CouponDAO implements DAOInterface<Coupon> {
+    @Override
+    public ArrayList<Coupon> selectAll() {
+        ArrayList<Coupon> coupons = new ArrayList<>();
+        try {
+            // tao mot connection
+            Connection con = JDBCUtil.getConnection();
+
+            // tao cau lenh sql
+            String sql = "SELECT * FROM coupons";
+
+            PreparedStatement st = con.prepareStatement(sql);
+
+            // thuc thi
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                int idCoupon = rs.getInt("coupon_id");
+                String code = rs.getString("code");
+                int type = rs.getInt("coupon_type_id");
+                double price = rs.getDouble("discount_value");
+                Timestamp start = rs.getTimestamp("start_date");
+                Timestamp end = rs.getTimestamp("end_date");
+                double minPrice = rs.getDouble("min_total_price");
+                int maxCoupon = rs.getInt("max_use_of_coupon");
+                int maxUseCoupon = rs.getInt("max_quantity_use_of_user");
+                int minQuantity = rs.getInt("min_quantity");
+                CouponType couponType = new CouponTypeDAO().selectById(type);
+                Coupon coupon = new Coupon(idCoupon, code, couponType, price, start, end, minPrice, maxCoupon, maxUseCoupon, minQuantity);
+                coupons.add(coupon);
+
+            }
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return coupons;
+    }
+
+    @Override
+    public Coupon selectById(int id) {
+        Coupon result = null;
+
+        try {
+
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "SELECT * FROM book.coupons WHERE coupon_id =?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int idCoupon = rs.getInt("coupon_id");
+                String code = rs.getString("code");
+                int type = rs.getInt("coupon_type_id");
+                double price = rs.getDouble("discount_value");
+                Timestamp start = rs.getTimestamp("start_date");
+                Timestamp end = rs.getTimestamp("end_date");
+                double minPrice = rs.getDouble("min_total_price");
+                int maxCoupon = rs.getInt("max_use_of_coupon");
+                int maxUseCoupon = rs.getInt("max_quantity_use_of_user");
+                int minQuantity = rs.getInt("min_quantity");
+                CouponType couponType = new CouponTypeDAO().selectById(type);
+                result = new Coupon(idCoupon, code, couponType, price, start, end, minPrice, maxCoupon, maxUseCoupon, minQuantity);
+
+
+            }
+            JDBCUtil.closeConnection(con);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public int insert(Coupon coupon) throws SQLException {
+        int result = 0;
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "INSERT INTO coupons(coupon_id, code, coupon_type_id, discount_value, start_date, end_date, min_total_price, max_use_of_coupon, max_quantity_use_of_user, min_quantity) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement rs = con.prepareStatement(sql);
+            rs.setInt(1, coupon.getCouponId());
+            rs.setString(2, coupon.getCode());
+            rs.setInt(3, coupon.getDiscountType().getCouponTypeId());
+            rs.setDouble(4, coupon.getDiscountValue());
+            rs.setTimestamp(5, coupon.getStartDate());
+            rs.setTimestamp(6, coupon.getEndDate());
+            rs.setDouble(7, coupon.getMinTotalPrice());
+            rs.setInt(8, coupon.getMaxUseOfCoupon());
+            rs.setInt(9, coupon.getMaxQuantityUseOfUser());
+            rs.setInt(10, coupon.getMinQuantity());
+            result = rs.executeUpdate();
+            JDBCUtil.closeConnection(con);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    @Override
+    public int insertAll(ArrayList<Coupon> list) throws SQLException {
+        int result = 0;
+        for (Coupon o : list) {
+
+            ;
+            if (this.insert(o) == 1)
+                result += 1;
+        }
+        return result;
+    }
+
+    @Override
+    public int delete(Coupon coupon) {
+        int result = 0;
+
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "DELETE from coupons " + "WHERE coupon_id=?";
+
+            PreparedStatement rs = con.prepareStatement(sql);
+            rs.setInt(1, coupon.getCouponId());
+
+            result = rs.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
+    }
+
+    @Override
+    public int deleteAll(ArrayList<Coupon> list) {
+        int result = 0;
+
+        for (Coupon o : list) {
+            result += delete(o);
+        }
+        return result;
+    }
+
+    @Override
+    public int update(Coupon coupon) {
+        int result = 0;
+        Coupon oldCoupon = this.selectById(coupon.getCouponId());
+
+        if (oldCoupon != null) {
+
+            try {
+                Connection con = JDBCUtil.getConnection();
+
+                String sql = "UPDATE coupons SET code=? " +
+                        ", coupon_type_id=? " +
+                        ", discount_value=? " +
+                        ", start_date=? " +
+                        ", end_date=? " +
+                        ", min_total_price=? " +
+                        ", max_use_of_coupon=? " +
+                        ", max_quantity_use_of_user=? " +
+                        ", min_quantity=? " +
+                        "WHERE coupon_id = ?";
+
+                PreparedStatement rs = con.prepareStatement(sql);
+
+                rs.setInt(1, coupon.getCouponId());
+                rs.setString(2, coupon.getCode());
+                rs.setInt(3, coupon.getDiscountType().getCouponTypeId());
+                rs.setDouble(4, coupon.getDiscountValue());
+                rs.setTimestamp(5, coupon.getStartDate());
+                rs.setTimestamp(6, coupon.getEndDate());
+                rs.setDouble(7, coupon.getMinTotalPrice());
+                rs.setInt(8, coupon.getMaxUseOfCoupon());
+                rs.setInt(9, coupon.getMaxQuantityUseOfUser());
+                rs.setInt(10, coupon.getMinQuantity());
+
+                result = rs.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+        return result;
+    }
+}
