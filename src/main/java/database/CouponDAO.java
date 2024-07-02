@@ -87,7 +87,48 @@ public class CouponDAO implements DAOInterface<Coupon> {
 
         return result;
     }
+    public int saveCoupon(Coupon coupon, ArrayList<Integer> categoryIds) {
+        int result = 0;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "INSERT INTO coupons(coupon_id, code, coupon_type_id, discount_value, start_date, end_date, min_total_price, max_use_of_coupon, max_quantity_use_of_user, min_quantity) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement rs = con.prepareStatement(sql);
+            rs.setInt(1, coupon.getCouponId());
+            rs.setString(2, coupon.getCode());
+            rs.setInt(3, coupon.getDiscountType().getCouponTypeId());
+            rs.setDouble(4, coupon.getDiscountValue());
+            rs.setTimestamp(5, coupon.getStartDate());
+            rs.setTimestamp(6, coupon.getEndDate());
+            rs.setDouble(7, coupon.getMinTotalPrice());
+            rs.setInt(8, coupon.getMaxUseOfCoupon());
+            rs.setInt(9, coupon.getMaxQuantityUseOfUser());
+            rs.setInt(10, coupon.getMinQuantity());
+            rs.executeUpdate();
+            ResultSet resultSet = rs.getGeneratedKeys();
+            int couponId = 0;
+            if (resultSet.next()) {
+                couponId = resultSet.getInt(1);
+            }
 
+            if (coupon.getDiscountType().getCouponTypeId() == 3) {
+                sql = "INSERT INTO coupon_categories(coupon_id, category_id) VALUES (?, ?)";
+                rs = con.prepareStatement(sql);
+                for (int categoryId : categoryIds) {
+                    rs.setInt(1, couponId);
+                    rs.setInt(2, categoryId);
+                    rs.addBatch();
+                }
+                rs.executeBatch();
+            }
+
+            con.commit();
+            result = couponId;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
     @Override
     public int insert(Coupon coupon) throws SQLException {
         int result = 0;

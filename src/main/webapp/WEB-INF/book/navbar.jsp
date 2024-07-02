@@ -221,6 +221,7 @@
                             <c:otherwise>
                                 <li class="active"><a href="./Index">Trang chủ</a></li>
                                 <li><a href="./Shopgrid">Shop</a></li>
+                                <li><a href="./Coupon">Ưu đãi <i style="color: #ff0018" class="fa-solid fa-gift"></i></a></li>
                                 <li><a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
                                         <li><a href="./RatingPage">Rating</a></li>
@@ -228,7 +229,6 @@
 
                                     </ul>
                                 </li>
-                                <li><a href="./BankAccount">Blog</a></li>
                                 <li><a href="./Contact">Contact</a></li>
                             </c:otherwise>
                         </c:choose>
@@ -240,7 +240,7 @@
                 <div class="header__cart">
                     <ul>
                         <li>
-                            <a href="Coupon">
+                            <a href="MyCoupon">
                                 <img height="30" width="50" src="/img/coupon.png" alt="">
                                 <span class="coupon-item-count" style="background-color: red; right: 5px"></span>
                             </a>

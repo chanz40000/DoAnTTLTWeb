@@ -148,10 +148,8 @@
         border-radius: 3px;
     }
 
-    .copybtn {
-        margin-top: 10px;
-        margin-left: 160px;
-        /*margin-left: 3px;*/
+    .copy-button button {
+        margin-left: 3px;
         padding: 5px 20px;
         background-color: #ffea00;
         color: #000000;
@@ -171,7 +169,22 @@
 </div>
 
 <jsp:include page="navbar.jsp"/>
-<jsp:useBean id="couponDAO" class="database.CouponDAO"/>
+
+<!-- Categories Section Begin -->
+<%--<section class="categories">--%>
+<%--    <div class="container">--%>
+<%--        <div class="row">--%>
+<%--            <div class="categories__slider owl-carousel">--%>
+<%--                <div class="col-lg-3">--%>
+<%--                    <div class="categories__item set-bg" data-setbg="img/categories/cat-1.jpg">--%>
+<%--                        <h5><a href="#">Fresh Fruit</a></h5>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
+<%--</section>--%>
+<!-- Categories Section End -->
 <jsp:useBean id="couponOfUserDAO" class="database.CouponOfUserDAO"/>
 
 <section class="breadcrumb-section set-bg" data-setbg="img/hinhnen.png">
@@ -195,10 +208,9 @@
 <section>
     <div class="container">
         <div class="coupon">
-
-            <c:forEach var="coupon" items="${couponDAO.selectAll()}">
-                <form action="SaveCoupon" method="post" class="coupon-form">
-                    <input type="hidden" name="idCoupon" value="${coupon.couponId}">
+            <c:set var="id" value="${sessionScope.userC.userId}"/>
+            <c:forEach var="couponOfUser" items="${couponOfUserDAO.selectByUserId(id)}">
+                <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="card-coupon">
                         <div class="main-coupon">
                             <div class="co-img">
@@ -209,28 +221,40 @@
                             </div>
                             <div class="vertical"></div>
                             <div class="content">
-                                <h2>Mcdonalds ${coupon.couponId}</h2>
+                                <h2>Mcdonalds</h2>
                                 <h1>10% <span>Coupon</span></h1>
                                 <p>Valid till 30 April 2021</p>
                             </div>
                         </div>
-                        <c:set var="id" value="${sessionScope.userC.userId}"/>
-                        <c:set var="isHave" value="${couponOfUserDAO.exists(id, coupon.couponId)}"/>
-                        <c:choose>
-                            <c:when test="${isHave}">
-                                <button style="background-color: #5f6e7f; color: white" class="copybtn" disabled>Đã nhận</button>
-                            </c:when>
-                            <c:otherwise>
-                                <button type="submit" class="copybtn">Nhận mã</button>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
-                </form>
+                        <div class="copy-button">
+                               <input id="copyvalue${couponOfUser.coupon.code}" type="text" readonly value="${couponOfUser.coupon.code}" />
+                               <button onclick="copyIt('copyvalue${couponOfUser.coupon.code}')" class="copybtn">COPY</button>
+                        </div>
+                    </div></div>
             </c:forEach>
+
         </div>
     </div>
 </section>
 
+<!-- Banner Begin -->
+<div class="banner">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="banner__pic">
+                    <img src="img/banner/banner-1.jpg" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <div class="banner__pic">
+                    <img src="img/banner/banner-2.jpg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Banner End -->
 
 <!-- Footer Section Begin -->
 <footer class="footer spad">
@@ -238,7 +262,7 @@
     <jsp:include page="footer.jsp" />
 </footer>
 <!-- Footer Section End -->
-<script></script>
+
 <!-- Js Plugins -->
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
@@ -249,45 +273,19 @@
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
-    $(document).ready(function() {
-        $('.copybtn').click(function(event) {
-            event.preventDefault();  // Ngăn chặn hành động mặc định của button
+    function copyIt(elementId) {
+        var copyText = document.getElementById(elementId);
+        copyText.select();
+        document.execCommand("copy");
 
-            var button = $(this); // Lưu trữ nút đã click
-            var form = button.closest('form'); // Tìm form chứa nút đã click
-            var idCoupon = form.find('input[name="idCoupon"]').val(); // Lấy giá trị idCoupon từ form
+        var copyButton = copyText.nextElementSibling;
+        copyButton.textContent = "COPIED";
 
-
-            $.ajax({
-                type: 'POST',
-                url: form.attr('action'),
-                data: { idCoupon: idCoupon },
-                success: function(response) {
-                    console.log('AJAX response:', response); // Ghi lại phản hồi từ máy chủ để kiểm tra lỗi
-                    // Xử lý phản hồi
-                    if (response.status === 'success') {
-                        // Nếu thành công, thay đổi nút thành "Đã nhận"
-                        button.text('Đã nhận').css({
-                            'background-color': '#5f6e7f',
-                            'color': 'white'
-                        }).prop('disabled', true);
-                    } else if (response.status === 'exists') {
-                        alert('Bạn đã có mã giảm này.');
-                    } else {
-                        alert('Lỗi.');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX error:', status, error);
-                    alert('An error occurred. Please try again later.');
-                }
-            });
-        });
-    });
-
+        setTimeout(function() {
+            copyButton.textContent = "COPY";
+        }, 2000);
+    }
 </script>
 <script>
     const toggleDarkModeButton = document.getElementById("toggle-dark-mode");

@@ -6,10 +6,10 @@ import database.OrderHistoryDAO;
 import database.StatusOrderDAO;
 import model.*;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
-import java.io.IOException;
+        import javax.servlet.*;
+        import javax.servlet.http.*;
+        import javax.servlet.annotation.*;
+        import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -43,7 +43,7 @@ public class ChangeStatusOrder extends HttpServlet {
         String action = request.getParameter("action");
         String reason = "";
         StatusOrder newStatus = null;
-        String nextAction = ""; // add next action
+        String nextAction = ""; // trạng thái thay đổi tiếp theo
 
         if ("AcceptOrder".equals(action)) {
             newStatus = new StatusOrder(2, "Đang được đóng gói");
