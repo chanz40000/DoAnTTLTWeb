@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class ProductDAO extends AbsDAO<Product> {
 
@@ -808,11 +809,26 @@ public class ProductDAO extends AbsDAO<Product> {
         Map<Integer, Integer> result = new HashMap<Integer, Integer>();
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "SELECT SUM(a.tong_nhap-b.tong_xuat)as tonKho, a.product_id\n" +
-                    "FROM (SELECT SUM(number_of_warehouses) AS tong_nhap, product_id  FROM importdetails GROUP BY product_id) a \n" +
-                    "     JOIN (SELECT SUM(quantity) AS tong_xuat,product_id  FROM orderdetails GROUP BY product_id) b\n" +
-                    "     ON a.product_id = b.product_id\n" +
-                    "     GROUP BY a.product_id ";
+            String sql = "SELECT \n" +
+                    "    p.product_id,\n" +
+                    "    COALESCE(SUM(a.tong_nhap), 0) - COALESCE(SUM(b.tong_xuat), 0) + COALESCE(SUM(c.tra_hang), 0) AS tonKho\n" +
+                    "FROM \n" +
+                    "    products p\n" +
+                    "LEFT JOIN \n" +
+                    "    (SELECT product_id, SUM(number_of_warehouses) AS tong_nhap \n" +
+                    "     FROM importdetails \n" +
+                    "     GROUP BY product_id) a ON p.product_id = a.product_id\n" +
+                    "LEFT JOIN \n" +
+                    "    (SELECT product_id, SUM(quantity) AS tong_xuat \n" +
+                    "     FROM orderdetails \n" +
+                    "     GROUP BY product_id) b ON p.product_id = b.product_id\n" +
+                    "LEFT JOIN \n" +
+                    "    (SELECT orderdetails.product_id, SUM(orderdetails.quantity) AS tra_hang\n" +
+                    "     FROM orderdetails \n" +
+                    "     JOIN orders ON orderdetails.order_id = orders.order_id\n" +
+                    "     WHERE orders.status_id IN (6, 8)\n" +
+                    "     GROUP BY orderdetails.product_id) c ON p.product_id = c.product_id\n" +
+                    "GROUP BY p.product_id;";
             PreparedStatement pre = con.prepareStatement(sql);
             ResultSet res = pre.executeQuery();
             while (res.next()){
@@ -912,7 +928,12 @@ public class ProductDAO extends AbsDAO<Product> {
     }
 
     public static void main(String[] args) {
-        new ProductDAO().createIndex();
+        ProductDAO productDAO = new ProductDAO();
+        Map<Integer, Integer> map = productDAO.inventoryProduct2();
+        Set<Integer> set = map.keySet();
+        for (Integer key : set) {
+            System.out.println(key + " " + map.get(key));
+        }
     }
 
     public ArrayList<Integer> needImport(){
@@ -957,165 +978,4 @@ public class ProductDAO extends AbsDAO<Product> {
         return result;
     }
 
-
-//    public ArrayList<Product> selectByCategoryName(String categoryname) {
-//        ArrayList<Product> products = new ArrayList<>();
-//        try {
-//            // tao mot connection
-//            Connection con = JDBCUtil.getConnection();
-//
-//            // tao cau lenh sql
-//            String sql = "SELECT * FROM products WHERE category LIKE ? ";
-//
-//            PreparedStatement st = con.prepareStatement(sql);
-//            st.setString(1, "%"+ categoryname +"%");
-//            // thuc thi
-//
-//            ResultSet rs = st.executeQuery();
-//
-//            while (rs.next()) {
-//
-//                int idProduct = rs.getInt("product_id");
-//                String nameProduct = rs.getString("product_name");
-//                String description = rs.getString("description");
-//                String image = rs.getString("image");
-//                double unitPrice = rs.getDouble("unit_price");
-//                double price = rs.getDouble("price");
-//                int quantity = rs.getInt("quantity");
-//                String author = rs.getString("author");
-//                int publicationYear = rs.getInt("publication_year");
-//                String publisher = rs.getString("publisher");
-//                int categoryId = rs.getInt("category_id");
-//
-//                Category category = new CategoryDAO().selectById(categoryId);
-//                Product product = new Product(idProduct,nameProduct,description,image,unitPrice,price,quantity,author,publicationYear,publisher,category);
-//
-//
-//                products.add(product);
-//
-//            }
-//
-//            JDBCUtil.closeConnection(con);
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return products;
-//    }
-//    public ArrayList<Product> selectPrice(int low, int high) {
-//        ArrayList<Product> products = new ArrayList<>();
-//        try {
-//            // tao mot connection
-//            Connection con = JDBCUtil.getConnection();
-//
-//            // tao cau lenh sql
-//            String sql = "SELECT * FROM products where price >= " + low + " and price <= " + high;
-//
-//            PreparedStatement st = con.prepareStatement(sql);
-//
-//            // thuc thi
-//
-//            ResultSet rs = st.executeQuery();
-//
-//            while (rs.next()) {
-//
-//                int idProduct = rs.getInt("product_id");
-//                String nameProduct = rs.getString("product_name");
-//                String description = rs.getString("description");
-//                String image = rs.getString("image");
-//                double unitPrice = rs.getDouble("unit_price");
-//                double price = rs.getDouble("price");
-//                int quantity = rs.getInt("quantity");
-//                String author = rs.getString("author");
-//                int publicationYear = rs.getInt("publication_year");
-//                String publisher = rs.getString("publisher");
-//                int categoryId = rs.getInt("category_id");
-//
-//                Category category = new CategoryDAO().selectById(categoryId);
-//                Product product = new Product(idProduct,nameProduct,description,image,unitPrice,price,quantity,author,publicationYear,publisher,category);
-//
-//
-//                products.add(product);
-//
-//            }
-//
-//            JDBCUtil.closeConnection(con);
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return products;
-//    }
-//        public int selectCategoryId(int productid) {
-//        int categoryId = -1; // Khởi tạo categoryId mặc định là -1 (nếu không tìm thấy)
-//
-//        try {
-//            // Tạo một kết nối
-//            Connection con = JDBCUtil.getConnection();
-//
-//            // Tạo câu lệnh SQL
-//            String sql = "SELECT category_id FROM products WHERE product_id=?";
-//
-//            PreparedStatement st = con.prepareStatement(sql);
-//            st.setInt(1, productid);
-//            ResultSet rs = st.executeQuery();
-//
-//            if (rs.next()) {
-//                categoryId = rs.getInt("category_id");
-//            }
-//
-//            JDBCUtil.closeConnection(con);
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        return categoryId;
-//    }
-//        public ArrayList<Product> selectSameCategory(int categoryid,int productid) {
-//        ArrayList<Product> products = new ArrayList<>();
-//        try {
-//            // tao mot connection
-//            Connection con = JDBCUtil.getConnection();
-//
-//            // tao cau lenh sql
-//            String sql = "SELECT * FROM products WHERE category_id=? AND product_id != ?";
-//
-//            PreparedStatement st = con.prepareStatement(sql);
-//            st.setInt(1, categoryid);
-//            st.setInt(2, productid);
-//
-//            // thuc thi
-//
-//            ResultSet rs = st.executeQuery();
-//
-//            while (rs.next()) {
-//
-//                int idProduct = rs.getInt("product_id");
-//                String nameProduct = rs.getString("product_name");
-//                String description = rs.getString("description");
-//                String image = rs.getString("image");
-//                double unitPrice = rs.getDouble("unit_price");
-//                double price = rs.getDouble("price");
-//                int quantity = rs.getInt("quantity");
-//                String author = rs.getString("author");
-//                int publicationYear = rs.getInt("publication_year");
-//                String publisher = rs.getString("publisher");
-//                int categoryId = rs.getInt("category_id");
-//
-//                Category category = new CategoryDAO().selectById(categoryId);
-//                Product product = new Product(idProduct,nameProduct,description,image,unitPrice,price,quantity,author,publicationYear,publisher,category);
-//
-//
-//                products.add(product);
-//
-//            }
-//
-//            JDBCUtil.closeConnection(con);
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return products;
-//    }
 }

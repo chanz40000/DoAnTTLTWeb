@@ -67,6 +67,9 @@
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="../assetsForAdmin/assets/js/config.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
   <script>
     $(document).ready(function (){
       $("form").submit(
@@ -166,30 +169,6 @@
     }
     .bg-menu-theme.close #menu-icon-toggle{
       transform: rotate(180deg);
-
-    }
-    /*.bg-menu-theme.close .align-items-center.bg-navbar-theme{*/
-    /*  padding-left: 100px;*/
-    /*}*/
-    .layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached.align-items-center.bg-navbar-theme.close{
-      width:1212px;
-      margin-left: -125px;
-    }
-
-    .content-wrapper.close{
-      margin-left: -151px;
-      width: 1263px;
-    }
-    /*.container-xxl.flex-grow-1.container-p-y .row.close .card-body{*/
-    /*  !*margin-left: -10px;*!*/
-    /*  !*width: 500px;*!*/
-    /*}*/
-    .fa-regular.fa-sun{
-      font-size: 20px;
-
-    }
-    .fa-regular.fa-moon{
-      font-size: 20px;
 
     }
   </style>
@@ -314,7 +293,7 @@
       <!-- / Navbar -->
 
         <div class="table-responsive text-nowrap">
-          <table class="table table-striped" id="tabledata">
+          <table class="table table-striped" id="table-data">
             <thead>
             <tr class="hide">
               <th>Mã sách</th>
@@ -334,32 +313,6 @@
                           oninput="search()">${product.product_name}</strong>
 
                 </td>
-<%--                  <td><p name="product_name" class="productName" oninput="search()">${product.product_name} </p></td>--%>
-                <td id="categoryName">${product.category.categoryName}</td>
-                <td id="unitPrice"><span>${product.unitPrice}</span></td>>
-
-                <td>
-                  <button type="submit" class="btn btn-sm btn-outline-primary" onclick="add()">Thêm</button></td>
-              </tr>
-            </c:forEach>
-
-            </tbody>
-
-          </table>
-        </div>
-
-      <!-- Content wrapper -->
-      <div class="content-wrapper" id="content-wrapper">
-        <!-- Content -->
-
-        <div class="container-xxl flex-grow-1 container-p-y" id="content-big-section">
-          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
-
-          <!-- Basic Bootstrap Table -->
-          <div class="card">
-            <h5 class="card-header">Table Basic</h5>
-            <div class="table-responsive text-nowrap">
-<%--              <form action="/ImportOrder" method="post">--%>
               <table class="table table-striped">
                 <thead>
                 <tr>
@@ -450,7 +403,10 @@
 
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+<script type="text/javascript" src="jquery.dataTables.js"></script>
+<script type="text/javascript" src="dataTables.antiThe.js"></script>
 <script>
   function collectDataFromTable() {
     var data = [];

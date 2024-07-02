@@ -391,17 +391,6 @@
             inputChange();
             cartTotal();
 
-            // var noProductsTbody = document.getElementById('noProductsTbody');
-            // noProductsTbody.innerHTML = '';
-            // response.noProducts.forEach(function(product) {
-            //   var tr = document.createElement('tr');
-            //
-            //   var nameTd = document.createElement('td');
-            //   nameTd.textContent = product.product_name;
-            //   tr.appendChild(nameTd);
-            //
-            //   noProductsTbody.appendChild(tr);
-            // });
           },
           error: function(xhr, status, error) {
             console.error('Error:', error);

@@ -87,7 +87,9 @@ public class CompleteOrderServlet2 extends HttpServlet {
             productDAO.updateQuantityIncrease(idProduct, quantity);
 
         }
-
+        //set lai tong tien
+        importClass.setTotalPrice(total);
+        importDAO.update(importClass);
         // Gửi phản hồi về cho client
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
