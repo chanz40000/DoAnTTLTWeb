@@ -461,7 +461,16 @@
   document.querySelector('input[type="submit"]').addEventListener('click', function(event) {
     event.preventDefault(); // Ngăn chặn hành động mặc định của nút submit
 
+    var tableRows = document.querySelectorAll('tbody.table-border-bottom-0 tr');
+
+    // Kiểm tra nếu không có dòng nào trong bảng
+    if (tableRows.length === 0) {
+      alert("Vui lòng nhập sản phẩm vào bảng trước khi hoàn tất đơn hàng!");
+      return; // Dừng lại và không tiếp tục thực hiện request
+    }
+
     var data = collectDataFromTable();
+
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/CompleteOrderServlet2', true);
