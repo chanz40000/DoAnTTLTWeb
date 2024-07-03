@@ -28,74 +28,72 @@ public class CompleteOrderServlet2 extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("done do post");
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
-
-        // Đọc dữ liệu JSON từ request body
-        BufferedReader reader = request.getReader();
-        StringBuilder jsonBuilder = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            jsonBuilder.append(line);
-        }
-        String jsonData = jsonBuilder.toString();
-
-        // Sử dụng Gson để chuyển đổi JSON thành danh sách các đối tượng Item
-        Gson gson = new Gson();
-        List<Item> items = gson.fromJson(jsonData, new TypeToken<List<Item>>(){}.getType());
-
-        //them vao database
-        ImportDAO importDAO = new ImportDAO(request);
-        ImportDetailDAO importDetailDAO = new ImportDetailDAO();
-        ProductDAO productDAO = new ProductDAO(request);
-
-        User user = (User) request.getSession().getAttribute("admin");
-        System.out.println("id: "+ user.getUserId());
-
-        long millis=System.currentTimeMillis();
-        java.sql.Date date=new java.sql.Date(millis);
-        int import_id = importDAO.creatId();
-
-        String notes = items.get(0).note;
-
-        Import importClass= new Import(import_id, user, "ncc1", notes, date );
-        importDAO.insert(importClass);
-
-
-        System.out.println("action");
-        double total = 0;
-        for (Item item : items) {
-            int idProduct = Integer.parseInt(item.getProductId()) ;
-            String nameProduct = item.productName;
-            int quantity = item.getNumberOfWarehouses();
-
-            double unitPrice = item.unitPrice;
-
-
-            double totalPrice = quantity*unitPrice;
-            System.out.println("name"+nameProduct);
-            System.out.println("quantity"+quantity);
-            total+=totalPrice;
-            System.out.println("total: "+total);
-            model.ImportDetail itemm = new ImportDetail(importDetailDAO.creatId(), importClass,
-                    productDAO.selectById(idProduct),quantity , unitPrice, quantity*unitPrice);
-
-            importDetailDAO.insert(itemm);
-
-            productDAO.updateQuantityIncrease(idProduct, quantity);
-
-        }
-        //set lai tong tien
-        importClass.setTotalPrice(total);
-        importDAO.update(importClass);
-        // Gửi phản hồi về cho client
         response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-       System.out.print("{\"message\": \"Nhập hàng thành công!\"}");
-        out.flush();
+
+        try (PrintWriter out = response.getWriter();
+             BufferedReader reader = request.getReader()) {
+
+            StringBuilder jsonBuilder = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonBuilder.append(line);
+            }
+            String jsonData = jsonBuilder.toString();
+
+            if (jsonData == null || jsonData.isEmpty()) {
+                // Handle case where jsonData is empty or null
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                out.println("Empty JSON data received");
+                return;
+            }
+
+            Gson gson = new Gson();
+            List<Item> items = gson.fromJson(jsonData, new TypeToken<List<Item>>(){}.getType());
+
+            ImportDAO importDAO = new ImportDAO(request);
+            ImportDetailDAO importDetailDAO = new ImportDetailDAO();
+            ProductDAO productDAO = new ProductDAO(request);
+
+            User user = (User) request.getSession().getAttribute("admin");
+
+            long millis = System.currentTimeMillis();
+            java.sql.Date date = new java.sql.Date(millis);
+            int import_id = importDAO.creatId();
+            String notes = items.get(0).note;
+
+            Import importClass = new Import(import_id, user, "ncc1", notes, date);
+            importDAO.insert(importClass);
+
+            double total = 0;
+            for (Item item : items) {
+                int idProduct = Integer.parseInt(item.getProductId());
+                int quantity = item.getNumberOfWarehouses();
+                double unitPrice = item.getUnitPrice();
+
+                double totalPrice = quantity * unitPrice;
+                total += totalPrice;
+
+                ImportDetail importDetail = new ImportDetail(importDetailDAO.creatId(), importClass,
+                        productDAO.selectById(idProduct), quantity, unitPrice, totalPrice);
+
+                importDetailDAO.insert(importDetail);
+                productDAO.updateQuantityIncrease(idProduct, quantity);
+            }
+
+            importClass.setTotalPrice(total);
+            importDAO.update(importClass);
+
+            // Send response to client
+            out.println(gson.toJson("Success"));
+            out.flush();
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+        }
     }
+
 
     // Lớp Item đại diện cho mỗi mục trong danh sách
     class Item {
