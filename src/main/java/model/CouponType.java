@@ -9,6 +9,13 @@ public class CouponType {
         this.couponTye = couponTye;
     }
 
+    public CouponType(int couponTypeId) {
+        this.couponTypeId = couponTypeId;
+    }
+
+    public CouponType() {
+    }
+
     public int getCouponTypeId() {
         return couponTypeId;
     }

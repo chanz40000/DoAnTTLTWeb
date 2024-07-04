@@ -259,13 +259,17 @@
             var button = $(this); // Lưu trữ nút đã click
             var form = button.closest('form'); // Tìm form chứa nút đã click
             var idCoupon = form.find('input[name="idCoupon"]').val(); // Lấy giá trị idCoupon từ form
-
+            <c:if test="${sessionScope.userC.name == null}">
+            alert("Bạn cần đăng nhập để sử dụng mã giảm giá.");
+            window.location.href = "Login"; // Đường dẫn đến trang đăng nhập của bạn
+            return;
+            </c:if>
 
             $.ajax({
                 type: 'POST',
                 url: form.attr('action'),
-                data: { idCoupon: idCoupon },
-                success: function(response) {
+                data: {idCoupon: idCoupon},
+                success: function (response) {
                     console.log('AJAX response:', response); // Ghi lại phản hồi từ máy chủ để kiểm tra lỗi
                     // Xử lý phản hồi
                     if (response.status === 'success') {
@@ -280,7 +284,7 @@
                         alert('Lỗi.');
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('AJAX error:', status, error);
                     alert('An error occurred. Please try again later.');
                 }

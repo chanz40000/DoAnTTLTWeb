@@ -87,6 +87,42 @@ public class CouponDAO implements DAOInterface<Coupon> {
 
         return result;
     }
+    public Coupon selectByCode(String code) {
+        Coupon result = null;
+
+        try {
+
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "SELECT * FROM book.coupons WHERE code =?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, code);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int idCoupon = rs.getInt("coupon_id");
+                String codeCoupon = rs.getString("code");
+                int type = rs.getInt("coupon_type_id");
+                double price = rs.getDouble("discount_value");
+                Timestamp start = rs.getTimestamp("start_date");
+                Timestamp end = rs.getTimestamp("end_date");
+                double minPrice = rs.getDouble("min_total_price");
+                int maxCoupon = rs.getInt("max_use_of_coupon");
+                int maxUseCoupon = rs.getInt("max_quantity_use_of_user");
+                int minQuantity = rs.getInt("min_quantity");
+                CouponType couponType = new CouponTypeDAO().selectById(type);
+                result = new Coupon(idCoupon, codeCoupon, couponType, price, start, end, minPrice, maxCoupon, maxUseCoupon, minQuantity);
+
+
+            }
+            JDBCUtil.closeConnection(con);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
     public int saveCoupon(Coupon coupon, ArrayList<Integer> categoryIds) {
         int result = 0;
         try {

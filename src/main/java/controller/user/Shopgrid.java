@@ -19,7 +19,7 @@ public class Shopgrid extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         CategoryDAO categoryDAO = new CategoryDAO();
-        ArrayList<Category> categories = categoryDAO.selectAll();
+        ArrayList<Category> categories = categoryDAO.selectCategoriesWithProducts();
         HttpSession session = request.getSession();
         session.setAttribute("list", categories);
 

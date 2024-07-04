@@ -165,9 +165,6 @@
                                     <c:set var="subtotal" value="${subtotal + (item.product.price * item.quantity)}" />
                                     <c:set var="total" value="${total + (item.product.price * item.quantity)}" />
                                 </c:forEach>
-
-
-
                                 </tbody>
                             </table>
                         </c:when>
@@ -191,20 +188,26 @@
             <div class="col-lg-6">
                 <div class="shoping__continue">
                     <div class="shoping__discount">
-                        <h5>Discount Codes</h5>
-                        <form action="#">
-                            <input type="text" placeholder="Enter your coupon code">
-                            <button type="submit" class="site-btn">APPLY COUPON</button>
+                        <h5>Mã giảm giá</h5>
+                        <div class="alert alert-danger" style="display:none;"></div>
+                        <div class="alert alert-success" style="display:none;"></div>
+                        <form class="CouponApply" action="ApplyCoupon" method="post">
+                            <input type="text" name="couponCode" placeholder="Nhập mã giảm giá">
+                            <button type="submit" class="site-btn">ÁP DỤNG</button>
                         </form>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
+                <input type="hidden" id="discount-type" value="${sessionScope.discountType}">
+                <input type="hidden" id="discount-value" value="${sessionScope.discountValue}">
+
                 <div class="shoping__checkout">
                     <h5>Tổng tiền</h5>
                     <ul>
-                        <li>Subtotal <span class="subtotal">${FormatCurrency.formatCurrency(subtotal)}</span></li>
-                        <li>Total <span class="total">${FormatCurrency.formatCurrency(total)}</span></li>
+                        <li>Tổng tiền <span class="subtotal">${FormatCurrency.formatCurrency(subtotal)}</span></li>
+                        <li class="discount-container" style="display:none;">Giảm giá <span class="discount">- ${FormatCurrency.formatCurrency(sessionScope.discount)}</span></li>
+                        <li>Tổng thanh toán <span class="total">${FormatCurrency.formatCurrency(total)}</span></li>
                     </ul>
                     <a href="/Checkout" class="primary-btn" id="checkout-btn">Thanh toán</a>
                 </div>
@@ -380,7 +383,42 @@
                 });
             });
         });
+        $(".CouponApply").on("submit", function (event){
+            event.preventDefault();
+            let form = $(this);
+            let couponCode = form.find("input[name='couponCode']").val();
 
+            $.ajax({
+                type: "POST",
+                url: form.attr("action"),
+                data: { couponCode: couponCode },
+                success: function (data){
+                    if (data.success) {
+                        // Cập nhật giá trị discount và total
+                        $("#discount-type").val(data.discountType);
+                        $("#discount-value").val(data.discountValue);
+
+                        // Cập nhật lại subtotal và total trên giao diện
+                        updateSubtotalAndTotal();
+
+                        // Hiển thị thông báo thành công
+                        $(".alert-success").text(data.message).show();
+                        $(".alert-danger").hide();
+
+                        // Hiển thị dòng giảm giá
+                        $(".discount-container").show();
+                    } else {
+                        // Hiển thị thông báo lỗi
+                        $(".alert-danger").text(data.message).show();
+                        $(".alert-success").hide();
+                    }
+                },
+                error: function (error){
+                    console.log("Error: ", error);
+                    alert("Có lỗi xảy ra");
+                }
+            });
+        });
         // Hàm cập nhật subtotal và total
         function updateSubtotalAndTotal() {
             let subtotal = 0;
@@ -391,10 +429,23 @@
             let formattedSubtotal = formatCurrency(subtotal);
             $(".subtotal").text(formattedSubtotal);
 
-            let total = subtotal; // Đây có thể là nơi bạn tính total nếu có chi phí vận chuyển hoặc thuế khác
+            // Lấy giá trị giảm giá từ các trường ẩn
+            let discountType = parseInt($("#discount-type").val()) || 0;
+            let discountValue = parseFloat($("#discount-value").val()) || 0;
+            let discount = 0;
+            if (discountType === 1) { // Giảm giá theo phần trăm
+                discount = subtotal * (discountValue / 100);
+            } else if (discountType === 2) { // Giảm giá cố định
+                discount = discountValue;
+            }
+            let formattedDiscount = formatCurrency(discount);
+            $(".discount").text("- " + formattedDiscount);
+
+            let total = subtotal - discount;
             let formattedTotal = formatCurrency(total);
             $(".total").text(formattedTotal);
         }
+
 
         $(document).ready(function (){
             $(".updateQuantityDecrease").on("submit", function (event){
@@ -465,6 +516,7 @@
                 }
             });
         });
+        updateSubtotalAndTotal();
     });
 
 
