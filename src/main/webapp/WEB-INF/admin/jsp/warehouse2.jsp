@@ -544,10 +544,11 @@
 
         addtr.innerHTML = '<td><p name="productId" id="productId" class="form-control form-control-sm">' + productId + '</p></td>' +
             '<td><span name="product_name" class="titleProduct">' + productName + '</span></td>' +
-            '<td><input name="numberOfWarehouses" id="numberOfWarehouses" type="number" class="input-value form-control form-control-sm" value="1"  onclick="inputchange()" oninput="calculateTotal()" ></td>' +
+            '<td><input name="numberOfWarehouses" id="numberOfWarehouses" type="number" class="input-value form-control form-control-sm" value="1" min="1" onclick="inputchange()" oninput="calculateTotal()" ></td>' +
             '<td><input name="unitPrice" type="number" class="input-value form-control form-control-sm"  onclick="inputchange()" oninput="calculateTotal()" value="' + unitPrice + '"></td>' +
             '<td><input name="totalPrice" type="number" id="totalPrice" class="total-price form-control form-control-sm" readonly></td>' +
             '<td><button type="button" class="btn btn-sm btn-outline-primary"><span class="cart-delete">Xóa</span></button></td>';
+
 
         var cartTable = document.querySelector("tbody.table-border-bottom-0");
         cartTable.appendChild(addtr);

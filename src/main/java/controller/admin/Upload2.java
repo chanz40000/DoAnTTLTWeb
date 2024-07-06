@@ -50,7 +50,7 @@ public class Upload2 extends HttpServlet {
                      JSONObject product = new JSONObject();
                      product.put("product_id", product2.getProductId());
                      product.put("product_name", product2.getProduct_name());
-                     product.put("quantity", 0); // Sample quantity
+                     product.put("quantity", 1); // Sample quantity
                      product.put("unitPrice", product2.getUnitPrice()); // Sample unit price
                      responseArray.put(product);
                  }else{

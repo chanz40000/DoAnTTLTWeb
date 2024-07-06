@@ -109,7 +109,7 @@ public class ImportDetailDAO extends AbsDAO<ImportDetail>{
 
 
             ProductDAO productDAO = new ProductDAO();
-            productDAO.updateImportPrice(importDetail.getProduct().getProductId(), importDetail.getUnitPrice());
+
 
 
             result = rs.executeUpdate();

@@ -20,7 +20,7 @@ public class ImportDAO extends AbsDAO<Import> {
 
     public int creatId() {
         imports = selectAll();
-        return imports.size()+1;
+        return imports.get(imports.size()-1).getImportId()+1;
     }
     @Override
     public ArrayList<Import> selectAll() {

@@ -355,6 +355,7 @@
               quantityInput.type = 'number';
               quantityInput.className = 'input-value';
               quantityInput.value = product.quantity;
+              quantityInput.min = 1;
               quantityInput.setAttribute('oninput', 'calculateTotal()');
               quantityInput.setAttribute('onclick', 'inputChange()');
               quantityTd.appendChild(quantityInput);
