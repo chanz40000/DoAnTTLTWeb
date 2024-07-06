@@ -2,12 +2,12 @@ package controller.admin;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import database.ChangePriceDAO;
 import database.ImportDAO;
 import database.ImportDetailDAO;
 import database.ProductDAO;
-import model.Import;
+import model.*;
 import model.ImportDetail;
-import model.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -55,6 +55,7 @@ public class CompleteOrderServlet2 extends HttpServlet {
             ImportDAO importDAO = new ImportDAO(request);
             ImportDetailDAO importDetailDAO = new ImportDetailDAO();
             ProductDAO productDAO = new ProductDAO(request);
+            ChangePriceDAO changePriceDAO = new ChangePriceDAO();
 
             User user = (User) request.getSession().getAttribute("admin");
 
@@ -69,14 +70,31 @@ public class CompleteOrderServlet2 extends HttpServlet {
             double total = 0;
             for (Item item : items) {
                 int idProduct = Integer.parseInt(item.getProductId());
-                int quantity = item.getNumberOfWarehouses();
+
+                Product product = productDAO.selectById(idProduct);
                 double unitPrice = item.getUnitPrice();
+
+                //lay gia nhap cu ra
+                double oldPrice = product.getUnitPrice();
+
+                //neu gia nhap cu khac gia nhap moi thi luu vao bang doi gia
+                //doi lai gia nhap hien tai trong database
+                if(oldPrice!= unitPrice){
+                    System.out.println("doi gia nhap");
+                    ChangePrice changePrice = new ChangePrice(user, product, (int) oldPrice, (int) unitPrice, date);
+                    changePriceDAO.insert(changePrice);
+                    System.out.println("size changePriceDAO: "+ changePriceDAO.selectAll().get(0).toString());
+                    productDAO.updateImportPrice(product.getProductId(), unitPrice);
+                }
+
+                int quantity = item.getNumberOfWarehouses();
+
 
                 double totalPrice = quantity * unitPrice;
                 total += totalPrice;
 
                 ImportDetail importDetail = new ImportDetail(importDetailDAO.creatId(), importClass,
-                        productDAO.selectById(idProduct), quantity, unitPrice, totalPrice);
+                        product, quantity, unitPrice, totalPrice);
 
                 importDetailDAO.insert(importDetail);
                 productDAO.updateQuantityIncrease(idProduct, quantity);
