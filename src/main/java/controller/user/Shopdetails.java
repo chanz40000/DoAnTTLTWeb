@@ -47,7 +47,7 @@ public class Shopdetails extends HttpServlet {
         int sumr = raDao.getSumRatingByProductId(id);
         Product pro = proDao.selectById(id);
         int samecategory = proDao.selectCategoryId(id);
-        List<Product> arrCa = proDao.selectSameCategory(samecategory, id);
+        List<Product> arrCa = proDao.selectSameCategory(samecategory);
         List<Rating> userating;
 
         if (ratingstr == null || ratingstr.isEmpty()) {
