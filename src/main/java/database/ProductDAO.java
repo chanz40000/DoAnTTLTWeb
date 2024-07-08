@@ -411,18 +411,18 @@ public class ProductDAO extends AbsDAO<Product> {
 
         return result;
     }
-    public ArrayList<Product> selectSameCategory(int categoryid,int productid) {
+    public ArrayList<Product> selectSameCategory(int categoryid) {
         ArrayList<Product> products = new ArrayList<>();
         try {
             // tao mot connection
             Connection con = JDBCUtil.getConnection();
 
             // tao cau lenh sql
-            String sql = "SELECT * FROM products WHERE category_id=? AND product_id != ?";
+            String sql = "SELECT * FROM products WHERE category_id=?";
 
             PreparedStatement st = con.prepareStatement(sql);
             st.setInt(1, categoryid);
-            st.setInt(2, productid);
+
 
             // thuc thi
 
