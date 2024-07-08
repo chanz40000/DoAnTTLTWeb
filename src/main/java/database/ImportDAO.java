@@ -178,8 +178,8 @@ public class ImportDAO extends AbsDAO<Import> {
 
             result = rs.executeUpdate();
 
-            this.setValue(this.gson.toJson(imported));
-            int x = super.delete(imported);
+//            this.setValue(this.gson.toJson(imported));
+//            int x = super.delete(imported);
 
 
         } catch (SQLException e) {

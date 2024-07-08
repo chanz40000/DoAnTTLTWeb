@@ -63,8 +63,9 @@ public class CompleteOrderServlet2 extends HttpServlet {
             java.sql.Date date = new java.sql.Date(millis);
             int import_id = importDAO.creatId();
             String notes = items.get(0).note;
+            String ncc = items.get(0).ncc;
 
-            Import importClass = new Import(import_id, user, "ncc1", notes, date);
+            Import importClass = new Import(import_id, user, ncc, notes, date);
             importDAO.insert(importClass);
 
             double total = 0;
@@ -121,6 +122,7 @@ public class CompleteOrderServlet2 extends HttpServlet {
         private double unitPrice;
         private double totalPrice;
         private String note;
+        private String ncc;
 
         // Các getter và setter
         public String getProductId() {
@@ -169,6 +171,14 @@ public class CompleteOrderServlet2 extends HttpServlet {
 
         public void setNote(String note) {
             this.note = note;
+        }
+
+        public String getNcc() {
+            return ncc;
+        }
+
+        public void setNcc(String ncc) {
+            this.ncc = ncc;
         }
     }
 }

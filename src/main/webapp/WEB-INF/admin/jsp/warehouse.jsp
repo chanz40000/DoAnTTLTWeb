@@ -188,6 +188,11 @@
                 </table>
               <div class="price-total"><p style="padding-left: 700px; padding-top: 15px; font-weight: bold">Tổng tiền: <span></span><sup>đ</sup></p>
               </div>
+
+              <div class="checkout__input">
+                <label for="ncc">Nhà cung cấp</label>
+                <input type="text" id="ncc" name="ncc" >
+              </div>
               <div class="checkout__input">
                 <label for="note">Ghi chú</label>
                 <input type="text" id="note" name="note" >
@@ -437,6 +442,9 @@
     var note = document.getElementById('note').value;
     if (note === null || note === "") note = " ";
 
+    var ncc = document.getElementById('ncc').value;
+    if (ncc === null || ncc === "") ncc = " ";
+
     rows.forEach(function(row) {
       var productId = row.querySelector('p[data-product-id]').dataset.productId;
       var productName = row.querySelector('.titleProduct').innerText;
@@ -451,7 +459,8 @@
         numberOfWarehouses: numberOfWarehouses,
         unitPrice: unitPrice,
         totalPrice: totalPrice,
-        note: note
+        note: note,
+        ncc: ncc
       };
 
       data.push(item);
