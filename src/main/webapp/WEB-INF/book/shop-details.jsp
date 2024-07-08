@@ -478,7 +478,9 @@
             <div class="col-lg-6 col-md-6" id="picturearea">
                 <div class="product__details__pic">
                     <div class="product__details__pic__item">
-                        <img height="650px" width="300px" class="product__details__pic__item--large" src="/image/${detail.image}" alt="" id="mainImage">
+                        <a data-fslightbox="gallery" href="/image/${detail.image}" id="mainImageLink">
+                            <img height="650px" width="300px" class="product__details__pic__item--large" src="/image/${detail.image}" alt="" id="mainImage">
+                        </a>
                     </div>
                     <section class="categories">
                         <div class="container">
@@ -487,7 +489,9 @@
                                     <c:forEach items="${proCa}" var="pca">
                                         <div class="product-card">
                                             <div class="product-image">
-                                                <img src="/image/${pca.image}" class="product-thumb" alt="Product Image" style="width: 80px; height: 80px;">
+                                                <a data-fslightbox="gallery" href="/image/${pca.image}" class="thumb-link">
+                                                    <img src="/image/${pca.image}" class="product-thumb" alt="Product Image" style="width: 80px; height: 80px;">
+                                                </a>
                                             </div>
                                         </div>
                                     </c:forEach>
@@ -1101,17 +1105,25 @@
             readLessBtn.style.display = "none";
         });
         const mainImage = document.getElementById("mainImage");
+        const mainImageLink = document.getElementById("mainImageLink");
         const thumbnails = document.querySelectorAll(".product-thumb");
 
-        thumbnails.forEach(thumbnail => {
-            thumbnail.addEventListener("click", function () {
-                // Thay đổi hình ảnh chính
-                mainImage.src = this.src;
+        // Event listener to show lightbox for the main image
+        mainImageLink.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent the default anchor behavior
+            mainImageLink.click(); // Trigger the lightbox
+        });
 
-                // Xóa viền màu từ ảnh đã chọn trước đó
+        thumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener("click", function() {
+                // Change the main image
+                mainImage.src = this.src;
+                mainImageLink.href = this.parentElement.href;
+
+                // Remove border from previously selected image
                 thumbnails.forEach(thumb => thumb.classList.remove("selected"));
 
-                // Thêm viền màu cho ảnh được chọn
+                // Add border to the selected image
                 this.classList.add("selected");
             });
         });
@@ -1417,6 +1429,7 @@
         });
     });
 </script>
+<script src="js/fslightbox.js"></script>
 
 
 </body>
