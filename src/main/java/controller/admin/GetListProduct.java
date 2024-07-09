@@ -4,20 +4,31 @@ import com.google.gson.Gson;
 import database.ProductDAO;
 import model.Product;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @WebServlet(name = "GetListProduct", value = "/GetListProduct")
 public class GetListProduct extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ProductDAO productDAO = new ProductDAO();
-        ArrayList<Product> products = productDAO.selectAll();
+        Map<Integer, Integer> map = productDAO.inventoryProduct2();
 
+        Set<Integer> set = map.keySet();
+        for (Integer key : set) {
+            Product product = productDAO.selectById(key);
+            product.setQuantity(map.get(key));
+        }
+
+
+        ArrayList<Product> products = productDAO.selectAll();
         // Chuyển đổi danh sách sản phẩm thành chuỗi JSON
         Gson gson = new Gson();
         String jsonProducts = gson.toJson(products);

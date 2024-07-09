@@ -45,7 +45,7 @@ public class RatingProduct extends HttpServlet {
         int sumr = raDao.getSumRatingByProductId(productid);
         Product pro = proDao.selectById(productid);
         int samecategory = proDao.selectCategoryId(productid);
-        List<Product> arr = proDao.selectSameCategory(samecategory, productid);
+        List<Product> arr = proDao.selectSameCategory(samecategory);
         int five = raDao.getAverageRatingsByProductId(5.0, productid);
         int four = raDao.getAverageRatingsByProductId(4.0, productid);
         int three = raDao.getAverageRatingsByProductId(3.0, productid);

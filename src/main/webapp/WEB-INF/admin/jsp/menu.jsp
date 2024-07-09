@@ -354,6 +354,13 @@
                         <div data-i18n="Basic Inputs">Danh sách sản phẩm</div>
                     </a>
                 </li>
+
+                <li class="menu-item">
+                    <a href="./ChangePrice" class="menu-link">
+                        <div data-i18n="Basic Inputs">Sản phẩm đổi giá nhập </div>
+                    </a>
+                </li>
+
                 <li class="menu-item">
                     <a href="./CreateProduct" class="menu-link">
                         <div data-i18n="Input groups">Thêm sản phẩm</div>

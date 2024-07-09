@@ -17,7 +17,7 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.css">
     <!-- Css Styles -->
 
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -32,7 +32,7 @@
 <style>
     .commentarea{
         width: 500px;
-        height: 300px;
+        height: 200px;
     }
     .textareacomment{
         margin-right:150px;
@@ -223,6 +223,20 @@
         padding-right: 10px;
 
     }
+    .emojiPickerButton {
+        background-color: white;
+        width: 24px;
+        height: 24px;
+        border: none;
+        background-size: cover;
+        background-repeat: no-repeat;
+        cursor: pointer;
+        position: relative;
+        margin-right: 5px;
+        right:10px;
+
+    }
+
     .product__pagination a.active {
         /*background-color: #fd7e14;*/
         background-color: #7fad39;
@@ -290,6 +304,144 @@
     .filter-divide-text{
         margin-left: 5px;
     }
+    /* Main Container and Button Styles */
+    .product-container {
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding: 20px;
+        height: 100px; /* Adjust height to fit the thumbnails */
+    }
+
+    .product-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .product-card {
+        flex: 0 0 auto;
+        margin-right: 20px; /* Adjust margin as needed */
+    }
+
+    .product-image {
+        position: relative;
+    }
+
+    .product-thumb {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .pre-btn,
+    .nxt-btn {
+        border: none;
+        width: 10vw;
+        height: 100%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #fff 100%);
+        cursor: pointer;
+        z-index: 8;
+    }
+
+    .pre-btn {
+        left: 0;
+        transform: rotate(180deg);
+    }
+
+    .nxt-btn {
+        right: 0;
+    }
+
+    .pre-btn img,
+    .nxt-btn img {
+        opacity: 0.2;
+    }
+
+    .pre-btn:hover img,
+    .nxt-btn:hover img {
+        opacity: 1;
+    }
+    .description-container {
+        position: relative;
+    }
+
+    .description-text {
+        max-height: 250px; /* Giới hạn chiều cao ban đầu của đoạn văn */
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        line-height: 1.5em; /* Dòng chữ cách đều nhau */
+    }
+
+    .description-text.expanded {
+        max-height: none; /* Khi mở rộng, bỏ giới hạn chiều cao */
+    }
+
+    .read-more-btn,
+    .read-less-btn {
+        margin-left:220px;
+        display: none; /* Ẩn nút ban đầu */
+        background-color: white;
+        color: blue;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .read-less-btn {
+        display: none; /* Ẩn nút thu gọn */
+    }
+    .product-thumb {
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: border-color 0.3s ease;
+    }
+
+    .product-thumb.selected {
+        border-color:#7fad39; /* Màu viền khi được chọn */
+    }
+
+
+    .quantity-container {
+        margin-top: -139px;
+
+        width: 200px;
+        height: 50px;
+        margin-left: 70px;
+        position: relative;
+        text-align: center;
+        background: #f5f5f5;>
+    }
+
+    .quantity-container .btn {
+        width: 50px;
+        height: 50px;
+    }
+
+    .add-to-cart {
+        margin-top: 20px;
+        display: block;
+        width: 100%;
+    }
+    .quantitytext{
+        margin-bottom: 100px;
+    }
+    .btn.btn-primary.add-to-cart{
+        background-color: #7fad39;
+        color: #ffffff;
+        font-weight: 800;
+        text-transform: uppercase;
+        display: inline-block;
+        padding: 5px 25px 5px;
+        border: none;
+    }
+
+
+
 
 </style>
 <body>
@@ -326,18 +478,32 @@
             <div class="col-lg-6 col-md-6" id="picturearea">
                 <div class="product__details__pic">
                     <div class="product__details__pic__item">
-
-                        <img height="650px" width="100px" class="product__details__pic__item--large"
-                             src="/image/${detail.image}" alt="">
-
+                        <a data-fslightbox="gallery" href="/image/${detail.image}" id="mainImageLink">
+                            <img height="650px" width="300px" class="product__details__pic__item--large" src="/image/${detail.image}" alt="" id="mainImage">
+                        </a>
                     </div>
-                    <%--                    <div class="product__details__pic__slider owl-carousel">--%>
-                    <%--                        <c:forEach items="${Products}" var="pca">--%>
-                    <%--                            <img src="/image/${pca.image}"--%>
-                    <%--                        </c:forEach>--%>
-                    <%--                    </div>--%>
+                    <section class="categories">
+                        <div class="container">
+                            <div class="row">
+                                <div class="categories__slider owl-carousel">
+                                    <c:forEach items="${proCa}" var="pca">
+                                        <div class="product-card">
+                                            <div class="product-image">
+                                                <a data-fslightbox="gallery" href="/image/${pca.image}" class="thumb-link">
+                                                    <img src="/image/${pca.image}" class="product-thumb" alt="Product Image" style="width: 80px; height: 80px;">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
+
+
+
             <div class="col-lg-6 col-md-6">
                 <div class="product__details__text">
                     <%--<<<<<<< HEAD--%>
@@ -422,7 +588,11 @@
                             <span>(${sumrating} lượt đánh giá)</span>
                         </div>
                         <div class="product__details__price">${detail.getUnitPrice()}</div>
-                        <p>${detail.getDescription()}</p>
+                        <div class="description-container">
+                            <p class="description-text">${detail.getDescription()}</p>
+                            <button class="read-more-btn">Read More</button>
+                            <button class="read-less-btn">Read Less</button>
+                        </div>
                         <br>
                         <div class="Tongquan">
                             <b>Tổng quan</b>
@@ -533,8 +703,10 @@
                         <br>
                         <br><br><br>
                         <div>
+
                             <b>2 Nhận xét sản phẩm</b>
 
+                            <button class="emojiPickerButton" type="button" id="emojiPickerButton">😀</button>
                             <div class="commentarea">
                                 <label>
                                     <textarea placeholder="Your message" class="textareacomment"  name="textarearating"></textarea>
@@ -543,10 +715,24 @@
                                 <button type="submit" class="btn-send">SEND MESSAGE</button>
                             </div>
                         </div>
-
-                    </form>
-
                 </div>
+
+                </form>
+                <c:choose>
+                    <c:when test="${detail.quantity > 0}">
+                        <p class="quantitytext">Quantity</p>
+                        <div class="input-group mb-3 d-flex align-items-center quantity-container">
+                            <button type="button" class="btn btn-outline-black decrease-quantity">-</button>
+                            <input type="text" class="form-control valueQuantity" style="text-align: center" value="1" readonly>
+                            <button type="button" class="btn btn-outline-black increase-quantity">+</button>
+                        </div>
+                        <button type="button"   class="btn btn-primary add-to-cart" data-product-id="${detail.productId}" data-price="${detail.price}">Add to Cart</button>
+                    </c:when>
+                    <c:otherwise>
+                        <h4 class="text-danger">Hết hàng</h4>
+                    </c:otherwise>
+                </c:choose>
+
             </div>
             <hr style="margin-right: 7px;width: 1145px;border: 0.5px solid #dcdcdc">
         </div>
@@ -622,9 +808,10 @@
                                 <input type="hidden" name="ratingid" value="${usera.ratingId}">
                                 <input type="hidden" name="ratingstar" value="${usera.ratingstar}">
                                 <input type="hidden" name="ratingtext" value="${usera.ratingtext}">
-                                <textarea placeholder="Viết bình luận" class="reply-comment__input" name="detailcomment" rows="1" style="height: 40px;"></textarea>
-                                <button type="submit" class="custom-button"></button>
 
+
+                                <textarea placeholder="Viết bình luận" class="reply-comment__input" name="detailcomment" id="replyCommentInput" rows="1" style="height: 40px;"></textarea>
+                                <button type="submit" class="custom-button"></button>
                             </div>
                         </form>
                     </div>
@@ -634,6 +821,7 @@
             </c:forEach>
         </div>
     </div>
+
 </section>
 
 
@@ -859,6 +1047,10 @@
 <script src="js/mixitup.min.js"></script>
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.2/emojionearea.min.js"></script>
+<script src="https://cdn.botpress.cloud/webchat/v2/inject.js"></script>
+
+<script src="https://mediafiles.botpress.cloud/1d0997ec-87ba-4ea8-8a5c-c2fba00d5019/webchat/v2/config.js"></script>
 
 <style>
     .ykiensanpham{
@@ -885,8 +1077,112 @@
     }
 
 </style>
-<script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const descriptionText = document.querySelector(".description-text");
+        const readMoreBtn = document.querySelector(".read-more-btn");
+        const readLessBtn = document.querySelector(".read-less-btn");
 
+        // Kiểm tra nếu đoạn văn dài hơn 10 dòng
+        function isTextOverflowing(element) {
+            return element.scrollHeight > element.clientHeight;
+        }
+
+        // Kiểm tra chiều cao đoạn văn để hiển thị hoặc ẩn nút
+        if (descriptionText.scrollHeight > 250) { // 10 dòng * line-height * font-size (16px)
+            readMoreBtn.style.display = "block";
+        }
+
+        readMoreBtn.addEventListener("click", function () {
+            descriptionText.classList.add("expanded");
+            readMoreBtn.style.display = "none";
+            readLessBtn.style.display = "block";
+        });
+
+        readLessBtn.addEventListener("click", function () {
+            descriptionText.classList.remove("expanded");
+            readMoreBtn.style.display = "block";
+            readLessBtn.style.display = "none";
+        });
+        const mainImage = document.getElementById("mainImage");
+        const mainImageLink = document.getElementById("mainImageLink");
+        const thumbnails = document.querySelectorAll(".product-thumb");
+
+        // Event listener to show lightbox for the main image
+        mainImageLink.addEventListener("click", function(event) {
+            event.preventDefault(); // Prevent the default anchor behavior
+            mainImageLink.click(); // Trigger the lightbox
+        });
+
+        thumbnails.forEach(thumbnail => {
+            thumbnail.addEventListener("click", function() {
+                // Change the main image
+                mainImage.src = this.src;
+                mainImageLink.href = this.parentElement.href;
+
+                // Remove border from previously selected image
+                thumbnails.forEach(thumb => thumb.classList.remove("selected"));
+
+                // Add border to the selected image
+                this.classList.add("selected");
+            });
+        });
+    });
+
+</script>
+<script>
+    $(document).ready(function() {
+        // Update main image and highlight selected thumbnail
+        $(".product-thumb").click(function() {
+            let src = $(this).attr("src");
+            $("#mainImage").attr("src", src);
+            $(".product-thumb").removeClass("selected");
+            $(this).addClass("selected");
+        });
+
+        // Increase and decrease quantity
+        $(".increase-quantity").click(function() {
+            let input = $(this).siblings(".valueQuantity");
+            let currentQuantity = parseInt(input.val(), 10);
+            input.val(currentQuantity + 1);
+        });
+
+        $(".decrease-quantity").click(function() {
+            let input = $(this).siblings(".valueQuantity");
+            let currentQuantity = parseInt(input.val(), 10);
+            if (currentQuantity > 1) {
+                input.val(currentQuantity - 1);
+            }
+        });
+
+        // Add to cart button
+        $(".add-to-cart").click(function() {
+            let productId = $(this).data("product-id");
+            let price = $(this).data("price");
+            let quantity = parseInt($(".valueQuantity").val(), 10);
+
+            $.ajax({
+                type: "POST",
+                url: "AddToCartDetail",
+                data: {
+                    productId: productId,
+                    quantity: quantity
+                },
+                success: function(response) {
+                    alert("Cập nhật giỏ hàng thành công!");
+                    // Cập nhật số lượng trong giỏ hàng trên giao diện
+                    $(".cart-item-count").text(response.totalQuantity);
+                },
+                error: function(error) {
+                    console.log("Error: ", error);
+                    alert("Có lỗi xảy ra khi cập nhật giỏ hàng");
+                }
+            });
+        });
+    });
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/darkreader@4.9.80/darkreader.min.js"></script>
 <script>
     const toggleDarkModeButton = document.getElementById("toggle-dark-mode");
     const icondarklight = document.getElementById('icontype');
@@ -953,8 +1249,36 @@
     <%--});--%>
 
 </script>
+<%--<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>--%>
+<%--<script src="js/inputEmoji.js"></script>--%>
+<%--<script>--%>
+<%--    $(function () {--%>
+<%--        $('.reply-comment__input').emoji({place: 'after'});--%>
+<%--    })--%>
+<%--</script>--%>
+<script src="js/vanillaEmojiPicker.js"></script>
+<script>
+    // Khởi tạo EmojiPicker
+    new EmojiPicker({
+        trigger: [
+            {
+                selector: '.emojiPickerButton',
+                insertInto: '.textareacomment'
+            }
+        ],
+        closeButton: true
+
+    });
+</script>
 <script>
     $(document).ready(function() {
+
+
+        // Handle the emoji picker button click
+        // $('#emojiPickerButton').click(function() {
+        //     $(".reply-comment__input").data("emojioneArea").showPicker();
+        // });
+
         // Store the selected star rating globally
         let selectedStar = '';
 
@@ -1056,7 +1380,6 @@
                         bindPaginationLinks(productid, selectedStar);
                         updateActivePage(1); // Set page 1 as active
 
-
                         // Re-bind form submission for CommentRa
                         bindCommentFormSubmission();
 
@@ -1106,8 +1429,9 @@
         });
     });
 </script>
-<script src="https://cdn.botpress.cloud/webchat/v2/inject.js"></script>
-<script src="https://mediafiles.botpress.cloud/1d0997ec-87ba-4ea8-8a5c-c2fba00d5019/webchat/v2/config.js"></script>
+<script src="js/fslightbox.js"></script>
+
+
 </body>
 
 </html>

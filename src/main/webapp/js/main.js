@@ -222,6 +222,7 @@
     });
 
 })(jQuery);
+
 // const lazyImages = document.querySelectorAll('[lazy]');
 
 // chờ các tấm ảnh này xuất hiện trên màn hình
