@@ -15,6 +15,7 @@ public class Coupon {
     private int maxUseOfCoupon;
     private int maxQuantityUseOfUser;
     private int minQuantity;
+    private double maxTotalPrice;
     private List<User> userIds; // Danh sách user có coupon
     private List<Category> categoryIds; // Danh sách ccategory có coupon
 
@@ -31,7 +32,7 @@ public class Coupon {
      * @param maxQuantityUseOfUser // số lần dùng mã của người dùng
      * @param minQuantity // sô lượng sản phẩm mua tối thiểu để áp dụng mã
      */
-    public Coupon(int couponId, String code, CouponType discountType, double discountValue, Timestamp startDate, Timestamp endDate, double minTotalPrice, int maxUseOfCoupon, int maxQuantityUseOfUser, int minQuantity) {
+    public Coupon(int couponId, String code, CouponType discountType, double discountValue, Timestamp startDate, Timestamp endDate, double minTotalPrice, int maxUseOfCoupon, int maxQuantityUseOfUser, int minQuantity, double maxTotalPrice) {
         this.couponId = couponId;
         this.code = code;
         this.discountType = discountType;
@@ -42,17 +43,31 @@ public class Coupon {
         this.maxUseOfCoupon = maxUseOfCoupon;
         this.maxQuantityUseOfUser = maxQuantityUseOfUser;
         this.minQuantity = minQuantity;
+        this.maxTotalPrice = maxTotalPrice;
     }
 
-    /**
-     * PERCENTAGE: Giảm giá theo phần trăm tổng giá trị đơn hàng
-     * FIXED_MONEY: Giảm giá một số tiền cố định trên tổng giá trị đơn hàng
-     * CATEGORY:  Giảm giá áp dụng cho 1 hoặc nhiều thể loại
-     * TOTAL: Giảm giá áp dụng cho tổng tiền đơn hàng
-     * QUANTITY:  Giảm giá dựa trên số lượng sản phẩm mua
-     */
-    public enum DiscountType {
-        PERCENTAGE, FIXED_MONEY, CATEGORY, TOTAL, QUANTITY
+    public double getMaxTotalPrice() {
+        return maxTotalPrice;
+    }
+
+    public void setMaxTotalPrice(double maxTotalPrice) {
+        this.maxTotalPrice = maxTotalPrice;
+    }
+
+    public List<User> getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(List<User> userIds) {
+        this.userIds = userIds;
+    }
+
+    public List<Category> getCategoryIds() {
+        return categoryIds;
+    }
+
+    public void setCategoryIds(List<Category> categoryIds) {
+        this.categoryIds = categoryIds;
     }
 
     public int getCouponId() {

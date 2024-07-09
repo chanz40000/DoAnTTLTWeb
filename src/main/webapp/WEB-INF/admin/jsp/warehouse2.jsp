@@ -336,7 +336,7 @@
                 </td>
 <%--                  <td><p name="product_name" class="productName" oninput="search()">${product.product_name} </p></td>--%>
                 <td id="categoryName">${product.category.categoryName}</td>
-                <td id="unitPrice"><span>${product.unitPrice}</span></td>>
+                <td id="unitPrice"><span>${product.unitPrice}</span></td>
 
                 <td>
                   <button type="submit" class="btn btn-sm btn-outline-primary" onclick="add()">Thêm</button></td>

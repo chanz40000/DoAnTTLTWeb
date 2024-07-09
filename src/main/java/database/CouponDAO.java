@@ -37,8 +37,9 @@ public class CouponDAO implements DAOInterface<Coupon> {
                 int maxCoupon = rs.getInt("max_use_of_coupon");
                 int maxUseCoupon = rs.getInt("max_quantity_use_of_user");
                 int minQuantity = rs.getInt("min_quantity");
+                double maxPrice = rs.getDouble("max_total_price");
                 CouponType couponType = new CouponTypeDAO().selectById(type);
-                Coupon coupon = new Coupon(idCoupon, code, couponType, price, start, end, minPrice, maxCoupon, maxUseCoupon, minQuantity);
+                Coupon coupon = new Coupon(idCoupon, code, couponType, price, start, end, minPrice, maxCoupon, maxUseCoupon, minQuantity, maxPrice);
                 coupons.add(coupon);
 
             }
@@ -74,8 +75,9 @@ public class CouponDAO implements DAOInterface<Coupon> {
                 int maxCoupon = rs.getInt("max_use_of_coupon");
                 int maxUseCoupon = rs.getInt("max_quantity_use_of_user");
                 int minQuantity = rs.getInt("min_quantity");
+                double maxPrice = rs.getDouble("max_total_price");
                 CouponType couponType = new CouponTypeDAO().selectById(type);
-                result = new Coupon(idCoupon, code, couponType, price, start, end, minPrice, maxCoupon, maxUseCoupon, minQuantity);
+                result = new Coupon(idCoupon, code, couponType, price, start, end, minPrice, maxCoupon, maxUseCoupon, minQuantity ,maxPrice);
 
 
             }
@@ -110,8 +112,9 @@ public class CouponDAO implements DAOInterface<Coupon> {
                 int maxCoupon = rs.getInt("max_use_of_coupon");
                 int maxUseCoupon = rs.getInt("max_quantity_use_of_user");
                 int minQuantity = rs.getInt("min_quantity");
+                double maxPrice = rs.getDouble("max_total_price");
                 CouponType couponType = new CouponTypeDAO().selectById(type);
-                result = new Coupon(idCoupon, codeCoupon, couponType, price, start, end, minPrice, maxCoupon, maxUseCoupon, minQuantity);
+                result = new Coupon(idCoupon, codeCoupon, couponType, price, start, end, minPrice, maxCoupon, maxUseCoupon, minQuantity, maxPrice);
 
 
             }
@@ -127,8 +130,8 @@ public class CouponDAO implements DAOInterface<Coupon> {
         int result = 0;
         try {
             Connection con = JDBCUtil.getConnection();
-            String sql = "INSERT INTO coupons(coupon_id, code, coupon_type_id, discount_value, start_date, end_date, min_total_price, max_use_of_coupon, max_quantity_use_of_user, min_quantity) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO coupons(coupon_id, code, coupon_type_id, discount_value, start_date, end_date, min_total_price, max_use_of_coupon, max_quantity_use_of_user, min_quantity, max_total_price) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement rs = con.prepareStatement(sql);
             rs.setInt(1, coupon.getCouponId());
             rs.setString(2, coupon.getCode());
@@ -140,6 +143,7 @@ public class CouponDAO implements DAOInterface<Coupon> {
             rs.setInt(8, coupon.getMaxUseOfCoupon());
             rs.setInt(9, coupon.getMaxQuantityUseOfUser());
             rs.setInt(10, coupon.getMinQuantity());
+            rs.setDouble(11, coupon.getMaxTotalPrice());
             rs.executeUpdate();
             ResultSet resultSet = rs.getGeneratedKeys();
             int couponId = 0;
@@ -171,8 +175,8 @@ public class CouponDAO implements DAOInterface<Coupon> {
         try {
             Connection con = JDBCUtil.getConnection();
 
-            String sql = "INSERT INTO coupons(coupon_id, code, coupon_type_id, discount_value, start_date, end_date, min_total_price, max_use_of_coupon, max_quantity_use_of_user, min_quantity) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO coupons(coupon_id, code, coupon_type_id, discount_value, start_date, end_date, min_total_price, max_use_of_coupon, max_quantity_use_of_user, min_quantity, max_total_price) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement rs = con.prepareStatement(sql);
             rs.setInt(1, coupon.getCouponId());
             rs.setString(2, coupon.getCode());
@@ -184,6 +188,7 @@ public class CouponDAO implements DAOInterface<Coupon> {
             rs.setInt(8, coupon.getMaxUseOfCoupon());
             rs.setInt(9, coupon.getMaxQuantityUseOfUser());
             rs.setInt(10, coupon.getMinQuantity());
+            rs.setDouble(11, coupon.getMaxTotalPrice());
             result = rs.executeUpdate();
             JDBCUtil.closeConnection(con);
 
@@ -254,6 +259,7 @@ public class CouponDAO implements DAOInterface<Coupon> {
                         ", max_use_of_coupon=? " +
                         ", max_quantity_use_of_user=? " +
                         ", min_quantity=? " +
+                        ", max_total_price=? " +
                         "WHERE coupon_id = ?";
 
                 PreparedStatement rs = con.prepareStatement(sql);
@@ -268,9 +274,38 @@ public class CouponDAO implements DAOInterface<Coupon> {
                 rs.setInt(8, coupon.getMaxUseOfCoupon());
                 rs.setInt(9, coupon.getMaxQuantityUseOfUser());
                 rs.setInt(10, coupon.getMinQuantity());
-
+                rs.setDouble(11, coupon.getMaxTotalPrice());
                 result = rs.executeUpdate();
 
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+        return result;
+    }
+    public int updateQuantiyCouponById(int id, int maxUseUser, int maxUseCoupon) {
+        int result = 0;
+        Coupon oldCoupon = this.selectById(id);
+
+        if (oldCoupon != null) {
+
+            try {
+                Connection con = JDBCUtil.getConnection();
+
+                String sql = "UPDATE coupons SET max_use_of_coupon=? " +
+                        ", max_quantity_use_of_user=? " +
+                        "WHERE coupon_id = ?";
+
+                PreparedStatement rs = con.prepareStatement(sql);
+
+                rs.setInt(1, maxUseUser);
+                rs.setInt(2, maxUseCoupon);
+                rs.setInt(3, id);
+
+                result = rs.executeUpdate();
+                System.out.println("Coupon cap nhat so luong thanh cong");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

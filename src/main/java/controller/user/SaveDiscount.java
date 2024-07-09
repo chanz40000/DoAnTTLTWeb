@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import database.CouponDAO;
 import model.Cart;
 import model.Coupon;
-import model.CouponType;
 import model.ErrorBean;
 
 import javax.servlet.*;
@@ -13,8 +12,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "ApplyCoupon", value = "/ApplyCoupon")
-public class ApplyCoupon extends HttpServlet {
+@WebServlet(name = "SaveDiscount", value = "/SaveDiscount")
+public class SaveDiscount extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -22,14 +21,14 @@ public class ApplyCoupon extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String couponCode = request.getParameter("couponCode");
-        ErrorBean eb = new ErrorBean();
+        String couponIdString = request.getParameter("couponId");
+        int couponId = Integer.parseInt(couponIdString);
 
         HttpSession session = request.getSession();
         Cart cart = (Cart) session.getAttribute("cart");
 
         CouponDAO couponDAO = new CouponDAO();
-        Coupon coupon = couponDAO.selectByCode(couponCode);
+        Coupon coupon = couponDAO.selectById(couponId);
 
         JsonObject jsonResponse = new JsonObject();
 
@@ -42,7 +41,9 @@ public class ApplyCoupon extends HttpServlet {
         } else if (cart.calculateTotal() < coupon.getMinTotalPrice()) {
             jsonResponse.addProperty("success", false);
             jsonResponse.addProperty("message", "Giá trị đơn hàng của bạn chưa đạt mức tối thiểu để sử dụng mã này.");
-        }  else if (coupon.getMaxQuantityUseOfUser()<=0 || coupon.getMaxUseOfCoupon() <= 0) {
+            session.removeAttribute("couponCode");
+            session.removeAttribute("couponId");
+        }   else if (coupon.getMaxQuantityUseOfUser()<=0 || coupon.getMaxUseOfCoupon() <= 0) {
             jsonResponse.addProperty("success", false);
             jsonResponse.addProperty("message", "Mã đã hết lượt sử dung.");
         } else {
@@ -50,12 +51,12 @@ public class ApplyCoupon extends HttpServlet {
             double newTotal = cart.calculateTotal() - discount;
 
             // để lưu mã khi người dùng nhập và áp dụng
-            session.setAttribute("appliedCouponCode", couponCode);
-            session.setAttribute("coupon", coupon);
+            session.setAttribute("selectedCouponId", couponId);
+            session.setAttribute("chooseCoupon", coupon);
             session.setAttribute("discountValue", coupon.getDiscountValue());
+            session.setAttribute("discountType", coupon.getDiscountType().getCouponTypeId());
             session.setAttribute("minTotalPrice", coupon.getMinTotalPrice());
             session.setAttribute("maxTotalPrice", coupon.getMaxTotalPrice());
-            session.setAttribute("discountType", coupon.getDiscountType().getCouponTypeId());
             session.setAttribute("discount", discount);
             session.setAttribute("newTotal", newTotal);
 
@@ -74,21 +75,14 @@ public class ApplyCoupon extends HttpServlet {
         response.getWriter().write(new Gson().toJson(jsonResponse));
     }
 
-    private double calculateDiscount(Coupon coupon, double cartTotal) {
-        double discount = 0;
-        int discountTypeId = coupon.getDiscountType().getCouponTypeId();
-
-        if (discountTypeId == 1) { // Percentage discount
-            discount = cartTotal * (coupon.getDiscountValue() / 100);
-        } else if (discountTypeId == 2) { // Fixed amount discount
-            discount = coupon.getDiscountValue();
+        private double calculateDiscount(Coupon coupon, double cartTotal) {
+            int discountTypeId = coupon.getDiscountType().getCouponTypeId();
+            if (discountTypeId == 1) {
+                return cartTotal * (coupon.getDiscountValue() / 100);
+            } else if (discountTypeId == 2) {
+                return coupon.getDiscountValue();
+            } else {
+                return 0;
+            }
         }
-
-        // Ensure discount does not exceed maxTotalPrice
-        if (discount > coupon.getMaxTotalPrice()) {
-            discount = coupon.getMaxTotalPrice();
-        }
-
-        return discount;
-    }
 }
