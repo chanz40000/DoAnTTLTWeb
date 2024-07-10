@@ -23,15 +23,16 @@
           integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
     <style>
+
         .submit-button {
             border: none;
             background: none;
@@ -59,13 +60,21 @@
         .col-lg-4.col-md-6.col-sm-6{
 
         }
-        .product__item{
-            background-color: rgba(214,214,214);
-            height: 350px;
+        .product__item {
+            background-color: white;
+            height: 360px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            box-shadow: 0 0 5px #212121;
+            border-radius: 10px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .product__item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #000000;
         }
         .product__item__text h6{
             margin-top: -30px;
@@ -81,7 +90,7 @@
         .product__item__pic__hover {
             position: absolute;
             left: 0;
-            bottom: -50px;
+            bottom: -70px;
             width: 100%;
             text-align: center;
             -webkit-transition: all, 0.5s;
@@ -93,6 +102,24 @@
         .product__item__pic__hover:hover{
             position: absolute;
             bottom: 120px;
+        }
+        .product__item__pic__hover li:hover a {
+            background: #25a6d5;
+            border-color: #25a6d5;
+        }
+        .product__item__pic__hover li:hover a i {
+            color: #ffffff;
+
+        }
+        .product__item__pic__hover li a {
+            height: 50px;
+            width: 50px;
+            border: 1px solid #000000;
+            background: white;
+            box-shadow: 0 0 8px #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .fa-star{
             font-size: 10px;
@@ -126,6 +153,7 @@
         .product__item__text h5{
             padding-top: 25px;
         }
+
         .Stick{
             border-right: 1px solid gray;
             height: 15px;
@@ -191,6 +219,23 @@
             background-color: red; /* Red color for the strikethrough line */
             transform: translateY(-50%);
         }
+        #searchForm {
+            display: flex;
+            align-items: center;
+            gap: 0; /* Đảm bảo không có khoảng cách giữa các phần tử */
+        }
+
+        #searchInput {
+            flex: 1; /* Cho phép input chiếm không gian còn lại */
+            margin-right: 0; /* Loại bỏ margin mặc định bên phải */
+        }
+
+        #searchForm button {
+            flex: 0 0 auto; /* Đảm bảo button không mở rộng ra */
+            margin-left: 0; /* Loại bỏ margin mặc định bên trái */
+        }
+
+
     </style>
 </head>
 
@@ -228,18 +273,70 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-5">
+                <br><br>
                 <div class="sidebar">
+                    <jsp:useBean id="productDAO" class="database.ProductDAO" />
+                    <c:set var="listProductTop" value="${productDAO.topNBestProduct(6)}"/>
                     <div class="sidebar__item">
-                        <h4>Department</h4>
-                        <ul>
-                            <li><a id="all-category" href="#" class="category-link" data-category="">All</a>
-                            </li>
-                            <c:forEach var="ca" items="${list}">
-                                <li><a href="#" data-category="${ca.categoryName}" class="category-link">${ca.categoryName}</a></li>
-                            </c:forEach>
-                        </ul>
-                    </div>
+                        <div class="latest-product__text">
+                            <h4>Sách bán chạy <i style="color: red" class="fa-solid fa-fire"></i></h4>
+                            <div class="latest-product__slider owl-carousel">
 
+                                <!-- Slider 1: Top 3 sản phẩm đầu tiên -->
+                                <div class="latest-prdouct__slider__item">
+                                    <c:forEach var="entry" items="${listProductTop.entrySet()}" varStatus="status">
+                                        <c:if test="${status.index < 3}">
+                                            <c:set var="productIdTop" value="${entry.key}" />
+                                            <c:set var="quantityTop" value="${entry.value}" />
+                                            <c:set var="productTop" value="${productDAO.selectById(productIdTop)}" />
+                                            <a href="#" class="latest-product__item">
+                                                <div class="latest-product__item__pic">
+                                                    <img src="/image/${productTop.image}" alt="${productTop.product_name}">
+                                                </div>
+                                                <div class="latest-product__item__text">
+                                                    <h6>${productTop.product_name}</h6>
+                                                    <span>${productTop.price}</span>
+                                                </div>
+                                            </a>
+                                        </c:if>
+                                    </c:forEach>
+                                </div>
+
+                                <!-- Slider 2: Top 3 sản phẩm tiếp theo -->
+                                <div class="latest-prdouct__slider__item">
+                                    <c:forEach var="entry" items="${listProductTop.entrySet()}" varStatus="status">
+                                        <c:if test="${status.index >= 3 && status.index < 6}">
+                                            <c:set var="productIdTop" value="${entry.key}" />
+                                            <c:set var="quantityTop" value="${entry.value}" />
+                                            <c:set var="productTop" value="${productDAO.selectById(productIdTop)}" />
+                                            <a href="#" class="latest-product__item">
+                                                <div class="latest-product__item__pic">
+                                                    <img src="/image/${productTop.image}" alt="${productTop.product_name}">
+                                                </div>
+                                                <div class="latest-product__item__text">
+                                                    <h6>${productTop.product_name}</h6>
+                                                    <span>${productTop.price}</span>
+                                                </div>
+                                            </a>
+                                        </c:if>
+                                    </c:forEach>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar__item">
+                        <h4>Tìm kiếm</h4>
+                        <form action="search" class="form-inline my-2 my-lg-0" id="searchForm" onsubmit="searchByName(); return false;">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Từ khóa" aria-label="Search" id="productName" name="productName" oninput="searchByName(this)" list="datalist1">
+                            <datalist id="datalist1">
+                                <c:forEach items="${listProducts}" var="p">
+                                    <option value="${p.product_name}"></option>
+                                </c:forEach>
+                            </datalist>
+                            <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </form>
+                    </div>
                     <div class="sidebar__item">
                         <h4>Price</h4>
                         <div class="price-range-wrap">
@@ -256,140 +353,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="sidebar__item sidebar__item__color--option">
-                        <h4>Colors</h4>
-                        <div class="sidebar__item__color sidebar__item__color--white">
-                            <label for="white">
-                                White
-                                <input type="radio" id="white">
-                            </label>
+                        <div class="sidebar__item">
+                            <h4>Thể loại</h4>
+                            <ul>
+                                <li><a id="all-category" href="#" class="category-link" data-category="">Tất cả</a>
+                                </li>
+                                <c:forEach var="ca" items="${list}">
+                                    <li><a href="#" data-category="${ca.categoryName}" class="category-link">${ca.categoryName}</a></li>
+                                </c:forEach>
+                            </ul>
                         </div>
-                        <div class="sidebar__item__color sidebar__item__color--gray">
-                            <label for="gray">
-                                Gray
-                                <input type="radio" id="gray">
-                            </label>
-                        </div>
-                        <div class="sidebar__item__color sidebar__item__color--red">
-                            <label for="red">
-                                Red
-                                <input type="radio" id="red">
-                            </label>
-                        </div>
-                        <div class="sidebar__item__color sidebar__item__color--black">
-                            <label for="black">
-                                Black
-                                <input type="radio" id="black">
-                            </label>
-                        </div>
-                        <div class="sidebar__item__color sidebar__item__color--blue">
-                            <label for="blue">
-                                Blue
-                                <input type="radio" id="blue">
-                            </label>
-                        </div>
-                        <div class="sidebar__item__color sidebar__item__color--green">
-                            <label for="green">
-                                Green
-                                <input type="radio" id="green">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="sidebar__item">
-                        <h4>Popular Size</h4>
-                        <div class="sidebar__item__size">
-                            <label for="large">
-                                Large
-                                <input type="radio" id="large">
-                            </label>
-                        </div>
-                        <div class="sidebar__item__size">
-                            <label for="medium">
-                                Medium
-                                <input type="radio" id="medium">
-                            </label>
-                        </div>
-                        <div class="sidebar__item__size">
-                            <label for="small">
-                                Small
-                                <input type="radio" id="small">
-                            </label>
-                        </div>
-                        <div class="sidebar__item__size">
-                            <label for="tiny">
-                                Tiny
-                                <input type="radio" id="tiny">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="sidebar__item">
-                        <div class="latest-product__text">
-                            <h4>Latest Products</h4>
-                            <div class="latest-product__slider owl-carousel">
-                                <div class="latest-prdouct__slider__item">
-                                    <a href="#" class="latest-product__item">
-                                        <div class="latest-product__item__pic">
-                                            <img src="img/latest-product/lp-1.jpg" alt="">
-                                        </div>
-                                        <div class="latest-product__item__text">
-                                            <h6>Crab Pool Security</h6>
-                                            <span>$30.00</span>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="latest-product__item">
-                                        <div class="latest-product__item__pic">
-                                            <img src="img/latest-product/lp-2.jpg" alt="">
-                                        </div>
-                                        <div class="latest-product__item__text">
-                                            <h6>Crab Pool Security</h6>
-                                            <span>$30.00</span>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="latest-product__item">
-                                        <div class="latest-product__item__pic">
-                                            <img src="img/latest-product/lp-3.jpg" alt="">
-                                        </div>
-                                        <div class="latest-product__item__text">
-                                            <h6>Crab Pool Security</h6>
-                                            <span>$30.00</span>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="latest-prdouct__slider__item">
-                                    <a href="#" class="latest-product__item">
-                                        <div class="latest-product__item__pic">
-                                            <img src="img/latest-product/lp-1.jpg" alt="">
-                                        </div>
-                                        <div class="latest-product__item__text">
-                                            <h6>Crab Pool Security</h6>
-                                            <span>$30.00</span>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="latest-product__item">
-                                        <div class="latest-product__item__pic">
-                                            <img src="img/latest-product/lp-2.jpg" alt="">
-                                        </div>
-                                        <div class="latest-product__item__text">
-                                            <h6>Crab Pool Security</h6>
-                                            <span>$30.00</span>
-                                        </div>
-                                    </a>
-                                    <a href="#" class="latest-product__item">
-                                        <div class="latest-product__item__pic">
-                                            <img src="img/latest-product/lp-3.jpg" alt="">
-                                        </div>
-                                        <div class="latest-product__item__text">
-                                            <h6>Crab Pool Security</h6>
-                                            <span>$30.00</span>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="col-lg-9 col-md-7">
+                <br><br>
                 <div class="product__discount">
                     <div class="section-title product__discount__title">
                         <h2>Sale Off</h2>
@@ -414,116 +391,34 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="product__discount__item">
-                                    <div class="product__discount__item__pic set-bg"
-                                         data-setbg="img/product/discount/pd-2.jpg">
-                                        <div class="product__discount__percent">-20%</div>
-                                        <ul class="product__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__discount__item__text">
-                                        <span>Vegetables</span>
-                                        <h5><a href="#">Vegetables’package</a></h5>
-                                        <div class="product__item__price">$30.00 <span>$36.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="product__discount__item">
-                                    <div class="product__discount__item__pic set-bg"
-                                         data-setbg="img/product/discount/pd-3.jpg">
-                                        <div class="product__discount__percent">-20%</div>
-                                        <ul class="product__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__discount__item__text">
-                                        <span>Dried Fruit</span>
-                                        <h5><a href="#">Mixed Fruitss</a></h5>
-                                        <div class="product__item__price">$30.00 <span>$36.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="product__discount__item">
-                                    <div class="product__discount__item__pic set-bg"
-                                         data-setbg="img/product/discount/pd-4.jpg">
-                                        <div class="product__discount__percent">-20%</div>
-                                        <ul class="product__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__discount__item__text">
-                                        <span>Dried Fruit</span>
-                                        <h5><a href="#">Raisin’n’nuts</a></h5>
-                                        <div class="product__item__price">$30.00 <span>$36.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="product__discount__item">
-                                    <div class="product__discount__item__pic set-bg"
-                                         data-setbg="img/product/discount/pd-5.jpg">
-                                        <div class="product__discount__percent">-20%</div>
-                                        <ul class="product__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__discount__item__text">
-                                        <span>Dried Fruit</span>
-                                        <h5><a href="#">Raisin’n’nuts</a></h5>
-                                        <div class="product__item__price">$30.00 <span>$36.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="product__discount__item">
-                                    <div class="product__discount__item__pic set-bg"
-                                         data-setbg="img/product/discount/pd-6.jpg">
-                                        <div class="product__discount__percent">-20%</div>
-                                        <ul class="product__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__discount__item__text">
-                                        <span>Dried Fruit</span>
-                                        <h5><a href="#">Raisin’n’nuts</a></h5>
-                                        <div class="product__item__price">$30.00 <span>$36.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="filter__item">
                     <div class="row">
-                        <div class="col-lg-4 col-md-5">
+                        <div class="col-lg-7 col-md-5">
                             <div class="filter__sort">
-                                <span>Lọc theo:</span>
+                                <span>Giá:</span>
                                 <select name="sort" id="sortSelect" onchange="applySort()">
+                                    <option value="">Chọn</option>
                                     <option value="desc" ${sortOrder == 'desc' ? 'selected' : ''}>Giá giảm dần</option>
                                     <option value="asc" ${sortOrder == 'asc' ? 'selected' : ''}>Giá tăng dần</option>
                                 </select>
+                                <span>Thể loại:</span>
+                                <select name="category" id="categorySelect" onchange="applySort()">
+                                    <option value="">Tất cả</option>
+                                    <c:forEach var="ca" items="${list}">
+                                        <option value="${ca.categoryName}">${ca.categoryName}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-4">
+                        <div class="col-lg-3 col-md-3">
                             <div class="filter__found">
-                                <h6><span>${sessionScope.listProducts.size()}</span> sản phẩm đã tìm được</h6>
+                                <h6><span id="productCount">${sessionScope.listProducts.size()}</span> kết quả tìm được</h6>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-3">
+                        <div class="col-lg-2 col-md-1">
                             <div class="filter__option">
                                 <span class="icon_grid-2x2"></span>
                                 <span class="icon_ul"></span>
@@ -531,115 +426,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row" id="row">
-                    <c:forEach var="p" items="${listProduct}">
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-
-                                <div class="product__item__pic">
-                                    <img class="product-image" lazy data-src="/image/${p.image}" width="180px" height="250px" alt="${p.product_name}">
-                                            <ul class="product__item__pic__hover">
-                                                <li><a href="Shopdetails?id=${p.productId}"><i class="fa fa-info-circle"></i></a></li>
-                                                <li>
-                                                    <form class="add-to-wishlist-form" action="AddToWishList" method="post" id="addToWishListForm">
-                                                        <input type="hidden" name="productId" value="${p.productId}">
-                                                        <button class="submit-button" type="submit">
-                                                            <c:choose>
-                                                                <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
-                                                                    <a href=""><i class="fa fa-heart"></i></a>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <a href="Login"><i class="fa fa-heart"></i></a>
-                                                                </c:otherwise>
-                                                            </c:choose>
-
-                                                        </button>
-                                                    </form>
-                                                </li>
-                                                <c:choose>
-                                                <c:when test="${p.quantity > 0}">
-                                                <li>
-                                                    <form class="add-to-cart-form" action="AddToCart" method="post" id="addToCartForm">
-                                                        <input type="hidden" name="productId" value="${p.productId}">
-                                                        <button class="submit-button" type="submit">
-                                                            <c:choose>
-                                                                <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
-                                                                    <a href=""><i class="fa fa-shopping-cart"></i></a>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <a href="Login"><i class="fa fa-shopping-cart"></i></a>
-                                                                </c:otherwise>
-                                                            </c:choose>
-
-                                                        </button>
-                                                    </form>
-                                                </li>
-                                                </c:when>
-                                                    <c:otherwise>
-
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </ul>
-                                </div>
-                                <div class="product__item__text">
-                                    <h6>${p.product_name}</h6>
-
-
-                                    <ul class="Ratestar">
-                                        <c:set var="averageRating" value="${rating.getAverageRatingByProductId(p.productId)}" />
-                                        <c:set var="integerPart" value="${averageRating.intValue()}" />
-                                        <c:set var="decimalPart" value="${averageRating - integerPart}" />
-                                        <c:choose>
-                                            <c:when test="${averageRating == 0}">
-                                                <c:forEach var="digit" begin="1" end="5">
-                                                    <img data-src="img/image/number not rating.png" lazy width="16px" height="16px">
-                                                </c:forEach>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:if test="${integerPart >= 1 && integerPart <= 5 && decimalPart == 0}">
-                                                    <c:forEach var="digit" begin="1" end="${integerPart}">
-                                                        <img data-src="img/image/number.0 rating.png" lazy width="16px" height="16px">
-                                                    </c:forEach>
-                                                    <c:forEach var="digit" begin="${integerPart + 1}" end="5">
-                                                        <img data-src="img/image/number not rating.png" lazy width="16px" height="16px">
-                                                    </c:forEach>
-                                                </c:if>
-                                                <c:if test="${integerPart >= 1 && integerPart <= 5 && decimalPart != 0}">
-                                                    <c:forEach var="digit" begin="1" end="${integerPart}">
-                                                        <img data-src="img/image/number.0 rating.png" lazy width="16px" height="16px">
-                                                    </c:forEach>
-                                                    <c:set var="decimalPartRounded" value="${Math.round(decimalPart * 10)}" />
-                                                    <img data-src="img/image/number.${decimalPartRounded} rating.png" lazy width="16px" height="16px" alt="">
-                                                    <c:forEach var="digit" begin="${integerPart + 2}" end="5">
-                                                        <img data-src="img/image/number not rating.png" lazy width="16px" height="16px">
-                                                    </c:forEach>
-                                                </c:if>
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <li class="Stick"></li>
-                                        <c:choose>
-                                        <c:when test="${p.quantity > 0}">
-                                        <li class="Productnotsell">Còn lại ${p.quantity}</li>
-                                    </ul>
-                                    <h5>${FormatCurrency.formatCurrency(p.price)}</h5>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="Productnotsell">Hết hàng</li>
-                                        </ul>
-                                        <h5>
-                                            <span class="strikethrough">${FormatCurrency.formatCurrency(p.price)}</span>
-                                            <span style="color: #e30404">HẾT HÀNG</span>
-                                        </h5>
-                                    </c:otherwise>
-                                    </c:choose>
-
-                                </div>
-                            </div>
-                        </div>
-                    </c:forEach>
-                </div>
-
                 <c:set var="isSearch" value="${not empty param.productName}" />
 
                 <c:set var="page" value="${sessionScope.page}" />
@@ -702,7 +488,159 @@
                         </c:if>
                     </c:if>
                 </div>
+                <br>
+                <div class="row" id="row">
+
+                    <c:forEach var="p" items="${listProduct}">
+                        <div class="col-lg-4 col-md-6 col-sm-6 product__form">
+                            <div class="product__item">
+
+                                <div class="product__item__pic">
+                                    <img class="product-image" lazy data-src="/image/${p.image}" width="180px" height="250px" alt="${p.product_name}">
+                                    <ul class="product__item__pic__hover">
+                                        <li><a href="Shopdetails?id=${p.productId}"><i style="color: black" class="fa-solid fa-circle-info"></i></a></li>
+                                        <li>
+                                            <form class="add-to-wishlist-form" action="AddToWishList" method="post" id="addToWishListForm">
+                                                <input type="hidden" name="productId" value="${p.productId}">
+                                                <button class="submit-button" type="submit">
+                                                    <c:choose>
+                                                        <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
+                                                            <a href=""><i class="fa fa-heart"></i></a>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <a href="Login"><i class="fa fa-heart"></i></a>
+                                                        </c:otherwise>
+                                                    </c:choose>
+
+                                                </button>
+                                            </form>
+                                        </li>
+                                        <c:choose>
+                                            <c:when test="${p.quantity > 0}">
+                                                <li>
+                                                    <form class="add-to-cart-form" action="AddToCart" method="post" id="addToCartForm">
+                                                        <input type="hidden" name="productId" value="${p.productId}">
+                                                        <button class="submit-button" type="submit">
+                                                            <c:choose>
+                                                                <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
+                                                                    <a href=""><i class="fa fa-shopping-cart"></i></a>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <a href="Login"><i class="fa fa-shopping-cart"></i></a>
+                                                                </c:otherwise>
+                                                            </c:choose>
+
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </c:when>
+                                            <c:otherwise>
+
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </ul>
+                                </div>
+                                <div class="product__item__text">
+                                    <h6>${p.product_name}</h6>
+
+
+                                    <ul class="Ratestar">
+                                        <c:set var="averageRating" value="${rating.getAverageRatingByProductId(p.productId)}" />
+                                        <c:set var="integerPart" value="${averageRating.intValue()}" />
+                                        <c:set var="decimalPart" value="${averageRating - integerPart}" />
+                                        <c:choose>
+                                            <c:when test="${averageRating == 0}">
+                                                <c:forEach var="digit" begin="1" end="5">
+                                                    <img data-src="img/image/number not rating.png" lazy width="16px" height="16px">
+                                                </c:forEach>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:if test="${integerPart >= 1 && integerPart <= 5 && decimalPart == 0}">
+                                                    <c:forEach var="digit" begin="1" end="${integerPart}">
+                                                        <img data-src="img/image/number.0 rating.png" lazy width="16px" height="16px">
+                                                    </c:forEach>
+                                                    <c:forEach var="digit" begin="${integerPart + 1}" end="5">
+                                                        <img data-src="img/image/number not rating.png" lazy width="16px" height="16px">
+                                                    </c:forEach>
+                                                </c:if>
+                                                <c:if test="${integerPart >= 1 && integerPart <= 5 && decimalPart != 0}">
+                                                    <c:forEach var="digit" begin="1" end="${integerPart}">
+                                                        <img data-src="img/image/number.0 rating.png" lazy width="16px" height="16px">
+                                                    </c:forEach>
+                                                    <c:set var="decimalPartRounded" value="${Math.round(decimalPart * 10)}" />
+                                                    <img data-src="img/image/number.${decimalPartRounded} rating.png" lazy width="16px" height="16px" alt="">
+                                                    <c:forEach var="digit" begin="${integerPart + 2}" end="5">
+                                                        <img data-src="img/image/number not rating.png" lazy width="16px" height="16px">
+                                                    </c:forEach>
+                                                </c:if>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <li class="Stick"></li>
+                                        <c:choose>
+                                        <c:when test="${p.quantity > 0}">
+                                        <li class="Productnotsell">Còn lại ${p.quantity}</li>
+                                    </ul>
+                                    <h5 style="font-size: 24px; color: #e30404">${FormatCurrency.formatCurrency(p.price)}</h5>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="Productnotsell">Hết hàng</li>
+                                        </ul>
+                                        <h5>
+                                            <span style="font-size: 24px;" class="strikethrough">${FormatCurrency.formatCurrency(p.price)}</span>
+                                            <span style="color: #e30404">HẾT HÀNG</span>
+                                        </h5>
+                                    </c:otherwise>
+                                    </c:choose>
+
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+
+
+
+                <div class="product__pagination" style="padding-left: 300px">
+                    <c:if test="${not isSearch}">
+                        <!-- Nút về trang đầu -->
+                        <c:if test="${page > 1}">
+                            <a style="background-color: #000000; border: none; color: white" href="javascript:void(0);" class="pagination-link" data-page="1"><<</a>
+                        </c:if>
+
+                        <!-- Nút trang trước -->
+                        <c:if test="${page > 1}">
+                            <a style="background-color: #000000; border: none; color: white" href="javascript:void(0);" class="pagination-link" data-page="${page - 1}"><</a>
+                        </c:if>
+
+                        <!-- Hiển thị các trang giữa -->
+                        <c:forEach begin="${startPage}" end="${endPage}" var="i">
+                            <a href="javascript:void(0);" class="pagination-link" data-page="${i}" <c:if test="${i == page}">class="active"</c:if>>${i}</a>
+                        </c:forEach>
+
+                        <!-- Dấu ba chấm -->
+                        <c:if test="${endPage < num}">
+                            <a class="pagination-link disabled">...</a>
+                        </c:if>
+
+                        <!-- Hiển thị trang cuối cùng nếu cần -->
+                        <c:if test="${endPage < num}">
+                            <a href="javascript:void(0);" class="pagination-link" data-page="${num}">${num}</a>
+                        </c:if>
+
+                        <!-- Nút trang tiếp theo -->
+                        <c:if test="${page < num}">
+                            <a style="background-color: #000000; border: none; color: white" href="javascript:void(0);" class="pagination-link" data-page="${page + 1}">></a>
+                        </c:if>
+
+                        <!-- Nút về trang cuối -->
+                        <c:if test="${page < num}">
+                            <a style="background-color: #000000; border: none; color: white" href="javascript:void(0);" class="pagination-link" data-page="${num}">>></a>
+                        </c:if>
+                    </c:if>
+                </div>
+
             </div>
+
         </div>
     </div>
     </div>
@@ -789,30 +727,47 @@
 <script src="js/main.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+    let currentCategory = '';
     function applySort() {
-        const sortSelect = document.getElementById('sortSelect');
-        const selectedSort = sortSelect.value;
-        const currentUrl = window.location.href;
-        const url = new URL(currentUrl);
-
-        url.searchParams.set('sort', selectedSort);
-
-        // Preserve other parameters (category, page)
-        const category = url.searchParams.get('category');
-        const page = url.searchParams.get('page');
-
-        if (category) {
-            url.searchParams.set('category', category);
-        }
-        if (page) {
-            url.searchParams.set('page', page);
-        }
-
-        window.location.href = url.toString();
+        currentCategory = $('#categorySelect').val();
+        loadProducts(1);
     }
-</script>
-<script>
-    $(document).ready(function() {
+
+    function loadProducts(page) {
+        const sort = $('#sortSelect').val();
+        const category = $('#categorySelect').val();
+        console.log("Loading products with page:", page, "category:", currentCategory, "sort:", sort);
+        $.ajax({
+            url: 'Shopgrid',
+            type: 'GET',
+            data: {
+                page: page,
+                category: currentCategory,
+                sort: sort,
+            },
+            success: function(response) {
+                var newContent = $(response).find('#row').html();
+                var newPagination = $(response).find('.product__pagination').html();
+                var newProductCount = $(response).find('#productCount').text();
+
+                $('#row').html(newContent);
+                $('.product__pagination').html(newPagination);
+                $('#productCount').text(newProductCount);
+
+                initializeLazyLoading();
+                initializeAddToCart();
+                initializeAddToWishlist();
+
+                $('html, body').animate({ scrollTop: $('#row').offset().top }, 'fast');
+                updateActivePage(page);
+            },
+            error: function(xhr, status, error) {
+                console.error('Lỗi khi tải sản phẩm:', error);
+            }
+        });
+    }
+
+
         function initializeLazyLoading() {
             const lazyImages = document.querySelectorAll('[lazy]');
             const lazyImageObserver = new IntersectionObserver((entries, observer) => {
@@ -892,68 +847,31 @@
                 });
             });
         }
-
-        // Biến lưu trữ danh mục hiện tại
-        let currentCategory = null;
-
+    function updateActivePage(page) {
+        $('.pagination-link').removeClass('active');
+        $('.pagination-link[data-page="' + page + '"]').addClass('active');
+    }
+    $(document).ready(function() {
         // Xử lý sự kiện phân trang
         $(document).on('click', '.pagination-link', function (e) {
             e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
             var page = $(this).data('page');
-            loadProducts(page, currentCategory);
+            loadProducts(page);
         });
-
-        // Xử lý sự kiện chọn mục sản phẩm
+        // Xử lý sự kiện chọn mục sản phẩm từ danh sách liên kết
         $(document).on('click', '.category-link', function(e) {
             e.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
-            var category = $(this).data('category');
-            if (category === '') { // Check if the category is 'All'
-                currentCategory = null;
-            } else {
-                currentCategory = category;
-            }
-            loadProducts(1, currentCategory); // Trang đầu tiên khi chọn một danh mục sản phẩm
+            currentCategory = $(this).data('category');
+            $('#categorySelect').val(currentCategory); // Cập nhật thẻ select
+            loadProducts(1); // Trang đầu tiên khi chọn một danh mục sản phẩm
         });
 
 
-        // Hàm tải sản phẩm
-        function loadProducts(page, category) {
-            $.ajax({
-                url: 'Shopgrid',
-                type: 'GET',
-                data: {
-                    page: page,
-                    category: category,
-                    sort: $('#sortSelect').val()
-                },
-                success: function(response) {
-                    var newContent = $(response).find('#row').html();
-                    var newPagination = $(response).find('.product__pagination').html();
-                    $('#row').html(newContent);
-                    $('.product__pagination').html(newPagination);
-
-                    initializeLazyLoading();
-                    initializeAddToCart();
-                    initializeAddToWishlist();
-
-                    // Cuộn lên đầu trang sau khi cập nhật nội dung
-                    $('html, body').animate({ scrollTop: $('#row').offset().top }, 'fast');
-
-                    // Update 'active' class for pagination links
-                    updateActivePage(page);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Lỗi khi tải sản phẩm:', error);
-                }
-            });
-        }
-
-        // Hàm cập nhật 'active' cho phân trang
-        function updateActivePage(page) {
-            $('.pagination-link').removeClass('active');
-            $('.pagination-link[data-page="' + page + '"]').addClass('active');
-        }
-
+        // Xử lý sự kiện chọn mục sản phẩm từ thẻ select
+        $('#categorySelect').on('change', function() {
+            currentCategory = $(this).val();
+            loadProducts(1);
+        });
         // Khởi tạo lazy loading và giỏ hàng lần đầu
         initializeLazyLoading();
         initializeAddToCart();
@@ -963,7 +881,6 @@
             var txtSearch = $(param).val().trim();
             console.log("Searching by name: " + txtSearch);
             if (txtSearch === "") {
-                // Load all products if the search input is empty
                 loadProducts(1, currentCategory);
             } else {
                 $.ajax({
@@ -978,12 +895,10 @@
                         $('#row').html(newSearch);
                         $('.product__pagination').html(newPaginationSearch);
 
-                        // Reinitialize lazy loading and add-to-cart/add-to-wishlist for the new content
                         initializeLazyLoading();
                         initializeAddToCart();
                         initializeAddToWishlist();
 
-                        // Update pagination display based on search results
                         $('.product__pagination').html('<a href="javascript:void(0);" class="pagination-link active" data-page="1">1</a>');
                     },
                     error: function(xhr) {
@@ -993,13 +908,12 @@
             }
         }
 
-        // Event listener for input changes
+        $('#sortSelect').on('change', applySort);
+        $('#categorySelect').on('change', applySort);
         $('#productName').on('input', function() {
             searchByName(this);
         });
     });
-
-
 </script>
 <script>
     $(document).ready(function() {
