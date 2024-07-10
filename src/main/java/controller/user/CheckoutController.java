@@ -1,6 +1,7 @@
 package controller.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
 import database.*;
 import model.*;
 
@@ -53,12 +54,30 @@ public class CheckoutController extends HttpServlet {
         // Lấy giỏ hàng từ session
         Cart cart = (Cart) session.getAttribute("cart");
 
+        // Tính toán lại tổng tiền giỏ hàng
+        double cartTotal = cart.calculateTotal();
+
+        // Lấy thông tin giảm giá từ session
+        Double discountValue = (Double) session.getAttribute("discountValue");
+        Integer discountType = (Integer) session.getAttribute("discountType");
+        double discount = 0.0;
+
+        if (discountValue != null) {
+            discount = discountValue.doubleValue();
+        }
+        // Tính toán lại giá trị giảm giá
+//        double discount = calculateDiscount(discountValue, discountType, cartTotal);
+        double newTotal = cartTotal - discount;
+
+        // Cập nhật lại session với các giá trị mới
+        session.setAttribute("discount", discount);
+        session.setAttribute("newTotal", newTotal);
         // Tạo đối tượng Order từ thông tin trong session
         OrderDAO orderDAO = new OrderDAO();
         PaymentDAO paymentDAO = new PaymentDAO();
         Payment payment = paymentDAO.selectById(paymentId);
         StatusOrder statusOrder = new StatusOrder(1);
-        Order order = new Order(orderDAO.creatId() + 1, user, cart.calculateTotal(), name, phone, fullAddress, payment, new Timestamp(System.currentTimeMillis()), note, 0, statusOrder);
+        Order order = new Order(orderDAO.creatId() + 1, user, newTotal, name, phone, fullAddress, payment, new Timestamp(System.currentTimeMillis()), note, 0, statusOrder);
 
         // Insert vào CSDL
         order.setNameConsignee(name);
@@ -79,9 +98,24 @@ public class CheckoutController extends HttpServlet {
             int overallResult = 1;
             for (CartItem cartItem : cart.getCart_items()) {
                 Product product = cartItem.getProduct();
+                Integer  selectedCouponId = (Integer) session.getAttribute("selectedCouponId");
+                String appliedCouponCode = (String) session.getAttribute("appliedCouponCode");
+                CouponDAO couponDAO = new CouponDAO();
+                //Cap nhat so luong cua Coupon neu dung
+                if (discount != 0){
+                    if (selectedCouponId != null){
+                        Coupon coupon = couponDAO.selectById(selectedCouponId);
+                        couponDAO.updateQuantiyCouponById(selectedCouponId, coupon.getMaxQuantityUseOfUser() - 1, coupon.getMaxUseOfCoupon() - 1);
+                    } else if (appliedCouponCode != null) {
+                        Coupon coupon = couponDAO.selectByCode(appliedCouponCode);
+                        int id = coupon.getCouponId();
+                        couponDAO.updateQuantiyCouponById(id, coupon.getMaxQuantityUseOfUser() - 1, coupon.getMaxUseOfCoupon() - 1);
+                    }
+                }
                 int quantityOrdered = cartItem.getQuantity();
                 //giam so luong san pham trong kho
-                int remainingQuantity = product.getQuantity() - quantityOrdered;int resultUpQuantity = productDAO.updateQuantityOrder(product.getProductId(), remainingQuantity);
+                int remainingQuantity = product.getQuantity() - quantityOrdered;
+                int resultUpQuantity = productDAO.updateQuantityOrder(product.getProductId(), remainingQuantity);
                 if (resultUpQuantity > 0) {
                     double price = cartItem.getPrice();
                     double totalPrice = quantityOrdered * price;
@@ -113,12 +147,22 @@ public class CheckoutController extends HttpServlet {
 
 
                 } else {
+                    session.removeAttribute("appliedCouponCode");
+                    session.removeAttribute("discountValue");
+                    session.removeAttribute("discountType");
+                    session.removeAttribute("discount");
+                    session.removeAttribute("newTotal");
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/book/thankyou.jsp");
                     dispatcher.forward(request, response);
                     return; // Dừng xử lý tiếp theo
                 }
             }
         }
+        // Trả về kết quả
+//        JsonObject jsonResponse = new JsonObject();
+//        jsonResponse.addProperty("success", true);
+//        jsonResponse.addProperty("newTotal", newTotal);
+//        jsonResponse.addProperty("discount", discount);
         // Tạo ObjectMapper
         ObjectMapper objectMapper = new ObjectMapper();
 

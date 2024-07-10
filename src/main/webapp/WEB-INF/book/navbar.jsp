@@ -221,6 +221,7 @@
                             <c:otherwise>
                                 <li class="active"><a href="./Index">Trang chủ</a></li>
                                 <li><a href="./Shopgrid">Shop</a></li>
+                                <li><a href="./Coupon">Ưu đãi <i style="color: #ff0018" class="fa-solid fa-gift"></i></a></li>
                                 <li><a href="#">Pages</a>
                                     <ul class="header__menu__dropdown">
                                         <li><a href="./RatingPage">Rating</a></li>
@@ -228,7 +229,6 @@
 
                                     </ul>
                                 </li>
-                                <li><a href="./BankAccount">Blog</a></li>
                                 <li><a href="./Contact">Contact</a></li>
                             </c:otherwise>
                         </c:choose>
@@ -240,15 +240,21 @@
                 <div class="header__cart">
                     <ul>
                         <li>
+                            <a href="MyCoupon">
+                                <img height="30" width="50" src="/img/coupon.png" alt="">
+                                <span class="coupon-item-count" style="background-color: red; right: 5px"></span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="WishListPage">
-                                <i class="fa fa-heart"></i>
-                                <span class="wishlist-item-count">${requestScope.wishCount == null ? '0' :requestScope.wishCount}</span>
+                                <img height="30" width="30" src="/img/wistList.png" alt="">
+                                <span style="background-color: #26a1e5" class="wishlist-item-count">${requestScope.wishCount == null ? '0' :requestScope.wishCount}</span>
                             </a>
                         </li>
                         <li>
                             <a href="Shoppingcart">
-                                <i class="fa fa-shopping-bag"></i>
-                                <span class="cart-item-count">${empty sessionScope.cart ? '0' : sessionScope.cart.calculateTotalQuantity()}</span>
+                                <img height="30" width="30" src="/img/cartIcon.png" alt="">
+                                <span style="background-color: #26a1e5" class="cart-item-count">${empty sessionScope.cart ? '0' : sessionScope.cart.calculateTotalQuantity()}</span>
                             </a>
                         </li>
                     </ul>

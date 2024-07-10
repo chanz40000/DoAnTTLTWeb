@@ -228,20 +228,32 @@
 
                         </div>
                     </div>
-<div class="col-lg-5 col-md-6">
-<div class="checkout__order">
+                    <div class="col-lg-5 col-md-6">
+                        <div class="checkout__order">
 <h4>Your Order</h4>
 <div class="checkout__order__products">Sản phẩm <span>Giá</span></div>
 
 <ul>
 <c:forEach var="p" items="${sessionScope.cart.cart_items}">
     <li class="product-name">${p.product.product_name}<span class="product-price">${FormatCurrency.formatCurrency(p.product.price)}</span></li>
-    <c:set var="ship" value="${ship + (p.product.price * p.quantity)}" /><c:set var="total" value="${total + (p.product.price * p.quantity)}" />
+    <c:set var="ship" value="${ship + (p.product.price * p.quantity)}" />
+    <c:set var="total" value="${total + (p.product.price * p.quantity)}" />
 </c:forEach>
 </ul>
-    <div class="checkout__order__subtotal">Tiền ship <span>${FormatCurrency.formatCurrency(ship)}</span></div>
-    <div class="checkout__order__total">Tổng tiền <span>${FormatCurrency.formatCurrency(total)}</span></div>
-    <div class="checkout__input__checkbox" style="display: flex;">
+    <div class="checkout__order__total">Tổng tiền <span class="subtotal">${FormatCurrency.formatCurrency(total)}</span></div>
+                            <c:set var="discount" value="${sessionScope.discount}" />
+                            <c:set var="totalNew" value="${total-discount}" />
+                            <div class="checkout__order__total">Tiền ship <span>${FormatCurrency.formatCurrency(sessionScope.ship)}</span></div>
+                            <c:choose>
+                                <c:when test="${not empty sessionScope.discount}">
+                                    <div class="checkout__order__total discount-container">Giảm giá <span class="discount">- ${FormatCurrency.formatCurrency(sessionScope.discount)}</span></div>
+                                    <div class="checkout__order__total">Tổng thanh toán <span class="total">${FormatCurrency.formatCurrency(totalNew)}</span></div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="checkout__order__total">Tổng thanh toán <span class="total">${FormatCurrency.formatCurrency(total)}</span></div>
+                                </c:otherwise>
+                            </c:choose>
+                            <div class="checkout__input__checkbox" style="display: flex;">
         <label style="margin-left: -15px">Phương thức thanh toán</label>
         <div style="margin-left: 20px; margin-top: -10px">
 
@@ -254,7 +266,7 @@
     </div>
     <button type="submit" class="site-btn" id="submitBtn">Đặt hàng</button>
 </div>
-</div>
+                    </div>
                 </div>
             </form>
         </div>
@@ -367,6 +379,11 @@
 </script>
 <script src="https://esgoo.net/scripts/jquery.js"></script>
 <script>
+
+</script>
+<script>
+
+
     $(document).ready(function () {
         // Lấy tỉnh thành
         $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
