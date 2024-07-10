@@ -1,9 +1,8 @@
 package controller.user;
 
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import database.UserDAO;
+import model.ErrorBean;
+import model.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,12 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import model.ErrorBean;
-import database.UserDAO;
-import model.User;
-import util.PasswordEncryption;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * Servlet implementation class ChangeInformation
@@ -69,7 +65,7 @@ public class ChangeInformation extends HttpServlet {
                         request.setAttribute("Error", "ten email da ton tai, vui long chon email khac!");
                         eb.setError((String) request.getAttribute("Error"));
                         request.setAttribute("errorBean", eb);
-                        url = request.getContextPath() + "/WEB-INF/book/changePassword.jsp";
+                        url = request.getContextPath() + "/WEB-INF/book/changeInformation.jsp";
                         RequestDispatcher dispatcher = request.getRequestDispatcher(url);
                         dispatcher.forward(request, response);
 
@@ -80,7 +76,7 @@ public class ChangeInformation extends HttpServlet {
                         request.setAttribute("Error", "số điện thoại nhập vào không hợp lệ, vui lòng nhập bắt đầu từ số 0 và gồm 10 chữ số!");
                         eb.setError((String) request.getAttribute("Error"));
                         request.setAttribute("errorBean", eb);
-                        url = request.getContextPath() + "/WEB-INF/book/changePassword.jsp";
+                        url = request.getContextPath() + "/WEB-INF/book/changeInformation.jsp";
                         RequestDispatcher dispatcher = request.getRequestDispatcher(url);
                         dispatcher.forward(request, response);
 
@@ -112,7 +108,7 @@ public class ChangeInformation extends HttpServlet {
 
                     eb.setError((String) request.getAttribute("Error"));
                     request.setAttribute("errorBean", eb);
-                    url = request.getContextPath() + "/WEB-INF/book/changePassword.jsp";
+                    url = request.getContextPath() + "/WEB-INF/book/changeInformation.jsp";
                     RequestDispatcher dispatcher = request.getRequestDispatcher(url);
                     dispatcher.forward(request, response);
                     return;

@@ -145,6 +145,52 @@
       transform: rotate(180deg);
 
     }
+
+    .btn-light-purple {
+      background-color: #e6e6ff;
+      color: #5a5aff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .btn-light-purple:hover {
+      background-color: #d1d1ff;
+    }
+
+    .price-total p {
+      text-align: right;
+      padding-right: 20px;
+      padding-top: 15px;
+      font-weight: bold;
+    }
+
+    .checkout__input {
+      margin-bottom: 15px;
+    }
+
+    .checkout__input label {
+      font-weight: bold;
+    }
+
+    .container-fluid {
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
@@ -186,34 +232,39 @@
                   <tbody class="table-border-bottom-0" id="tbody">
                   </tbody>
                 </table>
-              <div class="price-total"><p style="padding-left: 700px; padding-top: 15px; font-weight: bold">Tổng tiền: <span></span><sup>đ</sup></p>
-              </div>
-              <div class="checkout__input">
-                <label for="note">Ghi chú</label>
-                <input type="text" id="note" name="note" >
-              </div>
-              <input type="submit" value="Complete Order" >
+              <div class="container">
+                <div class="price-total">
+                  <p>Tổng tiền: <span>0</span><sup>đ</sup></p>
+                </div>
 
-            <div class="container-fluid">
-              <h5>Upload Excel File</h5>
-              <form id="uploadForm" enctype="multipart/form-data" method="post">
-                <input type="file" name="file" id="fileInput" class="hide">
-                <input type="button" value="Upload" id="uploadButton">
-              </form>
-            </div>
-            </div>
+                <div class="checkout__input">
+                  <label for="ncc">Nhà cung cấp</label>
+                  <input type="text" id="ncc" name="ncc" class="form-control">
+                </div>
+                <div class="checkout__input">
+                  <label for="note">Ghi chú</label>
+                  <input type="text" id="note" name="note" class="form-control">
+                </div>
+                <input type="submit" value="Complete Order" class="btn btn-light-purple">
 
-            <h5>Non-existing Products</h5>
-            <table>
-              <thead>
-              <tr>
-                <th>Product Name</th>
-              </tr>
-              </thead>
-              <tbody id="noProductsTbody"></tbody>
-            </table>
-            <br>
-          </div>
+                <div class="container-fluid">
+                  <h5>Upload File</h5>
+                  <form id="uploadForm" enctype="multipart/form-data" method="post">
+                    <input type="file" name="file" id="fileInput" class="hide">
+                    <input type="button" value="Upload" id="uploadButton" class="btn btn-light-purple">
+                  </form>
+                </div>
+
+                <h5>Non-existing Products</h5>
+                <table class="table table-striped">
+                  <thead>
+                  <tr>
+                    <th>Product Name</th>
+                  </tr>
+                  </thead>
+                  <tbody id="noProductsTbody"></tbody>
+                </table>
+              </div>
 
 
           <!--/ Basic Bootstrap Table -->
@@ -285,6 +336,7 @@
 
 <!-- Page JS -->
 <!-- Place this tag in your head or just before your close body tag. -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
         integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
@@ -303,6 +355,13 @@
     // Khi người dùng chọn file
     $('#fileInput').change(function(event) {
       var file = event.target.files[0];
+      var validExtensions = ['xlsx', 'xls'];
+      var fileExtension = file.name.split('.').pop().toLowerCase();
+
+      if (validExtensions.indexOf(fileExtension) === -1) {
+        alert('Tệp không hợp lệ. Vui lòng chọn tệp Excel (.xlsx hoặc .xls).');
+        return;
+      }
       var reader = new FileReader();
       reader.onload = function(e) {
         var data = new Uint8Array(e.target.result);
@@ -437,6 +496,9 @@
     var note = document.getElementById('note').value;
     if (note === null || note === "") note = " ";
 
+    var ncc = document.getElementById('ncc').value;
+    if (ncc === null || ncc === "") ncc = " ";
+
     rows.forEach(function(row) {
       var productId = row.querySelector('p[data-product-id]').dataset.productId;
       var productName = row.querySelector('.titleProduct').innerText;
@@ -451,7 +513,8 @@
         numberOfWarehouses: numberOfWarehouses,
         unitPrice: unitPrice,
         totalPrice: totalPrice,
-        note: note
+        note: note,
+        ncc: ncc
       };
 
       data.push(item);

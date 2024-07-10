@@ -168,30 +168,51 @@
             transform: rotate(180deg);
 
         }
-        /*.bg-menu-theme.close .align-items-center.bg-navbar-theme{*/
-        /*  padding-left: 100px;*/
-        /*}*/
-        .layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached.align-items-center.bg-navbar-theme.close{
-            width:1212px;
-            margin-left: -125px;
+        .price-total {
+            text-align: right;
+            margin-bottom: 20px;
         }
 
-        .content-wrapper.close{
-            margin-left: -151px;
-            width: 1263px;
+        .price-total p {
+            display: inline-block;
+            margin: 0;
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            font-weight: bold;
         }
-        /*.container-xxl.flex-grow-1.container-p-y .row.close .card-body{*/
-        /*  !*margin-left: -10px;*!*/
-        /*  !*width: 500px;*!*/
-        /*}*/
-        .fa-regular.fa-sun{
-            font-size: 20px;
 
+        .checkout__input {
+            margin-bottom: 15px;
         }
-        .fa-regular.fa-moon{
-            font-size: 20px;
 
+        .checkout__input label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        .btn-light-purple {
+            background-color: #e6e6fa;
+            color: #000;
+            border: 1px solid #dcdcdc;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-light-purple:hover {
+            background-color: #d8bfd8;
+            border-color: #d8bfd8;
+        }
+
     </style>
 </head>
 
@@ -315,7 +336,7 @@
 
 
             <div class="table-responsive text-nowrap">
-                <table class="table table-striped" id="tabledata">
+                <table class="table table-striped" id="example2">
                     <thead>
                     <tr class="hide">
                         <th>Mã sách</th>
@@ -324,7 +345,6 @@
                         <th>Giá nhập</th>
                     </tr>
                     </thead>
-
                     <tbody class="list-product" id="listProductDOM" oninput="search()">
                     <jsp:useBean id="productDao" class="database.ProductDAO"></jsp:useBean>
                     <c:forEach var="product" items="${productDao.selectAll()}">
@@ -333,19 +353,14 @@
                             <td>
                                 <strong id="product_name"
                                         oninput="search()">${product.product_name}</strong>
-
                             </td>
-                                <%--                  <td><p name="product_name" class="productName" oninput="search()">${product.product_name} </p></td>--%>
                             <td id="categoryName">${product.category.categoryName}</td>
                             <td id="unitPrice"><span>${product.unitPrice}</span></td>>
-
                             <td>
                                 <button type="submit" class="btn btn-sm btn-outline-primary" onclick="add()">Thêm</button></td>
                         </tr>
                     </c:forEach>
-
                     </tbody>
-
                 </table>
             </div>
 
@@ -381,24 +396,26 @@
 
 
                             </table>
-                            <div class="price-total"><p style="padding-left: 700px; padding-top: 15px; font-weight: bold">Tổng tiền: <span></span><sup>đ</sup></p>
-                            </div>
-                            <div class="checkout__input">
-                                <label for="note">Ghi chú</label>
-                                <input type="text" id="note" name="note" >
-                            </div>
-                            <input type="submit" value="Complete Order" >
-                            <%--              </form>--%>
+                                <div class="price-total">
+                                    <p style="text-align: right; font-weight: bold; padding: 15px 20px;">
+                                        Tổng tiền: <span></span><sup>đ</sup>
+                                    </p>
+                                </div>
+
+                                <div class="checkout__input">
+                                    <label for="ncc">Nhà cung cấp</label>
+                                    <input type="text" id="ncc" name="ncc" class="form-control">
+                                </div>
+
+                                <div class="checkout__input">
+                                    <label for="note">Ghi chú</label>
+                                    <input type="text" id="note" name="note" class="form-control">
+                                </div>
+
+                                <input type="submit" value="Complete Order" class="btn btn-primary btn-light-purple">
                         </div>
 
                     </div>
-                    <!--/ Basic Bootstrap Table -->
-
-                    <hr class="my-5" />
-
-                    <!-- Bootstrap Dark Table -->
-
-                    <!--/ Striped Rows -->
 
 
                 </div>
@@ -459,6 +476,9 @@
         var note = document.getElementById('note').value;
         if (note === null || note === "") note = " ";
 
+        var ncc = document.getElementById('ncc').value;
+        if (ncc === null || ncc === "") ncc = " ";
+
         rows.forEach(function(row) {
             var productId = row.querySelector('p[name="productId"]').innerText;
             var productName = row.querySelector('.titleProduct').innerText;
@@ -472,7 +492,8 @@
                 numberOfWarehouses: numberOfWarehouses,
                 unitPrice: unitPrice,
                 totalPrice: totalPrice,
-                note: note
+                note: note,
+                ncc: ncc
             };
 
             // var item = productId+"-"+ productName + "-" + numberOfWarehouses + "-" + unitPrice + "-" + totalPrice  + "-" + note;
