@@ -59,7 +59,7 @@ public class ChangePassword extends HttpServlet {
 
 		password = PasswordEncryption.toSHA1(password);
 		newPassword = PasswordEncryption.toSHA1(newPassword);
-		UserDAO customerDAO = new UserDAO();
+		UserDAO customerDAO = new UserDAO(request);
 		User customer = customerDAO.selectByUsernamePassword(username, password);
 		System.out.println(customer);
 		String url = "";

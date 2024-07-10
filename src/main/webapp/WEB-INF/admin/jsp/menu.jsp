@@ -360,6 +360,17 @@
                 </li>
 
                 <li class="menu-item">
+                    <a href="./ProductCannotBeSold" class="menu-link">
+                        <div data-i18n="Input groups">Sản phẩm không bán được</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="./ListProductByDay" class="menu-link">
+                        <div data-i18n="Input groups">Sản phẩm bán được theo ngày</div>
+                    </a>
+                </li>
+
+                <li class="menu-item">
                     <a href="./CreateProduct" class="menu-link">
                         <div data-i18n="Input groups">Thêm sản phẩm</div>
                     </a>
@@ -388,11 +399,7 @@
                         <div data-i18n="Basic Inputs">Nhập sản phẩm2</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="./ProductCannotBeSold" class="menu-link">
-                        <div data-i18n="Input groups">Sản phẩm không bán được</div>
-                    </a>
-                </li>
+
                 <li class="menu-item">
                     <a href="./NeedProduct" class="menu-link">
                         <div data-i18n="Input groups">Sản phẩm cần nhập</div>

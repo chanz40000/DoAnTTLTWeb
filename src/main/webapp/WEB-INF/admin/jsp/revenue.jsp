@@ -70,14 +70,15 @@
                     <div class="col">
                         <div class="row">
                             <label class="col-sm-2 form-label" >Ngày Bắt Đầu</label>
-                            <input name="birthday" type="date" id="ngaybatdau"  required="required">
+                            <input name="ngaybatdau" type="date" id="ngaybatdau"  required="required">
                         </div>
                         <div class="row">
                             <label class="col-sm-2 form-label" >Ngày Kết Thúc</label>
-                            <input name="birthday" type="date" id="ngayketthuc"   required="required">
+                            <input name="ngayketthuc" type="date" id="ngayketthuc"   required="required">
                         </div>
                         <div class="row">
-                            <button id="revenueButton" onclick="daytoday()" class="btn btn-primary">Hiện thị doanh thu</button>
+                            <button id="revenueButton" onclick="daytoday()" class="btn btn-primary" style="width: 200px; margin: 10px; background-color: #696cff;
+                            color: #fff;" >Hiện thị doanh thu</button>
                         </div>
                         <div class="row">
                             <canvas id="myChart2" height="250" width="350"></canvas>
@@ -85,10 +86,11 @@
 
                     </div>
                     <div class="col" style="margin-left: 100px">
-<%--                        <canvas id="myChart2" height="250" width="350"></canvas>--%>
-    <div>TOP 5 SP Bán chạy nhất</div>
-    <jsp:useBean id="productDAO" class="database.ProductDAO" />
-    <c:set var="listProduct" value="${productDAO.topNBestProduct(5)}"/>
+
+                        <div id="top-products-label">TOP 5 SP Bán chạy nhất</div>
+
+                        <jsp:useBean id="productDAO" class="database.ProductDAO" />
+                     <c:set var="listProduct" value="${productDAO.topNBestProduct(5)}"/>
     <div class="card-body">
         <ul class="p-0 m-0">
             <c:forEach var="entry" items="${listProduct.entrySet()}">
@@ -106,7 +108,7 @@
                                 <h6 class="mb-0">${quantity}</h6>
                                 <span class="text-muted">Quyển</span>
                             </div>
-                                <%--                                        <h6 class="mb-0">${product.description}</h6>--%>
+
                         </div>
 
                     </div>
@@ -288,12 +290,12 @@
                         labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7",
                             "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"],
                         datasets: [{
-                            label: "revenue",
+                            label: "năm nay",
                             backgroundColor: "rgba(151,249,190,0.5)",
                             borderColor: "rgba(151,249,190,1)",
                             data: data.data1
                         }, {
-                            label: "Dataset 2",
+                            label: "năm trước",
                             backgroundColor: "rgba(252,147,65,0.5)",
                             borderColor: "rgba(252,147,65,1)",
                             data: data.data2

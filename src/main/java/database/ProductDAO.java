@@ -6,10 +6,7 @@ import model.Category;
 import model.Product;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -209,50 +206,7 @@ public class ProductDAO extends AbsDAO<Product> {
         }
         return products;
     }
-//    public ArrayList<Product> selectByCategoryName(String categoryName) {
-//
-//        ArrayList<model.Product> products = new ArrayList<>();
-//        try {
-//            // Create a connection
-//            Connection con = JDBCUtil.getConnection();
-//
-//            // Prepare the SQL query with a placeholder for category name
-//            String sql = "SELECT * FROM products " +
-//                    "JOIN categories ON products.category_id = categories.category_id " +
-//                    "WHERE category_name LIKE ?";
-//
-//            PreparedStatement st = con.prepareStatement(sql);
-//            st.setString(1, "%"+ categoryName +"%");
-//
-//
-//            // Execute the query and process results
-//            ResultSet rs = st.executeQuery();
-//            while (rs.next()) {
-//                int idProduct = rs.getInt("product_id");
-//                String nameProduct = rs.getString("product_name");
-//                String description = rs.getString("description");
-//                String image = rs.getString("image");
-//                double unitPrice = rs.getDouble("unit_price");
-//                double price = rs.getDouble("price");
-//                int quantity = rs.getInt("quantity");
-//                String author = rs.getString("author");
-//                int publicationYear = rs.getInt("publication_year");
-//                String publisher = rs.getString("publisher");
-//                int categoryId = rs.getInt("category_id");
-//
-//                Category category = new CategoryDAO().selectById(categoryId); // Assuming CategoryDAO has selectById method
-//                model.Product product = new model.Product(idProduct, nameProduct, description, image, unitPrice, price, quantity, author, publicationYear, publisher, category);
-//
-//                products.add(product);
-//            }
-//
-//            JDBCUtil.closeConnection(con);
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return products;
-//    }
+
     public ArrayList<Product> selectPrice(int low, int high) {
         ArrayList<Product> products = new ArrayList<>();
         try {
@@ -591,7 +545,6 @@ public class ProductDAO extends AbsDAO<Product> {
                 preparedStatement.setInt(1, newQuantity);
                 preparedStatement.setInt(2, productId);
                 result = preparedStatement.executeUpdate();
-                System.out.println("Cập nhật số lượng thành công");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -692,7 +645,6 @@ public class ProductDAO extends AbsDAO<Product> {
             rs.setInt(2, idProduct);
             result = rs.executeUpdate();
             super.update(oldProduct);
-            System.out.println("Cap nhat thanh cong");
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -714,7 +666,6 @@ public class ProductDAO extends AbsDAO<Product> {
             rs.setInt(2, idProduct);
             rs.executeUpdate();
             result=true;
-            System.out.println("Cap nhat thanh cong");
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -936,7 +887,7 @@ public class ProductDAO extends AbsDAO<Product> {
         }
     }
 
-    public ArrayList<Integer> needImport(){
+    public ArrayList<Integer> needImport() {
         ArrayList<Integer> result = new ArrayList<>();
         try {
             Connection con = JDBCUtil.getConnection();
@@ -965,17 +916,53 @@ public class ProductDAO extends AbsDAO<Product> {
                     "HAVING (SUM(quantity_sold) - SUM(quantity_imported)) > 0;";
             PreparedStatement pre = con.prepareStatement(sql);
             ResultSet rs = pre.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 int idProduct = rs.getInt("product_id");
 
 
                 result.add(idProduct);
 
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return result;
+    }
+
+    //lay ra danh sach san pham ban duoc theo ngay
+    public Map<Integer, Integer> selectProductByDay(Date date) {
+        Map<Integer, Integer> map = new HashMap<>();
+        try {
+            // tao mot connection
+            Connection con = JDBCUtil.getConnection();
+
+            // tao cau lenh sql
+            String sql = "SELECT a.product_id as id, SUM(b.quantity) as soluong\n" +
+                    "FROM products a join orderdetails b on a.product_id = b.product_id\n" +
+                    "\tjoin orders c on b.order_id = c.order_id\n" +
+                    "WHERE c.booking_date = ?\n" +
+                    "group by a.product_id\n" +
+                    "order by  soLuong desc;";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setDate(1, date);
+            // thuc thi
+
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+
+                int idProduct = rs.getInt("id");
+                int quantity = rs.getInt("soluong");
+                map.put(idProduct, quantity);
+            }
+
+            JDBCUtil.closeConnection(con);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return map;
     }
 
 }

@@ -81,10 +81,8 @@ public class CompleteOrderServlet2 extends HttpServlet {
                 //neu gia nhap cu khac gia nhap moi thi luu vao bang doi gia
                 //doi lai gia nhap hien tai trong database
                 if(oldPrice!= unitPrice){
-                    System.out.println("doi gia nhap");
                     ChangePrice changePrice = new ChangePrice(user, product, (int) oldPrice, (int) unitPrice, date);
                     changePriceDAO.insert(changePrice);
-                    System.out.println("size changePriceDAO: "+ changePriceDAO.selectAll().get(0).toString());
                     productDAO.updateImportPrice(product.getProductId(), unitPrice);
                 }
 
