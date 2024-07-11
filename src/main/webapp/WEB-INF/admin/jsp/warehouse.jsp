@@ -237,6 +237,7 @@
                   <p>Tổng tiền: <span>0</span><sup>đ</sup></p>
                 </div>
 
+
                 <div class="checkout__input">
                   <label for="ncc">Nhà cung cấp</label>
                   <input type="text" id="ncc" name="ncc" class="form-control">
@@ -253,17 +254,23 @@
                     <input type="file" name="file" id="fileInput" class="hide">
                     <input type="button" value="Upload" id="uploadButton" class="btn btn-light-purple">
                   </form>
+
+
+
                 </div>
 
-                <h5>Non-existing Products</h5>
+                <h5>Sản phẩm chưa tồn tại</h5>
                 <table class="table table-striped">
                   <thead>
                   <tr>
-                    <th>Product Name</th>
+                    <th>STT</th>
+                    <th>Tên sp</th>
                   </tr>
                   </thead>
                   <tbody id="noProductsTbody"></tbody>
                 </table>
+
+
               </div>
 
 
@@ -379,11 +386,17 @@
           url: '/Upload2',
           type: 'POST',
           contentType: 'application/json',
-          data: JSON.stringify({ productNames: productNames }),
-          success: function(response) {
+          data: JSON.stringify({productNames: productNames}),
+          success: function (response) {
+
+            // Parse the JSON response
+            var products = response.products;
+            var noProducts = response.noProducts;
+
+            //them du lieu vao bang
             var tbody = document.getElementById('tbody');
             tbody.innerHTML = '';
-            response.forEach(function(product) {
+            products.forEach(function (product) {
               var tr = document.createElement('tr');
 
               var idTd = document.createElement('td');
@@ -450,6 +463,26 @@
             deleteCart();
             inputChange();
             cartTotal();
+
+            //them du lieu vao bang
+            var tbody2 = document.getElementById('noProductsTbody');
+            tbody2.innerHTML = '';
+            noProducts.forEach(function (product) {
+              var tr = document.createElement('tr');
+
+              var stt = document.createElement('td');
+              stt.className = 'number';
+              stt.textContent = product.stt;
+
+              var nameTd = document.createElement('td');
+              nameTd.className = 'titleProduct';
+              nameTd.textContent = product.product_name;
+
+              tr.appendChild(stt);
+              tr.appendChild(nameTd);
+
+              tbody2.appendChild(tr);
+            });
 
           },
           error: function(xhr, status, error) {

@@ -3,15 +3,13 @@
  */
 package Filter;
 
-import java.io.IOException;
-import java.net.URLEncoder;
+import model.ErrorBean;
+import model.User;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import model.ErrorBean;
-import model.User;
+import java.io.IOException;
 
 
 /**
@@ -68,7 +66,9 @@ public class AuthorizationFilter implements Filter{
 		}else
 		
 		if(url.contains("/ChangeInf")||url.contains("/ChangePass")||url.contains("/Profile")||url.contains("/AddToCart")
-				||url.contains("/CheckoutController")||url.contains("/Shopdetails")||url.contains("/UpdateQuantity")) {
+				||url.contains("/CheckoutController")||url.contains("/Shopdetails")||url.contains("/UpdateQuantity")
+				||url.contains("/Shoppingcart")||url.contains("/Thankyou")||url.contains("/UpdateCart")||url.contains("/RemoveItemCart")
+				||url.contains("/RemoveItemWishList")||url.contains("/OrderPage")) {
 			User customer = (User) request.getSession().getAttribute("userC");
 			if(customer!=null) {
 				filterChain.doFilter(servletRequest, servletResponse);
