@@ -25,11 +25,10 @@ public class CheckoutController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
+
         String fullNameTinh = request.getParameter("tinh");
         String fullNameQuan = request.getParameter("quan");
         String fullNamePhuong = request.getParameter("phuong");
-        OrderDAO orderdao = new OrderDAO();
-
         String address = request.getParameter("address");
         String fullAddress = fullNameTinh + ", " + fullNameQuan + ", " + fullNamePhuong + ", " + address;
         String note = request.getParameter("note");
@@ -41,26 +40,34 @@ public class CheckoutController extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("userC");
 
-        // Kiểm tra đăng nhập
+        // Check if user is logged in
         if (user == null) {
             String url = request.getContextPath() + "/WEB-INF/book/logintwo.jsp";
             RequestDispatcher dispatcher = request.getRequestDispatcher(url);
             dispatcher.forward(request, response);
-            return; // Dừng xử lý tiếp theo
+            return;
         }
 
-
-        // Lấy giỏ hàng từ session
+        // Get cart from session
         Cart cart = (Cart) session.getAttribute("cart");
 
-        // Tạo đối tượng Order từ thông tin trong session
+        // Calculate total quantity of items in the cart
+        int totalQuantity = cart.getCart_items().stream().mapToInt(CartItem::getQuantity).sum();
+
+        // Determine shipping cost based on the selected province
+        int shippingCost = "Hồ Chí Minh".equals(fullNameTinh) ? 20000 * totalQuantity : 40000 * totalQuantity;
+
+        // Calculate total price including shipping
+        double totalPrice = cart.calculateTotal() + shippingCost;
+
+        // Create order object
         OrderDAO orderDAO = new OrderDAO();
         PaymentDAO paymentDAO = new PaymentDAO();
         Payment payment = paymentDAO.selectById(paymentId);
         StatusOrder statusOrder = new StatusOrder(1);
-        Order order = new Order(orderDAO.creatId() + 1, user, cart.calculateTotal(), name, phone, fullAddress, payment, new Timestamp(System.currentTimeMillis()), note, 0, statusOrder);
+        Order order = new Order(orderDAO.creatId() + 1, user, totalPrice, name, phone, fullAddress, payment, new Timestamp(System.currentTimeMillis()), note, shippingCost, statusOrder);
 
-        // Insert vào CSDL
+        // Insert order into database
         order.setNameConsignee(name);
         order.setUser(user);
         order.setPhone(phone);
@@ -68,24 +75,30 @@ public class CheckoutController extends HttpServlet {
         order.setNote(note);
         session.setAttribute("order", order);
         int resultOrder = orderDAO.insert(order);
-        // them vao lich su cap nhat trang thai don hang
+
+        // Add order history
         OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
         OrderHistory orderHistory = new OrderHistory(orderHistoryDAO.creatId() + 1, order, user, new StatusOrder(1), LocalDateTime.now(), "Đặt hàng thành công");
         orderHistoryDAO.insert(orderHistory);
-        // Xử lý kết quả insert
+
+        // Process order result
         if (resultOrder > 0) {
             OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
             ProductDAO productDAO = new ProductDAO();
             int overallResult = 1;
+
             for (CartItem cartItem : cart.getCart_items()) {
                 Product product = cartItem.getProduct();
                 int quantityOrdered = cartItem.getQuantity();
-                //giam so luong san pham trong kho
-                int remainingQuantity = product.getQuantity() - quantityOrdered;int resultUpQuantity = productDAO.updateQuantityOrder(product.getProductId(), remainingQuantity);
+
+                // Reduce product quantity in stock
+                int remainingQuantity = product.getQuantity() - quantityOrdered;
+                int resultUpQuantity = productDAO.updateQuantityOrder(product.getProductId(), remainingQuantity);
+
                 if (resultUpQuantity > 0) {
                     double price = cartItem.getPrice();
-                    double totalPrice = quantityOrdered * price;
-                    OrderDetail orderDetail = new OrderDetail(orderDetailDAO.creatId() + 1, order, product, quantityOrdered, totalPrice);
+                    double totalPriceForItem = quantityOrdered * price;
+                    OrderDetail orderDetail = new OrderDetail(orderDetailDAO.creatId() + 1, order, product, quantityOrdered, totalPriceForItem);
                     int resultOrderDetail = orderDetailDAO.insert(orderDetail);
 
                     List<OrderDetail> orderDetailList = (List<OrderDetail>) session.getAttribute("orderDetails");
@@ -99,23 +112,22 @@ public class CheckoutController extends HttpServlet {
                         overallResult = resultOrderDetail;
                         break;
                     }
-                }else{
+                } else {
                     overallResult = resultUpQuantity;
                     break;
                 }
             }
+
             if (overallResult > 0) {
-                // Xóa giỏ hàng sau khi đặt hàng thành công
+                // Clear the cart after successful order
                 cart.clearCart();
-                // Chuyển hướng đến trang xác nhận đơn hàng
+                // Redirect to order confirmation page
                 if (paymentId == 1) {
                     request.getRequestDispatcher("/WEB-INF/book/Vnpay.jsp").forward(request, response);
-
-
                 } else {
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/book/thankyou.jsp");
                     dispatcher.forward(request, response);
-                    return; // Dừng xử lý tiếp theo
+                    return;
                 }
             }
         }
