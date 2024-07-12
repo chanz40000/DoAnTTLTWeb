@@ -4,9 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import database.*;
 import model.*;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -29,6 +33,8 @@ public class CheckoutController extends HttpServlet {
         String fullNameTinh = request.getParameter("tinh");
         String fullNameQuan = request.getParameter("quan");
         String fullNamePhuong = request.getParameter("phuong");
+        OrderDAO orderdao = new OrderDAO();
+
         String address = request.getParameter("address");
         String fullAddress = fullNameTinh + ", " + fullNameQuan + ", " + fullNamePhuong + ", " + address;
         String note = request.getParameter("note");
@@ -40,7 +46,6 @@ public class CheckoutController extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("userC");
 
-        // Check if user is logged in
         if (user == null) {
             String url = request.getContextPath() + "/WEB-INF/book/logintwo.jsp";
             RequestDispatcher dispatcher = request.getRequestDispatcher(url);
@@ -48,57 +53,83 @@ public class CheckoutController extends HttpServlet {
             return;
         }
 
-        // Get cart from session
         Cart cart = (Cart) session.getAttribute("cart");
-
-        // Calculate total quantity of items in the cart
         int totalQuantity = cart.getCart_items().stream().mapToInt(CartItem::getQuantity).sum();
 
-        // Determine shipping cost based on the selected province
         int shippingCost = "Hồ Chí Minh".equals(fullNameTinh) ? 20000 * totalQuantity : 40000 * totalQuantity;
 
-        // Calculate total price including shipping
-        double totalPrice = cart.calculateTotal() + shippingCost;
+        double cartTotal = cart.calculateTotal();
 
-        // Create order object
+        Double discountValue = (Double) session.getAttribute("discountValue");
+        Integer discountType = (Integer) session.getAttribute("discountType"); // Assuming discountType is saved in session
+        double discount = (discountValue != null) ? discountValue : 0.0;
+
+// Calculate the new total based on discount type
+        double newTotal;
+        if (discountType != null && discountType == 1) {
+            // Percentage discount
+            newTotal = cartTotal - (cartTotal * discount / 100);
+        } else if (discountType != null && discountType == 2) {
+            // Fixed amount discount
+            newTotal = cartTotal - discount;
+        } else {
+            // No discount
+            newTotal = cartTotal;
+        }
+
+        double allTotal = newTotal + shippingCost;
+
+        session.setAttribute("discount", discount);
+        session.setAttribute("newTotal", newTotal);
+
         OrderDAO orderDAO = new OrderDAO();
         PaymentDAO paymentDAO = new PaymentDAO();
         Payment payment = paymentDAO.selectById(paymentId);
         StatusOrder statusOrder = new StatusOrder(1);
-        Order order = new Order(orderDAO.creatId() + 1, user, totalPrice, name, phone, fullAddress, payment, new Timestamp(System.currentTimeMillis()), note, shippingCost, statusOrder);
 
-        // Insert order into database
+        Order order = new Order(orderDAO.creatId() + 1, user, allTotal, name, phone, fullAddress, payment, new Timestamp(System.currentTimeMillis()), note, shippingCost, statusOrder);
         order.setNameConsignee(name);
         order.setUser(user);
         order.setPhone(phone);
         order.setAddress(fullAddress);
         order.setNote(note);
+        order.setTotalPrice(allTotal); // Ensure the total price includes the final amount
+
         session.setAttribute("order", order);
         int resultOrder = orderDAO.insert(order);
 
-        // Add order history
         OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
         OrderHistory orderHistory = new OrderHistory(orderHistoryDAO.creatId() + 1, order, user, new StatusOrder(1), LocalDateTime.now(), "Đặt hàng thành công");
         orderHistoryDAO.insert(orderHistory);
 
-        // Process order result
         if (resultOrder > 0) {
             OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
             ProductDAO productDAO = new ProductDAO();
             int overallResult = 1;
-
             for (CartItem cartItem : cart.getCart_items()) {
                 Product product = cartItem.getProduct();
-                int quantityOrdered = cartItem.getQuantity();
+                Integer selectedCouponId = (Integer) session.getAttribute("selectedCouponId");
+                String appliedCouponCode = (String) session.getAttribute("appliedCouponCode");
+                CouponDAO couponDAO = new CouponDAO();
 
-                // Reduce product quantity in stock
+                if (discount != 0) {
+                    if (selectedCouponId != null) {
+                        Coupon coupon = couponDAO.selectById(selectedCouponId);
+                        couponDAO.updateQuantiyCouponById(selectedCouponId, coupon.getMaxQuantityUseOfUser() - 1, coupon.getMaxUseOfCoupon() - 1);
+                    } else if (appliedCouponCode != null) {
+                        Coupon coupon = couponDAO.selectByCode(appliedCouponCode);
+                        int id = coupon.getCouponId();
+                        couponDAO.updateQuantiyCouponById(id, coupon.getMaxQuantityUseOfUser() - 1, coupon.getMaxUseOfCoupon() - 1);
+                    }
+                }
+
+                int quantityOrdered = cartItem.getQuantity();
                 int remainingQuantity = product.getQuantity() - quantityOrdered;
                 int resultUpQuantity = productDAO.updateQuantityOrder(product.getProductId(), remainingQuantity);
-
                 if (resultUpQuantity > 0) {
                     double price = cartItem.getPrice();
-                    double totalPriceForItem = quantityOrdered * price;
-                    OrderDetail orderDetail = new OrderDetail(orderDetailDAO.creatId() + 1, order, product, quantityOrdered, totalPriceForItem);
+                    double totalPrice = quantityOrdered * price;
+                    OrderDetail orderDetail = new OrderDetail(orderDetailDAO.creatId() + 1, order, product, quantityOrdered, totalPrice);
                     int resultOrderDetail = orderDetailDAO.insert(orderDetail);
 
                     List<OrderDetail> orderDetailList = (List<OrderDetail>) session.getAttribute("orderDetails");
@@ -117,20 +148,27 @@ public class CheckoutController extends HttpServlet {
                     break;
                 }
             }
-
             if (overallResult > 0) {
-                // Clear the cart after successful order
                 cart.clearCart();
-                // Redirect to order confirmation page
                 if (paymentId == 1) {
                     request.getRequestDispatcher("/WEB-INF/book/Vnpay.jsp").forward(request, response);
                 } else {
+                    session.removeAttribute("appliedCouponCode");
+                    session.removeAttribute("discountValue");
+                    session.removeAttribute("discountType");
+                    session.removeAttribute("discount");
+                    session.removeAttribute("newTotal");
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/book/thankyou.jsp");
                     dispatcher.forward(request, response);
                     return;
                 }
             }
         }
+        // Trả về kết quả
+//        JsonObject jsonResponse = new JsonObject();
+//        jsonResponse.addProperty("success", true);
+//        jsonResponse.addProperty("newTotal", newTotal);
+//        jsonResponse.addProperty("discount", discount);
         // Tạo ObjectMapper
         ObjectMapper objectMapper = new ObjectMapper();
 

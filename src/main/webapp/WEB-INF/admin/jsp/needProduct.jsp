@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ page import="util.FormatCurrency"%>
 <%@page isELIgnored="false" %>
 <!DOCTYPE html>
 
@@ -105,7 +104,7 @@
                                         <td>${product.category.categoryName}</td>
                                         <td>${product.unitPrice}</td>
                                         <td>${product.price}</td>
-                                        <td>${product.value}</td>
+                                        <td>${product.quantity}</td>
                                         <td>
                                             <div class="dropdown">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

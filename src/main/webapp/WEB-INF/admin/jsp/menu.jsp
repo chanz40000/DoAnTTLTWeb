@@ -3,7 +3,9 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page isELIgnored="false" %>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <!DOCTYPE html>
 <style>
@@ -360,6 +362,17 @@
                 </li>
 
                 <li class="menu-item">
+                    <a href="./ProductCannotBeSold" class="menu-link">
+                        <div data-i18n="Input groups">Sản phẩm không bán được</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="./ListProductByDay" class="menu-link">
+                        <div data-i18n="Input groups">Sản phẩm bán được theo ngày</div>
+                    </a>
+                </li>
+
+                <li class="menu-item">
                     <a href="./CreateProduct" class="menu-link">
                         <div data-i18n="Input groups">Thêm sản phẩm</div>
                     </a>
@@ -388,11 +401,7 @@
                         <div data-i18n="Basic Inputs">Nhập sản phẩm2</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="./ProductCannotBeSold" class="menu-link">
-                        <div data-i18n="Input groups">Sản phẩm không bán được</div>
-                    </a>
-                </li>
+
                 <li class="menu-item">
                     <a href="./NeedProduct" class="menu-link">
                         <div data-i18n="Input groups">Sản phẩm cần nhập</div>
@@ -402,7 +411,7 @@
         </li>
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-detail"></i>
+                <i class="fa-solid fa-user"></i>
                 <div data-i18n="Form Layouts">Tài khoản User</div>
             </a>
             <ul class="menu-sub">

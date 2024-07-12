@@ -21,8 +21,8 @@ import java.util.ArrayList;
 public class LogDAO implements DAOInterface<Log>{
 
     public int creatId() {
-
-        return this.selectAll().size()+1;
+        ArrayList<Log> list=this.selectAll();
+        return list.get(list.size()-1).getId()+1;
     }
     @Override
     public int deleteAll(ArrayList<Log> list) {

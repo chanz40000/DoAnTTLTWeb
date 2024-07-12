@@ -126,12 +126,10 @@
                             <th>Tên sách</th>
                             <th>Số lượng</th>
                             <th>Giá nhập</th>
-                            <th> </th>
                           </tr>
                           </thead>
 
                           <tbody class="list-product">
-                          <h1>${importedItem.getImportDetailList().size()}</h1>
                           <c:forEach var="importDetail" items="${importedItem.getImportDetailList()}">
 
                             <tr>

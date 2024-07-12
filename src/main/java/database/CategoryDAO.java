@@ -40,7 +40,28 @@ public class CategoryDAO implements DAOInterface<Category>{
         }
         return categories;
     }
-
+    public ArrayList<Category> selectCategoriesWithProducts() {
+        ArrayList<Category> categories = new ArrayList<>();
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "SELECT c.category_id, c.category_name FROM categories c " +
+                    "JOIN products p ON c.category_id = p.category_id " +
+                    "GROUP BY c.category_id, c.category_name " +
+                    "HAVING COUNT(p.product_id) > 0";
+            PreparedStatement st = con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("category_id");
+                String name = rs.getString("category_name");
+                Category category = new Category(id, name);
+                categories.add(category);
+            }
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return categories;
+    }
     @Override
     public Category selectById(int id) {
         Category result = null;

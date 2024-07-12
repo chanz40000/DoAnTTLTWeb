@@ -63,8 +63,9 @@ public class CompleteOrderServlet2 extends HttpServlet {
             java.sql.Date date = new java.sql.Date(millis);
             int import_id = importDAO.creatId();
             String notes = items.get(0).note;
+            String ncc = items.get(0).ncc;
 
-            Import importClass = new Import(import_id, user, "ncc1", notes, date);
+            Import importClass = new Import(import_id, user, ncc, notes, date);
             importDAO.insert(importClass);
 
             double total = 0;
@@ -80,10 +81,8 @@ public class CompleteOrderServlet2 extends HttpServlet {
                 //neu gia nhap cu khac gia nhap moi thi luu vao bang doi gia
                 //doi lai gia nhap hien tai trong database
                 if(oldPrice!= unitPrice){
-                    System.out.println("doi gia nhap");
                     ChangePrice changePrice = new ChangePrice(user, product, (int) oldPrice, (int) unitPrice, date);
                     changePriceDAO.insert(changePrice);
-                    System.out.println("size changePriceDAO: "+ changePriceDAO.selectAll().get(0).toString());
                     productDAO.updateImportPrice(product.getProductId(), unitPrice);
                 }
 
@@ -121,6 +120,7 @@ public class CompleteOrderServlet2 extends HttpServlet {
         private double unitPrice;
         private double totalPrice;
         private String note;
+        private String ncc;
 
         // Các getter và setter
         public String getProductId() {
@@ -169,6 +169,14 @@ public class CompleteOrderServlet2 extends HttpServlet {
 
         public void setNote(String note) {
             this.note = note;
+        }
+
+        public String getNcc() {
+            return ncc;
+        }
+
+        public void setNcc(String ncc) {
+            this.ncc = ncc;
         }
     }
 }
