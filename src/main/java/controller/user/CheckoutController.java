@@ -7,10 +7,18 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import util.ConfigUtil;
 
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.BufferedReader;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -33,6 +41,7 @@ public class CheckoutController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
+
         String fullNameTinh = request.getParameter("tinh");
         String fullNameQuan = request.getParameter("quan");
         String fullNamePhuong = request.getParameter("phuong");
@@ -49,68 +58,74 @@ public class CheckoutController extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("userC");
 
-        // Kiểm tra đăng nhập
         if (user == null) {
             String url = request.getContextPath() + "/WEB-INF/book/logintwo.jsp";
             RequestDispatcher dispatcher = request.getRequestDispatcher(url);
             dispatcher.forward(request, response);
-            return; // Dừng xử lý tiếp theo
+            return;
         }
 
-
-        // Lấy giỏ hàng từ session
         Cart cart = (Cart) session.getAttribute("cart");
+        int totalQuantity = cart.getCart_items().stream().mapToInt(CartItem::getQuantity).sum();
 
-        // Tính toán lại tổng tiền giỏ hàng
+        int shippingCost = "Hồ Chí Minh".equals(fullNameTinh) ? 20000 * totalQuantity : 40000 * totalQuantity;
+
         double cartTotal = cart.calculateTotal();
 
-        // Lấy thông tin giảm giá từ session
         Double discountValue = (Double) session.getAttribute("discountValue");
-        Integer discountType = (Integer) session.getAttribute("discountType");
-        double discount = 0.0;
+        Integer discountType = (Integer) session.getAttribute("discountType"); // Assuming discountType is saved in session
+        double discount = (discountValue != null) ? discountValue : 0.0;
 
-        if (discountValue != null) {
-            discount = discountValue.doubleValue();
+// Calculate the new total based on discount type
+        double newTotal;
+        if (discountType != null && discountType == 1) {
+            // Percentage discount
+            newTotal = cartTotal - (cartTotal * discount / 100);
+        } else if (discountType != null && discountType == 2) {
+            // Fixed amount discount
+            newTotal = cartTotal - discount;
+        } else {
+            // No discount
+            newTotal = cartTotal;
         }
-        // Tính toán lại giá trị giảm giá
-//        double discount = calculateDiscount(discountValue, discountType, cartTotal);
-        double newTotal = cartTotal - discount;
 
-        // Cập nhật lại session với các giá trị mới
+        double allTotal = newTotal + shippingCost;
+
         session.setAttribute("discount", discount);
         session.setAttribute("newTotal", newTotal);
-        // Tạo đối tượng Order từ thông tin trong session
+
         OrderDAO orderDAO = new OrderDAO();
         PaymentDAO paymentDAO = new PaymentDAO();
         Payment payment = paymentDAO.selectById(paymentId);
         StatusOrder statusOrder = new StatusOrder(1);
-        Order order = new Order(orderDAO.creatId() + 1, user, newTotal, name, phone, fullAddress, payment, new Timestamp(System.currentTimeMillis()), note, 0, statusOrder);
 
-        // Insert vào CSDL
+        Order order = new Order(orderDAO.creatId() + 1, user, allTotal, name, phone, fullAddress, payment, new Timestamp(System.currentTimeMillis()), note, shippingCost, statusOrder);
         order.setNameConsignee(name);
         order.setUser(user);
         order.setPhone(phone);
         order.setAddress(fullAddress);
         order.setNote(note);
+        order.setTotalPrice(allTotal); // Ensure the total price includes the final amount
+
         session.setAttribute("order", order);
         int resultOrder = orderDAO.insert(order);
-        // them vao lich su cap nhat trang thai don hang
+
         OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
         OrderHistory orderHistory = new OrderHistory(orderHistoryDAO.creatId() + 1, order, user, new StatusOrder(1), LocalDateTime.now(), "Đặt hàng thành công");
         orderHistoryDAO.insert(orderHistory);
-        // Xử lý kết quả insert
+
         if (resultOrder > 0) {
             OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
             ProductDAO productDAO = new ProductDAO();
             int overallResult = 1;
             for (CartItem cartItem : cart.getCart_items()) {
                 Product product = cartItem.getProduct();
-                Integer  selectedCouponId = (Integer) session.getAttribute("selectedCouponId");
+                Integer selectedCouponId = (Integer) session.getAttribute("selectedCouponId");
                 String appliedCouponCode = (String) session.getAttribute("appliedCouponCode");
                 CouponDAO couponDAO = new CouponDAO();
-                //Cap nhat so luong cua Coupon neu dung
-                if (discount != 0){
-                    if (selectedCouponId != null){
+
+                if (discount != 0) {
+                    if (selectedCouponId != null) {
                         Coupon coupon = couponDAO.selectById(selectedCouponId);
                         couponDAO.updateQuantiyCouponById(selectedCouponId, coupon.getMaxQuantityUseOfUser() - 1, coupon.getMaxUseOfCoupon() - 1);
                     } else if (appliedCouponCode != null) {
@@ -119,8 +134,8 @@ public class CheckoutController extends HttpServlet {
                         couponDAO.updateQuantiyCouponById(id, coupon.getMaxQuantityUseOfUser() - 1, coupon.getMaxUseOfCoupon() - 1);
                     }
                 }
+
                 int quantityOrdered = cartItem.getQuantity();
-                //giam so luong san pham trong kho
                 int remainingQuantity = product.getQuantity() - quantityOrdered;
                 int resultUpQuantity = productDAO.updateQuantityOrder(product.getProductId(), remainingQuantity);
                 if (resultUpQuantity > 0) {
@@ -140,20 +155,19 @@ public class CheckoutController extends HttpServlet {
                         overallResult = resultOrderDetail;
                         break;
                     }
-                }else{
+                } else {
                     overallResult = resultUpQuantity;
                     break;
                 }
             }
             if (overallResult > 0) {
+
 //                String ghnResponse = sendOrderToGHN(order, cart);
+
                 // Xóa giỏ hàng sau khi đặt hàng thành công
                 cart.clearCart();
-                // Chuyển hướng đến trang xác nhận đơn hàng
                 if (paymentId == 1) {
                     request.getRequestDispatcher("/WEB-INF/book/Vnpay.jsp").forward(request, response);
-
-
                 } else {
                     session.removeAttribute("appliedCouponCode");
                     session.removeAttribute("discountValue");
@@ -162,7 +176,7 @@ public class CheckoutController extends HttpServlet {
                     session.removeAttribute("newTotal");
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/book/thankyou.jsp");
                     dispatcher.forward(request, response);
-                    return; // Dừng xử lý tiếp theo
+                    return;
                 }
             }
         }

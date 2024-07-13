@@ -4,14 +4,17 @@ import model.Import;
 import model.ImportDetail;
 import model.Product;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ImportDetailDAO extends AbsDAO<ImportDetail>{
     ArrayList<ImportDetail> importdes = new ArrayList<>();
     public int creatId() {
-        selectAll();
-        return importdes.size()+1;
+        ArrayList<ImportDetail> list= selectAll();
+        return list.get(list.size()-1).getImportDetail()+1;
     }
     @Override
     public ArrayList<ImportDetail> selectAll() {
@@ -78,6 +81,41 @@ public class ImportDetailDAO extends AbsDAO<ImportDetail>{
                 Product pr = new ProductDAO().selectById(idProduct);
 
                 result = new ImportDetail(idImportDetail,im,pr,numbersupplier,price,totalprice);
+
+            }
+
+            JDBCUtil.closeConnection(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public ArrayList<ImportDetail> selectByImportId(int id) {
+        ArrayList<ImportDetail> result = new ArrayList<>();
+
+        try {
+
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "SELECT * FROM importDetails WHERE import_id =?";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int idImportDetail = rs.getInt("importDetail_id");
+                int idImport = rs.getInt("import_id");
+                int idProduct = rs.getInt("product_id");
+                int numbersupplier = rs.getInt("number_of_warehouses");
+                Double price = rs.getDouble("unit_price");
+                Double totalprice = rs.getDouble("total_price");
+                Import im = new ImportDAO().selectById(idImport);
+                Product pr = new ProductDAO().selectById(idProduct);
+
+                ImportDetail importDetail = new ImportDetail(idImportDetail,im,pr,numbersupplier,price,totalprice);
+                result.add(importDetail);
 
             }
 

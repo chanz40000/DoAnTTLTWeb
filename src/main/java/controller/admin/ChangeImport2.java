@@ -6,21 +6,22 @@ import database.ChangePriceDAO;
 import database.ImportDAO;
 import database.ImportDetailDAO;
 import database.ProductDAO;
-import model.*;
+import model.ChangePrice;
+import model.Import;
 import model.ImportDetail;
+import model.Product;
+import model.User;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(name = "CompleteOrderServlet2", value = "/CompleteOrderServlet2")
-public class CompleteOrderServlet2 extends HttpServlet {
+@WebServlet(name = "ChangeImport2", value = "/ChangeImport2")
+public class ChangeImport2 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -50,7 +51,7 @@ public class CompleteOrderServlet2 extends HttpServlet {
             }
 
             Gson gson = new Gson();
-            List<Item> items = gson.fromJson(jsonData, new TypeToken<List<Item>>(){}.getType());
+            List<ChangeImport2.Item> items = gson.fromJson(jsonData, new TypeToken<List<ChangeImport2.Item>>(){}.getType());
 
             ImportDAO importDAO = new ImportDAO(request);
             ImportDetailDAO importDetailDAO = new ImportDetailDAO();
@@ -61,15 +62,15 @@ public class CompleteOrderServlet2 extends HttpServlet {
 
             long millis = System.currentTimeMillis();
             java.sql.Date date = new java.sql.Date(millis);
-            int import_id = importDAO.creatId();
+            int import_id = items.get(0).getImportId();
             String notes = items.get(0).note;
             String ncc = items.get(0).ncc;
 
             Import importClass = new Import(import_id, user, ncc, notes, date);
-            importDAO.insert(importClass);
+//            importDAO.update(importClass);
 
             double total = 0;
-            for (Item item : items) {
+            for (ChangeImport2.Item item : items) {
                 int idProduct = Integer.parseInt(item.getProductId());
 
                 Product product = productDAO.selectById(idProduct);
@@ -92,7 +93,7 @@ public class CompleteOrderServlet2 extends HttpServlet {
                 double totalPrice = quantity * unitPrice;
                 total += totalPrice;
 
-                ImportDetail importDetail = new ImportDetail(importDetailDAO.creatId(), importClass,
+                model.ImportDetail importDetail = new ImportDetail(importDetailDAO.creatId(), importClass,
                         product, quantity, unitPrice, totalPrice);
 
                 importDetailDAO.insert(importDetail);
@@ -111,8 +112,6 @@ public class CompleteOrderServlet2 extends HttpServlet {
         }
     }
 
-
-    // Lớp Item đại diện cho mỗi mục trong danh sách
     class Item {
         private String productId;
         private String productName;
@@ -121,6 +120,8 @@ public class CompleteOrderServlet2 extends HttpServlet {
         private double totalPrice;
         private String note;
         private String ncc;
+
+        private int importId;
 
         // Các getter và setter
         public String getProductId() {
@@ -177,6 +178,14 @@ public class CompleteOrderServlet2 extends HttpServlet {
 
         public void setNcc(String ncc) {
             this.ncc = ncc;
+        }
+
+        public int getImportId() {
+            return importId;
+        }
+
+        public void setImportId(int importId) {
+            this.importId = importId;
         }
     }
 }

@@ -67,36 +67,6 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assetsForAdmin/assets/js/config.js"></script>
-    <script>
-        $(document).ready(function (){
-            $("form").submit(
-                function (event){
-                    event.preventDefault();
-                    var formData = new FormData(this);
-                    $.ajax({
-                        url: "upload",
-                        type: 'POST',
-                        data: formData,
-                        success: function(data){
-                            var row = data;
-                            for(i=0; i<row.length; i++){
-                                var column = row[i];
-                                var eachrow = "<tr>";
-                                for(j=0; j<column.length; j++){
-                                    eachrow=eachrow+ "<td>"+ column[j]+"</td>";
-                                }
-                                eachrow = eachrow+"</td>";
-                                $('#tbody').append(eachrow);
-                            }
-                        },
-                        cache: false,
-                        contentType: false,
-                        processData: false
-                    })
-                }
-            )
-        });
-    </script>
     <style>
         .hide{
             display: none;
@@ -168,29 +138,28 @@
             transform: rotate(180deg);
 
         }
-        /*.bg-menu-theme.close .align-items-center.bg-navbar-theme{*/
-        /*  padding-left: 100px;*/
-        /*}*/
-        .layout-navbar.container-xxl.navbar.navbar-expand-xl.navbar-detached.align-items-center.bg-navbar-theme.close{
-            width:1212px;
-            margin-left: -125px;
+        .price-total {
+            text-align: right;
+            margin-bottom: 20px;
         }
 
-        .content-wrapper.close{
-            margin-left: -151px;
-            width: 1263px;
+        .price-total p {
+            display: inline-block;
+            margin: 0;
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            font-weight: bold;
         }
-        /*.container-xxl.flex-grow-1.container-p-y .row.close .card-body{*/
-        /*  !*margin-left: -10px;*!*/
-        /*  !*width: 500px;*!*/
-        /*}*/
-        .fa-regular.fa-sun{
-            font-size: 20px;
 
+        .checkout__input {
+            margin-bottom: 15px;
         }
-        .fa-regular.fa-moon{
-            font-size: 20px;
 
+        .checkout__input label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
         .price-total{
             font-weight: bold;
@@ -215,6 +184,28 @@
             color: white;
             transform: scale(1.1);
         }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+
+        .btn-light-purple {
+            background-color: #e6e6fa;
+            color: #000;
+            border: 1px solid #dcdcdc;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-light-purple:hover {
+            background-color: #d8bfd8;
+            border-color: #d8bfd8;
+        }
+
     </style>
 </head>
 
@@ -338,7 +329,7 @@
 
 
             <div class="table-responsive text-nowrap">
-                <table class="table table-striped" id="tabledata">
+                <table class="table table-striped" id="example2">
                     <thead>
                     <tr class="hide">
                         <th>Mã sách</th>
@@ -347,7 +338,6 @@
                         <th>Giá nhập</th>
                     </tr>
                     </thead>
-
                     <tbody class="list-product" id="listProductDOM" oninput="search()">
                     <jsp:useBean id="productDao" class="database.ProductDAO"></jsp:useBean>
                     <c:forEach var="product" items="${productDao.selectAll()}">
@@ -356,19 +346,15 @@
                             <td>
                                 <strong id="product_name"
                                         oninput="search()">${product.product_name}</strong>
-
                             </td>
-                                <%--                  <td><p name="product_name" class="productName" oninput="search()">${product.product_name} </p></td>--%>
                             <td id="categoryName">${product.category.categoryName}</td>
-                            <td id="unitPrice"><span>${product.unitPrice}</span></td>
+                            <td id="unitPrice"><span>${product.unitPrice}</span></td>>
 
                             <td>
                                 <button type="submit" class="btn btn-sm btn-outline-primary" onclick="add()">Thêm</button></td>
                         </tr>
                     </c:forEach>
-
                     </tbody>
-
                 </table>
             </div>
 
@@ -382,8 +368,10 @@
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
                         <h5 class="card-header">Table Basic</h5>
+
                         <div class="table-responsive text-nowrap" style="padding: 10px">
                             <%--              <form action="/ImportOrder" method="post">--%>
+
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -404,27 +392,40 @@
 
 
                             </table>
-                                <div style="display: flex; flex-direction: row; justify-content: space-between; padding: 10px" >
-                            <div class="checkout__input">
-                                <label for="note">Ghi chú</label>
-                                <input type="text" id="note" name="note" >
-                            </div>
-                            <div class="price-total">Tổng tiền: <span style="color: #a71d2a"></span></div>
+<%--<<<<<<< HEAD--%>
+<%--                                <div style="display: flex; flex-direction: row; justify-content: space-between; padding: 10px" >--%>
+<%--                            <div class="checkout__input">--%>
+<%--                                <label for="note">Ghi chú</label>--%>
+<%--                                <input type="text" id="note" name="note" >--%>
+<%--                            </div>--%>
+<%--                            <div class="price-total">Tổng tiền: <span style="color: #a71d2a"></span></div>--%>
+<%--                                </div>--%>
+<%--                            <div class="btn-dathang">--%>
+<%--                            <input class="datHang"  type="submit" value="Đặt mua" >--%>
+<%--                            </div>--%>
+<%--                            &lt;%&ndash;              </form>&ndash;%&gt;--%>
+<%--=======--%>
+                                <div class="price-total">
+                                    <p style="text-align: right; font-weight: bold; padding: 15px 20px;">
+                                        Tổng tiền: <span></span><sup>đ</sup>
+                                    </p>
                                 </div>
-                            <div class="btn-dathang">
-                            <input class="datHang"  type="submit" value="Đặt mua" >
-                            </div>
-                            <%--              </form>--%>
+
+                                <div class="checkout__input">
+                                    <label for="ncc">Nhà cung cấp</label>
+                                    <input type="text" id="ncc" name="ncc" class="form-control">
+                                </div>
+
+                                <div class="checkout__input">
+                                    <label for="note">Ghi chú</label>
+                                    <input type="text" id="note" name="note" class="form-control">
+                                </div>
+
+                                <input type="submit" value="Complete Order" class="btn btn-primary btn-light-purple">
+
                         </div>
 
                     </div>
-                    <!--/ Basic Bootstrap Table -->
-
-                    <hr class="my-5" />
-
-                    <!-- Bootstrap Dark Table -->
-
-                    <!--/ Striped Rows -->
 
 
                 </div>
@@ -485,6 +486,9 @@
         var note = document.getElementById('note').value;
         if (note === null || note === "") note = " ";
 
+        var ncc = document.getElementById('ncc').value;
+        if (ncc === null || ncc === "") ncc = " ";
+
         rows.forEach(function(row) {
             var productId = row.querySelector('p[name="productId"]').innerText;
             var productName = row.querySelector('.titleProduct').innerText;
@@ -498,7 +502,8 @@
                 numberOfWarehouses: numberOfWarehouses,
                 unitPrice: unitPrice,
                 totalPrice: totalPrice,
-                note: note
+                note: note,
+                ncc: ncc
             };
 
             // var item = productId+"-"+ productName + "-" + numberOfWarehouses + "-" + unitPrice + "-" + totalPrice  + "-" + note;
@@ -573,7 +578,7 @@
             '<td><span name="product_name" class="titleProduct">' + productName + '</span></td>' +
             '<td><input name="numberOfWarehouses" id="numberOfWarehouses" type="number" class="input-value form-control form-control-sm" value="1" min="1" onclick="inputchange()" oninput="calculateTotal()" ></td>' +
             '<td><input name="unitPrice" type="number" class="input-value form-control form-control-sm"  onclick="inputchange()" oninput="calculateTotal()" value="' + unitPrice + '"></td>' +
-            '<td><input name="totalPrice" type="number" id="totalPrice" class="total-price form-control form-control-sm" readonly></td>' +
+            '<td><input name="totalPrice" type="number" id="totalPrice" value="0" class="total-price form-control form-control-sm" readonly></td>' +
             '<td><button type="button" class="btn btn-sm btn-outline-primary"><span class="cart-delete">Xóa</span></button></td>';
 
 
