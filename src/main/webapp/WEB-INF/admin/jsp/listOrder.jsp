@@ -64,6 +64,8 @@
     <script src="../assetsForAdmin/assets/js/config.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
     <link href="/css/style.css" media="screen" rel="stylesheet">
     <script type="text/javascript" src="/js/Chart.min.js"></script>
 </head>
@@ -183,6 +185,9 @@
 
                 <div class="container-xxl flex-grow-1 container-p-y" id="content-big-section">
                     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Đơn hàng /</span> Danh sách đơn hàng</h4>
+
+
+
 
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
@@ -547,8 +552,7 @@
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
