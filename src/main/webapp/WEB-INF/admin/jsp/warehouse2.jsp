@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@page isELIgnored="false" %>
-
+<%@ page import="util.FormatCurrency"%>
 <!DOCTYPE html>
 
 
@@ -192,6 +192,29 @@
             font-size: 20px;
 
         }
+        .price-total{
+            font-weight: bold;
+        }
+        .btn-dathang{
+            margin-left: auto;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .datHang{
+        border: none;
+        background-color: #3377dc;
+        border-radius: 10px;
+        padding: 5px;
+        font-weight: bold;
+        font-size: 22px;
+            transition: transform 0.3s ease;
+
+        }
+        .datHang:hover{
+            background-color: #ffa97d;
+            color: white;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 
@@ -337,7 +360,7 @@
                             </td>
                                 <%--                  <td><p name="product_name" class="productName" oninput="search()">${product.product_name} </p></td>--%>
                             <td id="categoryName">${product.category.categoryName}</td>
-                            <td id="unitPrice"><span>${product.unitPrice}</span></td>>
+                            <td id="unitPrice"><span>${product.unitPrice}</span></td>
 
                             <td>
                                 <button type="submit" class="btn btn-sm btn-outline-primary" onclick="add()">Thêm</button></td>
@@ -359,7 +382,7 @@
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
                         <h5 class="card-header">Table Basic</h5>
-                        <div class="table-responsive text-nowrap">
+                        <div class="table-responsive text-nowrap" style="padding: 10px">
                             <%--              <form action="/ImportOrder" method="post">--%>
                             <table class="table table-striped">
                                 <thead>
@@ -381,13 +404,16 @@
 
 
                             </table>
-                            <div class="price-total"><p style="padding-left: 700px; padding-top: 15px; font-weight: bold">Tổng tiền: <span></span><sup>đ</sup></p>
-                            </div>
+                                <div style="display: flex; flex-direction: row; justify-content: space-between; padding: 10px" >
                             <div class="checkout__input">
                                 <label for="note">Ghi chú</label>
                                 <input type="text" id="note" name="note" >
                             </div>
-                            <input type="submit" value="Complete Order" >
+                            <div class="price-total">Tổng tiền: <span style="color: #a71d2a"></span></div>
+                                </div>
+                            <div class="btn-dathang">
+                            <input class="datHang"  type="submit" value="Đặt mua" >
+                            </div>
                             <%--              </form>--%>
                         </div>
 
@@ -557,6 +583,9 @@
         deleteCart();
         // calculateTotal();
     }
+    function formatCurrency(number) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+    }
 
     function cartTotal() {
         var cartItem = document.querySelectorAll("tbody.table-border-bottom-0 tr");
@@ -570,8 +599,9 @@
         });
 
         var cartTotalA = document.querySelector(".price-total span");
-        cartTotalA.innerHTML = totalAll.toLocaleString('de-DE') + '<sup>đ</sup>';
+        cartTotalA.innerHTML = formatCurrency(totalAll);
     }
+
 
     //-------------------------delete cart-------------------------
     function deleteCart() {

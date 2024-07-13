@@ -1,16 +1,15 @@
-package controller.user;
+package controller.admin;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "Order", value = "/Order")
-public class OrderPage extends HttpServlet {
+@WebServlet(name = "ListCoupon", value = "/ListCoupon")
+public class ListCouponPage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/book/Order.jsp").forward(request, response);
-
+        request.getRequestDispatcher("/WEB-INF/admin/jsp/listCoupon.jsp").forward(request,response);
     }
 
     @Override

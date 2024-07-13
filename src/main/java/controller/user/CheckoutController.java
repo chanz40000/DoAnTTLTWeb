@@ -1,14 +1,21 @@
 package controller.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonObject;
 import database.*;
 import model.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import util.ConfigUtil;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -139,6 +146,7 @@ public class CheckoutController extends HttpServlet {
                 }
             }
             if (overallResult > 0) {
+//                String ghnResponse = sendOrderToGHN(order, cart);
                 // Xóa giỏ hàng sau khi đặt hàng thành công
                 cart.clearCart();
                 // Chuyển hướng đến trang xác nhận đơn hàng
@@ -171,5 +179,80 @@ public class CheckoutController extends HttpServlet {
 
         // Lưu chuỗi JSON vào thuộc tính của request để sử dụng trong JSP hoặc gửi lại cho client
         request.setAttribute("orderJson", orderJson);
+    }
+    private String sendOrderToGHN(Order order, Cart cart) throws IOException {
+        String token = ConfigUtil.getProperty("GHN_API_TOKEN");
+        String apiUrl = "https://dev-online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create";
+
+        URL url = new URL(apiUrl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json; utf-8");
+        conn.setRequestProperty("Token", token);
+        conn.setDoOutput(true);
+        String sdt = "0926276226";
+        // Tạo JSON từ thông tin đơn hàng
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("token", token);
+        jsonObject.put("shop_id", "YOUR_SHOP_ID"); // Thay thế bằng mã shop của bạn
+        jsonObject.put("from_name", "Tên người gửi");
+        jsonObject.put("from_phone", sdt);
+        jsonObject.put("to_name", order.getNameConsignee());
+        jsonObject.put("to_phone", order.getPhone());
+        jsonObject.put("to_address", order.getAddress());
+        jsonObject.put("to_ward_code", "Phường 14");
+        jsonObject.put("to_ward_name", "Phường 14"); // Thay thế bằng dữ liệu thực tế
+        jsonObject.put("to_district_name", "Quận 10"); // Thay thế bằng dữ liệu thực tế
+        jsonObject.put("cod_amount", order.getTotalPrice());
+        jsonObject.put("content", "Sách");
+        jsonObject.put("weight", 200); // Cân nặng ước tính
+        jsonObject.put("length", 10); // Kích thước ước tính
+        jsonObject.put("width", 10);
+        jsonObject.put("height", 10);
+        jsonObject.put("payment_type_id", 1); // Người gửi thanh toán
+        jsonObject.put("required_note", "KHONGCHOXEMHANG");
+        jsonObject.put("service_type_id", 2); // Chuyển phát thương mại điện tử
+        jsonObject.put("service_id", 0); // Thay thế bằng mã dịch vụ thực tế nếu có
+
+        JSONArray items = new JSONArray();
+        for (CartItem item : cart.getCart_items()) {
+            JSONObject productJson = new JSONObject();
+            productJson.put("name", item.getProduct().getProduct_name());
+            productJson.put("quantity", item.getQuantity());
+            productJson.put("price", item.getPrice());
+            items.put(productJson);
+        }
+        jsonObject.put("items", items);
+
+        // In ra JSON để kiểm tra
+        System.out.println("JSON Payload: " + jsonObject.toString());
+
+        // Gửi yêu cầu
+        try (OutputStream os = conn.getOutputStream()) {
+            byte[] input = jsonObject.toString().getBytes("utf-8");
+            os.write(input, 0, input.length);
+        }
+
+        int status = conn.getResponseCode();
+        if (status == 200) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"))) {
+                StringBuilder response = new StringBuilder();
+                String responseLine;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+                return response.toString();
+            }
+        } else {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getErrorStream(), "utf-8"))) {
+                StringBuilder response = new StringBuilder();
+                String responseLine;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+                System.out.println("GHN API error response: " + response.toString());
+                throw new IOException("Error response from GHN API: " + response.toString());
+            }
+        }
     }
 }
