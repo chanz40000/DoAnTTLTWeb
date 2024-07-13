@@ -171,14 +171,14 @@
 <section class="checkout spad">
     <div class="container">
         <c:choose>
-        <c:when test="${empty sessionScope.userC and empty sessionScope.admin}">
-        <div class="row">
-            <div class="col-lg-12">
-                <h6><span><i class="fa-solid fa-right-to-bracket"></i></span> Bạn đã đăng nhập chưa ? <a href="Login">Bấm vào đây </a> để đăng nhập hoặc đăng ký.
-                </h6>
-            </div>
-        </div>
-        </c:when>
+            <c:when test="${empty sessionScope.userC and empty sessionScope.admin}">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h6><span><i class="fa-solid fa-right-to-bracket"></i></span> Bạn đã đăng nhập chưa ? <a href="Login">Bấm vào đây </a> để đăng nhập hoặc đăng ký.
+                        </h6>
+                    </div>
+                </div>
+            </c:when>
         </c:choose>
         <div class="checkout__form">
             <h4>Chi tiết hóa đơn ${sessionScope.userC.userId}</h4>
@@ -230,42 +230,40 @@
                     </div>
                     <div class="col-lg-5 col-md-6">
                         <div class="checkout__order">
-<h4>Your Order</h4>
-<div class="checkout__order__products">Sản phẩm <span>Giá</span></div>
-
-<ul>
-<c:forEach var="p" items="${sessionScope.cart.cart_items}">
-    <li class="product-name">${p.product.product_name}<span class="product-price">${FormatCurrency.formatCurrency(p.product.price)}</span></li>
-    <c:set var="ship" value="${ship + (p.product.price * p.quantity)}" />
-    <c:set var="total" value="${total + (p.product.price * p.quantity)}" />
-</c:forEach>
-</ul>
-    <div class="checkout__order__total">Tổng tiền <span class="subtotal">${FormatCurrency.formatCurrency(total)}</span></div>
+                            <h4>Your Order</h4>
+                            <div class="checkout__order__products">Sản phẩm <span>Giá</span></div>
+                            <ul>
+                                <c:forEach var="p" items="${sessionScope.cart.cart_items}">
+                                    <li class="product-name">${p.product.product_name}<span class="product-price">${FormatCurrency.formatCurrency(p.product.price)}</span></li>
+                                    <c:set var="total" value="${total + (p.product.price * p.quantity)}" />
+                                </c:forEach>
+                            </ul>
+                            <div class="checkout__order__total">Tổng tiền <span class="subtotal">${FormatCurrency.formatCurrency(total)}</span></div>
                             <c:set var="discount" value="${sessionScope.discount}" />
-                            <c:set var="totalNew" value="${total-discount}" />
-                            <div class="checkout__order__total">Tiền ship <span>${FormatCurrency.formatCurrency(sessionScope.ship)}</span></div>
-                            <c:choose>
-                                <c:when test="${not empty sessionScope.discount}">
-                                    <div class="checkout__order__total discount-container">Giảm giá <span class="discount">- ${FormatCurrency.formatCurrency(sessionScope.discount)}</span></div>
-                                    <div class="checkout__order__total">Tổng thanh toán <span class="total">${FormatCurrency.formatCurrency(totalNew)}</span></div>
-                                </c:when>
-                                <c:otherwise>
-                                    <div class="checkout__order__total">Tổng thanh toán <span class="total">${FormatCurrency.formatCurrency(total)}</span></div>
-                                </c:otherwise>
-                            </c:choose>
+                            <c:set var="totalNew" value="${total - discount}" />
+                            <div class="checkout__order__total discount-container">
+                                Giảm giá <span class="discount">- ${FormatCurrency.formatCurrency(sessionScope.discount)}</span>
+                            </div>
+                            <div class="checkout__order__subtotal">
+                                Tiền ship <span id="shippingCost">0 VND</span>
+                                <input type="hidden" id="shippingCostValue" value="0" />
+                            </div>
+                            <div class="checkout__order__total">
+                                Tổng thanh toán <span id="totalCost">${FormatCurrency.formatCurrency(totalNew)}</span>
+                            </div>
                             <div class="checkout__input__checkbox" style="display: flex;">
-        <label style="margin-left: -15px">Phương thức thanh toán</label>
-        <div style="margin-left: 20px; margin-top: -10px">
+                                <label style="margin-left: -15px">Phương thức thanh toán</label>
+                                <div style="margin-left: 20px; margin-top: -10px">
 
-            <select name="payment" id="payment" title="Select Category">
-                <c:forEach items="${paymentDAO.selectAll()}" var="c">
-                    <option value="${c.paymentId}">${c.paymentName}</option>
-                </c:forEach>
-            </select>
-        </div>
-    </div>
-    <button type="submit" class="site-btn" id="submitBtn">Đặt hàng</button>
-</div>
+                                    <select name="payment" id="payment" title="Select Category">
+                                        <c:forEach items="${paymentDAO.selectAll()}" var="c">
+                                            <option value="${c.paymentId}">${c.paymentName}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="site-btn" id="submitBtn">Đặt hàng</button>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -378,29 +376,54 @@
 
 </script>
 <script src="https://esgoo.net/scripts/jquery.js"></script>
+
 <script>
-
-</script>
-<script>
-
-
     $(document).ready(function () {
-        // Lấy tỉnh thành
+        let totalQuantity = 0;
+        <c:forEach var="p" items="${sessionScope.cart.cart_items}">
+        totalQuantity += ${p.quantity};
+        </c:forEach>
+
+        function updateTotalCost() {
+            let total = 0;
+            <c:forEach var="p" items="${sessionScope.cart.cart_items}">
+            total += (${p.product.price} * ${p.quantity});
+            </c:forEach>
+            let discount = parseFloat('${sessionScope.discount}');
+            total -= discount;
+
+            let shippingCost = parseFloat($('#shippingCostValue').val());
+            total += shippingCost;
+
+            $('#totalCost').text(formatCurrency(total));
+        }
+
         $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
             if (data_tinh.error == 0) {
                 $("#tinh").append('<option value="0">Chọn Tỉnh/Thành</option>');
                 $.each(data_tinh.data, function (key_tinh, val_tinh) {
                     $("#tinh").append('<option value="' + val_tinh.name + '" data-id="'+val_tinh.id+'">' + val_tinh.name + '</option>');
                 });
-                $("#tinh").change(); // Trigger the change event manually
+                $("#tinh").change();
             }
         });
 
-        // Khi chọn tỉnh
         $("#tinh").change(function (e) {
-
             const idtinh = $('#tinh').find("option:selected").attr("data-id");
-            // Lấy quận huyện
+            const tinhName = $('#tinh').find("option:selected").text();
+
+            let shippingCost = 0;
+            if (tinhName === "Hồ Chí Minh") {
+                shippingCost = 20000 * totalQuantity;
+            } else {
+                shippingCost = 40000 * totalQuantity;
+            }
+
+            $('#shippingCost').text(formatCurrency(shippingCost));
+            $('#shippingCostValue').val(shippingCost);
+
+            updateTotalCost();
+
             $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function (data_quan) {
                 if (data_quan.error == 0) {
                     $("#quan").html('<option value="0">Quận Huyện</option>');
@@ -413,10 +436,8 @@
             });
         });
 
-        // Khi chọn quận/huyện
         $("#quan").change(function (e) {
             const idquan = $('#quan').find("option:selected").attr("data-id");
-            // Lấy phường xã
             $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function (data_phuong) {
                 if (data_phuong.error == 0) {
                     $("#phuong").html('<option value="0">Phường Xã</option>');
@@ -432,7 +453,12 @@
             var idphuong = $('#phuong').find("option:selected").attr("data-id");
             console.log("Ward ID: " + idphuong);
         });
+
+        function formatCurrency(number) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
+        }
     });
+
 </script>
 <script>
 
