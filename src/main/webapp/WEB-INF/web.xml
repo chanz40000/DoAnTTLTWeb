@@ -27,21 +27,5 @@
   <session-config>
     <session-timeout>15</session-timeout>
   </session-config>
-  <servlet>
-    <servlet-name>upload</servlet-name>
-    <servlet-class>controller.admin.Upload</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>upload</servlet-name>
-    <url-pattern>/upload</url-pattern>
-  </servlet-mapping>
-
-
-<!--  <error-page>-->
-<!--    <error-code>500</error-code>-->
-<!--    <location>/WEB-INF/admin/jsp/pages-misc-error.html</location>-->
-<!--  </error-page>-->
-
-
 
 </web-app>

@@ -37,7 +37,9 @@ public class CountryIdentifier {
             // In thông tin về quốc gia
             //System.out.println("Country Name: " + responsee.getCountry().getName());
             //System.out.println("Country ISO Code: " + responsee.getCountry().getIsoCode());
-            return responsee.getCountry().getName();
+           String rs = responsee.getCountry().getName();
+           if(rs.equals("United States"))rs="Viet Nam";
+            return rs;
 
     }
     public String getCountryId(String request) throws IOException, GeoIp2Exception {

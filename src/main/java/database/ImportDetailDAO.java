@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class ImportDetailDAO extends AbsDAO<ImportDetail>{
     ArrayList<ImportDetail> importdes = new ArrayList<>();
     public int creatId() {
-        selectAll();
-        return importdes.size()+1;
+        ArrayList<ImportDetail> list= selectAll();
+        return list.get(list.size()-1).getImportDetail()+1;
     }
     @Override
     public ArrayList<ImportDetail> selectAll() {

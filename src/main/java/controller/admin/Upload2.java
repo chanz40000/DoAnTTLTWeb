@@ -43,6 +43,8 @@ public class Upload2 extends HttpServlet {
             JSONArray noProductArray = new JSONArray();
 
             ProductDAO productDAO = new ProductDAO();
+            int count =0;
+
             for (int i = 0; i < productNamesArray.length(); i++) {
                 String productName = productNamesArray.getString(i);
                  Product product2= productDAO.selectByName(productName);
@@ -54,16 +56,28 @@ public class Upload2 extends HttpServlet {
                      product.put("unitPrice", product2.getUnitPrice()); // Sample unit price
                      responseArray.put(product);
                  }else{
-//                     JSONObject noproduct = new JSONObject();
-//                     noproduct.put("product_id", productName);
-//                     noProductArray.put(noproduct);
+                     count++;
+                     JSONObject noproduct = new JSONObject();
+                     noproduct.put("stt", count);
+                     noproduct.put("product_name", productName);
+                     noProductArray.put(noproduct);
                  }
 
             }
 
             // Send response
+//            response.setContentType("application/json");
+//            response.getWriter().write(responseArray.toString());
+
+            // Combine both arrays into a single JSON object
+            JSONObject jsonResponse = new JSONObject();
+            jsonResponse.put("products", responseArray);
+            jsonResponse.put("noProducts", noProductArray);
+
+// Send JSON response
             response.setContentType("application/json");
-            response.getWriter().write(responseArray.toString());
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(jsonResponse.toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
