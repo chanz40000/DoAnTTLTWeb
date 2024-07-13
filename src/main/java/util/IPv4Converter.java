@@ -1,11 +1,5 @@
 package util;
 
-import com.maxmind.geoip2.DatabaseReader;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
-import com.maxmind.geoip2.model.CountryResponse;
-
-import java.io.File;
-import java.io.IOException;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -20,7 +14,6 @@ public class IPv4Converter {
                 byte[] ipv4Bytes = new byte[4];
                 System.arraycopy(inet6.getAddress(), 12, ipv4Bytes, 0, 4);
                 InetAddress inet4Address = InetAddress.getByAddress(ipv4Bytes);
-                System.out.println("IPv4 Address: " + inet4Address.getHostAddress());
                 return inet4Address.getHostAddress();
             }
         } catch (UnknownHostException e) {
@@ -55,11 +48,4 @@ public class IPv4Converter {
 
         return convertedIpAddress;
     }
-    public static void main(String[] args) {
-        String ipAddress = "0.0.0.1";
-        String convertedIpAddress = convertIPv4(ipAddress);
-        System.out.println("Converted IP Address: " + convertedIpAddress);
-    }
-
-
 }

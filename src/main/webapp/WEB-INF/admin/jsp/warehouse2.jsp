@@ -67,36 +67,6 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../assetsForAdmin/assets/js/config.js"></script>
-    <script>
-        $(document).ready(function (){
-            $("form").submit(
-                function (event){
-                    event.preventDefault();
-                    var formData = new FormData(this);
-                    $.ajax({
-                        url: "upload",
-                        type: 'POST',
-                        data: formData,
-                        success: function(data){
-                            var row = data;
-                            for(i=0; i<row.length; i++){
-                                var column = row[i];
-                                var eachrow = "<tr>";
-                                for(j=0; j<column.length; j++){
-                                    eachrow=eachrow+ "<td>"+ column[j]+"</td>";
-                                }
-                                eachrow = eachrow+"</td>";
-                                $('#tbody').append(eachrow);
-                            }
-                        },
-                        cache: false,
-                        contentType: false,
-                        processData: false
-                    })
-                }
-            )
-        });
-    </script>
     <style>
         .hide{
             display: none;
@@ -375,7 +345,7 @@
                     <div class="card">
                         <h5 class="card-header">Table Basic</h5>
                         <div class="table-responsive text-nowrap">
-                            <%--              <form action="/ImportOrder" method="post">--%>
+
                             <table class="table table-striped">
                                 <thead>
                                 <tr>
@@ -568,7 +538,7 @@
             '<td><span name="product_name" class="titleProduct">' + productName + '</span></td>' +
             '<td><input name="numberOfWarehouses" id="numberOfWarehouses" type="number" class="input-value form-control form-control-sm" value="1" min="1" onclick="inputchange()" oninput="calculateTotal()" ></td>' +
             '<td><input name="unitPrice" type="number" class="input-value form-control form-control-sm"  onclick="inputchange()" oninput="calculateTotal()" value="' + unitPrice + '"></td>' +
-            '<td><input name="totalPrice" type="number" id="totalPrice" class="total-price form-control form-control-sm" readonly></td>' +
+            '<td><input name="totalPrice" type="number" id="totalPrice" value="0" class="total-price form-control form-control-sm" readonly></td>' +
             '<td><button type="button" class="btn btn-sm btn-outline-primary"><span class="cart-delete">Xóa</span></button></td>';
 
 
