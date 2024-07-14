@@ -66,44 +66,6 @@
             padding-top: 20px;
 
         }
-        .nav-pills{
-            width: 100%;
-            margin-left: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .nav-item{
-            display: flex;
-            flex-direction: column;
-            padding: 3px;
-        }
-        .nav-pills .nav-link{
-            font-weight: bold;
-            padding-top: 13px;
-            text-align: center;
-            background: #ffffff;
-            color: #000000;
-            border-radius: 30px;
-            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
-            height: 50px;
-        }
-        .nav-pills .nav-link.active{
-            background: #8AC0DE;
-            color: #ffffff;
-            box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);
-        }
-        .tab-content{
-            width: auto;
-            max-width: 700px;
-            height: auto;
-            /*background: #fff;*/
-            color: #000;
-            /*border-radius: 30px;*/
-            /*box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.4);*/
-            /*padding: 30px;*/
-            margin: 0 auto;
-        }
 
         .fromOrder{
             margin-top: 20px;

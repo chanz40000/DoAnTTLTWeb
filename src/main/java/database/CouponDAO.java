@@ -10,6 +10,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class CouponDAO implements DAOInterface<Coupon> {
+
+    ArrayList<Coupon> data = new ArrayList<>();
+    public int creatId() {
+        data = selectAll();
+        return data.size();
+    }
     @Override
     public ArrayList<Coupon> selectAll() {
         ArrayList<Coupon> coupons = new ArrayList<>();

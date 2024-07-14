@@ -87,8 +87,6 @@ public class CheckoutController extends HttpServlet {
 
         double allTotal = newTotal + shippingCost;
 
-        session.setAttribute("discount", discount);
-        session.setAttribute("newTotal", newTotal);
 
         OrderDAO orderDAO = new OrderDAO();
         PaymentDAO paymentDAO = new PaymentDAO();
@@ -103,7 +101,7 @@ public class CheckoutController extends HttpServlet {
         order.setNote(note);
         order.setTotalPrice(allTotal); // Ensure the total price includes the final amount
 
-        session.setAttribute("order", order);
+        session.setAttribute("orderBooking", order);
         int resultOrder = orderDAO.insert(order);
 
         OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();

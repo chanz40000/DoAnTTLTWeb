@@ -159,16 +159,15 @@
         <a href="Index" target="_blank" class="btn btn-danger btn-buy-now">Quay lại trang shopping</a>
     </div>
 </div>
-<!-- Core JS -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<!-- DataTables JS -->
-<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
-
-<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+<script src="../assetsForAdmin/assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../assetsForAdmin/assets/vendor/libs/popper/popper.js"></script>
+<script src="../assetsForAdmin/assets/vendor/js/bootstrap.js"></script>
+<script src="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="../assetsForAdmin/assets/vendor/js/menu.js"></script>
 
 <!-- Main JS -->
 <script>

@@ -696,5 +696,32 @@ public class UserDAO extends AbsDAO<User> {
         return result;
 
     }
+    public int updateAvatar(User user) {
+        int result = 0;
+
+        User oldUser = this.selectById(user.getUserId());
+        //Set gia tri cho json
+        this.setValue(this.gson.toJson(user));
+        this.setPreValue(this.gson.toJson(oldUser));
+        if (oldUser != null) {
+            try {
+                Connection con = JDBCUtil.getConnection();
+
+                String sql = "UPDATE book.users SET  avatar=? WHERE user_id =?";
+
+                PreparedStatement rs = con.prepareStatement(sql);
+                rs.setString(1, user.getAvatar());
+                rs.setInt(2, user.getUserId());
+
+                result = rs.executeUpdate();
+                super.update(user);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return result;
+
+    }
 }
 

@@ -237,7 +237,7 @@
                 <div style="font-size: 20px" data-i18n="Tables">Thống Kê</div>
             </a>
         </li>
-        <!-- Misc -->
-        <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>
+<%--        <!-- Misc -->--%>
+<%--        <li class="menu-header small text-uppercase"><span class="menu-header-text">Misc</span></li>--%>
     </ul>
 </aside>

@@ -72,7 +72,7 @@ public class ChangInf extends HttpServlet {
 //            Product product = productDao.selectById(idProduct);
 ////        }
 
-            ProductDAO productDAO = new ProductDAO();
+            ProductDAO productDAO = new ProductDAO(request);
             Product product = productDAO.selectById(idProduct);
             product.setProduct_name(name);
             product.setAuthor(author);

@@ -57,35 +57,28 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
     <style>
-        .INFO {
-            width: 200px;
+        td .INFO {
             background-color: lightskyblue;
             padding: 10px 20px;
         }
 
         .ALERT {
-            width: 200px;
             background-color: darkorange;
             padding: 10px 20px;
         }
 
         .DANGER {
-            width: 200px;
             background-color: orangered;
             padding: 10px 20px;
         }
 
         .WARNING {
-            width: auto;
             background-color: peachpuff;
             padding: 10px 20px;
+
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+
 </head>
 
 <body>
@@ -124,11 +117,11 @@
                                 </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                <jsp:useBean id="logDao" class="database.LogDAO"></jsp:useBean>
+                                <jsp:useBean id="logDao" class="database.LogDAO"/>
                                 <c:forEach var="logItem" items="${logDao.selectAll()}">
                                     <tr>
                                         <td id="id_import">${logItem.id}</td>
-                                        <td>${logItem.level}</td>
+                                        <td class="${logItem.level}">${logItem.level}</td>
                                         <td>${logItem.createAt}</td>
                                         <td>${logItem.address}</td>
                                         <td>${logItem.national}</td>
@@ -180,13 +173,24 @@
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 <!-- / Layout wrapper -->
+<script src="../assetsForAdmin/assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../assetsForAdmin/assets/vendor/libs/popper/popper.js"></script>
+<script src="../assetsForAdmin/assets/vendor/js/bootstrap.js"></script>
+<script src="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="../assetsForAdmin/assets/vendor/js/menu.js"></script>
+<%--<script src="../assetsForAdmin/assets/vendor/js/script.js"></script>--%>
+<!-- endbuild -->
+
+<!-- Vendors JS -->
+
+<!-- Main JS -->
+<script src="../assetsForAdmin/assets/js/main.js"></script>
 <script>
     $(document).ready(function() {
         $('#log').DataTable();
     });
 </script>
-<div class="buy-now">
-    <a href="Index" class="btn btn-danger btn-buy-now">Quay lại trang shopping</a>
-</div>
+
 </body>
 </html>
