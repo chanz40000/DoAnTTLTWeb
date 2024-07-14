@@ -59,20 +59,23 @@
             font-size: 20px;
 
         }
+        .sss{
+            background-color: #f1f1f1;
+        }
         .content{
-            width: auto;
-            height: auto;
-            margin: 0 auto;
-            padding: 30px;
+            padding-top: 30px;
         }
         .nav-pills{
-            width: 700px;
-            margin: 0 auto;
+            width: 100%;
+            margin-left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .nav-item{
-            /*width: 25%;*/
             display: flex;
             flex-direction: column;
+            padding: 3px;
         }
         .nav-pills .nav-link{
             font-weight: bold;
@@ -93,21 +96,32 @@
             width: auto;
             max-width: 700px;
             height: auto;
-            background: #fff;
+            min-height: 500px;
             color: #000;
-            border-radius: 30px;
-            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.4);
-            padding: 30px;
             margin: 0 auto;
         }
-
+        .orderEmpty{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            max-width: 690px;
+            min-height: 500px;
+        }
         .fromOrder{
             margin-top: 20px;
-            width: auto;
-            max-width: 700px;
-            border: 1px solid #454545;
+            width: 100%;
+            max-width: 1000px;
+            background-color: white;
+            box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.4);
             border-radius: 10px;
             padding: 10px;
+            margin-left: 0;
+        }
+        @media (max-width: 900px) {
+            .fromOrder {
+                margin-left: 0; /* Bỏ margin-left khi màn hình nhỏ */
+            }
         }
         .orderDetailProduct{
             display: flex;
@@ -185,7 +199,26 @@
             top: 3px;
             left: 5px;
         }
+        .tabLef{
+            padding-top: 100px;
 
+        }
+        .Information_myaccount{
+            /*background-color: white;*/
+            display: flex;
+
+        }
+        .my_img{
+            padding-left: 2px;
+            padding-top: 15px;
+        }
+        .my_Information{
+            padding-top: 15px;
+            padding-left: 10px;
+        }
+        .detail a:hover{
+            color: #a71d2a;
+        }
     </style>
 </head>
 
@@ -195,6 +228,11 @@
     <div class="loader"></div>
 </div>
 <jsp:include page="navbar.jsp"/>
+<jsp:useBean id="orderDetailDAO" class="database.OrderDetailDAO"/>
+<jsp:useBean id="orderDAO" class="database.OrderDAO"/>
+<jsp:useBean id="userDAO" class="database.UserDAO"/>
+<c:set var="id" value="${sessionScope.userC.userId}"/>
+<c:set var="user" value="${sessionScope.userC}"/>
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg" data-setbg="img/hinhnen.png">
     <div class="container">
@@ -211,10 +249,26 @@
         </div>
     </div>
 </section>
-<section>
+<section class="sss">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-3 left-tab">
+                <div class="tabLef">
+                    <div class="Information_myaccount">
+                        <div class="my_img">
+                            <img src="img/blog/blog-1.jpg" alt="" width="55" height="55" class="rounded-circle">
+                        </div>
+                        <div class="my_Information">
+                            <div class="MyName" style="font-weight: bold">${user.username}</div>
+                            <div class="linkInformation">
+                                <a href="/Profile">Hồ sơ của tôi</a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="col-lg-9 ">
                 <div class="order">
                     <div class="content">
                         <!-- Nav pills -->
@@ -238,30 +292,36 @@
                                 <a class="nav-link" data-toggle="pill" href="#StausDaHoan">Trả hàng</a>
                             </li>
                         </ul>
-                        <jsp:useBean id="orderDetailDAO" class="database.OrderDetailDAO"/>
-                        <jsp:useBean id="orderDAO" class="database.OrderDAO"/>
-                        <c:set var="id" value="${sessionScope.userC.userId}"/>
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div id="statusXacNhan" class="container tab-pane active">
                                 <c:set var="statusXacNhan" value="1"/>
+                                <c:if test="${empty orderDAO.selectByUserIdAndStatusId(id, statusXacNhan)}">
+                                    <div class="orderEmpty">
+                                        <img height="100px" width="90px" src="/img/iconorder.png">
+                                        <p>Danh sách đơn hàng trống</p>
+                                    </div>
+                                </c:if>
                                 <c:forEach var="order" items="${orderDAO.selectByUserIdAndStatusId(id, statusXacNhan)}">
                                     <div class="fromOrder">
                                         <div class="orderDetailProduct">
                                             <c:set var="detail" value="${orderDetailDAO.selectFirstByOrderId(order.orderId)}"/>
                                             <div class="img">
-                                                <img width="80px" height="100px" src="/image/${detail.product.image}" alt="">
+                                                <img  width="120px" height="140px" src="/image/${detail.product.image}" alt="">
                                             </div>
                                             <div class="productDetail">
                                                 <div class="productName">
                                                     <h3>${detail.product.product_name} <span style="font-size: 20px">x ${detail.quantity}</span></h3>
                                                 </div>
+                                                <div class="category">
+                                                    <p style="font-size: 15px">Thể loại: ${detail.product.category.categoryName}</p>
+                                                </div>
                                                 <div class="dateOrder">
                                                     <p>${order.bookingDate}</p>
                                                 </div>
                                                 <div class="priceDetail">
-                                                    <div class="productPrice">
-                                                        <p>Chi tiết sản phẩm</p>
+                                                    <div class="detail">
+                                                        <a href="/OrderDetail?OrderId=${order.orderId}">Chi tiết sản phẩm</a>
                                                     </div>
                                                     <div class="productPrice">
                                                         <h4>${FormatCurrency.formatCurrency(detail.product.price)}</h4>
@@ -276,7 +336,7 @@
                                                 <p>${quantity} sản phẩm</p>
                                             </div>
                                             <div class="totalPrice">
-                                                <p style="color: #ff0018; font-size: 20px">${FormatCurrency.formatCurrency(order.totalPrice)}</p>
+                                                <p style="color: #ff0018; font-size: 25px; font-weight: bold">${FormatCurrency.formatCurrency(order.totalPrice)}</p>
                                             </div>
                                         </div>
                                         <hr>
@@ -313,23 +373,32 @@
                             <div id="StausLayHang" class="container tab-pane fade">
                                 <c:set var="statusLayHang" value="2"/>
                                 <c:set var="statusYeuCauHuy" value="5"/>
+                                <c:if test="${empty orderDAO.selectByUserIdAndStatusIds(id, statusLayHang, statusYeuCauHuy)}">
+                                    <div class="orderEmpty">
+                                        <img height="100px" width="90px" src="/img/iconorder.png">
+                                        <p>Danh sách đơn hàng trống</p>
+                                    </div>
+                                </c:if>
                                 <c:forEach var="order" items="${orderDAO.selectByUserIdAndStatusIds(id, statusLayHang, statusYeuCauHuy)}">
                                     <div class="fromOrder">
                                         <div class="orderDetailProduct">
                                             <c:set var="detail" value="${orderDetailDAO.selectFirstByOrderId(order.orderId)}"/>
                                             <div class="img">
-                                                <img width="80px" height="100px" src="/image/${detail.product.image}" alt="">
+                                                <img  width="120px" height="140px" src="/image/${detail.product.image}" alt="">
                                             </div>
                                             <div class="productDetail">
                                                 <div class="productName">
                                                     <h3>${detail.product.product_name} <span style="font-size: 20px">x ${detail.quantity}</span></h3>
                                                 </div>
+                                                <div class="category">
+                                                    <p style="font-size: 15px">Thể loại: ${detail.product.category.categoryName}</p>
+                                                </div>
                                                 <div class="dateOrder">
                                                     <p>${order.bookingDate}</p>
                                                 </div>
                                                 <div class="priceDetail">
-                                                    <div class="productPrice">
-                                                        <p>Chi tiết sản phẩm</p>
+                                                    <div class="detail">
+                                                        <a href="/OrderDetail?OrderId=${order.orderId}">Chi tiết sản phẩm</a>
                                                     </div>
                                                     <div class="productPrice">
                                                         <h4>${FormatCurrency.formatCurrency(detail.product.price)}</h4>
@@ -344,16 +413,16 @@
                                                 <p>${quantity} sản phẩm</p>
                                             </div>
                                             <div class="totalPrice">
-                                                <p style="color: #ff0018; font-size: 20px">${FormatCurrency.formatCurrency(order.totalPrice)}</p>
+                                                <p style="color: #ff0018; font-size: 25px; font-weight: bold">${FormatCurrency.formatCurrency(order.totalPrice)}</p>
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="button">
                                             <div class="statusOrder">
                                                 <c:choose>
-                                                <c:when test="${order.status.statusId == 2}">
-                                                <h3 style="color: #b98d3c; font-size: 22px; font-weight: bold">${order.status.statusName} <i style="color: #b98d3c" class="fa-solid fa-boxes-packing"></i></h3>
-                                                </c:when>
+                                                    <c:when test="${order.status.statusId == 2}">
+                                                        <h3 style="color: #b98d3c; font-size: 22px; font-weight: bold">${order.status.statusName} <i style="color: #b98d3c" class="fa-solid fa-boxes-packing"></i></h3>
+                                                    </c:when>
                                                     <c:otherwise>
                                                         <h3 style="color: #c31625; font-size: 22px; font-weight: bold">${order.status.statusName} <i style="color: #c31625" class="fa-solid fa-ban"></i></h3>
                                                     </c:otherwise>
@@ -399,23 +468,32 @@
                             <div id="StausGiaoHang" class="container tab-pane fade">
                                 <c:set var="statusGiaoHang" value="3"/>
                                 <c:set var="statusGiaoHangThanhCong" value="4"/>
+                                <c:if test="${empty orderDAO.selectByUserIdAndStatusIds(id, statusGiaoHang,statusGiaoHangThanhCong)}">
+                                    <div class="orderEmpty">
+                                        <img height="100px" width="90px" src="/img/iconorder.png">
+                                        <p>Danh sách đơn hàng trống</p>
+                                    </div>
+                                </c:if>
                                 <c:forEach var="order" items="${orderDAO.selectByUserIdAndStatusIds(id, statusGiaoHang,statusGiaoHangThanhCong)}">
                                     <div class="fromOrder">
                                         <div class="orderDetailProduct">
                                             <c:set var="detail" value="${orderDetailDAO.selectFirstByOrderId(order.orderId)}"/>
                                             <div class="img">
-                                                <img width="80px" height="100px" src="/image/${detail.product.image}" alt="">
+                                                <img  width="120px" height="140px" src="/image/${detail.product.image}" alt="">
                                             </div>
                                             <div class="productDetail">
                                                 <div class="productName">
                                                     <h3>${detail.product.product_name} <span style="font-size: 20px">x ${detail.quantity}</span></h3>
                                                 </div>
+                                                <div class="category">
+                                                    <p style="font-size: 15px">Thể loại: ${detail.product.category.categoryName}</p>
+                                                </div>
                                                 <div class="dateOrder">
                                                     <p>${order.bookingDate}</p>
                                                 </div>
                                                 <div class="priceDetail">
-                                                    <div class="productPrice">
-                                                        <p>Chi tiết sản phẩm</p>
+                                                    <div class="detail">
+                                                        <a href="/OrderDetail?OrderId=${order.orderId}">Chi tiết sản phẩm</a>
                                                     </div>
                                                     <div class="productPrice">
                                                         <h4>${FormatCurrency.formatCurrency(detail.product.price)}</h4>
@@ -430,7 +508,7 @@
                                                 <p>${quantity} sản phẩm</p>
                                             </div>
                                             <div class="totalPrice">
-                                                <p style="color: #ff0018; font-size: 20px">${FormatCurrency.formatCurrency(order.totalPrice)}</p>
+                                                <p style="color: #ff0018; font-size: 25px; font-weight: bold">${FormatCurrency.formatCurrency(order.totalPrice)}</p>
                                             </div>
                                         </div>
                                         <hr>
@@ -466,23 +544,32 @@
                             <div id="StausDaGiao" class="container tab-pane fade">
                                 <c:set var="statusDaNhan" value="10"/>
                                 <c:set var="statusYeuCauTraHang" value="7"/>
+                                <c:if test="${empty orderDAO.selectByUserIdAndStatusIds(id, statusDaNhan,statusYeuCauTraHang)}">
+                                    <div class="orderEmpty">
+                                        <img height="100px" width="90px" src="/img/iconorder.png">
+                                        <p>Danh sách đơn hàng trống</p>
+                                    </div>
+                                </c:if>
                                 <c:forEach var="order" items="${orderDAO.selectByUserIdAndStatusIds(id, statusDaNhan,statusYeuCauTraHang)}">
                                     <div class="fromOrder">
                                         <div class="orderDetailProduct">
                                             <c:set var="detail" value="${orderDetailDAO.selectFirstByOrderId(order.orderId)}"/>
                                             <div class="img">
-                                                <img width="80px" height="100px" src="/image/${detail.product.image}" alt="">
+                                                <img  width="120px" height="140px"  src="/image/${detail.product.image}" alt="">
                                             </div>
                                             <div class="productDetail">
                                                 <div class="productName">
                                                     <h3>${detail.product.product_name} <span style="font-size: 20px">x ${detail.quantity}</span></h3>
                                                 </div>
+                                                <div class="category">
+                                                    <p style="font-size: 15px">Thể loại: ${detail.product.category.categoryName}</p>
+                                                </div>
                                                 <div class="dateOrder">
                                                     <p>${order.bookingDate}</p>
                                                 </div>
                                                 <div class="priceDetail">
-                                                    <div class="productPrice">
-                                                        <p>Chi tiết sản phẩm</p>
+                                                    <div class="detail">
+                                                        <a href="/OrderDetail?OrderId=${order.orderId}">Chi tiết sản phẩm</a>
                                                     </div>
                                                     <div class="productPrice">
                                                         <h4>${FormatCurrency.formatCurrency(detail.product.price)}</h4>
@@ -497,7 +584,7 @@
                                                 <p>${quantity} sản phẩm</p>
                                             </div>
                                             <div class="totalPrice">
-                                                <p style="color: #ff0018; font-size: 20px">${FormatCurrency.formatCurrency(order.totalPrice)}</p>
+                                                <p style="color: #ff0018; font-size: 25px; font-weight: bold">${FormatCurrency.formatCurrency(order.totalPrice)}</p>
                                             </div>
                                         </div>
                                         <hr>
@@ -550,24 +637,32 @@
                             </div>
                             <div id="StausDaHuy" class="container tab-pane fade">
                                 <c:set var="statusDaHuy" value="6"/>
-
+                                <c:if test="${empty orderDAO.selectByUserIdAndStatusIds(id, statusDaHuy)}">
+                                    <div class="orderEmpty">
+                                        <img height="100px" width="90px" src="/img/iconorder.png">
+                                        <p>Danh sách đơn hàng trống</p>
+                                    </div>
+                                </c:if>
                                 <c:forEach var="order" items="${orderDAO.selectByUserIdAndStatusId(id, statusDaHuy)}">
                                     <div class="fromOrder">
                                         <div class="orderDetailProduct">
                                             <c:set var="detail" value="${orderDetailDAO.selectFirstByOrderId(order.orderId)}"/>
                                             <div class="img">
-                                                <img width="80px" height="100px" src="/image/${detail.product.image}" alt="">
+                                                <img   width="120px" height="140px"  src="/image/${detail.product.image}" alt="">
                                             </div>
                                             <div class="productDetail">
                                                 <div class="productName">
                                                     <h3>${detail.product.product_name} <span style="font-size: 20px">x ${detail.quantity}</span></h3>
                                                 </div>
+                                                <div class="category">
+                                                    <p style="font-size: 15px">Thể loại: ${detail.product.category.categoryName}</p>
+                                                </div>
                                                 <div class="dateOrder">
                                                     <p>${order.bookingDate}</p>
                                                 </div>
                                                 <div class="priceDetail">
-                                                    <div class="productPrice">
-                                                        <p>Chi tiết sản phẩm</p>
+                                                    <div class="detail">
+                                                        <a href="/OrderDetail?OrderId=${order.orderId}">Chi tiết sản phẩm</a>
                                                     </div>
                                                     <div class="productPrice">
                                                         <h4>${FormatCurrency.formatCurrency(detail.product.price)}</h4>
@@ -582,13 +677,13 @@
                                                 <p>${quantity} sản phẩm</p>
                                             </div>
                                             <div class="totalPrice">
-                                                <p style="color: #ff0018; font-size: 20px">${FormatCurrency.formatCurrency(order.totalPrice)}</p>
+                                                <p style="color: #ff0018; font-size: 25px; font-weight: bold">${FormatCurrency.formatCurrency(order.totalPrice)}</p>
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="button">
                                             <div class="statusOrder">
-                                                <h3 style="color: #c31625; font-size: 22px; font-weight: bold">${order.status.statusName} <i style="color: #c31625" class="fa-solid fa-xmark"></i></h3>
+                                                <h3 style="color: #c31625; font-size: 22px; font-weight: bold">${order.status.statusName} </h3>
                                             </div>
                                         </div>
                                     </div>
@@ -597,23 +692,32 @@
                             <div id="StausDaHoan" class="container tab-pane fade">
                                 <c:set var="statusDaHoan" value="8"/>
                                 <c:set var="statusYeuCauTraHang" value="7"/>
+                                <c:if test="${empty orderDAO.selectByUserIdAndStatusIds(id, statusDaHoan)}">
+                                    <div class="orderEmpty">
+                                        <img height="100px" width="90px" src="/img/iconorder.png">
+                                        <p>Danh sách đơn hàng trống</p>
+                                    </div>
+                                </c:if>
                                 <c:forEach var="order" items="${orderDAO.selectByUserIdAndStatusId(id, statusDaHoan)}">
                                     <div class="fromOrder">
                                         <div class="orderDetailProduct">
                                             <c:set var="detail" value="${orderDetailDAO.selectFirstByOrderId(order.orderId)}"/>
                                             <div class="img">
-                                                <img width="80px" height="100px" src="/image/${detail.product.image}" alt="">
+                                                <img  width="120px" height="140px"  src="/image/${detail.product.image}" alt="">
                                             </div>
                                             <div class="productDetail">
                                                 <div class="productName">
                                                     <h3>${detail.product.product_name} <span style="font-size: 20px">x ${detail.quantity}</span></h3>
                                                 </div>
+                                                <div class="category">
+                                                    <p style="font-size: 15px">Thể loại: ${detail.product.category.categoryName}</p>
+                                                </div>
                                                 <div class="dateOrder">
                                                     <p>${order.bookingDate}</p>
                                                 </div>
                                                 <div class="priceDetail">
-                                                    <div class="productPrice">
-                                                        <p>Chi tiết sản phẩm</p>
+                                                    <div class="detail">
+                                                        <a href="/OrderDetail?OrderId=${order.orderId}">Chi tiết sản phẩm</a>
                                                     </div>
                                                     <div class="productPrice">
                                                         <h4>${FormatCurrency.formatCurrency(detail.product.price)}</h4>
@@ -628,7 +732,7 @@
                                                 <p>${quantity} sản phẩm</p>
                                             </div>
                                             <div class="totalPrice">
-                                                <p style="color: #ff0018; font-size: 20px">${FormatCurrency.formatCurrency(order.totalPrice)}</p>
+                                                <p style="color: #ff0018; font-size: 25px; font-weight: bold">${FormatCurrency.formatCurrency(order.totalPrice)}</p>
                                             </div>
                                         </div>
                                         <hr>

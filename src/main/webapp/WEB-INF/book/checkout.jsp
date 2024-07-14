@@ -134,9 +134,43 @@
         .checkout__input small{
             color: #dc3545;
         }
-
-
-
+        .qr-code {
+            display: flex;
+            align-items: center;
+        }
+        .qr-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .qrModal-content {
+            /*background-color: #fefefe;*/
+            margin: 100px auto; /* Cách phía trên 100px và tự động căn giữa ngang */
+            padding: 20px;
+            /*border: 1px solid #888;*/
+            width: 40%;
+            display: flex;
+            align-items: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -250,6 +284,7 @@
                             </div>
                             <div class="checkout__order__total">
                                 Tổng thanh toán <span id="totalCost">${FormatCurrency.formatCurrency(totalNew)}</span>
+                                <input type="hidden" id="totalNewValue" value="${totalNew}" />
                             </div>
                             <div class="checkout__input__checkbox" style="display: flex;">
                                 <label style="margin-left: -15px">Phương thức thanh toán</label>
@@ -266,10 +301,18 @@
                         </div>
                     </div>
                 </div>
+
             </form>
         </div>
     </div>
+    <div id="qrModal" class="qr-modal">
+        <div class="qrModal-content">
+
+            <img style="width: 400px;height: 500px;margin-top: 30px;margin-left: 80px" id="QRCODE-Img" src="" alt="QR Code">
+        </div>
+    </div>
 </section>
+
 <!-- Checkout Section End -->
 
 <!-- Footer Section Begin -->
@@ -375,27 +418,49 @@
     // Enable Dark Reader when the page loads
 
 </script>
+<script src="js/scanqr.js"></script>
 <script src="https://esgoo.net/scripts/jquery.js"></script>
 
 <script>
+
     $(document).ready(function () {
         let totalQuantity = 0;
         <c:forEach var="p" items="${sessionScope.cart.cart_items}">
         totalQuantity += ${p.quantity};
         </c:forEach>
 
-        function updateTotalCost() {
+        function calculateTotal() {
             let total = 0;
             <c:forEach var="p" items="${sessionScope.cart.cart_items}">
             total += (${p.product.price} * ${p.quantity});
             </c:forEach>
-            let discount = parseFloat('${sessionScope.discount}');
-            total -= discount;
+            return total;
+        }
 
+        function getDiscount() {
+            return parseFloat('${sessionScope.discount}');
+        }
+
+        function getShippingCost() {
             let shippingCost = parseFloat($('#shippingCostValue').val());
-            total += shippingCost;
+            return shippingCost;
+        }
 
-            $('#totalCost').text(formatCurrency(total));
+        function updateTotalCost() {
+            let total = calculateTotal();
+            let discount = getDiscount();
+            let shippingCost = getShippingCost();
+
+            let totalNew;
+            if (discount > 0) {
+                totalNew = total - discount;
+            } else {
+                totalNew = total;
+            }
+
+            $('#totalCost').text(formatCurrency(totalNew + shippingCost));
+            $('#totalNewValue').val(totalNew); // Cập nhật giá trị mới nhất của totalNew vào input ẩn
+            return totalNew;
         }
 
         $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function (data_tinh) {
@@ -429,7 +494,7 @@
                     $("#quan").html('<option value="0">Quận Huyện</option>');
                     $("#phuong").html('<option value="0">Phường Xã</option>');
                     $.each(data_quan.data, function (key_quan, val_quan) {
-                        $("#quan").append('<option value="' + val_quan.name + '" data-id="'+val_quan.id+'">'  + val_quan.name + '</option>');
+                        $("#quan").append('<option value="' + val_quan.name + '" data-id="'+val_quan.id+'">' + val_quan.name + '</option>');
                     });
                     console.log("Province ID: " + idtinh);
                 }
@@ -457,6 +522,9 @@
         function formatCurrency(number) {
             return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
         }
+
+        // QR Payment
+
     });
 
 </script>
@@ -532,9 +600,6 @@
 </script>
 
 
-
-
-</script>
 <script src="https://cdn.botpress.cloud/webchat/v2/inject.js"></script>
 <script src="https://mediafiles.botpress.cloud/1d0997ec-87ba-4ea8-8a5c-c2fba00d5019/webchat/v2/config.js"></script>
 

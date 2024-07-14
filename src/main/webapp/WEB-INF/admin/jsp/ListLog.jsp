@@ -8,13 +8,28 @@
 
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>Tables - Basic Tables | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
-    <meta name="description" content="" />
+    <meta charset="UTF-8">
+    <meta name="description" content="Ogani Template">
+    <meta name="keywords" content="Ogani, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ogani | Template</title>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+    <script defer src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../assetsForAdmin/assets/img/favicon/favicon.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.css"/>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="src/main/webapp/css/bootstrap.min.css">
+    <link rel="stylesheet" href="src/main/webapp/css/font-awesome.min.css">
+    <link rel="stylesheet" href="src/main/webapp/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="src/main/webapp/css/nice-select.css">
+    <link rel="stylesheet" href="src/main/webapp/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="src/main/webapp/css/slicknav.min.css">
+    <link rel="stylesheet" href="src/main/webapp/css/style.css">
+    <link rel="stylesheet" href="src/main/webapp/css/styleforbankaccount.css">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -40,6 +55,32 @@
     <script src="../assetsForAdmin/assets/vendor/js/helpers.js"></script>
     <!-- jQuery, Bootstrap JS, and DataTables JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+    <style>
+        .INFO {
+            width: 200px;
+            background-color: lightskyblue;
+            padding: 10px 20px;
+        }
+
+        .ALERT {
+            width: 200px;
+            background-color: darkorange;
+            padding: 10px 20px;
+        }
+
+        .DANGER {
+            width: 200px;
+            background-color: orangered;
+            padding: 10px 20px;
+        }
+
+        .WARNING {
+            width: auto;
+            background-color: peachpuff;
+            padding: 10px 20px;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
@@ -72,7 +113,7 @@
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
                         <div class="table-responsive text-nowrap">
-                            <table class="table table-striped" id="example2" style="width:100%">
+                            <table class="table table-striped"  id="log" style="width:100%">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
@@ -139,7 +180,11 @@
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 <!-- / Layout wrapper -->
-
+<script>
+    $(document).ready(function() {
+        $('#log').DataTable();
+    });
+</script>
 <div class="buy-now">
     <a href="Index" class="btn btn-danger btn-buy-now">Quay lại trang shopping</a>
 </div>
