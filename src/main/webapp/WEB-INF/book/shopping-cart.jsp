@@ -137,7 +137,7 @@
         transition: transform 0.3s ease;
     }
     .close__choose_discount:hover {
-        transform: translateY(-5px); /* Dịch chuyển phần tử lên 5px khi hover */
+        transform: translateY(-5px);
     }
     .shoping__discount{
         padding-left: 20px;
@@ -669,6 +669,7 @@
                         <li>Tổng tiền <span class="subtotal">${FormatCurrency.formatCurrency(subtotal)}</span></li>
                         <li class="discount-container" style="display:none;">Giảm giá <span class="discount">- ${FormatCurrency.formatCurrency(sessionScope.discount)}</span></li>
                         <li>Tổng thanh toán <span class="total">${FormatCurrency.formatCurrency(total)}</span></li>
+                        <li>discount <span>${FormatCurrency.formatCurrency(discount)}</span></li>
                     </ul>
                     <a href="/Checkout" class="primary-btn" id="checkout-btn">Thanh toán</a>
                 </div>
@@ -1022,13 +1023,18 @@
         // Lấy giá trị giảm giá từ các trường ẩn
         let discountType = parseInt($("#discount-type").val()) || 0;
         let discountValue = parseFloat($("#discount-value").val()) || 0;
+        let maxTotalPrice = parseFloat($("#maxTotalPrice").val()) || 0;
         let discount = 0;
         if (discountType === 1) { // Giảm giá theo phần trăm
             discount = subtotal * (discountValue / 100);
         } else if (discountType === 2) { // Giảm giá cố định
             discount = discountValue;
         }
-
+        // Áp dụng giá trị giảm tối đa nếu có
+        if (maxTotalPrice > 0 && discount > maxTotalPrice) {
+            discount = maxTotalPrice;
+        }
+        console.log("Calculated Discount:", discount);
         let formattedDiscount = formatCurrency(discount);
         $(".discount").text(" -" + formattedDiscount);
 

@@ -156,6 +156,9 @@
         font-size: 20px;
 
     }
+    a:hover{
+        color: black;
+    }
     /*#content-wrapper{*/
     /*    width: 100%;*/
     /*}*/
@@ -250,6 +253,7 @@
                                                     <th>Trạng thái</th>
                                                     <th>Actions</th>
                                                     <th>Người sửa</th>
+                                                    <th></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -260,7 +264,7 @@
                                                 <c:set var="YeuCauTraHang" value="7"/>
                                                 <c:forEach var="order" items="${orderDAO.selectByStatusIds(ChoXacNhan, DangDongGoi, YeuCauHuy, YeuCauTraHang, DangGiao)}">
                                                     <tr>
-                                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${order.orderId}</strong></td>
+                                                        <td><strong>${order.orderId}</strong></td>
                                                         <td>${order.user.userId}</td>
                                                         <td>${order.bookingDate}</td>
                                                         <td><span class="badge bg-label-primary me-1 order-status">${order.status.statusName}</span></td>
@@ -296,6 +300,7 @@
                                                                 </c:if>
                                                             </c:if>
                                                         </td>
+                                                        <td><a href="/OrderDetails?order_Id=${order.orderId}">chi tiết</a></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -307,6 +312,7 @@
                                                     <th>Trạng thái</th>
                                                     <th>Actions</th>
                                                     <th>Người sửa</th>
+                                                    <th></th>
                                                 </tr>
                                                 </tfoot>
                                             </table>
@@ -324,6 +330,7 @@
                                                     <th>Ngày đặt</th>
                                                     <th>Trạng thái</th>
                                                     <th>Người sửa</th>
+                                                    <th></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -357,6 +364,7 @@
                                                                 </c:if>
                                                             </c:if>
                                                         </td>
+                                                        <td><a href="/OrderDetails?order_Id=${order.orderId}">chi tiết</a></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -367,6 +375,7 @@
                                                     <th>Ngày đặt</th>
                                                     <th>Trạng thái</th>
                                                     <th>Người sửa</th>
+                                                    <th></th>
                                                 </tr>
                                                 </tfoot>
                                             </table>
@@ -385,6 +394,7 @@
                                                     <th>Trạng thái</th>
                                                     <th>Actions</th>
                                                     <th>Người sửa</th>
+                                                    <th></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -463,6 +473,7 @@
                                                                 </c:if>
                                                             </c:if>
                                                         </td>
+                                                        <td><a href="/OrderDetails?order_Id=${order.orderId}">chi tiết</a></td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -474,6 +485,7 @@
                                                     <th>Trạng thái</th>
                                                     <th>Actions</th>
                                                     <th>Người sửa</th>
+                                                    <th></th>
                                                 </tr>
                                                 </tfoot>
                                             </table>

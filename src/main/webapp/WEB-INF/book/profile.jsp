@@ -39,6 +39,61 @@
 .avatar-container:hover #editButton {
 	display: block;
 }
+.img-account-profile {
+	height: 10rem;
+}
+.rounded-circle {
+	border-radius: 50% !important;
+}
+.card {
+	box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+}
+.card .card-header {
+	font-weight: 500;
+}
+.card-header:first-child {
+	border-radius: 0.35rem 0.35rem 0 0;
+}
+.card-header {
+	padding: 1rem 1.35rem;
+	margin-bottom: 0;
+	background-color: rgba(33, 40, 50, 0.03);
+	border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+}
+.form-control, .dataTable-input {
+	display: block;
+	width: 100%;
+	padding: 0.875rem 1.125rem;
+	font-size: 0.875rem;
+	font-weight: 400;
+	line-height: 1;
+	color: #69707a;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #c5ccd6;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border-radius: 0.35rem;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.nav-borders .nav-link.active {
+	color: #0061f2;
+	border-bottom-color: #0061f2;
+}
+.nav-borders .nav-link {
+	color: #69707a;
+	border-bottom-width: 0.125rem;
+	border-bottom-style: solid;
+	border-bottom-color: transparent;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	padding-left: 0;
+	padding-right: 0;
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
 </style>
 
 </head>
@@ -66,115 +121,95 @@
 							</div>
 						</div>
 						<!-- row -->
-						<div class="row column1">
-							<div class="col-md-2"></div>
-							<div class="col-md-8">
-								<div class="white_shd full margin_bottom_30">
-									<div class="full graph_head">
-										<div class="heading1 margin_0">
-											<h2>Hồ Sơ Của Tôi</h2>
+						<div class="container-xl px-4 mt-4">
+							<!-- Account page navigation-->
+							<hr class="mt-0 mb-4">
+							<div class="row">
+								<div class="col-xl-4">
+									<!-- Profile picture card-->
+									<div class="card mb-4 mb-xl-0">
+										<div class="card-header">Profile Picture</div>
+										<div class="card-body text-center">
+											<!-- Profile picture image-->
+											<img class="img-account-profile rounded-circle mb-2" src="${userC.avatar}" alt="">
+											<!-- Profile picture help block-->
+											<div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+											<!-- Profile picture upload button-->
+											<form action="${pageContext.request.contextPath}/ChangeAvartar" method="post" enctype="multipart/form-data">
+												<input type="file" name="avatar" accept="image/*" required ="">
+												<button class="btn btn-primary" type="submmit">Upload new image</button>
+												<form>
 										</div>
 									</div>
-									<div class="full price_table padding_infor_info">
-										<div class="row">
-											<!-- user profile section -->
-											<!-- profile image -->
-											<div class="col-lg-12">
-		<jsp:useBean id="userDAO" class="database.UserDAO" />
-         <c:set var="userId" value="${sessionScope.userC.userId}" />
-        <c:set var="user" value="${userDAO.selectById(userId)}" />
-
-   <c:choose>
-    <c:when test="${not empty sessionScope.userC and not empty sessionScope.userC.avatar}">
-        <div class="avatar-container" onmouseover="showEditButton()" onmouseout="hideEditButton()">
-            <img  style="width: 180px; height: 180px" src="${pageContext.request.contextPath}/${sessionScope.userC.avatar}" alt="User Avatar">
-            <button id="editAvatar" onclick="openFileExplorer()">Đổi hình đại diện</button>
-        </div>
-        <form id="uploadForm" style="display: none;" action="${pageContext.request.contextPath}/uploadimage" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="userId" value="${user.userId}" />
-            <label >Thay đổi thông tin:</label>
-            <input type="file" name="avatar" accept="image/*" onchange="uploadImage()">
-            <button type="button" onclick="cancelUpload()">Hủy</button>
-            <button type="button" onclick="submitUpload()">OK</button>
-        </form>
-    </c:when>
-    <c:otherwise>
-        <div class="avatar-container" onmouseover="showEditButton()" onmouseout="hideEditButton()">
-            <img id="avatarImage" style="width: 180px; height: 180px" src="images/cool.png" alt="Default Avatar">
-            <button id="editButton" onclick="openFileExplorer()">Thay đổi</button>
-        </div>
-        <form id="uploadForm" style="display: none;" action="${pageContext.request.contextPath}/uploadimage" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="userId" value="${user.userId}" />
-            <label >Thay đổi:</label>
-            <input type="file" name="avatar" accept="image/*" onchange="uploadImage()">
-            <button type="button" onclick="cancelUpload()">Hủy</button>
-            <button type="button" onclick="submitUpload()">OK</button>
-        </form>
-    </c:otherwise>
-</c:choose>
-
-<div class="profile_contant">
-    <div class="contact_inner">
-        <h3>${user.name}</h3>
-        <p>
-            <strong>Thông tin về: ${sessionScope.userC.name}</strong>
-        </p>
-		${sessionScope.userC.email}
-<%--        <ul class="list-unstyled">
-            <li><img src="/image/icons8-email-32 (1).png" alt=""> : ${sessionScope.userC.email}</li>
-            <li><img src="/image/icons8-telephone-32.png" alt="">: ${sessionScope.userC.phoneNumber}</li>
-            <li><img src="./image/birthday-cake (1).png" alt=""> : ${sessionScope.userC.birthday.toString()}</li>
-            <li><img src="/image/sexual-harassment.png" alt=""> : ${sessionScope.userC.sexual}</li>
-        </ul>--%>
-    </div>
-</div>
-
-													<div class="user_progress_bar">
-														<div class="progress_bar">
-															<!-- Skill Bars -->
-															<span class="skill" style="width: 85%;">Web
-																Applications <span class="info_valume">85%</span>
-															</span>
-															<div class="progress skill-bar ">
-																<div
-																	class="progress-bar progress-bar-animated progress-bar-striped"
-																	role="progressbar" aria-valuenow="85" aria-valuemin="0"
-																	aria-valuemax="100" style="width: 85%;"></div>
-															</div>
-															<span class="skill" style="width: 78%;">Website
-																Design <span class="info_valume">78%</span>
-															</span>
-															<div class="progress skill-bar">
-																<div
-																	class="progress-bar progress-bar-animated progress-bar-striped"
-																	role="progressbar" aria-valuenow="78" aria-valuemin="0"
-																	aria-valuemax="100" style="width: 78%;"></div>
-															</div>
-															<span class="skill" style="width: 47%;">Automation
-																& Testing <span class="info_valume">47%</span>
-															</span>
-															<div class="progress skill-bar">
-																<div
-																	class="progress-bar progress-bar-animated progress-bar-striped"
-																	role="progressbar" aria-valuenow="54" aria-valuemin="0"
-																	aria-valuemax="100" style="width: 54%;"></div>
-															</div>
-															<span class="skill" style="width: 65%;">UI / UX <span
-																class="info_valume">65%</span></span>
-															<div class="progress skill-bar">
-																<div
-																	class="progress-bar progress-bar-animated progress-bar-striped"
-																	role="progressbar" aria-valuenow="65" aria-valuemin="0"
-																	aria-valuemax="100" style="width: 65%;"></div>
-															</div>
-														</div>
+								</div>
+								<div class="col-xl-8">
+									<!-- Account details card-->
+									<div class="card mb-4">
+										<div class="card-header">Account Details</div>
+										<div class="card-body">
+											<form>
+												<!-- Form Group (username)-->
+												<div class="mb-3">
+													<label class="small mb-1" for="inputUsername">Tên tài khoản</label>
+													<input class="form-control" id="inputUsername" type="text" placeholder="Enter your username" value="${userC.username}">
+												</div>
+												<!-- Form Row-->
+												<div class="row gx-3 mb-3">
+													<!-- Form Group (first name)-->
+													<div class="col-md-6">
+														<label class="small mb-1" for="inputFirstName">First name</label>
+														<input class="form-control" id="inputFirstName" type="text" placeholder="Enter your first name" value="Valerie">
+													</div>
+													<!-- Form Group (last name)-->
+													<div class="col-md-6">
+														<label class="small mb-1" for="inputLastName">Last name</label>
+														<input class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" value="Luna">
 													</div>
 												</div>
-											</div>
+												<!-- Form Row        -->
+												<div class="row gx-3 mb-3">
+													<!-- Form Group (organization name)-->
+													<div class="col-md-6">
+														<label class="small mb-1" for="inputOrgName">Organization name</label>
+														<input class="form-control" id="inputOrgName" type="text" placeholder="Enter your organization name" value="Start Bootstrap">
+													</div>
+													<!-- Form Group (location)-->
+													<div class="col-md-6">
+														<label class="small mb-1" for="inputLocation">Location</label>
+														<input class="form-control" id="inputLocation" type="text" placeholder="Enter your location" value="San Francisco, CA">
+													</div>
+												</div>
+												<!-- Form Group (email address)-->
+												<div class="mb-3">
+													<label class="small mb-1" for="inputEmailAddress">Email address</label>
+													<input class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" value="name@example.com">
+												</div>
+												<!-- Form Row-->
+												<div class="row gx-3 mb-3">
+													<!-- Form Group (phone number)-->
+													<div class="col-md-6">
+														<label class="small mb-1" for="inputPhone">Phone number</label>
+														<input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" value="555-123-4567">
+													</div>
+													<!-- Form Group (birthday)-->
+													<div class="col-md-6">
+														<label class="small mb-1" for="inputBirthday">Birthday</label>
+														<input class="form-control" id="inputBirthday" type="text" name="birthday" placeholder="Enter your birthday" value="06/10/1988">
+													</div>
+												</div>
+												<!-- Save changes button-->
+												<button class="btn btn-primary" type="button">Save changes</button>
+											</form>
 										</div>
 									</div>
 								</div>
 							</div>
+						</div>
+
+
+
+
+
 						</div>
 
 						<!-- profile contant section -->

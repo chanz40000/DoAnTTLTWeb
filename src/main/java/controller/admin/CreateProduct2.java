@@ -9,6 +9,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
+import util.ConfigUtil;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -22,6 +23,8 @@ import java.util.List;
 
 @WebServlet(name = "CreateProduct2", value = "/CreateProduct2")
 public class CreateProduct2 extends HttpServlet {
+
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Xu ly yeu cau GET neu can
@@ -89,7 +92,9 @@ public class CreateProduct2 extends HttpServlet {
                                 .toFile(new File(repository, "thumb_" + fileName));
 
                         // Thu muc dich trong thu muc goc cua ung dung web
-                        File imgDir = new File(servletContext.getRealPath("/image"));
+                        String webAppPath = ConfigUtil.getProperty("ADDRESS_IMAGE");
+                        File imgDir = new File(webAppPath + "image");
+                        System.out.println(imgDir);
                         if (uploadedFile.exists()) {
                             // Xoa tap tin dich neu ton tai
                             File existingFile = new File(imgDir, fileName);

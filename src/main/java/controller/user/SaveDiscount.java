@@ -75,14 +75,21 @@ public class SaveDiscount extends HttpServlet {
         response.getWriter().write(new Gson().toJson(jsonResponse));
     }
 
-        private double calculateDiscount(Coupon coupon, double cartTotal) {
-            int discountTypeId = coupon.getDiscountType().getCouponTypeId();
-            if (discountTypeId == 1) {
-                return cartTotal * (coupon.getDiscountValue() / 100);
-            } else if (discountTypeId == 2) {
-                return coupon.getDiscountValue();
-            } else {
-                return 0;
-            }
+    private double calculateDiscount(Coupon coupon, double cartTotal) {
+        double discount = 0;
+        int discountTypeId = coupon.getDiscountType().getCouponTypeId();
+
+        if (discountTypeId == 1) { // Percentage discount
+            discount = cartTotal * (coupon.getDiscountValue() / 100);
+        } else if (discountTypeId == 2) { // Fixed amount discount
+            discount = coupon.getDiscountValue();
         }
+
+        // Ensure discount does not exceed maxTotalPrice
+        if (discount > coupon.getMaxTotalPrice()) {
+            discount = coupon.getMaxTotalPrice();
+        }
+
+        return discount;
+    }
 }

@@ -63,6 +63,63 @@
             font-size: 20px;
 
         }
+
+        .sss{
+            background-color: #f1f1f1;
+        }
+        .content{
+            padding-top: 20px;
+
+        }
+
+        .fromOrder{
+            margin-top: 20px;
+            width: 100%;
+            max-width: 1000px;
+            /*background-color: white;*/
+            /*box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.4);*/
+            border-radius: 10px;
+            /*padding: 10px;*/
+            margin-left: 0;
+        }
+        @media (max-width: 900px) {
+            .fromOrder {
+                margin-left: 0; /* Bỏ margin-left khi màn hình nhỏ */
+            }
+        }
+        .orderDetailProduct{
+            display: flex;
+            flex-direction: row;
+        }
+        .productDetail{
+            display: flex;
+            flex-direction: column;
+            margin-left: 20px;
+            width: 100%;
+            justify-content: space-between;
+        }
+        .priceDetail{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .tabLef{
+            padding-top: 20px;
+
+        }
+        .totalOrder{
+            color: #a71d2a;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .information span{
+            font-weight: bold;
+            color: black;
+        }
+        .information div{
+            font-size: 18px;
+            padding-bottom: 10px;
+        }
     </style>
 </head>
 
@@ -97,6 +154,71 @@
     <h2>Cảm ơn đã đặt hàng !! Đơn hàng của bạn sẽ sớm được xử lý.</h2>
 
 </div>
+<section class="sss">
+    <div class="d-flex justify-content-center" style="padding-top: 30px">
+        <p style="font-size: 50px; font-weight: bold; color: black">Chi tiết đơn hàng</p>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-5 left-tab">
+                <div class="tabLef">
+                    <div class="information">
+                        <h4 style="color: #a71d2a; font-weight: bold">Thông tin người nhận</h4>
+                        <hr>
+                        <div class="name"><span>Tên:</span> ${orderBooking.nameConsignee}</div>
+                        <div><span>Địa chỉ:</span> ${orderBooking.address}</div>
+                        <div><span>Sđt:</span> ${orderBooking.phone}</div>
+                        <div><span>email:</span> ${orderBooking.user.email}</div>
+                        <div><span>Note:</span> ${orderBooking.note}</div>
+                        <div><span>Thanh toán bằng:</span> ${orderBooking.payment.paymentName}</div>
+                            <div style="color: #ef8640; font-weight: bold"><span>Trạng thái:</span> ${orderBooking.status.statusName} <i style="color: #ef8640" class="fa-solid fa-check"></i></div>
+                    </div>
+                    <hr>
+                    <div class="totalOrder">
+                        Tổng tiền: ${FormatCurrency.formatCurrency(orderBooking.totalPrice)}
+                    </div>
+                    <hr>
+                </div>
+
+            </div>
+            <div class="col-lg-7 ">
+                <div class="order">
+                    <div class="content">
+                        <h3>Thông tin sản phẩm</h3>
+                        <c:forEach var="orderDetail" items="${orderDetails}">
+                            <div class="fromOrder">
+
+                                <div class="orderDetailProduct">
+                                    <div class="img">
+                                        <img  width="80px" height="100px" src="/image/${orderDetail.product.image}" alt="">
+                                    </div>
+                                    <div class="productDetail">
+                                        <div class="productName">
+                                            <h3>${orderDetail.product.product_name} <span style="font-size: 20px">x ${orderDetail.quantity}</span></h3>
+                                        </div>
+                                        <div class="category">
+                                            <p style="font-size: 15px">Thể loại: ${orderDetail.product.category.categoryName}</p>
+                                        </div>
+                                        <div class="priceDetail" style="display: flex" >
+                                            <div class="productPrice">
+                                                <h4>${FormatCurrency.formatCurrency(orderDetail.product.price)}</h4>
+                                            </div>
+                                            <div class="productPriceTotal">
+                                                <c:set var="total" value="${orderDetail.quantity * orderDetail.product.price}"/>
+                                                <h4 style="color: #ce0f21; font-weight: bold">Tổng: ${FormatCurrency.formatCurrency(total)}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <!-- Product Section Begin -->
 
 

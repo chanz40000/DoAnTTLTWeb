@@ -58,6 +58,8 @@
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <!-- Bootstrap Datepicker CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
 
     <!-- Page CSS -->
 
@@ -135,6 +137,96 @@
 
     }
 
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 10000;
+    }
+    .newCoupon{
+        border: none;
+        background-color: #1c67d7;
+        color: white;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+    }
+    .newCoupon:hover{
+        background-color: #1051b2;
+        transform: scale(1.1);
+    }
+    .addCounponContainer{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10001;
+        width: auto;
+        height: auto;
+        background-color: white;
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+    /*@media (max-width: 768px) {*/
+    /*    .addCounponContainer {*/
+    /*        margin-left: 0; !* Bỏ margin-left khi màn hình nhỏ *!*/
+    /*    }*/
+    /*}*/
+    .closeAddCoupon{
+        position: absolute;
+        display: flex;
+        top: -15px;
+        right: -15px;
+        justify-content: center;
+        align-items: center;
+        width: 35px;
+        height: 35px;
+        background-color: #1c67d7;
+        color: #ffffff;
+        font-weight: bold;
+        border-radius: 50%;
+        font-size: 25px;
+        transition: transform 0.3s ease;
+    }
+    .closeAddCoupon:hover{
+        transform: scale(1.1);
+        background-color: #c31625;
+        color: #ffffff;
+    }
+    .addCouponContent{
+        padding: 10px;
+    }
+    .coupon{
+        padding-bottom: 10px;
+    }
+    .form-label{
+        font-size: 18px;
+    }
+    .form-control{
+
+    }
+    .addCoupon{
+        display: none;
+    }
+    .addCouponBt{
+        display: flex;
+        justify-content: center
+    }
+    .codeInput{
+        position: relative;
+    }
+    .btnRandom{
+        position: absolute;
+        top: 5px;
+        right: 0;
+        background-color: white;
+        border: none;
+    }
+
 </style>
 <body>
 <!-- Layout wrapper -->
@@ -155,7 +247,14 @@
             <div class="content-wrapper" id="content-wrapper">
                 <!-- Content -->
                 <div class="container-xxl flex-grow-1 container-p-y" id="content-big-section">
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Mã giảm giá /</span> Danh sách mã giảm</h4>
+                    <div style="display: flex;  justify-content: space-between">
+                        <div>
+                            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Mã giảm giá /</span> Danh sách mã giảm</h4>
+                        </div>
+                        <div class="buttonNewCoupon">
+                            <button class="newCoupon">Thêm mã mới</button>
+                        </div>
+                    </div>
 
                     <!-- Basic Bootstrap Table -->
                     <div class="card" id="cardresp">
@@ -206,13 +305,80 @@
 
                         <br>
                     </div>
-
-
                     <!--/ Basic Bootstrap Table -->
 
                     <hr class="my-5" />
-
                     <!-- / Content -->
+                    <div id="overlay" class="overlay" style="display: none;"></div>
+                    <div class="addCoupon"  id="addCoupon">
+                        <div class="addCounponContainer">
+                            <div class="closeAddCoupon"><i class="fa-solid fa-xmark"></i></div>
+                            <div class="addCouponContent">
+                                <div style="display: flex; justify-content: center"><h3 style="font-weight: bold">Thêm mã giảm giá</h3></div>
+                                <form method="post" action="AddCoupon">
+                                <div style="display: flex; justify-content: space-between">
+                                    <div class="coupon">
+                                        <label class="form-label" for="code">Mã giảm <span style="color:#ff0019;"> *</span></label>
+                                        <div class="codeInput">
+                                        <input type="text" class="form-control" name="code" id="code" required />
+                                        <div type="button" id="generateCode" class="btnRandom"><img width="50px" height="30px" src="/img/random.png"></div>
+                                        </div>
+                                    </div>
+                                    <div class="coupon">
+                                        <label class="form-label" for="discountType">Loại <span style="color:#ff0019;"> *</span></label>
+                                        <jsp:useBean id="CouponTypeDAO" class="database.CouponTypeDAO"/>
+                                        <select id="discountType" name="discountType"  class="select2 form-select">
+                                            <c:forEach var="type" items="${CouponTypeDAO.selectAll()}">
+                                                <option value="${type.couponTypeId}">${type.couponTye}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="coupon">
+                                    <label class="form-label" for="discountValue">Giá trị giảm <span style="color:#ff0019;"> *</span></label>
+                                    <input type="number" class="form-control" name="discountValue" id="discountValue" required />
+                                </div>
+                                <div style="display: flex; justify-content: space-between">
+                                    <div class="coupon">
+                                        <label class="form-label" for="startDate">Ngày bắt đầu <span style="color:#ff0019;"> *</span></label>
+                                        <input type="date" class="form-control" name="startDate" id="startDate" required />
+                                    </div>
+                                    <div class="coupon">
+                                        <label class="form-label" for="endDate">Ngày hết hạn <span style="color:#ff0019;"> *</span></label>
+                                        <input type="date" class="form-control" name="endDate" id="endDate" required/>
+                                    </div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between">
+                                    <div class="coupon">
+                                        <label class="form-label" for="maxUseOfCoupon">Số lượng mã<span style="color:#ff0019;"> *</span></label>
+                                        <input type="number" class="form-control" name="maxUseOfCoupon" id="maxUseOfCoupon" required/>
+                                    </div>
+                                    <div class="coupon">
+                                        <label class="form-label" for="maxQuantityUseOfUser">Lượt dùng mã/người<span style="color:#ff0019;"> *</span></label>
+                                        <input type="number" class="form-control" name="maxQuantityUseOfUser" id="maxQuantityUseOfUser" required/>
+                                    </div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between">
+                                <div class="coupon">
+                                    <label class="form-label" for="minTotalPrice">Giá tối thiểu</label>
+                                    <input type="number" class="form-control" name="minTotalPrice" id="minTotalPrice"  value="0"/>
+                                </div>
+                                <div class="coupon">
+                                    <label class="form-label" for="maxTotalPrice">Giảm tối đa</label>
+                                    <input type="number" class="form-control" name="maxTotalPrice" id="maxTotalPrice"  value="0"/>
+                                </div>
+                                </div>
+                                <div class="coupon">
+                                    <label class="form-label" for="minQuantity">Số lượng tối thiểu</label>
+                                    <input type="number" class="form-control" name="minQuantity" id="minQuantity"  value="0"/>
+                                </div>
+                                    <div class="addCouponBt">
+                                        <button type="submit" class="btn btn-primary">Tạo mã giảm</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Footer -->
                     <footer class="content-footer footer bg-footer-theme">
@@ -271,6 +437,8 @@
 
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
 <script src="../assetsForAdmin/assets/vendor/libs/jquery/jquery.js"></script>
@@ -311,7 +479,38 @@
 
 
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const overlay = document.getElementById("overlay");
+        const addCouponDiv = document.getElementById("addCoupon");
+        const newCouponButton = document.querySelector(".newCoupon");
+        const closeAddCouponButton = document.querySelector(".closeAddCoupon");
+        const generateCodeButton = document.getElementById("generateCode");
+        const codeInput = document.getElementById("code");
+        newCouponButton.addEventListener("click", function() {
+            overlay.style.display = "block";
+            addCouponDiv.style.display = "block";
+        });
 
+        closeAddCouponButton.addEventListener("click", function() {
+            overlay.style.display = "none";
+            addCouponDiv.style.display = "none";
+        });
+
+        generateCodeButton.addEventListener("click", function() {
+            codeInput.value = generateRandomCode(10);
+        });
+
+        function generateRandomCode(length) {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            const charactersLength = characters.length;
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+
+    });
     //import LRU from 'lru-cache';
     //const LRU = require('lru-cache');
     // Define LRU cache with max 100 items and 1 hour max age
