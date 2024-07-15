@@ -405,12 +405,16 @@
                                                     </form>
                                                 </div>
                                                 <input type="text" class="form-control valueQuantity" style="text-align: center" value="${item.quantity}" readonly>
+                                                <jsp:useBean id="productDAO" class="database.ProductDAO"/>
+<%--                                                <c:set var="quantityy" value="${productDAO.inventoryProduct(Integer.parseInt(item.product.productId))}"/>--%>
+                                                <input type="hidden" id="quantityOfProduct" value="${productDAO.inventoryProduct(Integer.parseInt(item.product.productId))}">
                                                 <div class="input-group-appendd">
                                                     <form class="updateQuantityIncrease" action="UpdateQuantity" method="post" data-price="${item.product.price}">
                                                         <input type="hidden" name="idproduct" value="${item.product.productId}">
                                                         <input type="hidden" name="quantity" value="${item.quantity + 1}">
                                                         <button type="submit" class="btn btn-outline-black">+</button>
                                                     </form>
+
                                                 </div>
 
                                             </div>
@@ -1201,31 +1205,39 @@
                 let form = $(this);
                 let currentQuantityInput = form.closest("tr").find(".valueQuantity");
                 let pricePerItem = parseFloat(form.data("price")); // Lấy giá của một sản phẩm
-                let newQuantity = parseInt(currentQuantityInput.val(), 10) + 1;
+                var quantityInStock = parseInt($('#quantityOfProduct').val());
+                let currentQuantity = parseInt(currentQuantityInput.val(), 10);
 
-                // Cập nhật giá trị 'quantity' trong form trước khi gửi
-                form.find("input[name='quantity']").val(newQuantity);
+                if(currentQuantity<quantityInStock) {
+                    let newQuantity = parseInt(currentQuantityInput.val(), 10) + 1;
+                    // Cập nhật giá trị 'quantity' trong form trước khi gửi
+                    form.find("input[name='quantity']").val(newQuantity);
 
-                $.ajax({
-                    type: "POST",
-                    url: form.attr("action"),
-                    data: form.serialize(),
-                    success: function (data){
-                        currentQuantityInput.val(newQuantity);
+                    $.ajax({
+                        type: "POST",
+                        url: form.attr("action"),
+                        data: form.serialize(),
+                        success: function (data){
+                            currentQuantityInput.val(newQuantity);
 
-                        // Tính toán và cập nhật giá tiền mới
-                        let newTotalPrice = pricePerItem * newQuantity;
-                        let formattedTotalPrice = formatCurrency(newTotalPrice); // Sử dụng hàm JavaScript để định dạng giá tiền
-                        form.closest("tr").find(".shoping__cart__total").text(formattedTotalPrice);
+                            // Tính toán và cập nhật giá tiền mới
+                            let newTotalPrice = pricePerItem * newQuantity;
+                            let formattedTotalPrice = formatCurrency(newTotalPrice); // Sử dụng hàm JavaScript để định dạng giá tiền
+                            form.closest("tr").find(".shoping__cart__total").text(formattedTotalPrice);
 
-                        // Cập nhật lại subtotal và total trên giao diện
-                        updateSubtotalAndTotal();
-                    },
-                    error: function (error){
-                        console.log("Error: ", error);
-                        alert("Có lỗi xảy ra");
-                    }
-                });
+                            // Cập nhật lại subtotal và total trên giao diện
+                            updateSubtotalAndTotal();
+                        },
+                        error: function (error){
+                            console.log("Error: ", error);
+                            alert("Có lỗi xảy ra");
+                        }
+                    });
+                } else{
+                    alert("Không thể tăng lên quá số lượng trong kho");
+                    console.log("Không thể tăng lên quá số lươợng trong kho")
+                }
+
             });
         });
         $(".CouponApply").on("submit", function (event){
@@ -1288,6 +1300,7 @@
                 let pricePerItem = parseFloat(form.data("price")); // Lấy giá của một sản phẩm
                 let currentQuantity = parseInt(currentQuantityInput.val(), 10);
 
+
                 if(currentQuantity > 1) {
                     let newQuantity = parseInt(currentQuantityInput.val(), 10) - 1;
                     // Cập nhật giá trị 'quantity' trong form trước khi gửi
@@ -1321,7 +1334,7 @@
                         }
                     });
                 } else{
-                    console.log("Không thể giảm xuống 1")
+                    alert("Không thể giảm xuống 1");
                 }
             });
         });

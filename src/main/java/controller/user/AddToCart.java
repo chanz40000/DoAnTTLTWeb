@@ -22,6 +22,7 @@ public class AddToCart extends HttpServlet {
         // Lấy mã sản phẩm từ request
         int productId = Integer.parseInt(request.getParameter("productId"));
 
+
         //Lấy giỏ hàng từ session hoặc tạo mới nếu chưa có
         Cart cart = (Cart) request.getSession().getAttribute("cart");
         if (cart == null) {

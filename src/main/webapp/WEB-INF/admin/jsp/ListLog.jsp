@@ -57,25 +57,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
     <style>
-        td .INFO {
-            background-color: lightskyblue;
-            padding: 10px 20px;
+        .info {
+            color: green;
         }
 
-        .ALERT {
-            background-color: darkorange;
-            padding: 10px 20px;
+        .warn {
+            color: yellow;
         }
 
-        .DANGER {
-            background-color: orangered;
-            padding: 10px 20px;
-        }
-
-        .WARNING {
-            background-color: peachpuff;
-            padding: 10px 20px;
-
+        .error {
+            color: red;
         }
     </style>
 
@@ -114,6 +105,7 @@
                                     <th>Ngày</th>
                                     <th>Địa chỉ IP</th>
                                     <th>Quốc gia</th>
+                                    <th>Nội dung</th>
                                 </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
@@ -121,10 +113,11 @@
                                 <c:forEach var="logItem" items="${logDao.selectAll()}">
                                     <tr>
                                         <td id="id_import">${logItem.id}</td>
-                                        <td class="${logItem.level}">${logItem.level}</td>
+                                        <td class="${logItem.level.toLowerCase()}">${logItem.level}</td>
                                         <td>${logItem.createAt}</td>
                                         <td>${logItem.address}</td>
                                         <td>${logItem.national}</td>
+                                        <td>${logItem.value}</td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -189,6 +182,25 @@
 <script>
     $(document).ready(function() {
         $('#log').DataTable();
+    });
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#log').DataTable({
+            "createdRow": function(row, data, dataIndex) {
+                if (data[1] === 'INFO') {
+                    $('td', row).eq(1).addClass('info');
+                } else if (data[1] === 'WARN') {
+                    $('td', row).eq(1).addClass('warn');
+                } else if (data[1] === 'ERROR') {
+                    $('td', row).eq(1).addClass('error');
+                }
+            }
+        });
     });
 </script>
 

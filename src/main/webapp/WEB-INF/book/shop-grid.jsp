@@ -367,33 +367,33 @@
             </div>
             <div class="col-lg-9 col-md-7">
                 <br><br>
-                <div class="product__discount">
-                    <div class="section-title product__discount__title">
-                        <h2>Sale Off</h2>
-                    </div>
-                    <div class="row">
-                        <div class="product__discount__slider owl-carousel">
-                            <div class="col-lg-4">
-                                <div class="product__discount__item">
-                                    <div class="product__discount__item__pic set-bg"
-                                         data-setbg="img/product/discount/pd-1.jpg">
-                                        <div class="product__discount__percent">-20%</div>
-                                        <ul class="product__item__pic__hover">
-                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                            <li><a href="#"><i class="fa-info-circle"></i></a></li>
-                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__discount__item__text">
-                                        <span>Dried Fruit</span>
-                                        <h5><a href="#">Raisin’n’nuts</a></h5>
-                                        <div class="product__item__price">$30.00 <span>$36.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<%--                <div class="product__discount">--%>
+<%--                    <div class="section-title product__discount__title">--%>
+<%--                        <h2>Sale Off</h2>--%>
+<%--                    </div>--%>
+<%--                    <div class="row">--%>
+<%--                        <div class="product__discount__slider owl-carousel">--%>
+<%--                            <div class="col-lg-4">--%>
+<%--                                <div class="product__discount__item">--%>
+<%--                                    <div class="product__discount__item__pic set-bg"--%>
+<%--                                         data-setbg="img/product/discount/pd-1.jpg">--%>
+<%--                                        <div class="product__discount__percent">-20%</div>--%>
+<%--                                        <ul class="product__item__pic__hover">--%>
+<%--                                            <li><a href="#"><i class="fa fa-heart"></i></a></li>--%>
+<%--                                            <li><a href="#"><i class="fa-info-circle"></i></a></li>--%>
+<%--                                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>--%>
+<%--                                        </ul>--%>
+<%--                                    </div>--%>
+<%--                                    <div class="product__discount__item__text">--%>
+<%--                                        <span>Dried Fruit</span>--%>
+<%--                                        <h5><a href="#">Raisin’n’nuts</a></h5>--%>
+<%--                                        <div class="product__item__price">$30.00 <span>$36.00</span></div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
                 <div class="filter__item">
                     <div class="row">
                         <div class="col-lg-7 col-md-5">
@@ -492,6 +492,8 @@
                 <div class="row" id="row">
 
                     <c:forEach var="p" items="${listProduct}">
+                        <c:set var="productId" value="${p.getProductId()}" />
+                        <c:set var="quantity" value="${productDAO.inventoryProduct(Integer.parseInt(productId))}" />
                         <div class="col-lg-4 col-md-6 col-sm-6 product__form">
                             <div class="product__item">
 
@@ -516,7 +518,7 @@
                                             </form>
                                         </li>
                                         <c:choose>
-                                            <c:when test="${p.quantity > 0}">
+                                            <c:when test="${quantity > 0}">
                                                 <li>
                                                     <form class="add-to-cart-form" action="AddToCart" method="post" id="addToCartForm">
                                                         <input type="hidden" name="productId" value="${p.productId}">
@@ -577,8 +579,8 @@
                                         </c:choose>
                                         <li class="Stick"></li>
                                         <c:choose>
-                                        <c:when test="${p.quantity > 0}">
-                                        <li class="Productnotsell">Còn lại ${p.quantity}</li>
+                                        <c:when test="${quantity > 0}">
+                                        <li class="Productnotsell">Còn lại ${quantity}</li>
                                     </ul>
                                     <h5 style="font-size: 24px; color: #e30404">${FormatCurrency.formatCurrency(p.price)}</h5>
                                     </c:when>
@@ -1004,5 +1006,4 @@
 <script src="https://cdn.botpress.cloud/webchat/v2/inject.js"></script>
 <script src="https://mediafiles.botpress.cloud/1d0997ec-87ba-4ea8-8a5c-c2fba00d5019/webchat/v2/config.js"></script>
 </body>
-
 </html>

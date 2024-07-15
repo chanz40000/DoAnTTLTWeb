@@ -32,31 +32,11 @@
 
 </head>
 <style>
-    /*button#toggle-dark-mode{*/
-    /*    background: none;*/
-    /*    color: inherit;*/
-    /*    border: none;*/
-    /*    position: absolute;*/
-    /*    font: inherit;*/
-    /*    cursor: pointer;*/
-    /*    outline: inherit;*/
-    /*    top: 12px;*/
-
-
-
-
-
-    /*}*/
-    /*.fa-regular.fa-sun{*/
-    /*    font-size: 20px;*/
-    /*    color: #f5f56d;*/
-
-    /*}*/
-    /*.fa-regular.fa-moon{*/
-    /*    font-size: 20px;*/
-
-    /*}*/
+    .site-btn{
+        background-color: #1c67d7;
+    }
 </style>
+
 <body>
 
 <!-- Page Preloder -->

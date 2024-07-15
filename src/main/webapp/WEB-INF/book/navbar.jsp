@@ -132,23 +132,6 @@
                         <div class="header__top__right__social">
 
                         </div>
-                        <%--                            <div class="header__top__right__language">--%>
-                        <%--                                <img src="img/language.png" alt="">--%>
-                        <%--                                <div>English</div>--%>
-                        <%--                                <span class="arrow_carrot-down"></span>--%>
-                        <%--                                <ul>--%>
-                        <%--                                    <li><a href="#">Spanis</a></li>--%>
-                        <%--                                    <li><a href="#">English</a></li>--%>
-                        <%--                                </ul>--%>
-                        <%--                            </div>--%>
-
-                        <%--                            <li style="padding-left: 5px; padding-top: 10px; margin: 0px;"--%>
-                        <%--                                class="nav-item dropdown"><a class="nav-icon-hover"--%>
-                        <%--                                                             href="javascript:void(0)" id="drop2"--%>
-                        <%--                                                             data-bs-toggle="dropdown"--%>
-                        <%--                                                             aria-expanded="false"> <img--%>
-                        <%--                                    style="margin-left: 40px; margin-top: 20px" src="images/cool.png"--%>
-                        <%--                                    alt="" width="35" height="35" class="rounded-circle">--%>
                         <c:choose>
                             <c:when test="${not empty sessionScope.userC.name || not empty sessionScope.admin.name}">
                                 <div class="header__top__right__auth">
