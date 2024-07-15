@@ -96,9 +96,8 @@ public class AbsDAO <T> implements DAOInterface<T> {
     public int delete(T t) {
         LogDAO logDAO = new LogDAO();
 
-
         Log log = new Log(logDAO.creatId(), "WARNING",LocalDateTime.now(), this.getIpAddress(), null, value, getNational());
-        new LogDAO().update(log);
+        new LogDAO().insert(log);
         return 0;
     }
 
@@ -107,7 +106,7 @@ public class AbsDAO <T> implements DAOInterface<T> {
 
 
         Log log = new Log(logDAO.creatId(), "WARNING",LocalDateTime.now(), this.getIpAddress(), null, value, getNational());
-        new LogDAO().update(log);
+        new LogDAO().insert(log);
         return 0;
     }
 

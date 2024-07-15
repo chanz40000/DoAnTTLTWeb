@@ -217,6 +217,7 @@
                         data: {
                             labels: labels,
                             datasets: [{
+                                label: "doanh thu",
                                 data: values,
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 0.6)',
@@ -328,6 +329,7 @@
                     data:{
                         labels:["Thứ 2", "Thứ 3","Thứ 4","Thứ 5","Thứ 6","Thứ 7","CN"],
                         datasets:[{
+                            label: "doanh thu",
                             data:data,
                             //backgroundColor:'green',
                             backgroundColor:[

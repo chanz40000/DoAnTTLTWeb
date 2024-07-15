@@ -12,7 +12,7 @@ public class Logout extends HttpServlet {
          HttpSession session = request.getSession();
          if(session!=null){
              session.invalidate();
-             request.getRequestDispatcher("/WEB-INF/book/index.jsp").forward(request,response);
+             request.getRequestDispatcher("/WEB-INF/book/shop-grid.jsp").forward(request,response);
          }
     }
 

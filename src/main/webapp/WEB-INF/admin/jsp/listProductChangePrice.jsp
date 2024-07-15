@@ -17,7 +17,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet" />
 
     <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/fonts/boxicons.css" />
@@ -31,10 +31,7 @@
     <link rel="stylesheet" href="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
     <!-- DataTables CSS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap5.min.css"/>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css"/>
 
     <!-- Custom Styles -->
     <style>
@@ -111,7 +108,6 @@
                                             <td>${changePrice.newPrice}</td>
                                             <td>${changePrice.date}</td>
                                             <td>${user.username}</td>
-                                            <td id="stt" style="display:none;">${changePrice.stt}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <a class="btn btn-secondary" href="./ProductDetail?id=${product.productId}">ĐỔI GIÁ</a>
@@ -159,17 +155,28 @@
         <a href="Index" target="_blank" class="btn btn-danger btn-buy-now">Quay lại trang shopping</a>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+
+<!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+
+<!-- DataTables JS -->
+<script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
+
+<!-- Perfect Scrollbar JS -->
+<script src="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<!-- Main JS -->
+<script src="../assetsForAdmin/assets/vendor/js/menu.js"></script>
 <script src="../assetsForAdmin/assets/vendor/libs/jquery/jquery.js"></script>
 <script src="../assetsForAdmin/assets/vendor/libs/popper/popper.js"></script>
 <script src="../assetsForAdmin/assets/vendor/js/bootstrap.js"></script>
 <script src="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-<script src="../assetsForAdmin/assets/vendor/js/menu.js"></script>
 
-<!-- Main JS -->
+<!-- Initialize DataTables -->
 <script>
     $(document).ready(function () {
         $('#example').DataTable({

@@ -82,7 +82,34 @@ public class LogDAO implements DAOInterface<Log>{
 
     @Override
     public int insert(Log log) {
-        return 0;
+        int result = 0;
+        try {
+            Connection con = JDBCUtil.getConnection();
+
+            String sql = "INSERT INTO log(idlog, time, level, address, preValue, value, national)"
+                    + "VALUE(?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement rs = con.prepareStatement(sql);
+
+            rs.setInt(1, log.getId());
+            rs.setTimestamp(2, Timestamp.valueOf(log.getCreateAt()));
+            rs.setString(3, log.getLevel());
+            rs.setString(4, log.getAddress());
+            rs.setString(5, log.getPreValue());
+            rs.setString(6, log.getValue());
+            rs.setString(7, log.getNational());
+
+
+            result = rs.executeUpdate();
+
+            JDBCUtil.closeConnection(con);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        return result;
     }
 
     @Override

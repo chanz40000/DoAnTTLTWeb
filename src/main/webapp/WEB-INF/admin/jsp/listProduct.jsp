@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ page import="util.FormatCurrency"%>
 <%@page isELIgnored="false" %>
 <!DOCTYPE html>
 
@@ -340,7 +339,7 @@
     //import LRU from 'lru-cache';
     //const LRU = require('lru-cache');
     // Define LRU cache with max 100 items and 1 hour max age
-    const cache = new LRUCache({ max: 100, maxAge: 3600 * 1000 });
+    const cache = new LRUCache({ max: 1000, maxAge: 36000 * 1000 });
 
     // Function to retrieve data from cache or source
     async function getDataFromCacheOrSource() {
@@ -499,6 +498,14 @@
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cdn.datatables.net/2.0.6/js/dataTables.js"></script>
+<script src="../assetsForAdmin/assets/vendor/libs/jquery/jquery.js"></script>
+<script src="../assetsForAdmin/assets/vendor/libs/popper/popper.js"></script>
+<script src="../assetsForAdmin/assets/vendor/js/bootstrap.js"></script>
+<script src="../assetsForAdmin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 <script>
 
     function deleteItem(event){
