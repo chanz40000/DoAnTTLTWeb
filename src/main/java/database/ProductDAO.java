@@ -508,7 +508,7 @@ public class ProductDAO extends AbsDAO<Product> {
     @Override
     public int delete(Product product) {
         int result = 0;
-        this.setValue(this.gson.toJson(product));
+        this.setValue("xoa san pham"+this.gson.toJson(product));
         try {
             Connection con = JDBCUtil.getConnection();
 

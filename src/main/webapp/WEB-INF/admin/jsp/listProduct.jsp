@@ -339,7 +339,7 @@
     //import LRU from 'lru-cache';
     //const LRU = require('lru-cache');
     // Define LRU cache with max 100 items and 1 hour max age
-    const cache = new LRUCache({ max: 100, maxAge: 3600 * 1000 });
+    const cache = new LRUCache({ max: 1000, maxAge: 36000 * 1000 });
 
     // Function to retrieve data from cache or source
     async function getDataFromCacheOrSource() {

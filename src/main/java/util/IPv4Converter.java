@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 
 public class IPv4Converter {
 
+    //nhận vào một chuỗi địa chỉ IPv6 và trả về chuỗi địa chỉ IPv4
     public static String IPv6ToIPv4(String ipAddress) {
         try {
             InetAddress inet6Address = InetAddress.getByName(ipAddress);
@@ -21,6 +22,7 @@ public class IPv4Converter {
         }
         return null;
     }
+    //trả về địa chỉ IPv4 mới sau khi đã thực hiện các biến đổi bit.
     public static String convertIPv4(String ipAddress) {
         ipAddress = IPv6ToIPv4(ipAddress);
         String[] octets = ipAddress.split("\\.");

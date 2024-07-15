@@ -28,24 +28,6 @@ public class CountryIdentifier {
         //System.out.println("clientIpAddress: "+ clientIpAddress);
         String ipv4 = IPv4Converter.convertIPv4(clientIpAddress);
 
-            // Chuyển đổi địa chỉ IP từ dạng string sang đối tượng InetAddress
-            InetAddress ip = InetAddress.getByName(ipv4);
-
-            // Truy vấn thông tin địa lý của địa chỉ IP
-            CountryResponse responsee = dbReader.country(ip);
-
-            // In thông tin về quốc gia
-            //System.out.println("Country Name: " + responsee.getCountry().getName());
-            //System.out.println("Country ISO Code: " + responsee.getCountry().getIsoCode());
-           String rs = responsee.getCountry().getName();
-           if(rs.equals("United States"))rs="Viet Nam";
-            return rs;
-
-    }
-    public String getCountryId(String request) throws IOException, GeoIp2Exception {
-        // Lấy địa chỉ IP của client từ request
-        String ipv4 = IPv4Converter.convertIPv4(request);
-
         // Chuyển đổi địa chỉ IP từ dạng string sang đối tượng InetAddress
         InetAddress ip = InetAddress.getByName(ipv4);
 
@@ -55,10 +37,30 @@ public class CountryIdentifier {
         // In thông tin về quốc gia
         //System.out.println("Country Name: " + responsee.getCountry().getName());
         //System.out.println("Country ISO Code: " + responsee.getCountry().getIsoCode());
-        return responsee.getCountry().getName();
+        String rs = responsee.getCountry().getName();
+        if (rs.equals("United States")) rs = "Viet Nam";
+        return rs;
 
     }
 
+//    public String getCountryId2(String request) throws IOException, GeoIp2Exception {
+//        // Lấy địa chỉ IP của client từ request
+//        String ipv4 = IPv4Converter.convertIPv4(request);
+//
+//        // Chuyển đổi địa chỉ IP từ dạng string sang đối tượng InetAddress
+//        InetAddress ip = InetAddress.getByName(ipv4);
+//
+//        // Truy vấn thông tin địa lý của địa chỉ IP
+//        CountryResponse responsee = dbReader.country(ip);
+//
+//        // In thông tin về quốc gia
+//        //System.out.println("Country Name: " + responsee.getCountry().getName());
+//        //System.out.println("Country ISO Code: " + responsee.getCountry().getIsoCode());
+//        return responsee.getCountry().getName();
+//
+//    }
+
+    // Lấy địa chỉ IP của client từ request
     public String getClientIpAddress(HttpServletRequest request) {
         // Lấy địa chỉ IP của client từ HTTP request
         String ipAddress = request.getHeader("X-Forwarded-For");
@@ -72,27 +74,10 @@ public class CountryIdentifier {
             ipAddress = request.getRemoteAddr();
         }
 
-       return ipAddress;
+        return ipAddress;
 
     }
 
-
-    public static void main(String[] args) {
-
-        String mmdbFilepath = "C:/Users/ADMIN/eclipse-workspace/BookWeb-master/src/main/java/util/GeoLite2-Country (1).mmdb";
-
-        String ipv6Address = "0:0:0:0:0:0:0:1";
-        try {
-            new CountryIdentifier().getCountryId(ipv6Address);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (GeoIp2Exception e) {
-            throw new RuntimeException(e);
-        }
-
-
-           }
-
-    }
+}
 
 

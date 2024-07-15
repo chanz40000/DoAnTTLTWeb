@@ -30,10 +30,25 @@ public class DeleteProductChangePrice extends HttpServlet {
         }
         itemId.deleteCharAt(itemId.length()-1);
         String id = itemId.toString();
+        System.out.println("id sp xoa: ");
+        System.out.println(id);
         id.replace("'", "");
-        int itemId2 = Integer.parseInt(id);
-        ChangePriceDAO dao = new ChangePriceDAO();
-        dao.delete(itemId2);
+        // Tách chuỗi thành mảng các chuỗi con, cách nhau bởi dấu phẩy
+        String[] parts = id.split(",");
+
+        // Khai báo mảng số nguyên để lưu kết quả
+        int[] numbers = new int[parts.length];
+
+        // Chuyển đổi từng chuỗi thành số nguyên và lưu vào mảng numbers
+        for (int i = 0; i < parts.length; i++) {
+            numbers[i] = Integer.parseInt(parts[i].trim());
+            ChangePriceDAO dao = new ChangePriceDAO();
+            dao.delete(numbers[i]);
+        }
+
+
+        //int itemId2 = Integer.parseInt(id);
+
         response.sendRedirect("ChangePrice");
     }
 }
