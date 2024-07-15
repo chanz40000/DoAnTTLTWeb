@@ -195,7 +195,6 @@
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
                         <jsp:useBean id="orderDAO" class="database.OrderDAO"/>
-                        <jsp:useBean id="orderHistoryDAO" class="database.OrderHistoryDAO"/>
                         <div class="col-xl-12">
                             <div class="nav-align-top mb-4">
                                 <ul class="nav nav-tabs nav-fill" role="tablist">
@@ -340,7 +339,6 @@
                                                     <th>Ngày đặt</th>
                                                     <th>Trạng thái</th>
                                                     <th>Actions</th>
-                                                    <th>Người sửa</th>
                                                     <th></th>
                                                 </tr>
                                                 </thead>
@@ -353,7 +351,6 @@
                                                     <th>Ngày đặt</th>
                                                     <th>Trạng thái</th>
                                                     <th>Actions</th>
-                                                    <th>Người sửa</th>
                                                     <th></th>
                                                 </tr>
                                                 </tfoot>
@@ -369,7 +366,6 @@
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
                                                 <th>Actions</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -382,7 +378,6 @@
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
                                                 <th>Actions</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </tfoot>
@@ -396,7 +391,6 @@
                                                 <th>Mã User</th>
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -408,7 +402,6 @@
                                                 <th>Mã User</th>
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </tfoot>
@@ -422,7 +415,6 @@
                                                 <th>Mã User</th>
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -434,7 +426,6 @@
                                                 <th>Mã User</th>
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </tfoot>
@@ -449,7 +440,6 @@
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
                                                 <th>Actions</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -462,7 +452,6 @@
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
                                                 <th>Actions</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </tfoot>
@@ -476,7 +465,6 @@
                                                 <th>Mã User</th>
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -488,7 +476,6 @@
                                                 <th>Mã User</th>
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </tfoot>
@@ -503,7 +490,6 @@
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
                                                 <th>Actions</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -516,7 +502,6 @@
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
                                                 <th>Actions</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </tfoot>
@@ -530,7 +515,6 @@
                                                 <th>Mã User</th>
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -542,7 +526,6 @@
                                                 <th>Mã User</th>
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </tfoot>
@@ -556,7 +539,6 @@
                                                 <th>Mã User</th>
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </thead>
@@ -568,7 +550,6 @@
                                                 <th>Mã User</th>
                                                 <th>Ngày đặt</th>
                                                 <th>Trạng thái</th>
-                                                <th>Người sửa</th>
                                                 <th></th>
                                             </tr>
                                             </tfoot>
@@ -708,21 +689,12 @@
                             let buttons = '';
                             if ([1, 5, 7].includes(table.status)) {
                                 buttons = '<button type="button" class="btn btn-primary" onclick="confirmOrder(' + data + ', ' + row.status.statusId + ')">Chấp nhận</button>' +
-                                    '<button type="button" class="btn btn-danger" onclick="rejectOrder(' + data + ')">Từ chối</button>';
+                                    '<button type="button" class="btn btn-danger" onclick="rejectOrder(' + data + ', ' + row.status.statusId + ')">Từ chối</button>';
                             } else if (table.status === 2) {
                                 buttons = '<button type="button" class="btn btn-success" onclick="confirmOrder(' + data + ', ' + row.status.statusId + ')">Đóng gói xong</button>';
                             }
                             return buttons;
 
-                        }
-                    },
-                    {
-                        "data": "latestHistory.user",
-                        "render": function(data, type, row) {
-                            if (data) {
-                                return data.role == 2 ? 'ID User: ' + data.userId : 'ID Admin: ' + data.userId;
-                            }
-                            return '';
                         }
                     },
                     {
@@ -763,9 +735,13 @@
             }
         });
     }
-    function rejectOrder(orderId) {
-        const newStatus = 6;
-
+    function rejectOrder(orderId, currentStatus) {
+        let newStatus;
+        switch (currentStatus) {
+            case 5: newStatus = 2; break;
+            case 7: newStatus = 10; break;
+            default: newStatus = currentStatus;
+        }
         $.ajax({
             type: "POST",
             url: "/ChangeStatusOrder",

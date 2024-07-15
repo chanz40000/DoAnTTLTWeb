@@ -217,11 +217,7 @@
                         <div data-i18n="Vertical Form">Danh sách đơn hàng</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="HistoryChangeOrder" class="menu-link">
-                        <div data-i18n="Horizontal Form">Lịch sử sửa đổi trạng thái</div>
-                    </a>
-                </li>
+
             </ul>
         </li>
         <!-- Tables -->
