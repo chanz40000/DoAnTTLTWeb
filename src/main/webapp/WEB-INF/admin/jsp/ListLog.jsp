@@ -113,7 +113,8 @@
                                 <c:forEach var="logItem" items="${logDao.selectAll()}">
                                     <tr>
                                         <td id="id_import">${logItem.id}</td>
-                                        <td class="${logItem.level.toLowerCase()}">${logItem.level}</td>
+                                        <td><div style="display: flex; justify-content: center; align-items: center" class="${logItem.level}">${logItem.level}</div></td>
+
                                         <td>${logItem.createAt}</td>
                                         <td>${logItem.address}</td>
                                         <td>${logItem.national}</td>
