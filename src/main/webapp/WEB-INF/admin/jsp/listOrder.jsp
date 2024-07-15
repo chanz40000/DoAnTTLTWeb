@@ -219,11 +219,12 @@
                                                 class="nav-link"
                                                 role="tab"
                                                 data-bs-toggle="tab"
-                                                data-bs-target="#navs-justified-profile"
-                                                aria-controls="navs-justified-profile"
+                                                data-bs-target="#navs-dong-goi"
+                                                aria-controls="navs-dong-goi"
                                                 aria-selected="false"
                                         >
-                                            <i class="tf-icons bx bx-user"></i> Giao thành công
+                                            <i class="tf-icons bx bx-box"></i> Đóng gói
+                                            <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger">3</span>
                                         </button>
                                     </li>
                                     <li class="nav-item">
@@ -232,141 +233,118 @@
                                                 class="nav-link"
                                                 role="tab"
                                                 data-bs-toggle="tab"
-                                                data-bs-target="#navs-justified-messages"
-                                                aria-controls="navs-justified-messages"
+                                                data-bs-target="#navs-dang-giao"
+                                                aria-controls="navs-dang-giao"
                                                 aria-selected="false"
                                         >
-                                            <i class="tf-icons bx bx-message-square"></i> Hủy/Hoàn
+                                            <i class="tf-icons bx bx-truck"></i> Đang giao
+                                            <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-danger">3</span>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button
+                                                type="button"
+                                                class="nav-link"
+                                                role="tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#navs-giao-success"
+                                                aria-controls="navs-giao-success"
+                                                aria-selected="false"
+                                        >
+                                            <i class="tf-icons bx bx-check-circle"></i> Giao thành công
+                                            <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-success">3</span>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button
+                                                type="button"
+                                                class="nav-link"
+                                                role="tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#navs-yeu-cau-huy"
+                                                aria-controls="navs-yeu-cau-huy"
+                                                aria-selected="false"
+                                        >
+                                            <i class="tf-icons bx bx-refresh"></i> Yêu cầu hủy
+                                            <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-info">3</span>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button
+                                                type="button"
+                                                class="nav-link"
+                                                role="tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#navs-da-huy"
+                                                aria-controls="navs-da-huy"
+                                                aria-selected="false"
+                                        >
+                                            <i class="tf-icons bx bx-x-circle"></i> Đã hủy
+                                            <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-warning">3</span>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button
+                                                type="button"
+                                                class="nav-link"
+                                                role="tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#navs-yeu-cau-hoan"
+                                                aria-controls="navs-yeu-cau-hoan"
+                                                aria-selected="false"
+                                        >
+                                            <i class="tf-icons bx bx-x-circle"></i> Yêu cầu hoàn
+                                            <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-warning">3</span>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button
+                                                type="button"
+                                                class="nav-link"
+                                                role="tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#navs-da-hoan"
+                                                aria-controls="navs-da-hoan"
+                                                aria-selected="false"
+                                        >
+                                            <i class="tf-icons bx bx-x-circle"></i> Đã hoàn
+                                            <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-warning">3</span>
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button
+                                                type="button"
+                                                class="nav-link"
+                                                role="tab"
+                                                data-bs-toggle="tab"
+                                                data-bs-target="#navs-thanh-cong"
+                                                aria-controls="navs-thanh-cong"
+                                                aria-selected="false"
+                                        >
+                                            <i class="tf-icons bx bx-x-circle"></i> Thành công
+                                            <span class="badge rounded-pill badge-center h-px-20 w-px-20 bg-label-warning">3</span>
                                         </button>
                                     </li>
                                 </ul>
+
+                                <!-- Tab content -->
                                 <div class="tab-content">
-                                    <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel">
-                                        <h5 class="card-header">Danh sách đơn hàng cần xác nhận </h5>
-                                        <div class="table-responsive text-nowrap">
-                                            <table id="example" class="table table-striped" style="width:100%">
-                                                <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Mã User</th>
-                                                    <th>Ngày đặt</th>
-                                                    <th>Trạng thái</th>
-                                                    <th>Actions</th>
-                                                    <th>Người sửa</th>
-                                                    <th></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <c:set var="ChoXacNhan" value="1"/>
-                                                <c:set var="DangDongGoi" value="2"/>
-                                                <c:set var="DangGiao" value="3"/>
-                                                <c:set var="YeuCauHuy" value="5"/>
-                                                <c:set var="YeuCauTraHang" value="7"/>
-                                                <c:forEach var="order" items="${orderDAO.selectByStatusIds(ChoXacNhan, DangDongGoi, YeuCauHuy, YeuCauTraHang, DangGiao)}">
-                                                    <tr>
-                                                        <td><strong>${order.orderId}</strong></td>
-                                                        <td>${order.user.userId}</td>
-                                                        <td>${order.bookingDate}</td>
-                                                        <td><span class="badge bg-label-primary me-1 order-status">${order.status.statusName}</span></td>
-                                                        <td>
-                                                            <c:if test="${order.status.statusId == 1}">
-                                                                <button class="badge bg-success me-1 change-status" data-orderid="${order.orderId}" data-action="AcceptOrder">Xác nhận</button>
-                                                                <button class="badge bg-danger me-1 change-status" data-orderid="${order.orderId}" data-action="RejectOrder">Hủy</button>
-                                                            </c:if>
-                                                            <c:if test="${order.status.statusId == 2}">
-                                                                <button class="badge bg-success me-1 change-status" data-orderid="${order.orderId}" data-action="Packed">Xong</button>
-                                                            </c:if>
-                                                            <c:if test="${order.status.statusId == 5}">
-                                                                <button class="badge bg-success me-1 change-status" data-orderid="${order.orderId}" data-action="Cancel">Chấp nhận</button>
-                                                                <button class="badge bg-danger me-1 change-status" data-orderid="${order.orderId}" data-action="RejectCancelOrder">Từ chối</button>
-                                                            </c:if>
-                                                            <c:if test="${order.status.statusId == 7}">
-                                                                <button class="badge bg-success me-1 change-status" data-orderid="${order.orderId}" data-action="AcceptReturnOrder">Chấp nhận</button>
-                                                                <button class="badge bg-danger me-1 change-status" data-orderid="${order.orderId}" data-action="RejectReturnOrder">Từ chối</button>
-                                                            </c:if>
-                                                        </td>
-                                                        <td>
-                                                            <c:set var="latestHistory" value="${orderHistoryDAO.selectLatestByOrderId(order.orderId)}"/>
-                                                            <c:if test="${latestHistory ne null}">
-                                                                <c:if test="${not empty latestHistory.user}">
-                                                                    <c:choose>
-                                                                        <c:when test="${latestHistory.user.role == 2}">
-                                                                            ID User: ${latestHistory.user.userId}
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            ID Admin: ${latestHistory.user.userId}
-                                                                        </c:otherwise>
-                                                                    </c:choose>
-                                                                </c:if>
-                                                            </c:if>
-                                                        </td>
-                                                        <td><a href="/OrderDetails?order_Id=${order.orderId}">chi tiết</a></td>
-                                                    </tr>
-                                                </c:forEach>
-                                                </tbody>
-                                                <tfoot>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Mã User</th>
-                                                    <th>Ngày đặt</th>
-                                                    <th>Trạng thái</th>
-                                                    <th>Actions</th>
-                                                    <th>Người sửa</th>
-                                                    <th></th>
-                                                </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="navs-justified-profile" role="tabpanel">
+                                    <div class="tab-pane fade show active" id="navs-justified-home" role="tabpanel" aria-labelledby="navs-justified-home-tab">
                                         <h5 class="card-header">Danh sách đơn hàng giao thành công  </h5>
                                         <div class="table-responsive text-nowrap">
                                             <table id="example1" class="table table-striped" style="width:100%">
-
                                                 <thead>
                                                 <tr>
                                                     <th>ID</th>
                                                     <th>Mã User</th>
                                                     <th>Ngày đặt</th>
                                                     <th>Trạng thái</th>
+                                                    <th>Actions</th>
                                                     <th>Người sửa</th>
                                                     <th></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <c:set var="GiaoThanhCong" value="4"/>
-                                                <c:set var="DaNhan" value="10"/>
-                                                <%--                                <c:forEach var="order" items="${orderDAO.selectOrderByStatus(1)}">--%>
-                                                <c:forEach var="order" items="${orderDAO.selectByStatusIds(GiaoThanhCong, DaNhan)}">
-                                                    <%-- <li><a href="#">${order.categoryName}</a></li>--%>
-                                                    <tr>
-                                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${order.orderId}</strong></td>
-
-                                                        <td>${order.user.userId}</td>
-                                                        <td>${order.bookingDate}</td>
-                                                            <%--                                        <c:set var="rawDate" value="${order.bookingDate}" />--%>
-                                                            <%--                                        <fmt:parseDate var="formattedDate" value="${rawDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" />--%>
-                                                            <%--                                        <fmt:formatDate value="${formattedDate}" pattern="dd-MM-yyyy HH:mm:ss" var="formattedTime" />--%>
-                                                            <%--                                        <td>${formattedTime}</td>--%>
-                                                        <td><span class="badge bg-label-primary me-1">${order.status.statusName}</span></td>
-                                                        <td>
-                                                            <c:set var="latestHistory" value="${orderHistoryDAO.selectLatestByOrderId(order.orderId)}"/>
-                                                            <c:if test="${latestHistory ne null}">
-                                                                <c:if test="${not empty latestHistory.user}">
-                                                                    <c:choose>
-                                                                        <c:when test="${latestHistory.user.role == 2}">
-                                                                            ID User: ${latestHistory.user.userId}
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            ID Admin: ${latestHistory.user.userId}
-                                                                        </c:otherwise>
-                                                                    </c:choose>
-                                                                </c:if>
-                                                            </c:if>
-                                                        </td>
-                                                        <td><a href="/OrderDetails?order_Id=${order.orderId}">chi tiết</a></td>
-                                                    </tr>
-                                                </c:forEach>
                                                 </tbody>
                                                 <tfoot>
                                                 <tr>
@@ -374,6 +352,7 @@
                                                     <th>Mã User</th>
                                                     <th>Ngày đặt</th>
                                                     <th>Trạng thái</th>
+                                                    <th>Actions</th>
                                                     <th>Người sửa</th>
                                                     <th></th>
                                                 </tr>
@@ -381,117 +360,222 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="navs-justified-messages" role="tabpanel">
-                                        <h5 class="card-header">Danh sách đã hủy/Hoàn </h5>
-                                        <div class="table-responsive text-nowrap">
-                                            <table id="example2" class="table table-striped" style="width:100%">
-
-                                                <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Mã User</th>
-                                                    <th>Ngày đặt</th>
-                                                    <th>Trạng thái</th>
-                                                    <th>Actions</th>
-                                                    <th>Người sửa</th>
-                                                    <th></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <c:set var="DaHuy" value="6"/>
-                                                <c:set var="DaHoan" value="8"/>
-                                                <%--                                <c:forEach var="order" items="${orderDAO.selectOrderByStatus(1)}">--%>
-                                                <c:forEach var="order" items="${orderDAO.selectByStatusIds(DaHuy, DaHoan)}">
-                                                    <%-- <li><a href="#">${order.categoryName}</a></li>--%>
-                                                    <tr>
-                                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>${order.orderId}</strong></td>
-
-                                                        <td>${order.user.userId}</td>
-                                                        <td>${order.bookingDate}</td>
-                                                            <%--                                        <c:set var="rawDate" value="${order.bookingDate}" />--%>
-                                                            <%--                                        <fmt:parseDate var="formattedDate" value="${rawDate}" pattern="yyyy-MM-dd'T'HH:mm:ss" />--%>
-                                                            <%--                                        <fmt:formatDate value="${formattedDate}" pattern="dd-MM-yyyy HH:mm:ss" var="formattedTime" />--%>
-                                                            <%--                                        <td>${formattedTime}</td>--%>
-                                                        <td><span class="badge bg-label-primary me-1">${order.status.statusName}</span></td>
-                                                        <td>
-                                                            <c:if test="${order.status.statusId == 1}">
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="AcceptOrder" />
-                                                                    <button type="submit" class="badge bg-success me-1">Xác nhận</button>
-                                                                </form>
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="RejectOrder" />
-                                                                    <button type="submit" class="badge bg-danger me-1">Hủy</button>
-                                                                </form>
-                                                            </c:if>
-                                                            <c:if test="${order.status.statusId == 2}">
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="Packed" />
-                                                                    <button type="submit" class="badge bg-success me-1">Xong</button>
-                                                                </form>
-                                                            </c:if>
-                                                            <c:if test="${order.status.statusId == 5}">
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="Cancel" />
-                                                                    <button type="submit" class="badge bg-success me-1">Chấp nhận</button>
-                                                                </form>
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="RejectCancelOrder" />
-                                                                    <button type="submit" class="badge bg-danger me-1">Từ chối</button>
-                                                                </form>
-                                                            </c:if>
-                                                            <c:if test="${order.status.statusId == 7}">
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="AcceptReturnOrder" />
-                                                                    <button type="submit" class="badge bg-success me-1">Chấp nhận</button>
-                                                                </form>
-                                                                <form action="ChangeStatusOrder" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="orderId" value="${order.orderId}" />
-                                                                    <input type="hidden" name="action" value="RejectReturnOrder" />
-                                                                    <button type="submit" class="badge bg-danger me-1">Từ chối</button>
-                                                                </form>
-                                                            </c:if>
-                                                        </td>
-                                                        <td>
-                                                            <c:set var="latestHistory" value="${orderHistoryDAO.selectLatestByOrderId(order.orderId)}"/>
-                                                            <c:if test="${latestHistory ne null}">
-                                                                <c:if test="${not empty latestHistory.user}">
-                                                                    <c:choose>
-                                                                        <c:when test="${latestHistory.user.role == 2}">
-                                                                            ID User: ${latestHistory.user.userId}
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            ID Admin: ${latestHistory.user.userId}
-                                                                        </c:otherwise>
-                                                                    </c:choose>
-                                                                </c:if>
-                                                            </c:if>
-                                                        </td>
-                                                        <td><a href="/OrderDetails?order_Id=${order.orderId}">chi tiết</a></td>
-                                                    </tr>
-                                                </c:forEach>
-                                                </tbody>
-                                                <tfoot>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Mã User</th>
-                                                    <th>Ngày đặt</th>
-                                                    <th>Trạng thái</th>
-                                                    <th>Actions</th>
-                                                    <th>Người sửa</th>
-                                                    <th></th>
-                                                </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
+                                    <div class="tab-pane fade" id="navs-dong-goi" role="tabpanel" aria-labelledby="navs-dong-goi-tab">
+                                        <table id="example2" class="table table-striped" style="width:100%">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Actions</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Actions</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="navs-dang-giao" role="tabpanel" aria-labelledby="navs-dang-giao-tab">
+                                        <table id="example3" class="table table-striped" style="width:100%">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="navs-giao-success" role="tabpanel" aria-labelledby="navs-giao-success-tab">
+                                        <table id="example4" class="table table-striped" style="width:100%">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="navs-yeu-cau-huy" role="tabpanel" aria-labelledby="navs-yeu-cau-huy-tab">
+                                        <table id="example5" class="table table-striped" style="width:100%">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Actions</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Actions</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="navs-da-huy" role="tabpanel" aria-labelledby="navs-da-huy-tab">
+                                        <table id="example6" class="table table-striped" style="width:100%">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="navs-yeu-cau-hoan" role="tabpanel" aria-labelledby="navs-yeu-cau-hoan-tab">
+                                        <table id="example7" class="table table-striped" style="width:100%">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Actions</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Actions</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="navs-da-hoan" role="tabpanel" aria-labelledby="navs-da-hoan-tab">
+                                        <table id="example8" class="table table-striped" style="width:100%">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="navs-thanh-cong" role="tabpanel" aria-labelledby="navs-thanh-cong-tab">
+                                        <table id="example9" class="table table-striped" style="width:100%">
+                                            <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            <tfoot>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Mã User</th>
+                                                <th>Ngày đặt</th>
+                                                <th>Trạng thái</th>
+                                                <th>Người sửa</th>
+                                                <th></th>
+                                            </tr>
+                                            </tfoot>
+                                        </table>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -579,6 +663,135 @@
 <script src="../assetsForAdmin/assets/js/main.js"></script>
 
 <!-- Page JS -->
+<script>
+    $(document).ready(function() {
+        const tables = [
+            { id: '#example1', status: 1 },
+            { id: '#example2', status: 2 },
+            { id: '#example3', status: 3 },
+            { id: '#example4', status: 4 },
+            { id: '#example5', status: 5 },
+            { id: '#example6', status: 6 },
+            { id: '#example7', status: 7 },
+            { id: '#example8', status: 8 },
+            { id: '#example9', status: 10 }
+            // Add other tables here with their respective status
+        ];
+
+        tables.forEach(function(table) {
+            $(table.id).DataTable({
+                "ajax": {
+                    "url": "OrderController?status=" + table.status,
+                    "type": "GET",
+                    "dataSrc": "",
+                    "error": function(xhr, error, code) {
+                        console.log("Error fetching data for table: ", table.id);
+                        console.log("XHR: ", xhr);
+                        console.log("Error: ", error);
+                        console.log("Code: ", code);
+                    }
+
+                },
+                "columns": [
+                    { "data": "orderId" },
+                    { "data": "user.userId" },
+                    { "data": "bookingDate" },
+                    {
+                        "data": "status.statusName",
+                        "render": function (data, type, row) {
+                            return '<div>' + data + '</div>'; // Thêm thẻ div vào đây
+                        }
+                    },
+                    {
+                        "data": "orderId",
+                        "render": function(data, type, row) {
+                            let buttons = '';
+                            if ([1, 5, 7].includes(table.status)) {
+                                buttons = '<button type="button" class="btn btn-primary" onclick="confirmOrder(' + data + ', ' + row.status.statusId + ')">Chấp nhận</button>' +
+                                    '<button type="button" class="btn btn-danger" onclick="rejectOrder(' + data + ')">Từ chối</button>';
+                            } else if (table.status === 2) {
+                                buttons = '<button type="button" class="btn btn-success" onclick="confirmOrder(' + data + ', ' + row.status.statusId + ')">Đóng gói xong</button>';
+                            }
+                            return buttons;
+
+                        }
+                    },
+                    {
+                        "data": "latestHistory.user",
+                        "render": function(data, type, row) {
+                            if (data) {
+                                return data.role == 2 ? 'ID User: ' + data.userId : 'ID Admin: ' + data.userId;
+                            }
+                            return '';
+                        }
+                    },
+                    {
+                        "data": "orderId",
+                        "render": function(data, type, row) {
+                            return '<a href="/OrderDetails?order_Id=' + data + '">chi tiết</a>';
+                        }
+                    }
+                ]
+            });
+        });
+    });
+
+    function confirmOrder(orderId, currentStatus) {
+        let newStatus;
+
+        // Update the switch statement to handle all possible cases
+        switch (currentStatus) {
+            case 1: newStatus = 2; break;
+            case 2: newStatus = 3; break;
+            case 5: newStatus = 6; break;
+            case 7: newStatus = 8; break;
+            default: newStatus = currentStatus;
+        }
+        console.log("Sending request to change order status:");
+        console.log("orderId:", orderId);
+        console.log("newStatus:", newStatus);
+        $.ajax({
+            type: "POST",
+            url: "/ChangeStatusOrder",
+            data: { orderId: orderId, status: newStatus },
+            success: function(response) {
+                reloadAllTables();
+            },
+            error: function(xhr, status, error) {
+                console.error("Error occurred while changing status:", error);
+                console.error("Response text:", xhr.responseText);
+            }
+        });
+    }
+    function rejectOrder(orderId) {
+        const newStatus = 6;
+
+        $.ajax({
+            type: "POST",
+            url: "/ChangeStatusOrder",
+            data: { orderId: orderId, status: newStatus },
+            success: function(response) {
+                reloadAllTables();
+            },
+            error: function(xhr, status, error) {
+                console.error("Error occurred while changing status:", error);
+                console.error("Response text:", xhr.responseText);
+            }
+        });
+    }
+    function reloadAllTables() {
+        $('#example1').DataTable().ajax.reload();
+        $('#example2').DataTable().ajax.reload();
+        $('#example3').DataTable().ajax.reload();
+        $('#example4').DataTable().ajax.reload();
+        $('#example5').DataTable().ajax.reload();
+        $('#example6').DataTable().ajax.reload();
+        $('#example7').DataTable().ajax.reload();
+        $('#example8').DataTable().ajax.reload();
+        $('#example9').DataTable().ajax.reload();
+    }
+
+</script>
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -602,87 +815,15 @@
 <script src="${pageContext.request.contextPath}/js/Chart.min.js"></script>
 
 <script>
-    new DataTable('#example');
-    new DataTable('#example1');
-    new DataTable('#example2');
-    $(document).ready(function() {
-        // Gắn sự kiện click ban đầu
-        attachClickEvent();
-
-        // Hàm để gắn sự kiện click
-        function attachClickEvent() {
-            $(".change-status").off("click").on("click", function(event) {
-                event.preventDefault();
-
-                let button = $(this);
-                let orderId = button.data("orderid");
-                let action = button.data("action");
-
-                console.log("Button clicked. Order ID: " + orderId + ", Action: " + action);
-
-                // Disable the button to prevent multiple clicks
-                button.prop("disabled", true);
-
-                $.ajax({
-                    type: "POST",
-                    url: "ChangeStatusOrder",
-                    data: {
-                        orderId: orderId,
-                        action: action
-                    },
-                    success: function(response) {
-                        console.log("AJAX success response: ", response);
-                        if (response.success) {
-                            let newStatus = response.newStatus;
-
-                            // Cập nhật trạng thái
-                            button.closest("tr").find(".order-status").text(newStatus);
-
-                            // Cập nhật các nút hành động
-                            updateActionButtons(button.closest("tr"), newStatus);
-                        } else {
-                            alert("Cập nhật trạng thái thất bại.");
-                        }
-                        button.prop("disabled", false); // Re-enable the button
-                    },
-                    error: function(error) {
-                        console.error("AJAX error response: ", error);
-                        alert("Đã xảy ra lỗi khi cập nhật trạng thái.");
-                        button.prop("disabled", false); // Re-enable the button if there's an error
-                    }
-                });
-            });
-        }
-
-        function updateActionButtons(row, newStatus) {
-            let actionsCell = row.find("td:eq(4)");
-            actionsCell.empty();
-
-            if (newStatus === "Đang chờ xác nhận") {
-                actionsCell.append(`
-                <button class="badge bg-success me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="AcceptOrder">Xác nhận</button>
-                <button class="badge bg-danger me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="RejectOrder">Hủy</button>
-            `);
-            } else if (newStatus === "Đang được đóng gói") {
-                actionsCell.append(`
-                <button class="badge bg-success me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="Packed">Xong</button>
-            `);
-            } else if (newStatus === "Yêu cầu hủy") {
-                actionsCell.append(`
-                <button class="badge bg-success me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="Cancel">Chấp nhận</button>
-                <button class="badge bg-danger me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="RejectCancelOrder">Từ chối</button>
-            `);
-            } else if (newStatus === "Yêu cầu trả hàng") {
-                actionsCell.append(`
-                <button class="badge bg-success me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="AcceptReturnOrder">Chấp nhận</button>
-                <button class="badge bg-danger me-1 change-status" data-orderid="${row.find("td:eq(0)").text()}" data-action="RejectReturnOrder">Từ chối</button>
-            `);
-            }
-
-            // Gắn lại sự kiện click cho các nút mới
-            attachClickEvent();
-        }
-    });
+    // new DataTable('#example');
+    // new DataTable('#example1');
+    // new DataTable('#example2');
+    // $(document).ready(function() {
+    //     // Gắn sự kiện click ban đầu
+    //     attachClickEvent();
+    //
+    //
+    // });
 
 </script>
 

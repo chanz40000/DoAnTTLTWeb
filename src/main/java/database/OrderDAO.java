@@ -103,24 +103,24 @@ public class OrderDAO extends AbsDAO<Order>{
     }
     public void updateStatusOrder(int orderId, StatusOrder status){
         int result = 0;
-        try {
-            Connection con = JDBCUtil.getConnection();
-            String sql = "UPDATE orders SET status_id = ? WHERE order_id = ?";
-            PreparedStatement st = con.prepareStatement(sql);
+        try (Connection con = JDBCUtil.getConnection();
+             PreparedStatement st = con.prepareStatement("UPDATE orders SET status_id = ? WHERE order_id = ?")) {
+
             st.setInt(1, status.getStatusId());
             st.setInt(2, orderId);
             result = st.executeUpdate();
+
             OrderDAO orderDAO = new OrderDAO();
             Order order = orderDAO.selectById(orderId);
             this.setPreValue(this.gson.toJson(order));
             order.setStatus(status);
-            this.setValue("change status: "+ status);
+            this.setValue("change status: " + status);
             int x = super.update(order);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
+
     @Override
     public Order selectById(int id) {
         Order result = null;
