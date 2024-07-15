@@ -2,7 +2,6 @@ package controller.admin.order;
 
 import database.OrderDAO;
 import database.OrderDetailDAO;
-import database.OrderHistoryDAO;
 import database.StatusOrderDAO;
 import model.*;
 
@@ -22,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 @WebServlet(name = "ChangeStatusOrder", value = "/ChangeStatusOrder")
 public class ChangeStatusOrder extends HttpServlet {
     OrderDAO orderDAO = new OrderDAO();
-    OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
+
     ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     @Override
     public void init() throws ServletException {
@@ -71,13 +70,6 @@ public class ChangeStatusOrder extends HttpServlet {
     }
 
 
-    private void updateOrderStatus(int orderId, StatusOrder status, User user, String reason) {
-        orderDAO.updateStatusOrder(orderId, status);
-        Order order = orderDAO.selectById(orderId);
-        OrderHistory orderHistory = new OrderHistory(orderHistoryDAO.creatId() + 1, order, user, status, LocalDateTime.now(), reason);
-        orderHistoryDAO.insert(orderHistory);
-    }
-
     private void scheduleStatusUpdate(int orderId) {
         StatusOrder giaoThanhCong = new StatusOrder(4, "Giao thành công");
         String reason = "Đơn hàng đã giao thành công.";
@@ -86,8 +78,6 @@ public class ChangeStatusOrder extends HttpServlet {
             orderDAO.updateStatusOrder(orderId, giaoThanhCong);
             Order order = orderDAO.selectById(orderId);
             order.setStatus(giaoThanhCong);
-            OrderHistory orderHistory = new OrderHistory(orderHistoryDAO.creatId() + 1, order, giaoThanhCong, LocalDateTime.now(), reason);
-            orderHistoryDAO.insert(orderHistory);
         }, 1, TimeUnit.MINUTES);
     }
     private void scheduleAllPendingOrders() {

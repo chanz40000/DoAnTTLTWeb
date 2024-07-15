@@ -1,9 +1,7 @@
 package controller.user.changeInfo;
 
 import database.OrderDAO;
-import database.OrderHistoryDAO;
 import model.Order;
-import model.OrderHistory;
 import model.StatusOrder;
 import model.User;
 
@@ -15,7 +13,6 @@ import java.time.LocalDateTime;
 
 @WebServlet(name = "ChangeStatusOrderUser", value = "/ChangeStatusOrderUser")
 public class ChangeStatusOrderUser extends HttpServlet {
-    OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
     OrderDAO orderDAO = new OrderDAO();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -70,8 +67,6 @@ public class ChangeStatusOrderUser extends HttpServlet {
         orderDAO.updateStatusOrder(orderId, status);
         // lay order theo id cua order do
         Order order = orderDAO.selectById(orderId);
-        // luu vao lich su cap nhat trang thai don hang
-        OrderHistory orderHistory = new OrderHistory(orderHistoryDAO.creatId() + 1, order, user, status, LocalDateTime.now(), reason);
-        orderHistoryDAO.insert(orderHistory);
+
     }
 }

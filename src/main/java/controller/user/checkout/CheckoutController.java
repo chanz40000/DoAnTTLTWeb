@@ -104,10 +104,6 @@ public class CheckoutController extends HttpServlet {
         session.setAttribute("orderBooking", order);
         int resultOrder = orderDAO.insert(order);
 
-        OrderHistoryDAO orderHistoryDAO = new OrderHistoryDAO();
-        OrderHistory orderHistory = new OrderHistory(orderHistoryDAO.creatId() + 1, order, user, new StatusOrder(1), LocalDateTime.now(), "Đặt hàng thành công");
-        orderHistoryDAO.insert(orderHistory);
-
         if (resultOrder > 0) {
             OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
             ProductDAO productDAO = new ProductDAO();
