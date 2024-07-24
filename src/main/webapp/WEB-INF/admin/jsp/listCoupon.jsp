@@ -260,11 +260,13 @@
                     <div class="card" id="cardresp">
                         <h5 class="card-header">Danh sách mã giảm</h5>
                         <div class="table-responsive text-nowrap">
-                            <form action="RemoveCheckProduct" method="POST">
+                            <form action="DeleteCoupon" method="POST">
+                                <button type="submit" class="btn btn-primary me-2" onclick="return nocheck();">Xóa mã đã chọn</button>
 
                                 <table class="table table-striped" id="tabledata" style="width:100%">
                                     <thead>
                                     <tr>
+                                        <th></th>
                                         <th>Id</th>
                                         <th>Mã</th>
                                         <th>Loại</th>
@@ -283,6 +285,7 @@
                                     </tbody>
                                     <tfoot>
                                     <tr>
+                                        <th></th>
                                         <th>Id</th>
                                         <th>Mã</th>
                                         <th>Loại</th>
@@ -557,10 +560,17 @@
                     console.log("coupon: " + coupon.couponId);
                     const row = document.createElement('tr');
 
-                    const formattedValue = '<%= FormatCurrency.formatCurrency(0) %>'.replace('0', coupon.discountValue);
+                    let formattedValue;
+                    if (coupon.discountType.couponTypeId === 1) {
+                        formattedValue = coupon.discountValue + '%';
+                    } else {
+                        formattedValue = '<%= FormatCurrency.formatCurrency(0) %>'.replace('0', coupon.discountValue);
+                    }
                     const formattedMinTotalPricee = '<%= FormatCurrency.formatCurrency(0) %>'.replace('0', coupon.minTotalPrice);
                     const formattedMaxTotalPricee = '<%= FormatCurrency.formatCurrency(0) %>'.replace('0', coupon.maxTotalPrice);
-                    row.innerHTML = '<td><strong>' + coupon.couponId + '</strong></td>' +
+                    row.innerHTML =
+                        '<td><input type="checkbox" name="selectedCoupons" value="' + coupon.couponId + '" /></td>'+
+                        '<td><strong>' + coupon.couponId + '</strong></td>' +
                         '<td>' + coupon.code + '</td>' +
                         '<td>' + coupon.discountType.couponTye + '</td>' +
                         '<td>' + formattedValue + '</td>' +
