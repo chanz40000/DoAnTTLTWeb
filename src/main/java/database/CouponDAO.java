@@ -1,13 +1,10 @@
 package database;
 
-import model.Category;
 import model.Coupon;
 import model.CouponType;
-import model.Order;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class CouponDAO implements DAOInterface<Coupon> {
 
@@ -319,5 +316,28 @@ public class CouponDAO implements DAOInterface<Coupon> {
 
 
         return result;
+    }
+    public boolean deleteCoupons(StringBuilder couponId) {
+        try (Connection connection = JDBCUtil.getConnection()) {
+            // Disable foreign key checks
+            try (PreparedStatement disableChecksStmt = connection.prepareStatement("SET FOREIGN_KEY_CHECKS=0;")) {
+                disableChecksStmt.executeUpdate();
+            }
+
+            // Truncate the Comments table
+            try (PreparedStatement truncateStmt = connection.prepareStatement("DELETE FROM coupons where coupon_id IN (" + couponId + ")")) {
+                truncateStmt.executeUpdate();
+            }
+
+            // Enable foreign key checks
+            try (PreparedStatement enableChecksStmt = connection.prepareStatement("SET FOREIGN_KEY_CHECKS=1;")) {
+                enableChecksStmt.executeUpdate();
+            }
+
+            return true; // Successful if no exceptions were thrown
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
